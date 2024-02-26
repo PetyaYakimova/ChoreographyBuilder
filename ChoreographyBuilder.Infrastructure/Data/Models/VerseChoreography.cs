@@ -37,5 +37,7 @@ namespace ChoreographyBuilder.Infrastructure.Data.Models
 		public IdentityUser User { get; set; } = null!;
 
 		public IEnumerable<VerseChoreographyFigure> Figures { get; set; } = new List<VerseChoreographyFigure>();
+
+		public IEnumerable<FullChoreographyVerseChoreography> FullChoreographies { get; set; } = new List<FullChoreographyVerseChoreography>();
 	}
 }

@@ -23,5 +23,7 @@ namespace ChoreographyBuilder.Infrastructure.Data.Models
 		[Required]
 		[Comment("Verse Is Active")]
 		public bool IsActive { get; set; }
+
+		public IEnumerable<VerseChoreography> VerseChoreographies { get; set; } = new List<VerseChoreography>();
 	}
 }

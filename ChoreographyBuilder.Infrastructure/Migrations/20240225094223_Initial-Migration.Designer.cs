@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ChoreographyBuilder.Infrastructure.Migrations
 {
-    [DbContext(typeof(ApplicationDbContext))]
+    [DbContext(typeof(ChoreographyBuilderDbContext))]
     [Migration("20240225094223_Initial-Migration")]
     partial class InitialMigration
     {
