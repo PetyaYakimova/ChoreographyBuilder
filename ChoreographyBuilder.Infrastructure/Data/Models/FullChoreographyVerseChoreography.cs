@@ -27,6 +27,6 @@ namespace ChoreographyBuilder.Infrastructure.Data.Models
 
 		[Required]
 		[Comment("Verse Choreography Order in which it appears in this choreography")]
-		public int VerseOrder { get; set; }
+		public int VerseChoreographyOrder { get; set; }
 	}
 }

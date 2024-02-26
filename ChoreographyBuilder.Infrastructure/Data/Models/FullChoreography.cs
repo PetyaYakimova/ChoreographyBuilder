@@ -24,5 +24,7 @@ namespace ChoreographyBuilder.Infrastructure.Data.Models
 
 		[ForeignKey(nameof(UserId))]
 		public IdentityUser User { get; set; } = null!;
+
+		public IEnumerable<FullChoreographyVerseChoreography> VerseChoreographies { get; set; } = new List<FullChoreographyVerseChoreography>();
 	}
 }
