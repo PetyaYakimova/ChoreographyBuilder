@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using ChoreographyBuilder.Infrastructure.Data.Models.Enums;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -35,5 +36,8 @@ namespace ChoreographyBuilder.Infrastructure.Data.Models
 		[Required]
 		[Comment("Figure Option Beat Counts")]
 		public int BeatCounts { get; set; }
+
+		[Required]
+		public DynamicsType DynamicsType { get; set; }
 	}
 }
