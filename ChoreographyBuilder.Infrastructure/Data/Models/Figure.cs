@@ -33,6 +33,6 @@ namespace ChoreographyBuilder.Infrastructure.Data.Models
 		[ForeignKey(nameof(UserId))]
 		public IdentityUser User { get; set; } = null!;
 
-		public IEnumerable<FigureOptions> FigureOptions { get; set; } = new List<FigureOptions>();
+		public IEnumerable<FigureOption> FigureOptions { get; set; } = new List<FigureOption>();
 	}
 }

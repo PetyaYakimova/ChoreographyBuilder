@@ -20,8 +20,8 @@ namespace ChoreographyBuilder.Infrastructure.Data.Models
 		[Comment("Position Is Active")]
 		public bool IsActive { get; set; }
 
-		public IEnumerable<FigureOptions> FiguresWithStartPosition { get; set; } = new List<FigureOptions>();
+		public IEnumerable<FigureOption> FiguresWithStartPosition { get; set; } = new List<FigureOption>();
 
-		public IEnumerable<FigureOptions> FiguresWithEndPosition { get; set; } = new List<FigureOptions>();
+		public IEnumerable<FigureOption> FiguresWithEndPosition { get; set; } = new List<FigureOption>();
 	}
 }

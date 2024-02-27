@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace ChoreographyBuilder.Infrastructure.Data.Models
 {
 	[Comment("Figure Options")]
-	public class FigureOptions
+	public class FigureOption
 	{
 		[Key]
 		[Comment("Figure Options Identifier")]

@@ -19,11 +19,11 @@ namespace ChoreographyBuilder.Infrastructure.Data.Models
 		public VerseChoreography VerseChoreography { get; set; } = null!;
 
 		[Required]
-		[Comment("Figure Identifier")]
-		public int FigureId { get; set; }
+		[Comment("Figure Option Identifier")]
+		public int FigureOptionId { get; set; }
 
-		[ForeignKey(nameof(FigureId))]
-		public Figure Figure { get; set; } = null!;
+		[ForeignKey(nameof(FigureOptionId))]
+		public FigureOption FigureOption { get; set; } = null!;
 
 		[Required]
 		[Comment("Figure Order in which it appears in this choreography")]

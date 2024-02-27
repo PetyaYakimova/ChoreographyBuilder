@@ -5,7 +5,7 @@
 		public const int VerseNameMaxLenght = 20;
 		public const int VerseNameMinLength = 3;
 
-		public const int PositionNameMaxLenght = 20;
+		public const int PositionNameMaxLenght = 70;
 		public const int PositionNameMinLength = 2;
 
 		public const int FigureNameMaxLenght = 30;

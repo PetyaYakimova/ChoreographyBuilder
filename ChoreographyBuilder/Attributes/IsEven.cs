@@ -12,7 +12,6 @@ namespace ChoreographyBuilder.Attributes
 		{
 			if (value != null && (int)value % 2 != 0)
 			{
-				string errorMessage = FormatErrorMessage(validationContext.DisplayName);
 				return new ValidationResult(ErrorMessage);
 			}
 

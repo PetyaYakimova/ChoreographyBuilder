@@ -4,6 +4,7 @@ using ChoreographyBuilder.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ChoreographyBuilder.Infrastructure.Migrations
 {
     [DbContext(typeof(ChoreographyBuilderDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240227084719_ChangeRelationBetweenTables")]
+    partial class ChangeRelationBetweenTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -57,88 +59,6 @@ namespace ChoreographyBuilder.Infrastructure.Migrations
                     b.ToTable("Figures");
 
                     b.HasComment("Figures");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            IsFavourite = false,
-                            IsHighlight = false,
-                            Name = "Change of place",
-                            UserId = "dea12856-c198-4129-b3f3-b893d8395082"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            IsFavourite = false,
-                            IsHighlight = false,
-                            Name = "American Spin",
-                            UserId = "dea12856-c198-4129-b3f3-b893d8395082"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            IsFavourite = true,
-                            IsHighlight = false,
-                            Name = "Spin with block",
-                            UserId = "dea12856-c198-4129-b3f3-b893d8395082"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            IsFavourite = true,
-                            IsHighlight = true,
-                            Name = "Tunnel",
-                            UserId = "dea12856-c198-4129-b3f3-b893d8395082"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            IsFavourite = true,
-                            IsHighlight = true,
-                            Name = "Cartwheel",
-                            UserId = "dea12856-c198-4129-b3f3-b893d8395082"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            IsFavourite = false,
-                            IsHighlight = false,
-                            Name = "Get into closed",
-                            UserId = "dea12856-c198-4129-b3f3-b893d8395082"
-                        },
-                        new
-                        {
-                            Id = 7,
-                            IsFavourite = false,
-                            IsHighlight = false,
-                            Name = "Swing Out",
-                            UserId = "dea12856-c198-4129-b3f3-b893d8395082"
-                        },
-                        new
-                        {
-                            Id = 8,
-                            IsFavourite = false,
-                            IsHighlight = true,
-                            Name = "Helicopter",
-                            UserId = "dea12856-c198-4129-b3f3-b893d8395082"
-                        },
-                        new
-                        {
-                            Id = 9,
-                            IsFavourite = false,
-                            IsHighlight = false,
-                            Name = "Left Side Pass",
-                            UserId = "dea12856-c198-4129-b3f3-b893d8395082"
-                        },
-                        new
-                        {
-                            Id = 10,
-                            IsFavourite = true,
-                            IsHighlight = false,
-                            Name = "Send out",
-                            UserId = "dea12856-c198-4129-b3f3-b893d8395082"
-                        });
                 });
 
             modelBuilder.Entity("ChoreographyBuilder.Infrastructure.Data.Models.FigureOption", b =>
@@ -180,269 +100,6 @@ namespace ChoreographyBuilder.Infrastructure.Migrations
                     b.ToTable("FigureOptions");
 
                     b.HasComment("Figure Options");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            BeatCounts = 6,
-                            DynamicsType = 1,
-                            EndPositionId = 1,
-                            FigureId = 1,
-                            StartPositionId = 2
-                        },
-                        new
-                        {
-                            Id = 2,
-                            BeatCounts = 4,
-                            DynamicsType = 2,
-                            EndPositionId = 1,
-                            FigureId = 1,
-                            StartPositionId = 2
-                        },
-                        new
-                        {
-                            Id = 3,
-                            BeatCounts = 6,
-                            DynamicsType = 1,
-                            EndPositionId = 1,
-                            FigureId = 2,
-                            StartPositionId = 1
-                        },
-                        new
-                        {
-                            Id = 4,
-                            BeatCounts = 6,
-                            DynamicsType = 1,
-                            EndPositionId = 2,
-                            FigureId = 2,
-                            StartPositionId = 2
-                        },
-                        new
-                        {
-                            Id = 5,
-                            BeatCounts = 4,
-                            DynamicsType = 2,
-                            EndPositionId = 2,
-                            FigureId = 2,
-                            StartPositionId = 2
-                        },
-                        new
-                        {
-                            Id = 6,
-                            BeatCounts = 4,
-                            DynamicsType = 2,
-                            EndPositionId = 1,
-                            FigureId = 2,
-                            StartPositionId = 1
-                        },
-                        new
-                        {
-                            Id = 7,
-                            BeatCounts = 2,
-                            DynamicsType = 2,
-                            EndPositionId = 1,
-                            FigureId = 2,
-                            StartPositionId = 1
-                        },
-                        new
-                        {
-                            Id = 8,
-                            BeatCounts = 2,
-                            DynamicsType = 2,
-                            EndPositionId = 2,
-                            FigureId = 2,
-                            StartPositionId = 2
-                        },
-                        new
-                        {
-                            Id = 9,
-                            BeatCounts = 6,
-                            DynamicsType = 1,
-                            EndPositionId = 3,
-                            FigureId = 2,
-                            StartPositionId = 1
-                        },
-                        new
-                        {
-                            Id = 10,
-                            BeatCounts = 6,
-                            DynamicsType = 1,
-                            EndPositionId = 4,
-                            FigureId = 2,
-                            StartPositionId = 2
-                        },
-                        new
-                        {
-                            Id = 11,
-                            BeatCounts = 4,
-                            DynamicsType = 2,
-                            EndPositionId = 3,
-                            FigureId = 2,
-                            StartPositionId = 1
-                        },
-                        new
-                        {
-                            Id = 12,
-                            BeatCounts = 4,
-                            DynamicsType = 2,
-                            EndPositionId = 4,
-                            FigureId = 2,
-                            StartPositionId = 2
-                        },
-                        new
-                        {
-                            Id = 13,
-                            BeatCounts = 6,
-                            DynamicsType = 1,
-                            EndPositionId = 2,
-                            FigureId = 3,
-                            StartPositionId = 2
-                        },
-                        new
-                        {
-                            Id = 14,
-                            BeatCounts = 6,
-                            DynamicsType = 1,
-                            EndPositionId = 1,
-                            FigureId = 3,
-                            StartPositionId = 1
-                        },
-                        new
-                        {
-                            Id = 15,
-                            BeatCounts = 4,
-                            DynamicsType = 2,
-                            EndPositionId = 2,
-                            FigureId = 3,
-                            StartPositionId = 2
-                        },
-                        new
-                        {
-                            Id = 16,
-                            BeatCounts = 4,
-                            DynamicsType = 2,
-                            EndPositionId = 1,
-                            FigureId = 3,
-                            StartPositionId = 1
-                        },
-                        new
-                        {
-                            Id = 17,
-                            BeatCounts = 16,
-                            DynamicsType = 1,
-                            EndPositionId = 2,
-                            FigureId = 4,
-                            StartPositionId = 1
-                        },
-                        new
-                        {
-                            Id = 18,
-                            BeatCounts = 16,
-                            DynamicsType = 1,
-                            EndPositionId = 1,
-                            FigureId = 4,
-                            StartPositionId = 2
-                        },
-                        new
-                        {
-                            Id = 19,
-                            BeatCounts = 16,
-                            DynamicsType = 2,
-                            EndPositionId = 2,
-                            FigureId = 5,
-                            StartPositionId = 3
-                        },
-                        new
-                        {
-                            Id = 20,
-                            BeatCounts = 6,
-                            DynamicsType = 1,
-                            EndPositionId = 3,
-                            FigureId = 6,
-                            StartPositionId = 2
-                        },
-                        new
-                        {
-                            Id = 21,
-                            BeatCounts = 4,
-                            DynamicsType = 2,
-                            EndPositionId = 3,
-                            FigureId = 6,
-                            StartPositionId = 2
-                        },
-                        new
-                        {
-                            Id = 22,
-                            BeatCounts = 8,
-                            DynamicsType = 0,
-                            EndPositionId = 1,
-                            FigureId = 7,
-                            StartPositionId = 1
-                        },
-                        new
-                        {
-                            Id = 23,
-                            BeatCounts = 8,
-                            DynamicsType = 0,
-                            EndPositionId = 2,
-                            FigureId = 7,
-                            StartPositionId = 2
-                        },
-                        new
-                        {
-                            Id = 24,
-                            BeatCounts = 6,
-                            DynamicsType = 2,
-                            EndPositionId = 1,
-                            FigureId = 7,
-                            StartPositionId = 1
-                        },
-                        new
-                        {
-                            Id = 25,
-                            BeatCounts = 6,
-                            DynamicsType = 2,
-                            EndPositionId = 2,
-                            FigureId = 7,
-                            StartPositionId = 2
-                        },
-                        new
-                        {
-                            Id = 26,
-                            BeatCounts = 20,
-                            DynamicsType = 1,
-                            EndPositionId = 3,
-                            FigureId = 8,
-                            StartPositionId = 1
-                        },
-                        new
-                        {
-                            Id = 27,
-                            BeatCounts = 6,
-                            DynamicsType = 1,
-                            EndPositionId = 2,
-                            FigureId = 9,
-                            StartPositionId = 1
-                        },
-                        new
-                        {
-                            Id = 28,
-                            BeatCounts = 6,
-                            DynamicsType = 1,
-                            EndPositionId = 2,
-                            FigureId = 10,
-                            StartPositionId = 3
-                        },
-                        new
-                        {
-                            Id = 29,
-                            BeatCounts = 4,
-                            DynamicsType = 2,
-                            EndPositionId = 2,
-                            FigureId = 10,
-                            StartPositionId = 3
-                        });
                 });
 
             modelBuilder.Entity("ChoreographyBuilder.Infrastructure.Data.Models.FullChoreography", b =>
@@ -521,8 +178,8 @@ namespace ChoreographyBuilder.Infrastructure.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(70)
-                        .HasColumnType("nvarchar(70)")
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)")
                         .HasComment("Position Name");
 
                     b.HasKey("Id");
@@ -530,32 +187,6 @@ namespace ChoreographyBuilder.Infrastructure.Migrations
                     b.ToTable("Positions");
 
                     b.HasComment("Positions");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            IsActive = true,
-                            Name = "Open position with left shoulder to the audience"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            IsActive = true,
-                            Name = "Open position with right shoulder to the audience"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            IsActive = true,
-                            Name = "Closed position with left shoulder to the audience"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            IsActive = true,
-                            Name = "Closed position with right shoulder to the audience"
-                        });
                 });
 
             modelBuilder.Entity("ChoreographyBuilder.Infrastructure.Data.Models.VerseChoreography", b =>
@@ -595,32 +226,6 @@ namespace ChoreographyBuilder.Infrastructure.Migrations
                     b.ToTable("VerseChoreographies");
 
                     b.HasComment("Verse Choreographies");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Swing verse choreo for start",
-                            Score = 3,
-                            UserId = "dea12856-c198-4129-b3f3-b893d8395082",
-                            VerseTypeId = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Swing verse choreo for final",
-                            Score = 4,
-                            UserId = "dea12856-c198-4129-b3f3-b893d8395082",
-                            VerseTypeId = 1
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "Blues verse choreo in the middle",
-                            Score = 2,
-                            UserId = "dea12856-c198-4129-b3f3-b893d8395082",
-                            VerseTypeId = 2
-                        });
                 });
 
             modelBuilder.Entity("ChoreographyBuilder.Infrastructure.Data.Models.VerseChoreographyFigure", b =>
@@ -653,99 +258,6 @@ namespace ChoreographyBuilder.Infrastructure.Migrations
                     b.ToTable("VerseChoreographiesFigures");
 
                     b.HasComment("Verse Choreography Figures");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            FigureOptionId = 28,
-                            FigureOrder = 1,
-                            VerseChoreographyId = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            FigureOptionId = 1,
-                            FigureOrder = 2,
-                            VerseChoreographyId = 1
-                        },
-                        new
-                        {
-                            Id = 3,
-                            FigureOptionId = 6,
-                            FigureOrder = 3,
-                            VerseChoreographyId = 1
-                        },
-                        new
-                        {
-                            Id = 4,
-                            FigureOptionId = 17,
-                            FigureOrder = 4,
-                            VerseChoreographyId = 1
-                        },
-                        new
-                        {
-                            Id = 5,
-                            FigureOptionId = 1,
-                            FigureOrder = 1,
-                            VerseChoreographyId = 2
-                        },
-                        new
-                        {
-                            Id = 6,
-                            FigureOptionId = 3,
-                            FigureOrder = 2,
-                            VerseChoreographyId = 2
-                        },
-                        new
-                        {
-                            Id = 7,
-                            FigureOptionId = 26,
-                            FigureOrder = 3,
-                            VerseChoreographyId = 2
-                        },
-                        new
-                        {
-                            Id = 8,
-                            FigureOptionId = 1,
-                            FigureOrder = 1,
-                            VerseChoreographyId = 3
-                        },
-                        new
-                        {
-                            Id = 9,
-                            FigureOptionId = 14,
-                            FigureOrder = 2,
-                            VerseChoreographyId = 3
-                        },
-                        new
-                        {
-                            Id = 10,
-                            FigureOptionId = 27,
-                            FigureOrder = 3,
-                            VerseChoreographyId = 3
-                        },
-                        new
-                        {
-                            Id = 11,
-                            FigureOptionId = 23,
-                            FigureOrder = 4,
-                            VerseChoreographyId = 3
-                        },
-                        new
-                        {
-                            Id = 12,
-                            FigureOptionId = 20,
-                            FigureOrder = 5,
-                            VerseChoreographyId = 3
-                        },
-                        new
-                        {
-                            Id = 13,
-                            FigureOptionId = 19,
-                            FigureOrder = 6,
-                            VerseChoreographyId = 3
-                        });
                 });
 
             modelBuilder.Entity("ChoreographyBuilder.Infrastructure.Data.Models.VerseType", b =>
@@ -776,22 +288,6 @@ namespace ChoreographyBuilder.Infrastructure.Migrations
                     b.ToTable("VerseTypes");
 
                     b.HasComment("Verse Types");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            BeatCounts = 32,
-                            IsActive = true,
-                            Name = "Swing Verse"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            BeatCounts = 48,
-                            IsActive = true,
-                            Name = "Blues Verse"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -909,24 +405,6 @@ namespace ChoreographyBuilder.Infrastructure.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "dea12856-c198-4129-b3f3-b893d8395082",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "9544bf4e-d70f-4fef-b1f1-1294c6f23d41",
-                            Email = "demo@mail.com",
-                            EmailConfirmed = false,
-                            LockoutEnabled = false,
-                            NormalizedEmail = "DEMO@MAIL.COM",
-                            NormalizedUserName = "DEMO@MAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAECU+hIkNXH/25BmnL1Twka/s67PgDwf6yXpqbHAD4yw8WWjhatrBUEC4DPZ12NUMlA==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "8d18407b-5b1d-4d51-aa01-b7c7eb347205",
-                            TwoFactorEnabled = false,
-                            UserName = "demo@mail.com"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
