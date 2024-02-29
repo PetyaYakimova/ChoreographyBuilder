@@ -22,4 +22,12 @@
     <ProjectReference Include="..\ChoreographyBuilder.Core\ChoreographyBuilder.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\Figure\" />
+    <Folder Include="Views\FullChoreography\" />
+    <Folder Include="Views\VerseChoreography\" />
+    <Folder Include="Views\VerseType\" />
+    <Folder Include="Views\Position\" />
+  </ItemGroup>
+
 </Project>
