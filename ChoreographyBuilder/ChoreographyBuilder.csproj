@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="6.0.27" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.27" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.27" />
@@ -26,7 +27,6 @@
     <Folder Include="Views\Figure\" />
     <Folder Include="Views\FullChoreography\" />
     <Folder Include="Views\VerseChoreography\" />
-    <Folder Include="Views\VerseType\" />
     <Folder Include="Views\Position\" />
   </ItemGroup>
 

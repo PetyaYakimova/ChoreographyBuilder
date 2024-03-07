@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ChoreographyBuilder.Attributes
+namespace ChoreographyBuilder.Core.Attributes
 {
 	public class IsEven : ValidationAttribute
 	{
