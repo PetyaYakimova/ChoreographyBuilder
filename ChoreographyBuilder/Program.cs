@@ -5,6 +5,8 @@ builder.Services.AddApplicationIdentity(builder.Configuration);
 
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddMappingServices();
+
 builder.Services.AddApplicationServices();
 
 var app = builder.Build();

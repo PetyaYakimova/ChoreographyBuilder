@@ -1,0 +1,22 @@
+﻿@model IEnumerable<VerseTypeViewModel>
+@{
+    ViewBag.Title = "All Verse Types";
+}
+
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+<div class="text-center row">
+    @foreach (var a in Model)
+    {
+        <div class="card col-4" style="width: 20rem; ">
+            <div class="card-body">
+                <h5 class="card-title mt-1">@a.Name</h5>
+                <p class="mb-0"><span class="fw-bold">Name: </span>@a.Name</p>
+                <p class="mb-0"><span class="fw-bold">Beats Count: </span>@a.BeatCounts</p>
+                <p class="mb-0"><span class="fw-bold">Is Active: </span>@a.IsActive</p>
+            </div>
+        </div>
+    }
+</div>

@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using ChoreographyBuilder.Core.Contracts;
+using ChoreographyBuilder.Core.Models.VerseType;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ChoreographyBuilder.Controllers
@@ -6,9 +8,18 @@ namespace ChoreographyBuilder.Controllers
 	[Authorize]
 	public class VerseTypeController : Controller
 	{
-		public IActionResult All()
+		private IVerseTypeService verseTypeService;
+
+		public VerseTypeController(IVerseTypeService verseTypeService)
 		{
-			return View();
+			this.verseTypeService = verseTypeService;
+		}
+
+		public async Task<IActionResult> All()
+		{
+			var model = await verseTypeService.AllVerseTypesAsync();
+
+			return View(model);
 		}
 	}
 }
