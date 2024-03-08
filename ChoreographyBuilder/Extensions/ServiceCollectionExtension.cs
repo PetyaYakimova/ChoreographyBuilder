@@ -22,6 +22,8 @@ namespace Microsoft.Extensions.DependencyInjection
 		{
 			services.AddScoped<IVerseTypeService, VerseTypeService>();
 
+			services.AddScoped<IFigureService, FigureService>();
+
 			return services;
 		}
 

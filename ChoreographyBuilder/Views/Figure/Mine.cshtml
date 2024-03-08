@@ -1,0 +1,73 @@
+﻿@model IEnumerable<FigureViewModel>
+@{
+	ViewBag.Title = "My Figures";
+}
+
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+@if (Model.Any())
+{
+	<table class="table table-responsive">
+		<thead>
+			<tr>
+				<th scope="col">Id</th>
+				<th scope="col">Name</th>
+				<th scope="col">Number of options</th>
+				<th scope="col">Highlight</th>
+				<th scope="col">Favourite</th>
+				<th scope="col">Edit</th>
+				<th scope="col">View options</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var a in Model)
+			{
+				<tr>
+					<th scope="row">@a.Id</th>
+					<td>@a.Name</td>
+					<td>@a.FigureOptionsCount</td>
+					<td>
+						@if (a.IsHighlight)
+						{
+							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="green" class="bi bi-check" viewBox="0 0 16 16">
+								<path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425z" />
+							</svg>
+
+						}
+						else
+						{
+							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-x" viewBox="0 0 16 16">
+								<path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
+							</svg>
+						}
+					</td>
+					<td>
+						@if (a.IsFavourite)
+						{
+							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="green" class="bi bi-check" viewBox="0 0 16 16">
+								<path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425z" />
+							</svg>
+
+						}
+						else
+						{
+							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-x" viewBox="0 0 16 16">
+								<path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
+							</svg>
+						}
+					</td>
+					<td><a asp-controller="Figure" asp-action="Edit" asp-route-id="@a.Id" class="link-warning">Edit</a></td>
+					<td><a asp-controller="Figure" asp-action="Options" asp-route-id="@a.Id" class="link-info">Options</a></td>
+				</tr>
+			}
+		</tbody>
+	</table>
+}
+else
+{
+	<p class="text-danger">No figures yet!</p>
+}
+<br />
+<a asp-controller="Figure" asp-action="Add" class="btn btn-warning mb-2 w-100 p-3 fw-bold">Add</a>
+
