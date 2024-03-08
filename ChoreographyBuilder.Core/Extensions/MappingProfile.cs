@@ -8,7 +8,11 @@ namespace ChoreographyBuilder.Core.Extensions
 	{
 		public MappingProfile()
 		{
-			CreateMap<VerseType, VerseTypeViewModel>();
+			CreateMap<VerseType, VerseTypeTableViewModel>()
+				.ForMember(d => d.HasChoreographies, act => act.MapFrom(src => src.VerseChoreographies.Any()));
+
+			CreateMap<VerseType, VerseTypeForChoreographiesViewModel>()
+				.ForMember(d => d.Name, act => act.MapFrom(src => $"{src.Name} ({src.BeatCounts})"));
 		}
 	}
 }

@@ -1,5 +1,4 @@
 ﻿using ChoreographyBuilder.Core.Contracts;
-using ChoreographyBuilder.Core.Models.VerseType;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

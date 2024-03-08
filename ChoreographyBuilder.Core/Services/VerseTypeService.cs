@@ -19,11 +19,12 @@ namespace ChoreographyBuilder.Core.Services
 			this.mapper = mapper;
 		}
 
-		public async Task<IEnumerable<VerseTypeViewModel>> AllVerseTypesAsync()
+		public async Task<IEnumerable<VerseTypeTableViewModel>> AllVerseTypesAsync()
 		{
-			var verseTypes = await repository.AllAsReadOnly<VerseType>().ToListAsync();
-
-			return mapper.Map<IEnumerable<VerseTypeViewModel>>(verseTypes);
+			return await repository.AllAsReadOnly<VerseType>()
+				.Include(vt => vt.VerseChoreographies)
+				.Select(vt => mapper.Map<VerseTypeTableViewModel>(vt))
+				.ToListAsync();
 		}
 	}
 }

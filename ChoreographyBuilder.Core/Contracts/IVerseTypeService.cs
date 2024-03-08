@@ -4,6 +4,6 @@ namespace ChoreographyBuilder.Core.Contracts
 {
 	public interface IVerseTypeService
 	{
-		Task<IEnumerable<VerseTypeViewModel>> AllVerseTypesAsync();
+		Task<IEnumerable<VerseTypeTableViewModel>> AllVerseTypesAsync();
 	}
 }

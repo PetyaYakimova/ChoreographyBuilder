@@ -4,9 +4,9 @@ using System.ComponentModel.DataAnnotations;
 namespace ChoreographyBuilder.Core.Models.VerseType
 {
 	/// <summary>
-	/// View model only for previewing verse types. No added validations.
+	/// View model only for previewing verse types in a table. No added validations.
 	/// </summary>
-	public class VerseTypeViewModel
+	public class VerseTypeTableViewModel
 	{
 		public int Id { get; set; }
 
@@ -15,5 +15,7 @@ namespace ChoreographyBuilder.Core.Models.VerseType
 		public int BeatCounts { get; set; }
 
 		public bool IsActive { get; set; }
+
+		public bool HasChoreographies { get; set; }
 	}
 }

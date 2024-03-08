@@ -1,22 +1,47 @@
-﻿@model IEnumerable<VerseTypeViewModel>
+﻿@model IEnumerable<VerseTypeTableViewModel>
 @{
-    ViewBag.Title = "All Verse Types";
+	ViewBag.Title = "All Verse Types";
 }
 
 
 <h2 class="text-center">@ViewBag.Title</h2>
 <hr />
-
-<div class="text-center row">
-    @foreach (var a in Model)
-    {
-        <div class="card col-4" style="width: 20rem; ">
-            <div class="card-body">
-                <h5 class="card-title mt-1">@a.Name</h5>
-                <p class="mb-0"><span class="fw-bold">Name: </span>@a.Name</p>
-                <p class="mb-0"><span class="fw-bold">Beats Count: </span>@a.BeatCounts</p>
-                <p class="mb-0"><span class="fw-bold">Is Active: </span>@a.IsActive</p>
-            </div>
-        </div>
-    }
-</div>
+@if (Model.Any())
+{
+	<table class="table table-responsive">
+		<thead>
+			<tr>
+				<th scope="col">Id</th>
+				<th scope="col">Name</th>
+				<th scope="col">Beats Count</th>
+				<th scope="col">Edit</th>
+				<th scope="col">Change Status</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var a in Model)
+			{
+				<tr>
+					<th scope="row">@a.Id</th>
+					<td>@a.Name</td>
+					<td>@a.BeatCounts</td>
+					<td><a asp-controller="VerseType" asp-action="Edit" asp-route-id="@a.Id" class="link-warning">Edit</a></td>
+					@if (a.IsActive)
+					{
+						<td><a asp-controller="VerseType" asp-action="Deactivate" asp-route-id="@a.Id" class="link-danger">Deactivate</a></td>
+					}
+					else
+					{
+						<td><a asp-controller="VerseType" asp-action="Activate" asp-route-id="@a.Id" class="link-success">Activate</a></td>
+					}
+				</tr>
+			}
+		</tbody>
+	</table>
+}
+else
+{
+	<p class="text-danger">No verse types yet!</p>
+}
+<br />
+<a asp-controller="VerseType" asp-action="Add" class="btn btn-warning mb-2 w-100 p-3 fw-bold">Add</a>
