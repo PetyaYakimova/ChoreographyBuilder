@@ -3,8 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ChoreographyBuilder.Controllers
 {
-	[Authorize]
-	public class VerseChoreographyController : Controller
+	public class VerseChoreographyController : BaseController
 	{
 		public IActionResult All()
 		{

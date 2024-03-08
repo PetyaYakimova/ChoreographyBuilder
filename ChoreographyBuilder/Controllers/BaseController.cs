@@ -3,11 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ChoreographyBuilder.Controllers
 {
-	public class PositionController : BaseController
+	[Authorize]
+	public class BaseController : Controller
 	{
-		public IActionResult All()
-		{
-			return View();
-		}
+
 	}
 }

@@ -2,8 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 namespace ChoreographyBuilder.Controllers
 {
-	[Authorize]
-	public class FullChoreographyController : Controller
+	public class FullChoreographyController : BaseController
 	{
 		public IActionResult All()
 		{

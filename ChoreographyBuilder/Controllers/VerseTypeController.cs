@@ -4,8 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ChoreographyBuilder.Controllers
 {
-	[Authorize]
-	public class VerseTypeController : Controller
+	public class VerseTypeController : BaseController
 	{
 		private IVerseTypeService verseTypeService;
 
@@ -14,6 +13,7 @@ namespace ChoreographyBuilder.Controllers
 			this.verseTypeService = verseTypeService;
 		}
 
+		[HttpGet]
 		public async Task<IActionResult> All()
 		{
 			var model = await verseTypeService.AllVerseTypesAsync();

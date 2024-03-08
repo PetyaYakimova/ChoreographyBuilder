@@ -1,14 +1,24 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using ChoreographyBuilder.Core.Contracts;
+using ChoreographyBuilder.Extensions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ChoreographyBuilder.Controllers
 {
-	[Authorize]
-	public class FigureController : Controller
+	public class FigureController : BaseController
 	{
-		public IActionResult All()
+		private readonly IFigureService figureService;
+
+		public FigureController(IFigureService figureService)
 		{
-			return View();
+			this.figureService = figureService;
+		}
+
+		public async Task<IActionResult> Mine()
+		{
+			var model = await figureService.AllUserFiguresAsync(User.Id());
+
+			return View(model);
 		}
 	}
 }
