@@ -8,14 +8,14 @@
 <hr />
 @if (Model.Any())
 {
-	<table class="table table-responsive">
+	<table class="table table-responsive darkbgwhitetext">
 		<thead>
 			<tr>
 				<th scope="col">Id</th>
 				<th scope="col">Name</th>
 				<th scope="col">Beats Count</th>
-				<th scope="col">Edit</th>
-				<th scope="col">Change Status</th>
+				<th scope="col"></th>
+				<th scope="col"></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -25,15 +25,23 @@
 					<th scope="row">@a.Id</th>
 					<td>@a.Name</td>
 					<td>@a.BeatCounts</td>
-					<td><a asp-controller="VerseType" asp-action="Edit" asp-route-id="@a.Id" class="link-warning">Edit</a></td>
-					@if (a.IsActive)
-					{
-						<td><a asp-controller="VerseType" asp-action="Deactivate" asp-route-id="@a.Id" class="link-danger">Deactivate</a></td>
-					}
-					else
-					{
-						<td><a asp-controller="VerseType" asp-action="Activate" asp-route-id="@a.Id" class="link-success">Activate</a></td>
-					}
+					<td>
+						<form method="GET">
+							<input type="submit" asp-controller="VerseType" asp-action="Edit" asp-route-id="@a.Id" value="Edit" class="link-warning custominputlink" />
+						</form>
+					</td>
+					<td>
+						<form method="POST">
+							@if (a.IsActive)
+							{
+								<input type="submit" asp-controller="VerseType" asp-action="ChangeStatus" asp-route-id="@a.Id" value="Deactivate" class="link-danger custominputlink" />
+							}
+							else
+							{
+								<input type="submit" asp-controller="VerseType" asp-action="ChangeStatus" asp-route-id="@a.Id" value="Activate" class="link-success custominputlink" />
+							}
+						</form>
+					</td>
 				</tr>
 			}
 		</tbody>

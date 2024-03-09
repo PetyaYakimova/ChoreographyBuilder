@@ -45,5 +45,21 @@ namespace ChoreographyBuilder.Controllers
 
 			return RedirectToAction(nameof(All));
 		}
-	}
+
+        [HttpPost]
+        public async Task<IActionResult> ChangeStatus(int id)
+        {
+			//Check that user is admin
+			try
+			{
+				await verseTypeService.ChangeVerseTypeStatusAsync(id);
+
+                return RedirectToAction(nameof(All));
+            }
+			catch (ArgumentNullException)
+			{
+				return BadRequest();
+			}
+        }
+    }
 }

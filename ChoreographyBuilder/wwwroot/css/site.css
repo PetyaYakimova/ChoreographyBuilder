@@ -1,5 +1,6 @@
 html {
   font-size: 14px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif
 }
 
 @media (min-width: 768px) {
@@ -15,4 +16,22 @@ html {
 
 body {
   margin-bottom: 60px;
+  background-color: #202020;
+  color: white;
+}
+
+footer {
+    background-color: black;
+    color: white;
+}
+
+.darkbgwhitetext {
+    background-color: #202020;
+    color: white;
+}
+
+input.custominputlink {
+    background-color: #202020;
+    font-weight: 400;
+    border: none;
 }

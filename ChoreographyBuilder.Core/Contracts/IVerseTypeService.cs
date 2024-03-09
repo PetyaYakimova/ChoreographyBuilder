@@ -10,5 +10,7 @@ namespace ChoreographyBuilder.Core.Contracts
 		Task<IEnumerable<VerseTypeForChoreographiesViewModel>> AllActiveVerseTypesOrSelectedVerseTypeAsync(int selectedVerseTypeId);
 
 		Task AddVerseTypeAsync(VerseTypeFormViewModel model);
-	}
+
+        Task ChangeVerseTypeStatusAsync(int id);
+    }
 }
