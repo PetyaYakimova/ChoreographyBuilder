@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using ChoreographyBuilder.Core.Contracts;
-using ChoreographyBuilder.Core.Extensions;
+using ChoreographyBuilder.Core.Mapping;
 using ChoreographyBuilder.Core.Services;
 using ChoreographyBuilder.Infrastructure.Data;
 using ChoreographyBuilder.Infrastructure.Data.Common;
@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
-	public static class ServiceCollectionExtension
+    public static class ServiceCollectionExtension
 	{
 		public static IServiceCollection AddMappingServices (this IServiceCollection services) 
 		{

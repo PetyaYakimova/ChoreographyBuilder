@@ -19,6 +19,23 @@ namespace ChoreographyBuilder.Core.Services
 			this.mapper = mapper;
 		}
 
+		public async Task AddVerseTypeAsync(VerseTypeFormViewModel model)
+		{
+			VerseType entity = mapper.Map<VerseType>(model);
+
+			await repository.AddAsync(entity);
+
+			await repository.SaveChangesAsync();
+		}
+
+		public async Task<IEnumerable<VerseTypeForChoreographiesViewModel>> AllActiveVerseTypesOrSelectedVerseTypeAsync(int selectedVerseTypeId)
+		{
+			return await repository.AllAsReadOnly<VerseType>()
+				.Where(vt => vt.IsActive || vt.Id == selectedVerseTypeId)
+				.Select(vt => mapper.Map<VerseTypeForChoreographiesViewModel>(vt))
+				.ToListAsync();
+		}
+
 		public async Task<IEnumerable<VerseTypeTableViewModel>> AllVerseTypesAsync()
 		{
 			return await repository.AllAsReadOnly<VerseType>()

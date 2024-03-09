@@ -2,8 +2,11 @@
 {
 	public static class DataConstants
 	{
-		public const int VerseNameMaxLenght = 20;
-		public const int VerseNameMinLength = 3;
+		public const int VerseTypeNameMaxLenght = 20;
+		public const int VerseTypeNameMinLength = 3;
+
+		public const int VerseTypeBeatsCountMin = 2;
+		public const int VerseTypeBeatsCountMax = 120;
 
 		public const int PositionNameMaxLenght = 70;
 		public const int PositionNameMinLength = 2;

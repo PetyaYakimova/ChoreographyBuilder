@@ -1,6 +1,7 @@
 ﻿using ChoreographyBuilder.Core.Attributes;
 using System.ComponentModel.DataAnnotations;
 using static ChoreographyBuilder.Infrastructure.Constants.DataConstants;
+using static ChoreographyBuilder.Core.Constants.MessageConstants;
 
 namespace ChoreographyBuilder.Core.Models.VerseType
 {
@@ -9,16 +10,21 @@ namespace ChoreographyBuilder.Core.Models.VerseType
 	/// </summary>
 	public class VerseTypeFormViewModel
 	{
-		//[Required]
-		//[StringLength(VerseNameMaxLenght,
-		//	ErrorMessage =)]
-		//public string Name { get; set; } = string.Empty;
+		[Required(ErrorMessage = RequiredErrorMessage)]
+		[StringLength(VerseTypeNameMaxLenght,
+			MinimumLength = VerseTypeNameMinLength,
+			ErrorMessage = StringLengthErrorMessage)]
+		public string Name { get; set; } = string.Empty;
 
-		//[Required]
-		//[IsEven(ErrorMessage =)]
-		//public int BeatCounts { get; set; }
+		[Required(ErrorMessage = RequiredErrorMessage)]
+		[Range(VerseTypeBeatsCountMin,
+			VerseTypeBeatsCountMax,
+			ErrorMessage = NumberMustBeInRangeErrorMessage)]
+		[IsEven(ErrorMessage = NumberMustBeEvenErrorMessage)]
+		[Display(Name = "Beats Count")]
+		public int BeatCounts { get; set; }
 
-		//[Required]
-		//public bool IsActive { get; set; }
+		[Required(ErrorMessage = RequiredErrorMessage)]
+		public bool IsActive { get; set; } = true;
 	}
 }
