@@ -35,5 +35,10 @@ namespace ChoreographyBuilder.Infrastructure.Data.Common
 		{
 			return await context.SaveChangesAsync();
 		}
-	}
+
+        public void Delete<T>(T entity) where T : class
+        {
+            DbSet<T>().Remove(entity);
+        }
+    }
 }
