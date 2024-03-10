@@ -16,6 +16,7 @@
 				<th scope="col">Beats Count</th>
 				<th scope="col"></th>
 				<th scope="col"></th>
+				<th scope="col"></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -25,11 +26,6 @@
 					<th scope="row">@a.Id</th>
 					<td>@a.Name</td>
 					<td>@a.BeatCounts</td>
-					<td>
-						<form method="GET">
-							<input type="submit" asp-controller="VerseType" asp-action="Edit" asp-route-id="@a.Id" value="Edit" class="link-warning custominputlink" />
-						</form>
-					</td>
 					<td>
 						<form method="POST">
 							@if (a.IsActive)
@@ -41,6 +37,22 @@
 								<input type="submit" asp-controller="VerseType" asp-action="ChangeStatus" asp-route-id="@a.Id" value="Activate" class="link-success custominputlink" />
 							}
 						</form>
+					</td>
+					<td>
+						@if (!a.HasChoreographies)
+						{
+							<form method="GET">
+								<input type="submit" asp-controller="VerseType" asp-action="Edit" asp-route-id="@a.Id" value="Edit" class="link-warning custominputlink" />
+							</form>
+						}
+					</td>
+					<td>
+						@if (!a.HasChoreographies)
+						{
+							<form method="DELETE">
+								<input type="submit" asp-controller="VerseType" asp-action="Delete" asp-route-id="@a.Id" value="Delete" class="link-danger custominputlink" />
+							</form>
+						}
 					</td>
 				</tr>
 			}

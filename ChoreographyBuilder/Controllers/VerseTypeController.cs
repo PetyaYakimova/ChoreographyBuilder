@@ -24,7 +24,7 @@ namespace ChoreographyBuilder.Controllers
 		}
 
 		[HttpGet]
-		public async Task<IActionResult> Add()
+		public IActionResult Add()
 		{
 			//Check that user is admin
 			var model = new VerseTypeFormViewModel();
@@ -33,6 +33,7 @@ namespace ChoreographyBuilder.Controllers
 		}
 
 		[HttpPost]
+		[AutoValidateAntiforgeryToken] // Add this to every method that is a form
 		public async Task<IActionResult> Add(VerseTypeFormViewModel model)
 		{
 			//Check that user is admin
@@ -47,7 +48,8 @@ namespace ChoreographyBuilder.Controllers
 		}
 
         [HttpPost]
-        public async Task<IActionResult> ChangeStatus(int id)
+		[AutoValidateAntiforgeryToken]
+		public async Task<IActionResult> ChangeStatus(int id)
         {
 			//Check that user is admin
 			try
