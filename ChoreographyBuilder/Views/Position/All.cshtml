@@ -1,0 +1,66 @@
+﻿@model IEnumerable<PositionTableViewModel>
+@{
+	ViewBag.Title = "All Positions";
+}
+
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+@if (Model.Any())
+{
+	<table class="table table-responsive darkbgwhitetext">
+		<thead>
+			<tr>
+				<th scope="col">Id</th>
+				<th scope="col">Name</th>
+				<th scope="col"></th>
+				<th scope="col"></th>
+				<th scope="col"></th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var a in Model)
+			{
+				<tr>
+					<th scope="row">@a.Id</th>
+					<td>@a.Name</td>
+					<td>
+						<form method="POST">
+							@if (a.IsActive)
+							{
+								<input type="submit" asp-controller="Position" asp-action="ChangeStatus" asp-route-id="@a.Id" value="Deactivate" class="link-danger custominputlink" />
+							}
+							else
+							{
+								<input type="submit" asp-controller="Position" asp-action="ChangeStatus" asp-route-id="@a.Id" value="Activate" class="link-success custominputlink" />
+							}
+						</form>
+					</td>
+					<td>
+						@if (!a.HasFigures)
+						{
+							<form method="GET">
+								<input type="submit" asp-controller="Position" asp-action="Edit" asp-route-id="@a.Id" value="Edit" class="link-warning custominputlink" />
+							</form>
+						}
+					</td>
+					<td>
+						@if (!a.HasFigures)
+						{
+							<form method="DELETE">
+								<input type="submit" asp-controller="Position" asp-action="Delete" asp-route-id="@a.Id" value="Delete" class="link-danger custominputlink" />
+							</form>
+						}
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+}
+else
+{
+	<p class="text-danger">No positions yet!</p>
+}
+<br />
+<a asp-controller="Position" asp-action="Add" class="btn btn-warning mb-2 w-100 p-3 fw-bold">Add</a>
+

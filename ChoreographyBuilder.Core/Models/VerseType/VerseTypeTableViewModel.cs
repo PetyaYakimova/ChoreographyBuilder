@@ -1,7 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
-
-namespace ChoreographyBuilder.Core.Models.VerseType
+﻿namespace ChoreographyBuilder.Core.Models.VerseType
 {
 	/// <summary>
 	/// View model only for previewing verse types in a table. No added validations.

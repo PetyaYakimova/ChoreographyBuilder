@@ -26,7 +26,6 @@
   <ItemGroup>
     <Folder Include="Views\FullChoreography\" />
     <Folder Include="Views\VerseChoreography\" />
-    <Folder Include="Views\Position\" />
   </ItemGroup>
 
 </Project>

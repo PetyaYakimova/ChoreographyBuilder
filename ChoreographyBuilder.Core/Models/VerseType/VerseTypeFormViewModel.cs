@@ -1,7 +1,7 @@
 ﻿using ChoreographyBuilder.Core.Attributes;
 using System.ComponentModel.DataAnnotations;
-using static ChoreographyBuilder.Infrastructure.Constants.DataConstants;
 using static ChoreographyBuilder.Core.Constants.MessageConstants;
+using static ChoreographyBuilder.Infrastructure.Constants.DataConstants;
 
 namespace ChoreographyBuilder.Core.Models.VerseType
 {
