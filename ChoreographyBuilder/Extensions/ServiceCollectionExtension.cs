@@ -21,7 +21,7 @@ namespace Microsoft.Extensions.DependencyInjection
 		public static IServiceCollection AddApplicationServices(this IServiceCollection services)
 		{
 			services.AddScoped<IVerseTypeService, VerseTypeService>();
-
+			services.AddScoped<IPositionService, PositionService>();
 			services.AddScoped<IFigureService, FigureService>();
 
 			return services;
