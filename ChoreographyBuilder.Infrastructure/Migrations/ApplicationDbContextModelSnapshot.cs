@@ -54,7 +54,7 @@ namespace ChoreographyBuilder.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Figures");
+                    b.ToTable("Figures", (string)null);
 
                     b.HasComment("Figures");
 
@@ -177,7 +177,7 @@ namespace ChoreographyBuilder.Infrastructure.Migrations
 
                     b.HasIndex("StartPositionId");
 
-                    b.ToTable("FigureOptions");
+                    b.ToTable("FigureOptions", (string)null);
 
                     b.HasComment("Figure Options");
 
@@ -469,7 +469,7 @@ namespace ChoreographyBuilder.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("FullChoreographies");
+                    b.ToTable("FullChoreographies", (string)null);
 
                     b.HasComment("Full Choreographies");
                 });
@@ -501,7 +501,7 @@ namespace ChoreographyBuilder.Infrastructure.Migrations
 
                     b.HasIndex("VerseChoreographyId");
 
-                    b.ToTable("FullChoreographiesVerseChoreographies");
+                    b.ToTable("FullChoreographiesVerseChoreographies", (string)null);
 
                     b.HasComment("Full Choreography Verse Choreographies");
                 });
@@ -527,7 +527,7 @@ namespace ChoreographyBuilder.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Positions");
+                    b.ToTable("Positions", (string)null);
 
                     b.HasComment("Positions");
 
@@ -592,7 +592,7 @@ namespace ChoreographyBuilder.Infrastructure.Migrations
 
                     b.HasIndex("VerseTypeId");
 
-                    b.ToTable("VerseChoreographies");
+                    b.ToTable("VerseChoreographies", (string)null);
 
                     b.HasComment("Verse Choreographies");
 
@@ -650,7 +650,7 @@ namespace ChoreographyBuilder.Infrastructure.Migrations
 
                     b.HasIndex("VerseChoreographyId");
 
-                    b.ToTable("VerseChoreographiesFigures");
+                    b.ToTable("VerseChoreographiesFigures", (string)null);
 
                     b.HasComment("Verse Choreography Figures");
 
@@ -773,7 +773,7 @@ namespace ChoreographyBuilder.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("VerseTypes");
+                    b.ToTable("VerseTypes", (string)null);
 
                     b.HasComment("Verse Types");
 

@@ -19,12 +19,13 @@ namespace ChoreographyBuilder.Core.Services
 			this.mapper = mapper;
 		}
 
-		public async Task<IEnumerable<FigureViewModel>> AllUserFiguresAsync(string userId)
+		public async Task<IEnumerable<FigureTableViewModel>> AllUserFiguresAsync(string userId)
 		{
 			return await repository.AllAsReadOnly<Figure>()
 				.Where(f => f.UserId == userId)
 				.Include(f => f.FigureOptions)
-				.Select(f => mapper.Map<FigureViewModel>(f))
+				.ThenInclude(fo=>fo.VerseChoreographyFigures)
+				.Select(f => mapper.Map<FigureTableViewModel>(f))
 				.ToListAsync();
 		}
 	}

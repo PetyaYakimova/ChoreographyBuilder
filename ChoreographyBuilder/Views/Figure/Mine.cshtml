@@ -1,4 +1,4 @@
-﻿@model IEnumerable<FigureViewModel>
+﻿@model IEnumerable<FigureTableViewModel>
 @{
 	ViewBag.Title = "My Figures";
 }
@@ -16,8 +16,9 @@
 				<th scope="col">Number of options</th>
 				<th scope="col">Highlight</th>
 				<th scope="col">Favourite</th>
-				<th scope="col">Edit</th>
-				<th scope="col">View options</th>
+				<th scope="col"></th>
+				<th scope="col"></th>
+				<th scope="col"></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -56,8 +57,16 @@
 							</svg>
 						}
 					</td>
-					<td><a asp-controller="Figure" asp-action="Edit" asp-route-id="@a.Id" class="link-warning">Edit</a></td>
-					<td><a asp-controller="Figure" asp-action="Options" asp-route-id="@a.Id" class="link-info">Options</a></td>
+					<td><a asp-controller="Figure" asp-action="Options" asp-route-id="@a.Id" class="link-info custominputlink">Options</a></td>
+					<td><a asp-controller="Figure" asp-action="Edit" asp-route-id="@a.Id" class="link-warning custominputlink">Edit</a></td>
+					<td>
+						@if (!a.FigureUsedInChoreographies)
+						{
+							<form method="DELETE">
+								<input type="submit" asp-controller="Figure" asp-action="Delete" asp-route-id="@a.Id" value="Delete" class="link-danger custominputlink" />
+							</form>
+						}
+					</td>
 				</tr>
 			}
 		</tbody>

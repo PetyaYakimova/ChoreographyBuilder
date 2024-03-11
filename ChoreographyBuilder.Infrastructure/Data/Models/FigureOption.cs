@@ -39,5 +39,7 @@ namespace ChoreographyBuilder.Infrastructure.Data.Models
 
 		[Required]
 		public DynamicsType DynamicsType { get; set; }
+
+		public IEnumerable<VerseChoreographyFigure> VerseChoreographyFigures { get; set; } = new List<VerseChoreographyFigure>();
 	}
 }

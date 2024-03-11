@@ -3,7 +3,7 @@
 	/// <summary>
 	/// View model only for previewing figures in a table. No added validations.
 	/// </summary>
-	public class FigureViewModel
+	public class FigureTableViewModel
 	{
 		public int Id { get; set; }
 
@@ -16,5 +16,7 @@
 		public string UserId { get; set; } = string.Empty;
 
 		public int FigureOptionsCount { get; set; }
+
+		public bool FigureUsedInChoreographies { get; set; }
 	}
 }
