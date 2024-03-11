@@ -19,7 +19,22 @@ namespace ChoreographyBuilder.Core.Services
 			this.mapper = mapper;
 		}
 
-		public async Task<IEnumerable<FigureTableViewModel>> AllUserFiguresAsync(string userId)
+        public async Task AddFigureAsync(FigureFormViewModel model, string userId)
+        {
+			Figure entity = new Figure()
+			{
+				UserId = userId,
+				Name = model.Name,
+				IsFavourite = model.IsFavourite,
+				IsHighlight = model.IsHighlight
+			};
+
+            await repository.AddAsync(entity);
+
+            await repository.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<FigureTableViewModel>> AllUserFiguresAsync(string userId)
 		{
 			return await repository.AllAsReadOnly<Figure>()
 				.Where(f => f.UserId == userId)

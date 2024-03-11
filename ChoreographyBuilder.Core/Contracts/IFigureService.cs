@@ -2,8 +2,10 @@
 
 namespace ChoreographyBuilder.Core.Contracts
 {
-	public interface IFigureService
+    public interface IFigureService
 	{
 		Task<IEnumerable<FigureTableViewModel>> AllUserFiguresAsync(string userId);
-	}
+
+        Task AddFigureAsync(FigureFormViewModel model, string userId);
+    }
 }
