@@ -33,6 +33,8 @@ namespace ChoreographyBuilder.Core.Mapping
 			CreateMap<Figure, FigureTableViewModel>()
 				.ForMember(d => d.FigureOptionsCount, act => act.MapFrom(src => src.FigureOptions.Count()))
 				.ForMember(d => d.FigureUsedInChoreographies, act => act.MapFrom(src => src.FigureOptions.Any(fo => fo.VerseChoreographyFigures.Any())));
+
+			CreateMap<Figure, FigureFormViewModel>();
 		}
 	}
 }
