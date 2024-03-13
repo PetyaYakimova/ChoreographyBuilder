@@ -17,36 +17,61 @@ namespace ChoreographyBuilder.Controllers
 			this.figureService = figureService;
 		}
 
-        [HttpGet]
+		[HttpGet]
 		public async Task<IActionResult> Mine()
 		{
+			//Check is user and not admin
 			var model = await figureService.AllUserFiguresAsync(User.Id());
 
 			return View(model);
 		}
 
 
-        [HttpGet]
-        public IActionResult Add()
-        {
-            var model = new FigureFormViewModel();
+		[HttpGet]
+		public IActionResult Add()
+		{
+			//Check is user and not admin
+			var model = new FigureFormViewModel();
 
-            return View(model);
-        }
+			return View(model);
+		}
 
-        [HttpPost]
-        [AutoValidateAntiforgeryToken]
-        public async Task<IActionResult> Add(FigureFormViewModel model)
-        {
-            if (ModelState.IsValid == false)
-            {
-                return View(model);
-            }
+		[HttpPost]
+		[AutoValidateAntiforgeryToken]
+		public async Task<IActionResult> Add(FigureFormViewModel model)
+		{
+			//Check is user and not admin
+			if (ModelState.IsValid == false)
+			{
+				return View(model);
+			}
 
-            await figureService.AddFigureAsync(model, User.Id());
+			int figureId = await figureService.AddFigureAsync(model, User.Id());
 
-            //Change it to redirect to the figure options
-            return RedirectToAction(nameof(Mine));
-        }
-    }
+			//Change it to redirect to the figure options
+			return RedirectToAction(nameof(Options), figureId);
+		}
+
+		[HttpGet]
+		public async Task<IActionResult> Options(int id)
+		{
+			//Check is user and not admin
+			try
+			{
+				string figureUserId = await figureService.GetUserIdForFigureByIdAsync(id);
+				if (figureUserId != User.Id())
+				{
+					return Unauthorized();
+				}
+
+				var model = await figureService.GetFigureWithOptionsAsync(id);
+
+				return View(model);
+			}
+			catch (ArgumentNullException)
+			{
+				return BadRequest();
+			}
+		}
+	}
 }

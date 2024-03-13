@@ -1,0 +1,56 @@
+﻿@model FigureWithOptionsViewModel
+@{
+	ViewBag.Title = Model.Name;
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+@if (Model.Options.Any())
+{
+	<table class="table table-responsive darkbgwhitetext">
+		<thead>
+			<tr>
+				<th scope="col">Start Position</th>
+				<th scope="col">End Position</th>
+				<th scope="col">Beats Count</th>
+				<th scope="col">Dynamics Type</th>
+				<th scope="col"></th>
+				<th scope="col"></th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var a in Model.Options)
+			{
+				<tr>
+					<td>@a.StartPositionName</td>
+					<td>@a.EndPositionName</td>
+					<td>@a.BeatCounts</td>
+					<td>@a.DynamicsTypeName</td>
+					<td>
+						@if (!a.UsedInChoreographies)
+						{
+							<form method="DELETE">
+								<input type="submit" asp-controller="Figure" asp-action="EditOption" asp-route-id="@a.Id" value="Edit" class="link-warning custominputlink" />
+							</form>
+						}
+					</td>
+					<td>
+						@if (!a.UsedInChoreographies)
+						{
+							<form method="DELETE">
+								<input type="submit" asp-controller="Figure" asp-action="DeleteOption" asp-route-id="@a.Id" value="Delete" class="link-danger custominputlink" />
+							</form>
+						}
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+}
+else
+{
+	<p class="text-danger">No figure options yet! A figure cannot be used in a choreography if it doesn't have options. Please add options.</p>
+}
+<br />
+<a asp-controller="Figure" asp-action="AddOption" class="btn btn-warning mb-2 w-100 p-3 fw-bold">Add</a>
