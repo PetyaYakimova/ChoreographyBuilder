@@ -13,8 +13,6 @@
 
 		public bool IsFavourite { get; set; }
 
-		public string UserId { get; set; } = string.Empty;
-
 		public int FigureOptionsCount { get; set; }
 
 		public bool FigureUsedInChoreographies { get; set; }

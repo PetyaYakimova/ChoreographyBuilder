@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using ChoreographyBuilder.Core.Models.Figure;
+using ChoreographyBuilder.Core.Models.FigureOption;
 using ChoreographyBuilder.Core.Models.Position;
 using ChoreographyBuilder.Core.Models.VerseType;
 using ChoreographyBuilder.Infrastructure.Data.Models;
@@ -35,6 +36,15 @@ namespace ChoreographyBuilder.Core.Mapping
 				.ForMember(d => d.FigureUsedInChoreographies, act => act.MapFrom(src => src.FigureOptions.Any(fo => fo.VerseChoreographyFigures.Any())));
 
 			CreateMap<Figure, FigureFormViewModel>();
+
+			CreateMap<Figure, FigureWithOptionsViewModel>();
+
+			//Figure option models
+			CreateMap<FigureOption, FigureOptionTableViewModel>()
+				.ForMember(d => d.StartPositionName, act => act.MapFrom(src => src.StartPosition.Name))
+				.ForMember(d => d.EndPositionName, act => act.MapFrom(src => src.EndPosition.Name))
+				.ForMember(d => d.DynamicsTypeName, act => act.MapFrom(src => src.DynamicsType.ToString()))
+				.ForMember(d => d.UsedInChoreographies, act => act.MapFrom(src => src.VerseChoreographyFigures.Any()));
 		}
 	}
 }
