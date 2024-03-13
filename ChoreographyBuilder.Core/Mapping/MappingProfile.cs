@@ -37,7 +37,8 @@ namespace ChoreographyBuilder.Core.Mapping
 
 			CreateMap<Figure, FigureFormViewModel>();
 
-			CreateMap<Figure, FigureWithOptionsViewModel>();
+			CreateMap<Figure, FigureWithOptionsViewModel>()
+				.ForMember(d => d.Options, act => act.MapFrom(src => src.FigureOptions));
 
 			//Figure option models
 			CreateMap<FigureOption, FigureOptionTableViewModel>()

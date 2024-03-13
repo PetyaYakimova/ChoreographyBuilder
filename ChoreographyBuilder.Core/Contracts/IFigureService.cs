@@ -6,6 +6,10 @@ namespace ChoreographyBuilder.Core.Contracts
 	{
 		Task<IEnumerable<FigureTableViewModel>> AllUserFiguresAsync(string userId);
 
-        Task AddFigureAsync(FigureFormViewModel model, string userId);
+        Task<int> AddFigureAsync(FigureFormViewModel model, string userId);
+
+        Task<string> GetUserIdForFigureByIdAsync(int figureId);
+
+        Task<FigureWithOptionsViewModel> GetFigureWithOptionsAsync(int figureId);
     }
 }

@@ -19,8 +19,8 @@ namespace ChoreographyBuilder.Core.Services
 			this.mapper = mapper;
 		}
 
-        public async Task AddFigureAsync(FigureFormViewModel model, string userId)
-        {
+		public async Task<int> AddFigureAsync(FigureFormViewModel model, string userId)
+		{
 			Figure entity = new Figure()
 			{
 				UserId = userId,
@@ -29,19 +29,55 @@ namespace ChoreographyBuilder.Core.Services
 				IsHighlight = model.IsHighlight
 			};
 
-            await repository.AddAsync(entity);
+			await repository.AddAsync(entity);
 
-            await repository.SaveChangesAsync();
-        }
+			await repository.SaveChangesAsync();
 
-        public async Task<IEnumerable<FigureTableViewModel>> AllUserFiguresAsync(string userId)
+			return entity.Id;
+		}
+
+		public async Task<IEnumerable<FigureTableViewModel>> AllUserFiguresAsync(string userId)
 		{
 			return await repository.AllAsReadOnly<Figure>()
 				.Where(f => f.UserId == userId)
 				.Include(f => f.FigureOptions)
-				.ThenInclude(fo=>fo.VerseChoreographyFigures)
+				.ThenInclude(fo => fo.VerseChoreographyFigures)
 				.Select(f => mapper.Map<FigureTableViewModel>(f))
 				.ToListAsync();
+		}
+
+		public async Task<FigureWithOptionsViewModel> GetFigureWithOptionsAsync(int figureId)
+		{
+			Figure? figure = await repository.AllAsReadOnly<Figure>()
+				.Include(f => f.FigureOptions)
+					.ThenInclude(fo => fo.StartPosition)
+				.Include(f => f.FigureOptions)
+					.ThenInclude(fo => fo.EndPosition)
+				.Include(f => f.FigureOptions)
+					.ThenInclude(fo => fo.VerseChoreographyFigures)
+				.FirstOrDefaultAsync(f => f.Id == figureId);
+
+			if (figure == null)
+			{
+				//Check if this is the correct exception to be thrown
+				throw new ArgumentNullException();
+			}
+
+			return mapper.Map<FigureWithOptionsViewModel>(figure);
+		}
+
+		public async Task<string> GetUserIdForFigureByIdAsync(int figureId)
+		{
+			Figure? figure = await repository.AllAsReadOnly<Figure>()
+				.FirstOrDefaultAsync(f => f.Id == figureId);
+
+			if (figure == null)
+			{
+				//Check if this is the correct exception to be thrown
+				throw new ArgumentNullException();
+			}
+
+			return figure.UserId;
 		}
 	}
 }
