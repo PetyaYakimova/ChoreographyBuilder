@@ -28,7 +28,7 @@ namespace ChoreographyBuilder.Core.Services
             await repository.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<PositionForFigureViewModel>> AllActivePositionsOrSelectedPositionAsync(int selectedPositionId)
+        public async Task<IEnumerable<PositionForFigureViewModel>> AllActivePositionsAndSelectedPositionAsync(int? selectedPositionId)
         {
             return await repository.AllAsReadOnly<Position>()
                  .Where(p => p.IsActive || p.Id == selectedPositionId)

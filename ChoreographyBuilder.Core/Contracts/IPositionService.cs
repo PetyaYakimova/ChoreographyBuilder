@@ -6,7 +6,7 @@ namespace ChoreographyBuilder.Core.Contracts
     {
         Task<IEnumerable<PositionTableViewModel>> AllPositionsAsync();
 
-        Task<IEnumerable<PositionForFigureViewModel>> AllActivePositionsOrSelectedPositionAsync(int selectedPositionId);
+        Task<IEnumerable<PositionForFigureViewModel>> AllActivePositionsAndSelectedPositionAsync(int? selectedPositionId);
 
         Task AddPositionAsync(PositionFormViewModel model);
 

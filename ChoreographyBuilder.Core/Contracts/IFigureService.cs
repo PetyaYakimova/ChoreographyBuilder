@@ -1,4 +1,5 @@
 ﻿using ChoreographyBuilder.Core.Models.Figure;
+using ChoreographyBuilder.Core.Models.FigureOption;
 
 namespace ChoreographyBuilder.Core.Contracts
 {
@@ -11,5 +12,9 @@ namespace ChoreographyBuilder.Core.Contracts
         Task<string> GetUserIdForFigureByIdAsync(int figureId);
 
         Task<FigureWithOptionsViewModel> GetFigureWithOptionsAsync(int figureId);
+
+        Task<string> GetFigureNameByIdAsync(int figureId);
+
+        Task AddFigureOptionAsync(FigureOptionFormViewModel model);
     }
 }
