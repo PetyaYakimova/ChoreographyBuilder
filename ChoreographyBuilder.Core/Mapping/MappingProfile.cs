@@ -7,45 +7,49 @@ using ChoreographyBuilder.Infrastructure.Data.Models;
 
 namespace ChoreographyBuilder.Core.Mapping
 {
-	public class MappingProfile : Profile
-	{
-		public MappingProfile()
-		{
-			//Verse type models
-			CreateMap<VerseType, VerseTypeTableViewModel>()
-				.ForMember(d => d.HasChoreographies, act => act.MapFrom(src => src.VerseChoreographies.Any()));
+    public class MappingProfile : Profile
+    {
+        public MappingProfile()
+        {
+            //Verse type models
+            CreateMap<VerseType, VerseTypeTableViewModel>()
+                .ForMember(d => d.HasChoreographies, act => act.MapFrom(src => src.VerseChoreographies.Any()));
 
-			CreateMap<VerseType, VerseTypeForChoreographiesViewModel>()
-				.ForMember(d => d.Name, act => act.MapFrom(src => $"{src.Name} ({src.BeatCounts})"));
+            CreateMap<VerseType, VerseTypeForChoreographiesViewModel>()
+                .ForMember(d => d.Name, act => act.MapFrom(src => $"{src.Name} ({src.BeatCounts})"));
 
-			CreateMap<VerseType, VerseTypeFormViewModel>();
-			CreateMap<VerseTypeFormViewModel, VerseType>();
+            CreateMap<VerseType, VerseTypeFormViewModel>();
+            CreateMap<VerseTypeFormViewModel, VerseType>();
 
-			//Position models
-			CreateMap<Position, PositionTableViewModel>()
-				.ForMember(d => d.HasFigures, act => act.MapFrom(src => src.FiguresWithStartPosition.Any() || src.FiguresWithEndPosition.Any()));
+            //Position models
+            CreateMap<Position, PositionTableViewModel>()
+                .ForMember(d => d.HasFigures, act => act.MapFrom(src => src.FiguresWithStartPosition.Any() || src.FiguresWithEndPosition.Any()));
 
-			CreateMap<Position, PositionForFigureViewModel>();
+            CreateMap<Position, PositionForFigureViewModel>();
 
-			CreateMap<Position, PositionFormViewModel>();
-			CreateMap<PositionFormViewModel, Position>();
+            CreateMap<Position, PositionFormViewModel>();
+            CreateMap<PositionFormViewModel, Position>();
 
-			//Figure models
-			CreateMap<Figure, FigureTableViewModel>()
-				.ForMember(d => d.FigureOptionsCount, act => act.MapFrom(src => src.FigureOptions.Count()))
-				.ForMember(d => d.FigureUsedInChoreographies, act => act.MapFrom(src => src.FigureOptions.Any(fo => fo.VerseChoreographyFigures.Any())));
+            //Figure models
+            CreateMap<Figure, FigureTableViewModel>()
+                .ForMember(d => d.FigureOptionsCount, act => act.MapFrom(src => src.FigureOptions.Count()))
+                .ForMember(d => d.FigureUsedInChoreographies, act => act.MapFrom(src => src.FigureOptions.Any(fo => fo.VerseChoreographyFigures.Any())));
 
-			CreateMap<Figure, FigureFormViewModel>();
+            CreateMap<Figure, FigureFormViewModel>();
 
-			CreateMap<Figure, FigureWithOptionsViewModel>()
-				.ForMember(d => d.Options, act => act.MapFrom(src => src.FigureOptions));
+            CreateMap<Figure, FigureWithOptionsViewModel>()
+                .ForMember(d => d.Options, act => act.MapFrom(src => src.FigureOptions));
 
-			//Figure option models
-			CreateMap<FigureOption, FigureOptionTableViewModel>()
-				.ForMember(d => d.StartPositionName, act => act.MapFrom(src => src.StartPosition.Name))
-				.ForMember(d => d.EndPositionName, act => act.MapFrom(src => src.EndPosition.Name))
-				.ForMember(d => d.DynamicsTypeName, act => act.MapFrom(src => src.DynamicsType.ToString()))
-				.ForMember(d => d.UsedInChoreographies, act => act.MapFrom(src => src.VerseChoreographyFigures.Any()));
-		}
-	}
+            //Figure option models
+            CreateMap<FigureOption, FigureOptionTableViewModel>()
+                .ForMember(d => d.StartPositionName, act => act.MapFrom(src => src.StartPosition.Name))
+                .ForMember(d => d.EndPositionName, act => act.MapFrom(src => src.EndPosition.Name))
+                .ForMember(d => d.DynamicsTypeName, act => act.MapFrom(src => src.DynamicsType.ToString()))
+                .ForMember(d => d.UsedInChoreographies, act => act.MapFrom(src => src.VerseChoreographyFigures.Any()));
+
+            CreateMap<FigureOption, FigureOptionFormViewModel>()
+                .ForMember(d => d.FigureName, act => act.MapFrom(src => src.Figure.Name));
+            CreateMap<FigureOptionFormViewModel, FigureOption>();
+        }
+    }
 }
