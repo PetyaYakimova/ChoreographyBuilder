@@ -53,4 +53,4 @@ else
 	<p class="text-danger">No figure options yet! A figure cannot be used in a choreography if it doesn't have options. Please add options.</p>
 }
 <br />
-<a asp-controller="Figure" asp-action="AddOption" class="btn btn-warning mb-2 w-100 p-3 fw-bold">Add</a>
+<a asp-controller="Figure" asp-action="AddOption" asp-route-id="@Model.Id" class="btn btn-warning mb-2 w-100 p-3 fw-bold">Add</a>
