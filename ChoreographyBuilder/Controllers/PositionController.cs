@@ -16,16 +16,22 @@ namespace ChoreographyBuilder.Controllers
             this.positionService = positionService;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> All()
-        {
-            //Check that user is admin
-            var model = await positionService.AllPositionsAsync();
+		[HttpGet]
+		public async Task<IActionResult> All([FromQuery]AllPositionsQueryModel query)
+		{
+			//Check that user is admin
+			var model = await positionService.AllPositionsAsync(
+                query.SearchItem,
+                query.CurrentPage,
+                query.ItemsPerPage);
 
-            return View(model);
-        }
+            query.TotalItemCount = model.TotalCount;
+            query.Positions = model.Positions;
 
-        [HttpGet]
+			return View(query);
+		}
+
+		[HttpGet]
         public IActionResult Add()
         {
             //Check that user is admin
