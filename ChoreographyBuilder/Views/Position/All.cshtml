@@ -1,17 +1,32 @@
-﻿@model IEnumerable<PositionTableViewModel>
+﻿@model AllPositionsQueryModel
 @{
 	ViewBag.Title = "All Positions";
 }
 
-
 <h2 class="text-center">@ViewBag.Title</h2>
 <hr />
-@if (Model.Any())
+
+<form method="get">
+	<div class="row">
+		<div class="form-group col-md-3">
+			<input asp-for="SearchItem" class="form-control" placeholder="Search by name...">
+		</div>
+		<div class="col-md-3">
+			<input type="submit" value="Search" class="btn btn-success" />
+		</div>
+	</div>
+</form>
+<br />
+
+@if (!Model.Positions.Any())
+{
+	<h2 class="text-center text-danger">No positions found by this search term!</h2>
+}
+else
 {
 	<table class="table table-responsive darkbgwhitetext">
 		<thead>
 			<tr>
-				<th scope="col">Id</th>
 				<th scope="col">Name</th>
 				<th scope="col"></th>
 				<th scope="col"></th>
@@ -19,48 +34,46 @@
 			</tr>
 		</thead>
 		<tbody>
-			@foreach (var a in Model)
+			@foreach (var position in Model.Positions)
 			{
-				<tr>
-					<th scope="row">@a.Id</th>
-					<td>@a.Name</td>
-					<td>
-						<form method="POST">
-							@if (a.IsActive)
-							{
-								<input type="submit" asp-controller="Position" asp-action="ChangeStatus" asp-route-id="@a.Id" value="Deactivate" class="link-danger custominputlink" />
-							}
-							else
-							{
-								<input type="submit" asp-controller="Position" asp-action="ChangeStatus" asp-route-id="@a.Id" value="Activate" class="link-success custominputlink" />
-							}
-						</form>
-					</td>
-					<td>
-						@if (!a.HasFigures)
-						{
-							<form method="GET">
-								<input type="submit" asp-controller="Position" asp-action="Edit" asp-route-id="@a.Id" value="Edit" class="link-warning custominputlink" />
-							</form>
-						}
-					</td>
-					<td>
-						@if (!a.HasFigures)
-						{
-							<form method="DELETE">
-								<input type="submit" asp-controller="Position" asp-action="Delete" asp-route-id="@a.Id" value="Delete" class="link-danger custominputlink" />
-							</form>
-						}
-					</td>
-				</tr>
+				<partial name="_PositionTablePartial" model="@position" />
 			}
 		</tbody>
 	</table>
+
+	var previousPage = Model.CurrentPage - 1;
+	if (previousPage < 1)
+	{
+		previousPage = 1;
+	}
+
+	var maxPage = Math.Ceiling((double)Model.TotalItemCount /
+		Model.ItemsPerPage);
+
+	<div class="row mb-5">
+		<div class="col-md-6 d-grid gap-2 d-md-flex justify-content-md-start">
+			<a class="btn btn-success @(Model.CurrentPage == 1 ? "disabled" : string.Empty)"
+		   asp-controller="Position"
+		   asp-action="All"
+		   asp-route-currentPage="@previousPage"
+		   asp-route-searchItem="@Model.SearchItem">Previous page</a>
+		</div>
+
+		@{
+			var shouldButtonBeDisabled = Model.CurrentPage == maxPage ||
+			!Model.Positions.Any();
+		}
+
+		<div class="col-md-6 d-grid gap-2 d-md-flex justify-content-md-end">
+			<a class="btn btn-success
+           @(shouldButtonBeDisabled ? "disabled" : string.Empty)"
+		   asp-controller="Position"
+		   asp-action="All"
+		   asp-route-currentPage="@(Model.CurrentPage + 1)"
+		   asp-route-searchItem="@Model.SearchItem">Next page</a>
+		</div>
+	</div>
 }
-else
-{
-	<p class="text-danger">No positions yet!</p>
-}
-<br />
+
 <a asp-controller="Position" asp-action="Add" class="btn btn-warning mb-2 w-100 p-3 fw-bold">Add</a>
 
