@@ -61,7 +61,7 @@ namespace ChoreographyBuilder.Core.Services
 			return new PositionQueryServiceModel()
 			{
 				TotalCount = totalPositionsToShow,
-				Positions = positions
+				Entities = positions
 			};
 		}
 

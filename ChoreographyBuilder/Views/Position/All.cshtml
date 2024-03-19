@@ -18,7 +18,7 @@
 </form>
 <br />
 
-@if (!Model.Positions.Any())
+@if (!Model.Entities.Any())
 {
 	<h2 class="text-center text-danger">No positions found by this search term!</h2>
 }
@@ -34,7 +34,7 @@ else
 			</tr>
 		</thead>
 		<tbody>
-			@foreach (var position in Model.Positions)
+			@foreach (var position in Model.Entities)
 			{
 				<partial name="_PositionTablePartial" model="@position" />
 			}
@@ -61,7 +61,7 @@ else
 
 		@{
 			var shouldButtonBeDisabled = Model.CurrentPage == maxPage ||
-			!Model.Positions.Any();
+			!Model.Entities.Any();
 		}
 
 		<div class="col-md-6 d-grid gap-2 d-md-flex justify-content-md-end">

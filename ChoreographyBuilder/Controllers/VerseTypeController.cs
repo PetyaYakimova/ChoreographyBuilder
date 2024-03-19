@@ -27,7 +27,7 @@ namespace ChoreographyBuilder.Controllers
 				query.ItemsPerPage);
 
 			query.TotalItemCount = model.TotalCount;
-			query.VerseTypes = model.VerseTypes;
+			query.Entities = model.Entities;
 
 			return View(query);
 		}

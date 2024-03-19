@@ -2,8 +2,7 @@
 
 namespace ChoreographyBuilder.Core.Models.VerseType
 {
-	public class VerseTypeQueryServiceModel : EntityQueryBaseModel
+	public class VerseTypeQueryServiceModel : EntityQueryBaseModel<VerseTypeTableViewModel>
 	{
-		public IEnumerable<VerseTypeTableViewModel> VerseTypes { get; set; } = new List<VerseTypeTableViewModel>();
 	}
 }

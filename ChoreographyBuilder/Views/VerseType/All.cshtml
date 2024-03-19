@@ -21,7 +21,7 @@
 </form>
 <br />
 
-@if (!Model.VerseTypes.Any())
+@if (!Model.Entities.Any())
 {
 	<h2 class="text-center text-danger">No verse types found by these search criteria!</h2>
 }
@@ -38,7 +38,7 @@ else
 			</tr>
 		</thead>
 		<tbody>
-			@foreach (var verseType in Model.VerseTypes)
+			@foreach (var verseType in Model.Entities)
 			{
 				<partial name="_VerseTypeTablePartial" model="@verseType" />
 			}
@@ -66,7 +66,7 @@ else
 
 		@{
 			var shouldButtonBeDisabled = Model.CurrentPage == maxPage ||
-			!Model.VerseTypes.Any();
+			!Model.Entities.Any();
 		}
 
 		<div class="col-md-6 d-grid gap-2 d-md-flex justify-content-md-end">

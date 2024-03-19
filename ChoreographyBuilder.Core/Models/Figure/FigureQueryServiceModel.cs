@@ -2,8 +2,7 @@
 
 namespace ChoreographyBuilder.Core.Models.Figure
 {
-	public class FigureQueryServiceModel : EntityQueryBaseModel
+	public class FigureQueryServiceModel : EntityQueryBaseModel<FigureTableViewModel>
 	{
-		public IEnumerable<FigureTableViewModel> Figures { get; set; } = new List<FigureTableViewModel>();
 	}
 }

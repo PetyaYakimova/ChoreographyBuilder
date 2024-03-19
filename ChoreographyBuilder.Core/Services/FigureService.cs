@@ -72,7 +72,7 @@ namespace ChoreographyBuilder.Core.Services
 			return new FigureQueryServiceModel()
 			{
 				TotalCount = totalFiguresToShow,
-				Figures = figures
+				Entities = figures
 			};
 		}
 

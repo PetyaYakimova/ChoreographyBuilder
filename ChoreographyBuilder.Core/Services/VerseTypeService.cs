@@ -64,7 +64,7 @@ namespace ChoreographyBuilder.Core.Services
 			return new VerseTypeQueryServiceModel()
 			{
 				TotalCount = totalVerseTypesToShow,
-				VerseTypes = verseTypes
+				Entities = verseTypes
 			};
 		}
 

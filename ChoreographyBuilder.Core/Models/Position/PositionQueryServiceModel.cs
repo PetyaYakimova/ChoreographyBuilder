@@ -2,8 +2,7 @@
 
 namespace ChoreographyBuilder.Core.Models.Position
 {
-	public class PositionQueryServiceModel : EntityQueryBaseModel
+	public class PositionQueryServiceModel : EntityQueryBaseModel<PositionTableViewModel>
 	{
-		public IEnumerable<PositionTableViewModel> Positions { get; set; } = new List<PositionTableViewModel>();
 	}
 }

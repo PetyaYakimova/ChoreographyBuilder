@@ -3,11 +3,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ChoreographyBuilder.Core.Models.VerseType
 {
-	public class AllVerseTypesQueryModel : AllEntitiesQueryBaseModel
+	public class AllVerseTypesQueryModel : AllEntitiesQueryBaseModel<VerseTypeTableViewModel>
 	{
 		[Display(Name = "Search by beats")]
 		public int? SearchBeats { get; init; }
-
-		public IEnumerable<VerseTypeTableViewModel> VerseTypes { get; set; } = new List<VerseTypeTableViewModel>();
 	}
 }
