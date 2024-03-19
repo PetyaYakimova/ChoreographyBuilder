@@ -1,5 +1,7 @@
 ﻿using ChoreographyBuilder.Core.Contracts;
+using ChoreographyBuilder.Core.Models.Position;
 using ChoreographyBuilder.Core.Models.VerseType;
+using ChoreographyBuilder.Core.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,12 +17,19 @@ namespace ChoreographyBuilder.Controllers
 		}
 
 		[HttpGet]
-		public async Task<IActionResult> All()
+		public async Task<IActionResult> All([FromQuery] AllVerseTypesQueryModel query)
 		{
 			//Check that user is admin
-			var model = await verseTypeService.AllVerseTypesAsync();
+			var model = await verseTypeService.AllVerseTypesAsync(
+				query.SearchTerm,
+				query.SearchBeats,
+				query.CurrentPage,
+				query.ItemsPerPage);
 
-			return View(model);
+			query.TotalItemCount = model.TotalCount;
+			query.VerseTypes = model.VerseTypes;
+
+			return View(query);
 		}
 
 		[HttpGet]

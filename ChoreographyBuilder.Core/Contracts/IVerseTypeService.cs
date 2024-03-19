@@ -1,16 +1,16 @@
-﻿using ChoreographyBuilder.Core.Models.Figure;
-using ChoreographyBuilder.Core.Models.VerseType;
+﻿using ChoreographyBuilder.Core.Models.VerseType;
+using static ChoreographyBuilder.Core.Constants.LimitConstants;
 
 namespace ChoreographyBuilder.Core.Contracts
 {
 	public interface IVerseTypeService
 	{
-		Task<IEnumerable<VerseTypeTableViewModel>> AllVerseTypesAsync();
-
 		Task<IEnumerable<VerseTypeForChoreographiesViewModel>> AllActiveVerseTypesOrSelectedVerseTypeAsync(int selectedVerseTypeId);
 
 		Task AddVerseTypeAsync(VerseTypeFormViewModel model);
 
         Task ChangeVerseTypeStatusAsync(int id);
-    }
+
+		Task<VerseTypeQueryServiceModel> AllVerseTypesAsync(string? searchTerm = null, int? searchedBeatsCount = null, int currentPage = 1, int itemsPerPage = DefaultNumberOfItemsPerPage);
+	}
 }
