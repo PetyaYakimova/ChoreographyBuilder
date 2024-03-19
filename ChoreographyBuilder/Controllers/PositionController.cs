@@ -21,7 +21,7 @@ namespace ChoreographyBuilder.Controllers
 		{
 			//Check that user is admin
 			var model = await positionService.AllPositionsAsync(
-                query.SearchItem,
+                query.SearchTerm,
                 query.CurrentPage,
                 query.ItemsPerPage);
 

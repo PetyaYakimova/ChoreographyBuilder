@@ -7,9 +7,9 @@
 <hr />
 
 <form method="get">
-	<div class="row">
-		<div class="form-group col-md-3">
-			<input asp-for="SearchItem" class="form-control" placeholder="Search by name...">
+	<div class="row justify-content-center">
+		<div class="col-md-3">
+			<input asp-for="SearchTerm" class="form-control" placeholder="Search by name...">
 		</div>
 		<div class="col-md-3">
 			<input type="submit" value="Search" class="btn btn-success" />
@@ -56,7 +56,7 @@ else
 		   asp-controller="Position"
 		   asp-action="All"
 		   asp-route-currentPage="@previousPage"
-		   asp-route-searchItem="@Model.SearchItem">Previous page</a>
+		   asp-route-searchTerm="@Model.SearchTerm">Previous page</a>
 		</div>
 
 		@{
@@ -70,7 +70,7 @@ else
 		   asp-controller="Position"
 		   asp-action="All"
 		   asp-route-currentPage="@(Model.CurrentPage + 1)"
-		   asp-route-searchItem="@Model.SearchItem">Next page</a>
+		   asp-route-searchTerm="@Model.SearchTerm">Next page</a>
 		</div>
 	</div>
 }
