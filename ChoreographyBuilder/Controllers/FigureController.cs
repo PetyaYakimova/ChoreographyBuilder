@@ -23,17 +23,25 @@ namespace ChoreographyBuilder.Controllers
             this.positionService = positionService;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Mine()
-        {
-            //Check is user and not admin
-            var model = await figureService.AllUserFiguresAsync(User.Id());
+		[HttpGet]
+		public async Task<IActionResult> Mine([FromQuery] AllFiguresQueryModel query)
+		{
+			//Check that user is admin
+			
+            var model = await figureService.AllUserFiguresAsync(
+                User.Id(),
+				query.SearchTerm,
+				query.CurrentPage,
+				query.ItemsPerPage);
 
-            return View(model);
-        }
+			query.TotalItemCount = model.TotalCount;
+			query.Figures = model.Figures;
+
+			return View(query);
+		}
 
 
-        [HttpGet]
+		[HttpGet]
         public IActionResult Add()
         {
             //Check is user and not admin

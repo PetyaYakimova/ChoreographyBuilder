@@ -2,9 +2,11 @@
 using ChoreographyBuilder.Core.Contracts;
 using ChoreographyBuilder.Core.Models.Figure;
 using ChoreographyBuilder.Core.Models.FigureOption;
+using ChoreographyBuilder.Core.Models.Position;
 using ChoreographyBuilder.Infrastructure.Data.Common;
 using ChoreographyBuilder.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
+using static ChoreographyBuilder.Core.Constants.LimitConstants;
 
 namespace ChoreographyBuilder.Core.Services
 {
@@ -45,14 +47,33 @@ namespace ChoreographyBuilder.Core.Services
             await repository.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<FigureTableViewModel>> AllUserFiguresAsync(string userId)
+		public async Task<FigureQueryServiceModel> AllUserFiguresAsync(string userId, string? searchTerm = null, int currentPage = 1, int itemsPerPage = DefaultNumberOfItemsPerPage)
 		{
-			return await repository.AllAsReadOnly<Figure>()
-				.Where(f => f.UserId == userId)
+			var figuresToShow = repository.AllAsReadOnly<Figure>()
+				.Where(f => f.UserId == userId);
+
+			if (searchTerm != null)
+			{
+				string normalizedSearchTerm = searchTerm.ToLower();
+				figuresToShow = figuresToShow
+					.Where(f => f.Name.ToLower().Contains(normalizedSearchTerm));
+			}
+
+			var figures = await figuresToShow
 				.Include(f => f.FigureOptions)
 				.ThenInclude(fo => fo.VerseChoreographyFigures)
+				.Skip((currentPage - 1) * itemsPerPage)
+				.Take(itemsPerPage)
 				.Select(f => mapper.Map<FigureTableViewModel>(f))
 				.ToListAsync();
+
+			int totalFiguresToShow = await figuresToShow.CountAsync();
+
+			return new FigureQueryServiceModel()
+			{
+				TotalCount = totalFiguresToShow,
+				Figures = figures
+			};
 		}
 
 		public async Task<string> GetFigureNameByIdAsync(int figureId)
