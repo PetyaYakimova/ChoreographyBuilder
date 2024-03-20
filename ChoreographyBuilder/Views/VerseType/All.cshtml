@@ -55,7 +55,7 @@ else
 		Model.ItemsPerPage);
 
 	<div class="row mb-5">
-		<div class="col-md-6 d-grid gap-2 d-md-flex justify-content-md-start">
+		<div class="col-md-4 justify-content-md-start">
 			<a class="btn btn-success @(Model.CurrentPage == 1 ? "disabled" : string.Empty)"
 		   asp-controller="VerseType"
 		   asp-action="All"
@@ -64,13 +64,17 @@ else
 		   asp-route-searchBeats="@Model.SearchBeats">Previous page</a>
 		</div>
 
+		<div class="col-md-4 text-center">
+			<p>Page @Model.CurrentPage of @maxPage</p>
+		</div>
+
 		@{
 			var shouldButtonBeDisabled = Model.CurrentPage == maxPage ||
 			!Model.Entities.Any();
 		}
 
-		<div class="col-md-6 d-grid gap-2 d-md-flex justify-content-md-end">
-			<a class="btn btn-success
+		<div class="col-md-4">
+			<a class="btn btn-success float-end
            @(shouldButtonBeDisabled ? "disabled" : string.Empty)"
 		   asp-controller="VerseType"
 		   asp-action="All"
