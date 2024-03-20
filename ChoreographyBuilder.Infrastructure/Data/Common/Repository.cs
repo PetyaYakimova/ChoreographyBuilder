@@ -40,5 +40,10 @@ namespace ChoreographyBuilder.Infrastructure.Data.Common
         {
             DbSet<T>().Remove(entity);
         }
-    }
+
+		public async Task<T?> GetByIdAsync<T>(object id) where T : class
+		{
+			return await DbSet<T>().FindAsync(id);
+		}
+	}
 }
