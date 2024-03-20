@@ -5,12 +5,13 @@ using ChoreographyBuilder.Core.Models.FigureOption;
 using ChoreographyBuilder.Core.Models.Position;
 using ChoreographyBuilder.Infrastructure.Data.Common;
 using ChoreographyBuilder.Infrastructure.Data.Models;
+using ChoreographyBuilder.Infrastructure.Data.Models.Enums;
 using Microsoft.EntityFrameworkCore;
 using static ChoreographyBuilder.Core.Constants.LimitConstants;
 
 namespace ChoreographyBuilder.Core.Services
 {
-    public class FigureService : IFigureService
+	public class FigureService : IFigureService
 	{
 		private readonly IRepository repository;
 		private readonly IMapper mapper;
@@ -38,14 +39,14 @@ namespace ChoreographyBuilder.Core.Services
 			return entity.Id;
 		}
 
-        public async Task AddFigureOptionAsync(FigureOptionFormViewModel model)
-        {
-            FigureOption entity = mapper.Map<FigureOption>(model);
+		public async Task AddFigureOptionAsync(FigureOptionFormViewModel model)
+		{
+			FigureOption entity = mapper.Map<FigureOption>(model);
 
-            await repository.AddAsync(entity);
+			await repository.AddAsync(entity);
 
-            await repository.SaveChangesAsync();
-        }
+			await repository.SaveChangesAsync();
+		}
 
 		public async Task<FigureQueryServiceModel> AllUserFiguresAsync(string userId, string? searchTerm = null, int currentPage = 1, int itemsPerPage = DefaultNumberOfItemsPerPage)
 		{
@@ -90,24 +91,64 @@ namespace ChoreographyBuilder.Core.Services
 			return figure.Name;
 		}
 
-		public async Task<FigureWithOptionsViewModel> GetFigureWithOptionsAsync(int figureId)
+		public async Task<FigureOptionQueryServiceModel> GetFigureWithOptionsAsync(int figureId, int? searchedStartPositionId = null, int? searchedEndPositionId = null, int? searchedBeatsCount = null, DynamicsType? searchedDynamicsType = null, int currentPage = 1, int itemsPerPage = 10)
 		{
-			Figure? figure = await repository.AllAsReadOnly<Figure>()
-				.Include(f => f.FigureOptions)
-					.ThenInclude(fo => fo.StartPosition)
-				.Include(f => f.FigureOptions)
-					.ThenInclude(fo => fo.EndPosition)
-				.Include(f => f.FigureOptions)
-					.ThenInclude(fo => fo.VerseChoreographyFigures)
-				.FirstOrDefaultAsync(f => f.Id == figureId);
+			var figure = repository.AllAsReadOnly<Figure>()
+				.Where(f => f.Id == figureId);
 
-			if (figure == null)
+			if (await figure.CountAsync() != 1)
 			{
 				//Check if this is the correct exception to be thrown
 				throw new ArgumentNullException();
 			}
 
-			return mapper.Map<FigureWithOptionsViewModel>(figure);
+			var optionsToShow = repository.AllAsReadOnly<FigureOption>()
+				.Where(o => o.FigureId == figureId);
+
+			if (searchedStartPositionId != null)
+			{
+				optionsToShow = optionsToShow
+					.Where(o => o.StartPositionId == searchedStartPositionId);
+			}
+
+			if (searchedEndPositionId != null)
+			{
+				optionsToShow = optionsToShow
+					.Where(o => o.EndPositionId == searchedEndPositionId);
+			}
+
+			if (searchedBeatsCount != null)
+			{
+				optionsToShow = optionsToShow
+					.Where(o => o.BeatCounts == searchedBeatsCount);
+			}
+
+			if (searchedDynamicsType != null)
+			{
+				optionsToShow = optionsToShow
+					.Where(o => o.DynamicsType == searchedDynamicsType);
+			}
+
+			var options = await optionsToShow
+				.Include(o => o.StartPosition)
+				.Include(o => o.EndPosition)
+				.Include(o => o.VerseChoreographyFigures)
+				.Skip((currentPage - 1) * itemsPerPage)
+				.Take(itemsPerPage)
+				.Select(o => mapper.Map<FigureOptionTableViewModel>(o))
+				.ToListAsync();
+
+			int totalNumberOfOptions = await optionsToShow.CountAsync();
+
+			string figureName = await GetFigureNameByIdAsync(figureId);
+
+			return new FigureOptionQueryServiceModel()
+			{
+				FigureId = figureId,
+				FigureName = figureName,
+				TotalCount = totalNumberOfOptions,
+				Entities = options
+			};
 		}
 
 		public async Task<string> GetUserIdForFigureByIdAsync(int figureId)

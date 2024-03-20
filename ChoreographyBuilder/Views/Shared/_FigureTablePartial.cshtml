@@ -31,7 +31,7 @@
 			</svg>
 		}
 	</td>
-	<td><a asp-controller="Figure" asp-action="Options" asp-route-id="@Model.Id" class="link-info custominputlink">Options</a></td>
+	<td><a asp-controller="Figure" asp-action="Options" asp-route-figureId="@Model.Id" class="link-info custominputlink">Options</a></td>
 	<td><a asp-controller="Figure" asp-action="Edit" asp-route-id="@Model.Id" class="link-warning custominputlink">Edit</a></td>
 	<td>
 		@if (!Model.FigureUsedInChoreographies)

@@ -1,0 +1,23 @@
+﻿@model FigureOptionTableViewModel
+<tr>
+	<td>@Model.StartPositionName</td>
+	<td>@Model.EndPositionName</td>
+	<td>@Model.BeatCounts</td>
+	<td>@Model.DynamicsTypeName</td>
+	<td>
+		@if (!Model.UsedInChoreographies)
+		{
+			<form method="DELETE">
+				<input type="submit" asp-controller="Figure" asp-action="EditOption" asp-route-id="@Model.Id" value="Edit" class="link-warning custominputlink" />
+			</form>
+		}
+	</td>
+	<td>
+		@if (!Model.UsedInChoreographies)
+		{
+			<form method="DELETE">
+				<input type="submit" asp-controller="Figure" asp-action="DeleteOption" asp-route-id="@Model.Id" value="Delete" class="link-danger custominputlink" />
+			</form>
+		}
+	</td>
+</tr>

@@ -1,5 +1,6 @@
 ﻿using ChoreographyBuilder.Core.Models.Figure;
 using ChoreographyBuilder.Core.Models.FigureOption;
+using ChoreographyBuilder.Infrastructure.Data.Models.Enums;
 using static ChoreographyBuilder.Core.Constants.LimitConstants;
 
 namespace ChoreographyBuilder.Core.Contracts
@@ -12,9 +13,9 @@ namespace ChoreographyBuilder.Core.Contracts
 
         Task<string> GetUserIdForFigureByIdAsync(int figureId);
 
-        Task<FigureWithOptionsViewModel> GetFigureWithOptionsAsync(int figureId);
+		Task<FigureOptionQueryServiceModel> GetFigureWithOptionsAsync(int figureId, int? searchedStartPositionId = null, int? searchedEndPositionId = null, int? searchedBeatsCount = null, DynamicsType? searchedDynamicsType = null, int currentPage = 1, int itemsPerPage = DefaultNumberOfItemsPerPage);
 
-        Task<string> GetFigureNameByIdAsync(int figureId);
+		Task<string> GetFigureNameByIdAsync(int figureId);
 
         Task AddFigureOptionAsync(FigureOptionFormViewModel model);
     }

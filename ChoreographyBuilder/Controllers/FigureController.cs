@@ -62,25 +62,40 @@ namespace ChoreographyBuilder.Controllers
 
             int figureId = await figureService.AddFigureAsync(model, User.Id());
 
-            return RedirectToAction(nameof(Options), new { Id = figureId });
+            return RedirectToAction(nameof(Options), new { FigureId = figureId });
         }
 
         [HttpGet]
-        public async Task<IActionResult> Options(int id)
+        public async Task<IActionResult> Options([FromQuery] AllFigureOptionsQueryModel query)
         {
             //Check is user and not admin
             try
             {
-                string figureUserId = await figureService.GetUserIdForFigureByIdAsync(id);
+                string figureUserId = await figureService.GetUserIdForFigureByIdAsync(query.FigureId);
                 if (figureUserId != User.Id())
                 {
                     return Unauthorized();
                 }
 
-                var model = await figureService.GetFigureWithOptionsAsync(id);
+                var model = await figureService.GetFigureWithOptionsAsync(
+                    query.FigureId,
+                    query.StartPosition,
+                    query.EndPosition,
+                    query.BeatsCount,
+                    query.DynamicsType,
+                    query.CurrentPage,
+                    query.ItemsPerPage);
 
-                return View(model);
-            }
+				query.TotalItemCount = model.TotalCount;
+				query.Entities = model.Entities;
+                query.FigureId = model.FigureId;
+                query.FigureName = model.FigureName;
+                query.Positions = await GetAllActivePositionsAndSelectedPosition(null);
+                query.DynamicsTypes = GetAllDynamicsTypes();
+
+
+				return View(query);
+			}
             catch (ArgumentNullException)
             {
                 return BadRequest();

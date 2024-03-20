@@ -1,12 +1,67 @@
-﻿@model FigureWithOptionsViewModel
+﻿@model AllFigureOptionsQueryModel
 @{
-	ViewBag.Title = Model.Name;
+	ViewBag.Title = Model.FigureName;
 }
 
 <h2 class="text-center">@ViewBag.Title</h2>
 <hr />
 
-@if (Model.Options.Any())
+<form method="get">
+	<div class="row justify-content-center">
+		<div class="form-group col-md-2 d-flex justify-content-between">
+			<input asp-for="FigureId" type="hidden" />
+			<div class="form-group">
+				<label asp-for="StartPosition"></label>
+				<select asp-for="StartPosition" class="form-control">
+					<option value="">All</option>
+					@foreach (var position in Model.Positions)
+					{
+						<option value="@position.Id">@position.Name</option>
+					}
+				</select>
+			</div>
+		</div>
+		<div class="form-group col-md-2 d-flex justify-content-between">
+			<div class="form-group">
+				<label asp-for="EndPosition"></label>
+				<select asp-for="EndPosition" class="form-control">
+					<option value="">All</option>
+					@foreach (var position in Model.Positions)
+					{
+						<option value="@position.Id">@position.Name</option>
+					}
+				</select>
+			</div>
+		</div>
+		<div class="col-md-2">
+			<label asp-for="BeatsCount"></label>
+			<input asp-for="BeatsCount" type="number" class="form-control" placeholder="Search by beats count...">
+		</div>
+		<div class="form-group col-md-2 d-flex justify-content-between">
+			<div class="form-group">
+				<label asp-for="DynamicsType"></label>
+				<select asp-for="DynamicsType" class="form-control">
+					<option value="">All</option>
+					@foreach (var type in Model.DynamicsTypes)
+					{
+						<option value="@type">@type.ToString()</option>
+					}
+				</select>
+			</div>
+		</div>
+		<div class="col-md-2">
+			<br />
+			<input type="submit" value="Search" class="btn btn-success" />
+		</div>
+	</div>
+</form>
+<br />
+
+@if (!Model.Entities.Any())
+{
+	<h2 class="text-center text-danger">No options found by these search criteria! A figure cannot be used in a choreography if it doesn't have options. Please add options.</h2>
+}
+else
 {
 	<table class="table table-responsive darkbgwhitetext">
 		<thead>
@@ -20,37 +75,55 @@
 			</tr>
 		</thead>
 		<tbody>
-			@foreach (var a in Model.Options)
+			@foreach (var option in Model.Entities)
 			{
-				<tr>
-					<td>@a.StartPositionName</td>
-					<td>@a.EndPositionName</td>
-					<td>@a.BeatCounts</td>
-					<td>@a.DynamicsTypeName</td>
-					<td>
-						@if (!a.UsedInChoreographies)
-						{
-							<form method="DELETE">
-								<input type="submit" asp-controller="Figure" asp-action="EditOption" asp-route-id="@a.Id" value="Edit" class="link-warning custominputlink" />
-							</form>
-						}
-					</td>
-					<td>
-						@if (!a.UsedInChoreographies)
-						{
-							<form method="DELETE">
-								<input type="submit" asp-controller="Figure" asp-action="DeleteOption" asp-route-id="@a.Id" value="Delete" class="link-danger custominputlink" />
-							</form>
-						}
-					</td>
-				</tr>
+				<partial name="_FigureOptionTablePartial" model="@option" />
 			}
 		</tbody>
 	</table>
+
+	var previousPage = Model.CurrentPage - 1;
+	if (previousPage < 1)
+	{
+		previousPage = 1;
+	}
+
+	var maxPage = Math.Ceiling((double)Model.TotalItemCount /
+		Model.ItemsPerPage);
+
+	<div class="row mb-5">
+		<div class="col-md-6 d-grid gap-2 d-md-flex justify-content-md-start">
+			<a class="btn btn-success @(Model.CurrentPage == 1 ? "disabled" : string.Empty)"
+		   asp-controller="Figure"
+		   asp-action="Options"
+		   asp-route-currentPage="@previousPage"
+		   asp-route-figureId="@Model.FigureId"
+		   asp-route-figureName="@Model.FigureName"
+		   asp-route-startPosition="@Model.StartPosition"
+		   asp-route-endPosition="@Model.EndPosition"
+		   asp-route-dynamicsType="@Model.DynamicsType"
+		   asp-route-beatsCount="@Model.BeatsCount">Previous page</a>
+		</div>
+
+		@{
+			var shouldButtonBeDisabled = Model.CurrentPage == maxPage ||
+			!Model.Entities.Any();
+		}
+
+		<div class="col-md-6 d-grid gap-2 d-md-flex justify-content-md-end">
+			<a class="btn btn-success
+           @(shouldButtonBeDisabled ? "disabled" : string.Empty)"
+		   asp-controller="Figure"
+		   asp-action="Options"
+		   asp-route-currentPage="@(Model.CurrentPage + 1)"
+		   asp-route-figureId="@Model.FigureId"
+		   asp-route-figureName="@Model.FigureName"
+		   asp-route-startPosition="@Model.StartPosition"
+		   asp-route-endPosition="@Model.EndPosition"
+		   asp-route-dynamicsType="@Model.DynamicsType"
+		   asp-route-beatsCount="@Model.BeatsCount">Next page</a>
+		</div>
+	</div>
 }
-else
-{
-	<p class="text-danger">No figure options yet! A figure cannot be used in a choreography if it doesn't have options. Please add options.</p>
-}
-<br />
-<a asp-controller="Figure" asp-action="AddOption" asp-route-id="@Model.Id" class="btn btn-warning mb-2 w-100 p-3 fw-bold">Add</a>
+
+<a asp-controller="Figure" asp-action="AddOption" asp-route-id="@Model.FigureId" class="btn btn-warning mb-2 w-100 p-3 fw-bold">Add</a>

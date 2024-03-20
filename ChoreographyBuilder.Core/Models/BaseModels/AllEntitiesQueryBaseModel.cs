@@ -6,7 +6,7 @@ namespace ChoreographyBuilder.Core.Models.BaseModels
 	public abstract class AllEntitiesQueryBaseModel<Т>
 	{
 		[Display(Name = "Search by name")]
-		public string SearchTerm { get; init; } = null!;
+		public string? SearchTerm { get; init; }
 
 		public int ItemsPerPage { get; init; } = DefaultNumberOfItemsPerPage;
 
