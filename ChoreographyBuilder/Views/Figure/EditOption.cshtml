@@ -1,10 +1,11 @@
 ﻿@model FigureOptionFormViewModel
 @{
-    ViewBag.Title = $"Create a Figure Option for {Model.FigureName}";
+    ViewBag.Title = $"Edit Option for {Model.FigureName}";
 }
 
 <h2 class="text-center">@ViewBag.Title</h2>
 <hr />
+
 <partial name="_FigureOptionFormPartial" model="@Model" />
 
 @section Scripts {

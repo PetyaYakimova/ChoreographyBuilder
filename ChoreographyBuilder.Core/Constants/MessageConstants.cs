@@ -9,5 +9,9 @@
 		public const string NumberMustBeEvenErrorMessage = "The number must be even.";
 
 		public const string NumberMustBeInRangeErrorMessage = "The number must be between {1} and {2}.";
+
+		public const string PositionDoesntExistErrorMessage = "Position doesn't exist!";
+
+		public const string DynamicsTypeDoesntExistErrorMessage = "Dynamics type doesn't exist!";
 	}
 }
