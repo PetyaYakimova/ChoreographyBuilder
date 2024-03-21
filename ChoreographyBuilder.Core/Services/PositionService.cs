@@ -67,11 +67,11 @@ namespace ChoreographyBuilder.Core.Services
 
 		public async Task ChangePositionStatusAsync(int id)
 		{
-			Position? position = await repository.All<Position>()
-				.FirstOrDefaultAsync(p => p.Id == id);
+			Position? position = await repository.GetByIdAsync<Position>(id);
 
 			if (position == null)
 			{
+				//Check if this is the correct exception to throw
 				throw new ArgumentNullException();
 			}
 

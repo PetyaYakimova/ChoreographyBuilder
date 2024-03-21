@@ -70,11 +70,11 @@ namespace ChoreographyBuilder.Core.Services
 
 		public async Task ChangeVerseTypeStatusAsync(int id)
 		{
-			VerseType? verseType = await repository.All<VerseType>()
-				.FirstOrDefaultAsync(vt => vt.Id == id);
+			VerseType? verseType = await repository.GetByIdAsync<VerseType>(id);
 
 			if (verseType == null)
 			{
+				//Check if this is the correct exception to throw
 				throw new ArgumentNullException();
 			}
 

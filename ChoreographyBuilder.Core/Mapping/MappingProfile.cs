@@ -36,6 +36,7 @@ namespace ChoreographyBuilder.Core.Mapping
                 .ForMember(d => d.FigureUsedInChoreographies, act => act.MapFrom(src => src.FigureOptions.Any(fo => fo.VerseChoreographyFigures.Any())));
 
             CreateMap<Figure, FigureFormViewModel>();
+            CreateMap<FigureFormViewModel, Figure>();
 
             //Figure option models
             CreateMap<FigureOption, FigureOptionTableViewModel>()
