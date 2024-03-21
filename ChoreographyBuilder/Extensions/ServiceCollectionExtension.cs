@@ -23,6 +23,7 @@ namespace Microsoft.Extensions.DependencyInjection
 			services.AddScoped<IVerseTypeService, VerseTypeService>();
 			services.AddScoped<IPositionService, PositionService>();
 			services.AddScoped<IFigureService, FigureService>();
+			services.AddScoped<IFigureOptionService, FigureOptionService>();
 
 			return services;
 		}
