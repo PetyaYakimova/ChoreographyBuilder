@@ -12,5 +12,11 @@ namespace ChoreographyBuilder.Core.Contracts
         Task ChangeVerseTypeStatusAsync(int id);
 
 		Task<VerseTypeQueryServiceModel> AllVerseTypesAsync(string? searchTerm = null, int? searchedBeatsCount = null, int currentPage = 1, int itemsPerPage = DefaultNumberOfItemsPerPage);
-	}
+
+		Task<VerseTypeFormViewModel?> GetVerseTypeById(int id);
+
+		Task<bool> IsVerseTypeUsedInChoreographiesAsync(int id);
+
+        Task EditVerseTypeAsync(int verseTypeId, VerseTypeFormViewModel model);
+    }
 }
