@@ -112,10 +112,9 @@ namespace ChoreographyBuilder.Core.Services
 		public async Task<bool> IsFigureUsedInChoreographiesAsync(int figureId)
 		{
 			Figure? figure = await repository.AllAsReadOnly<Figure>()
-				.Where(f => f.Id == figureId)
 				.Include(f => f.FigureOptions)
 					.ThenInclude(fo => fo.VerseChoreographyFigures)
-				.FirstOrDefaultAsync();
+				.FirstOrDefaultAsync(f => f.Id == figureId);
 
 			if (figure == null)
 			{

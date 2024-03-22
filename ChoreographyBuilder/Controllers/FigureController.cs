@@ -6,262 +6,213 @@ using ChoreographyBuilder.Extensions;
 using ChoreographyBuilder.Infrastructure.Data.Models.Enums;
 using Microsoft.AspNetCore.Mvc;
 using static ChoreographyBuilder.Core.Constants.MessageConstants;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace ChoreographyBuilder.Controllers
 {
-	public class FigureController : BaseController
-	{
-		private readonly IFigureService figureService;
-		private readonly IFigureOptionService figureOptionService;
-		private readonly IPositionService positionService;
+    public class FigureController : BaseController
+    {
+        private readonly IFigureService figureService;
+        private readonly IFigureOptionService figureOptionService;
+        private readonly IPositionService positionService;
 
-		public FigureController(IFigureService figureService, IFigureOptionService figureOptionService, IPositionService positionService)
-		{
-			this.figureService = figureService;
-			this.figureOptionService = figureOptionService;
-			this.positionService = positionService;
-		}
+        public FigureController(IFigureService figureService, IFigureOptionService figureOptionService, IPositionService positionService)
+        {
+            this.figureService = figureService;
+            this.figureOptionService = figureOptionService;
+            this.positionService = positionService;
+        }
 
-		[HttpGet]
-		public async Task<IActionResult> Mine([FromQuery] AllFiguresQueryModel query)
-		{
-			//Check that user is admin
+        [HttpGet]
+        public async Task<IActionResult> Mine([FromQuery] AllFiguresQueryModel query)
+        {
+            //Check that user is admin
 
-			var model = await figureService.AllUserFiguresAsync(
-				User.Id(),
-				query.SearchTerm,
-				query.CurrentPage,
-				query.ItemsPerPage);
+            var model = await figureService.AllUserFiguresAsync(
+                User.Id(),
+                query.SearchTerm,
+                query.CurrentPage,
+                query.ItemsPerPage);
 
-			query.TotalItemCount = model.TotalCount;
-			query.Entities = model.Entities;
+            query.TotalItemCount = model.TotalCount;
+            query.Entities = model.Entities;
 
-			return View(query);
-		}
+            return View(query);
+        }
 
+        [HttpGet]
+        public IActionResult Add()
+        {
+            //Check is user and not admin
+            FigureFormViewModel model = new FigureFormViewModel();
 
-		[HttpGet]
-		public IActionResult Add()
-		{
-			//Check is user and not admin
-			FigureFormViewModel model = new FigureFormViewModel();
+            return View(model);
+        }
 
-			return View(model);
-		}
+        [HttpPost]
+        [AutoValidateAntiforgeryToken]
+        public async Task<IActionResult> Add(FigureFormViewModel model)
+        {
+            //Check is user and not admin
+            if (ModelState.IsValid == false)
+            {
+                return View(model);
+            }
 
-		[HttpPost]
-		[AutoValidateAntiforgeryToken]
-		public async Task<IActionResult> Add(FigureFormViewModel model)
-		{
-			//Check is user and not admin
-			if (ModelState.IsValid == false)
-			{
-				return View(model);
-			}
+            int figureId = await figureService.AddFigureAsync(model, User.Id());
 
-			int figureId = await figureService.AddFigureAsync(model, User.Id());
+            return RedirectToAction(nameof(Options), new { FigureId = figureId });
+        }
 
-			return RedirectToAction(nameof(Options), new { FigureId = figureId });
-		}
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            //Check is user and not admin
+            if (!await DoesFigureExistAndIsForThisUser(id))
+            {
+                return BadRequest();
+            }
 
-		[HttpGet]
-		public async Task<IActionResult> Edit(int id)
-		{
-			//Check is user and not admin
-			var model = await figureService.GetFigureByIdAsync(id);
-			if (model == null)
-			{
-				return BadRequest();
-			}
+            //For now edit is possible for figures used in choreos
+            //if (await figureService.IsFigureUsedInChoreographiesAsync(id))
+            //{
+            //	return BadRequest();
+            //}
+            var model = await figureService.GetFigureByIdAsync(id);
 
-			string figureUserId = await figureService.GetUserIdForFigureByIdAsync(id);
-			if (figureUserId != User.Id())
-			{
-				return Unauthorized();
-			}
+            return View(model);
+        }
 
-			//For now edit is possible for figures used in choreos
-			//if (await figureService.IsFigureUsedInChoreographiesAsync(id))
-			//{
-			//	return BadRequest();
-			//}
+        [HttpPost]
+        [AutoValidateAntiforgeryToken]
+        public async Task<IActionResult> Edit(int id, FigureFormViewModel model)
+        {
+            //Check is user and not admin
+            if (!await DoesFigureExistAndIsForThisUser(id))
+            {
+                return BadRequest();
+            }
 
-			return View(model);
-		}
+            //For now edit is possible for figures used in choreos
+            //if (await figureService.IsFigureUsedInChoreographiesAsync(id))
+            //{
+            //	return BadRequest();
+            //}
 
-		[HttpPost]
-		[AutoValidateAntiforgeryToken]
-		public async Task<IActionResult> Edit(int id, FigureFormViewModel model)
-		{
-			//Check is user and not admin
-			var figure = await figureService.GetFigureByIdAsync(id);
-			if (figure == null)
-			{
-				return BadRequest();
-			}
+            if (ModelState.IsValid == false)
+            {
+                return View(model);
+            }
 
-			string figureUserId = await figureService.GetUserIdForFigureByIdAsync(id);
-			if (figureUserId != User.Id())
-			{
-				return Unauthorized();
-			}
+            await figureService.EditFigureAsync(id, model);
 
-			//For now edit is possible for figures used in choreos
-			//if (await figureService.IsFigureUsedInChoreographiesAsync(id))
-			//{
-			//	return BadRequest();
-			//}
+            return RedirectToAction(nameof(Mine));
+        }
 
-			if (ModelState.IsValid == false)
-			{
-				return View(model);
-			}
+        [HttpGet]
+        public async Task<IActionResult> Options([FromQuery] AllFigureOptionsQueryModel query)
+        {
+            //Check is user and not admin
+            if (!await DoesFigureExistAndIsForThisUser(query.FigureId))
+            {
+                return BadRequest();
+            }
 
-			await figureService.EditFigureAsync(id, model);
+            var model = await figureOptionService.GetFigureOptionsAsync(
+                query.FigureId,
+                query.StartPosition,
+                query.EndPosition,
+                query.BeatsCount,
+                query.DynamicsType,
+                query.CurrentPage,
+                query.ItemsPerPage);
 
-			return RedirectToAction(nameof(Mine));
-		}
+            query.TotalItemCount = model.TotalCount;
+            query.Entities = model.Entities;
+            query.FigureId = model.FigureId;
+            query.FigureName = model.FigureName;
+            query.Positions = await GetAllActivePositionsAndSelectedPosition(null);
+            query.DynamicsTypes = GetAllDynamicsTypes();
 
-		[HttpGet]
-		public async Task<IActionResult> Options([FromQuery] AllFigureOptionsQueryModel query)
-		{
-			//Check is user and not admin
-			try
-			{
-				string figureUserId = await figureService.GetUserIdForFigureByIdAsync(query.FigureId);
-				if (figureUserId != User.Id())
-				{
-					return Unauthorized();
-				}
+            return View(query);
+        }
 
-				var model = await figureOptionService.GetFigureOptionsAsync(
-					query.FigureId,
-					query.StartPosition,
-					query.EndPosition,
-					query.BeatsCount,
-					query.DynamicsType,
-					query.CurrentPage,
-					query.ItemsPerPage);
+        [HttpGet]
+        public async Task<IActionResult> AddOption(int id)
+        {
+            //Check is user and not admin
+            if (!await DoesFigureExistAndIsForThisUser(id))
+            {
+                return BadRequest();
+            }
 
-				query.TotalItemCount = model.TotalCount;
-				query.Entities = model.Entities;
-				query.FigureId = model.FigureId;
-				query.FigureName = model.FigureName;
-				query.Positions = await GetAllActivePositionsAndSelectedPosition(null);
-				query.DynamicsTypes = GetAllDynamicsTypes();
+            string figureName = await figureService.GetFigureNameByIdAsync(id);
 
+            FigureOptionFormViewModel model = new FigureOptionFormViewModel();
+            model.StartPositions = await GetAllActivePositionsAndSelectedPosition(null);
+            model.EndPositions = await GetAllActivePositionsAndSelectedPosition(null);
+            model.DynamicsTypes = GetAllDynamicsTypes();
+            model.FigureId = id;
+            model.FigureName = figureName;
 
-				return View(query);
-			}
-			catch (ArgumentNullException)
-			{
-				return BadRequest();
-			}
-		}
+            return View(model);
+        }
 
-		[HttpGet]
-		public async Task<IActionResult> AddOption(int id)
-		{
-			//Check is user and not admin
-			try
-			{
-				string figureUserId = await figureService.GetUserIdForFigureByIdAsync(id);
-				if (figureUserId != User.Id())
-				{
-					return Unauthorized();
-				}
+        [HttpPost]
+        [AutoValidateAntiforgeryToken]
+        public async Task<IActionResult> AddOption(FigureOptionFormViewModel model, int id)
+        {
+            //Check is user and not admin
+            if (!await DoesFigureExistAndIsForThisUser(id))
+            {
+                return BadRequest();
+            }
 
-				string figureName = await figureService.GetFigureNameByIdAsync(id);
+            var positions = await GetAllActivePositionsAndSelectedPosition(null);
+            var dynamicTypes = GetAllDynamicsTypes();
 
-				FigureOptionFormViewModel model = new FigureOptionFormViewModel();
-				model.StartPositions = await GetAllActivePositionsAndSelectedPosition(null);
-				model.EndPositions = await GetAllActivePositionsAndSelectedPosition(null);
-				model.DynamicsTypes = GetAllDynamicsTypes();
-				model.FigureId = id;
-				model.FigureName = figureName;
+            if (!positions.Any(p => p.Id == model.StartPositionId))
+            {
+                ModelState.AddModelError(nameof(model.StartPositionId), PositionDoesntExistErrorMessage);
+            }
 
-				return View(model);
-			}
-			catch (ArgumentNullException)
-			{
-				return BadRequest();
-			}
-		}
+            if (!positions.Any(p => p.Id == model.EndPositionId))
+            {
+                ModelState.AddModelError(nameof(model.EndPositionId), PositionDoesntExistErrorMessage);
+            }
 
-		[HttpPost]
-		[AutoValidateAntiforgeryToken]
-		public async Task<IActionResult> AddOption(FigureOptionFormViewModel model, int id)
-		{
-			//Check is user and not admin
-			try
-			{
-				string figureUserId = await figureService.GetUserIdForFigureByIdAsync(id);
-				if (figureUserId != User.Id())
-				{
-					return Unauthorized();
-				}
+            if (!dynamicTypes.Any(dt => dt == model.DynamicsType))
+            {
+                ModelState.AddModelError(nameof(model.DynamicsType), DynamicsTypeDoesntExistErrorMessage);
+            }
 
-				var positions = await GetAllActivePositionsAndSelectedPosition(null);
-				var dynamicTypes = GetAllDynamicsTypes();
+            if (ModelState.IsValid == false)
+            {
+                string figureName = await figureService.GetFigureNameByIdAsync(id);
 
-				if (!positions.Any(p => p.Id == model.StartPositionId))
-				{
-					ModelState.AddModelError(nameof(model.StartPositionId), PositionDoesntExistErrorMessage);
-				}
+                model.StartPositions = positions;
+                model.EndPositions = positions;
+                model.DynamicsTypes = dynamicTypes;
+                model.FigureId = id;
+                model.FigureName = figureName;
+                return View(model);
+            }
 
-				if (!positions.Any(p => p.Id == model.EndPositionId))
-				{
-					ModelState.AddModelError(nameof(model.EndPositionId), PositionDoesntExistErrorMessage);
-				}
+            await figureOptionService.AddFigureOptionAsync(model);
 
-				if (!dynamicTypes.Any(dt => dt == model.DynamicsType))
-				{
-					ModelState.AddModelError(nameof(model.DynamicsType), DynamicsTypeDoesntExistErrorMessage);
-				}
+            return RedirectToAction(nameof(Options), new { FigureId = id });
+        }
 
-				if (ModelState.IsValid == false)
-				{
-					string figureName = await figureService.GetFigureNameByIdAsync(id);
+        [HttpGet]
+        public async Task<IActionResult> EditOption(int id)
+        {
+            //Check is user and not admin
+            if (!await DoesFigureOptionExistIsForThisUserAndIsNotUsedInChoreographies(id))
+            {
+                return BadRequest();
+            }
 
-					model.StartPositions = positions;
-					model.EndPositions = positions;
-					model.DynamicsTypes = dynamicTypes;
-					model.FigureId = id;
-					model.FigureName = figureName;
-					return View(model);
-				}
-
-				await figureOptionService.AddFigureOptionAsync(model);
-
-				return RedirectToAction(nameof(Options), new { FigureId = id });
-			}
-
-			catch (ArgumentNullException)
-			{
-				return BadRequest();
-			}
-		}
-
-		[HttpGet]
-		public async Task<IActionResult> EditOption(int id)
-		{
-			//Check is user and not admin
-			var model = await figureOptionService.GetFigureOptionByIdAsync(id);
-			if (model == null)
-			{
-				return BadRequest();
-			}
-
-			string figureUserId = await figureOptionService.GetUserIdForFigureOptionByIdAsync(id);
-			if (figureUserId != User.Id())
-			{
-				return Unauthorized();
-			}
-
-			if (await figureOptionService.IsFigureOptionUsedInChoreographiesAsync(id))
-			{
-				return BadRequest();
-			}
+            FigureOptionFormViewModel model = (await figureOptionService.GetFigureOptionByIdAsync(id)) ?? new FigureOptionFormViewModel();
 
             string figureName = await figureService.GetFigureNameByIdAsync(model.FigureId);
 
@@ -271,78 +222,106 @@ namespace ChoreographyBuilder.Controllers
             model.FigureName = figureName;
 
             return View(model);
-		}
+        }
 
-		[HttpPost]
-		[AutoValidateAntiforgeryToken]
-		public async Task<IActionResult> EditOption(FigureOptionFormViewModel model, int id)
-		{
-			//Check is user and not admin
-			var option = await figureOptionService.GetFigureOptionByIdAsync(id);
-			if (option == null)
-			{
-				return BadRequest();
-			}
-
-			if (option.FigureId != model.FigureId)
-			{
+        [HttpPost]
+        [AutoValidateAntiforgeryToken]
+        public async Task<IActionResult> EditOption(FigureOptionFormViewModel model, int id)
+        {
+            //Check is user and not admin
+            if (!await DoesFigureOptionExistIsForThisUserAndIsNotUsedInChoreographies(id))
+            {
                 return BadRequest();
             }
 
-			string figureUserId = await figureOptionService.GetUserIdForFigureOptionByIdAsync(id);
-			if (figureUserId != User.Id())
-			{
-				return Unauthorized();
-			}
+            FigureOptionFormViewModel option = await figureOptionService.GetFigureOptionByIdAsync(id) ?? new FigureOptionFormViewModel();
+            if (option.FigureId != model.FigureId)
+            {
+                return BadRequest();
+            }
 
-			if (await figureOptionService.IsFigureOptionUsedInChoreographiesAsync(id))
-			{
-				return BadRequest();
-			}
+            var startPositions = await GetAllActivePositionsAndSelectedPosition(option.StartPositionId);
+            var endPositions = await GetAllActivePositionsAndSelectedPosition(option.EndPositionId);
+            var dynamicTypes = GetAllDynamicsTypes();
 
-			var startPositions = await GetAllActivePositionsAndSelectedPosition(option.StartPositionId);
-			var endPositions = await GetAllActivePositionsAndSelectedPosition(option.EndPositionId);
-			var dynamicTypes = GetAllDynamicsTypes();
+            if (!startPositions.Any(p => p.Id == model.StartPositionId))
+            {
+                ModelState.AddModelError(nameof(model.StartPositionId), PositionDoesntExistErrorMessage);
+            }
 
-			if (!startPositions.Any(p => p.Id == model.StartPositionId))
-			{
-				ModelState.AddModelError(nameof(model.StartPositionId), PositionDoesntExistErrorMessage);
-			}
+            if (!endPositions.Any(p => p.Id == model.EndPositionId))
+            {
+                ModelState.AddModelError(nameof(model.EndPositionId), PositionDoesntExistErrorMessage);
+            }
 
-			if (!endPositions.Any(p => p.Id == model.EndPositionId))
-			{
-				ModelState.AddModelError(nameof(model.EndPositionId), PositionDoesntExistErrorMessage);
-			}
+            if (!dynamicTypes.Any(dt => dt == model.DynamicsType))
+            {
+                ModelState.AddModelError(nameof(model.DynamicsType), DynamicsTypeDoesntExistErrorMessage);
+            }
 
-			if (!dynamicTypes.Any(dt => dt == model.DynamicsType))
-			{
-				ModelState.AddModelError(nameof(model.DynamicsType), DynamicsTypeDoesntExistErrorMessage);
-			}
-
-			if (ModelState.IsValid == false)
-			{
-				string figureName = await figureService.GetFigureNameByIdAsync(model.FigureId);
+            if (ModelState.IsValid == false)
+            {
+                string figureName = await figureService.GetFigureNameByIdAsync(model.FigureId);
 
                 model.StartPositions = startPositions;
-				model.EndPositions = endPositions;
-				model.DynamicsTypes = dynamicTypes;
-				model.FigureName = figureName;
-				return View(model);
-			}
+                model.EndPositions = endPositions;
+                model.DynamicsTypes = dynamicTypes;
+                model.FigureName = figureName;
+                return View(model);
+            }
 
-			await figureOptionService.EditFigureOptionAsync(id, model);
+            await figureOptionService.EditFigureOptionAsync(id, model);
 
-			return RedirectToAction(nameof(Options), new { FigureId = option.FigureId });
-		}
+            return RedirectToAction(nameof(Options), new { FigureId = option.FigureId });
+        }
 
-		private async Task<IEnumerable<PositionForFigureViewModel>> GetAllActivePositionsAndSelectedPosition(int? currentPositionId)
-		{
-			return await positionService.AllActivePositionsAndSelectedPositionAsync(currentPositionId);
-		}
+        private async Task<IEnumerable<PositionForFigureViewModel>> GetAllActivePositionsAndSelectedPosition(int? currentPositionId)
+        {
+            return await positionService.AllActivePositionsAndSelectedPositionAsync(currentPositionId);
+        }
 
-		private DynamicsType[] GetAllDynamicsTypes()
-		{
-			return (DynamicsType[])Enum.GetValues(typeof(DynamicsType));
-		}
-	}
+        private DynamicsType[] GetAllDynamicsTypes()
+        {
+            return (DynamicsType[])Enum.GetValues(typeof(DynamicsType));
+        }
+
+        private async Task<bool> DoesFigureExistAndIsForThisUser(int figureId)
+        {
+            var figure = await figureService.GetFigureByIdAsync(figureId);
+            if (figure == null)
+            {
+                return false;
+            }
+
+            string figureUserId = await figureService.GetUserIdForFigureByIdAsync(figureId);
+            if (figureUserId != User.Id())
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        private async Task<bool> DoesFigureOptionExistIsForThisUserAndIsNotUsedInChoreographies(int optionId)
+        {
+            var model = await figureOptionService.GetFigureOptionByIdAsync(optionId);
+            if (model == null)
+            {
+                return false;
+            }
+
+            string figureUserId = await figureOptionService.GetUserIdForFigureOptionByIdAsync(optionId);
+            if (figureUserId != User.Id())
+            {
+                return false;
+            }
+
+            if (await figureOptionService.IsFigureOptionUsedInChoreographiesAsync(optionId))
+            {
+                return false;
+            }
+
+            return true;
+        }
+    }
 }
