@@ -12,5 +12,11 @@ namespace ChoreographyBuilder.Core.Contracts
 		Task ChangePositionStatusAsync(int id);
 
 		Task<PositionQueryServiceModel> AllPositionsAsync(string? searchTerm = null, int currentPage = 1, int itemsPerPage = DefaultNumberOfItemsPerPage);
-	}
+
+		Task<PositionFormViewModel?> GetPositionByIdAsync(int id);
+
+		Task<bool> IsPositionUsedInFiguresAsync(int id);
+
+        Task EditPositionAsync(int positionId, PositionFormViewModel model);
+    }
 }
