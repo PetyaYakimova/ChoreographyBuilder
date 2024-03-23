@@ -30,8 +30,9 @@ footer {
     color: white;
 }
 
-input.custominputlink {
+.custominputlink {
     background-color: #202020;
     font-weight: 400;
     border: none;
+    text-decoration: underline;
 }

@@ -14,7 +14,7 @@ namespace ChoreographyBuilder.Infrastructure.Data.Models
 		public int Id { get; set; }
 
 		[Required]
-		[MaxLength(FigureNameMaxLenght)]
+		[MaxLength(FigureNameMaxLength)]
 		[Comment("Figure Name")]
 		public string Name { get; set; } = string.Empty;
 

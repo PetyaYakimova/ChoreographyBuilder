@@ -12,7 +12,7 @@ namespace ChoreographyBuilder.Infrastructure.Data.Models
 		public int Id { get; set; }
 
 		[Required]
-		[MaxLength(VerseTypeNameMaxLenght)]
+		[MaxLength(VerseTypeNameMaxLength)]
 		[Comment("Verse Name")]
 		public string Name { get; set; } = string.Empty;
 
