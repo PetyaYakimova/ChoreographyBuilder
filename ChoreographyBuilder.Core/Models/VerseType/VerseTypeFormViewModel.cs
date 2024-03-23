@@ -11,7 +11,7 @@ namespace ChoreographyBuilder.Core.Models.VerseType
 	public class VerseTypeFormViewModel
 	{
 		[Required(ErrorMessage = RequiredErrorMessage)]
-		[StringLength(VerseTypeNameMaxLenght,
+		[StringLength(VerseTypeNameMaxLength,
 			MinimumLength = VerseTypeNameMinLength,
 			ErrorMessage = StringLengthErrorMessage)]
 		public string Name { get; set; } = string.Empty;

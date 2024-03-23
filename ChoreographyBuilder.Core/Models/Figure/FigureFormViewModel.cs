@@ -11,7 +11,7 @@ namespace ChoreographyBuilder.Core.Models.Figure
 	public class FigureFormViewModel
 	{
 		[Required(ErrorMessage = RequiredErrorMessage)]
-		[StringLength(FigureNameMaxLenght,
+		[StringLength(FigureNameMaxLength,
 			MinimumLength = FigureNameMinLength,
 			ErrorMessage = StringLengthErrorMessage)]
 		public string Name { get; set; } = string.Empty;
