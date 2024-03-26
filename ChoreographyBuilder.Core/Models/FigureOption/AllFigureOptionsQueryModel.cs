@@ -7,8 +7,7 @@ namespace ChoreographyBuilder.Core.Models.FigureOption
 {
 	public class AllFigureOptionsQueryModel : AllEntitiesQueryBaseModel<FigureOptionTableViewModel>
 	{
-		public int FigureId { get; set; }
-
+		public int? FigureId { get; set; }
 		public string FigureName { get; set; } = string.Empty;
 
 		[Display(Name = "Search by start position")]

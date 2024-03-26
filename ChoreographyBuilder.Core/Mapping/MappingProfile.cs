@@ -2,52 +2,97 @@
 using ChoreographyBuilder.Core.Models.Figure;
 using ChoreographyBuilder.Core.Models.FigureOption;
 using ChoreographyBuilder.Core.Models.Position;
+using ChoreographyBuilder.Core.Models.VerseChoreography;
+using ChoreographyBuilder.Core.Models.VerseChoreographyFigure;
 using ChoreographyBuilder.Core.Models.VerseType;
 using ChoreographyBuilder.Infrastructure.Data.Models;
 
 namespace ChoreographyBuilder.Core.Mapping
 {
-    public class MappingProfile : Profile
-    {
-        public MappingProfile()
-        {
-            //Verse type models
-            CreateMap<VerseType, VerseTypeTableViewModel>()
-                .ForMember(d => d.HasChoreographies, act => act.MapFrom(src => src.VerseChoreographies.Any()));
+	public class MappingProfile : Profile
+	{
+		public MappingProfile()
+		{
+			//Verse type models
+			CreateMap<VerseType, VerseTypeTableViewModel>()
+				.ForMember(d => d.HasChoreographies, act => act.MapFrom(src => src.VerseChoreographies.Any()));
 
-            CreateMap<VerseType, VerseTypeForChoreographiesViewModel>()
-                .ForMember(d => d.Name, act => act.MapFrom(src => $"{src.Name} ({src.BeatCounts})"));
+			CreateMap<VerseType, VerseTypeForChoreographiesViewModel>()
+				.ForMember(d => d.Name, act => act.MapFrom(src => $"{src.Name} ({src.BeatCounts})"));
 
-            CreateMap<VerseType, VerseTypeFormViewModel>();
-            CreateMap<VerseTypeFormViewModel, VerseType>();
+			CreateMap<VerseType, VerseTypeFormViewModel>();
+			CreateMap<VerseTypeFormViewModel, VerseType>();
 
-            //Position models
-            CreateMap<Position, PositionTableViewModel>()
-                .ForMember(d => d.HasFigures, act => act.MapFrom(src => src.FiguresWithStartPosition.Any() || src.FiguresWithEndPosition.Any()));
+			//Position models
+			CreateMap<Position, PositionTableViewModel>()
+				.ForMember(d => d.HasFigures, act => act.MapFrom(src => src.FiguresWithStartPosition.Any() || src.FiguresWithEndPosition.Any()));
 
-            CreateMap<Position, PositionForFigureViewModel>();
+			CreateMap<Position, PositionForSelectionViewModel>();
 
-            CreateMap<Position, PositionFormViewModel>();
-            CreateMap<PositionFormViewModel, Position>();
+			CreateMap<Position, PositionFormViewModel>();
+			CreateMap<PositionFormViewModel, Position>();
 
-            //Figure models
-            CreateMap<Figure, FigureTableViewModel>()
-                .ForMember(d => d.FigureOptionsCount, act => act.MapFrom(src => src.FigureOptions.Count()))
-                .ForMember(d => d.FigureUsedInChoreographies, act => act.MapFrom(src => src.FigureOptions.Any(fo => fo.VerseChoreographyFigures.Any())));
+			//Figure models
+			CreateMap<Figure, FigureTableViewModel>()
+				.ForMember(d => d.FigureOptionsCount, act => act.MapFrom(src => src.FigureOptions.Count()))
+				.ForMember(d => d.FigureUsedInChoreographies, act => act.MapFrom(src => src.FigureOptions.Any(fo => fo.VerseChoreographyFigures.Any())));
 
-            CreateMap<Figure, FigureFormViewModel>();
-            CreateMap<FigureFormViewModel, Figure>();
+			CreateMap<Figure, FigureFormViewModel>();
+			CreateMap<FigureFormViewModel, Figure>();
 
-            //Figure option models
-            CreateMap<FigureOption, FigureOptionTableViewModel>()
-                .ForMember(d => d.StartPositionName, act => act.MapFrom(src => src.StartPosition.Name))
-                .ForMember(d => d.EndPositionName, act => act.MapFrom(src => src.EndPosition.Name))
-                .ForMember(d => d.DynamicsTypeName, act => act.MapFrom(src => src.DynamicsType.ToString()))
-                .ForMember(d => d.UsedInChoreographies, act => act.MapFrom(src => src.VerseChoreographyFigures.Any()));
+			CreateMap<Figure, FigureForChoreographiesViewModel>();
 
-            CreateMap<FigureOption, FigureOptionFormViewModel>()
-                .ForMember(d => d.FigureName, act => act.MapFrom(src => src.Figure.Name));
-            CreateMap<FigureOptionFormViewModel, FigureOption>();
-        }
-    }
+			//Figure option models
+			CreateMap<FigureOption, FigureOptionTableViewModel>()
+				.ForMember(d => d.StartPositionName, act => act.MapFrom(src => src.StartPosition.Name))
+				.ForMember(d => d.EndPositionName, act => act.MapFrom(src => src.EndPosition.Name))
+				.ForMember(d => d.DynamicsTypeName, act => act.MapFrom(src => src.DynamicsType.ToString()))
+				.ForMember(d => d.UsedInChoreographies, act => act.MapFrom(src => src.VerseChoreographyFigures.Any()));
+
+			CreateMap<FigureOption, FigureOptionFormViewModel>()
+				.ForMember(d => d.FigureName, act => act.MapFrom(src => src.Figure.Name));
+			CreateMap<FigureOptionFormViewModel, FigureOption>();
+
+			//Verse choreography models
+			CreateMap<VerseChoreography, VerseChoreographyTableViewModel>()
+				.ForMember(d => d.VerseTypeName, act => act.MapFrom(src => $"{src.VerseType.Name} ({src.VerseType.BeatCounts})"))
+				.ForMember(d => d.StartPositionName, act => act.MapFrom(src => src.Figures.OrderBy(f => f.FigureOrder).Select(f => f.FigureOption.StartPosition.Name).FirstOrDefault()))
+				.ForMember(d => d.EndPositionName, act => act.MapFrom(src => src.Figures.OrderByDescending(f => f.FigureOrder).Select(f => f.FigureOption.EndPosition.Name).FirstOrDefault()))
+				.ForMember(d => d.NumberOfFigures, act => act.MapFrom(src => src.Figures.Count()))
+				.ForMember(d => d.FinalFigureName, act => act.MapFrom(src => src.Figures.OrderByDescending(f => f.FigureOrder).Select(f => f.FigureOption.Figure.Name).FirstOrDefault()))
+				.ForMember(d => d.UsedInFullChoreographies, act => act.MapFrom(src => src.FullChoreographies.Any()));
+
+			CreateMap<VerseChoreography, VerseChoreographyDetailsViewModel>()
+				.ForMember(d => d.VerseTypeName, act => act.MapFrom(src => $"{src.VerseType.Name} ({src.VerseType.BeatCounts})"))
+				.ForMember(d => d.StartPositionName, act => act.MapFrom(src => src.Figures.OrderBy(f => f.FigureOrder).Select(f => f.FigureOption.StartPosition.Name).FirstOrDefault()))
+				.ForMember(d => d.EndPositionName, act => act.MapFrom(src => src.Figures.OrderByDescending(f => f.FigureOrder).Select(f => f.FigureOption.EndPosition.Name).FirstOrDefault()))
+				.ForMember(d => d.NumberOfFigures, act => act.MapFrom(src => src.Figures.Count()))
+				.ForMember(d => d.FinalFigureName, act => act.MapFrom(src => src.Figures.OrderByDescending(f => f.FigureOrder).Select(f => f.FigureOption.Figure.Name).FirstOrDefault()))
+				.ForMember(d => d.UsedInFullChoreographies, act => act.MapFrom(src => src.FullChoreographies.Any()))
+				.ForMember(d => d.Figures, act => act.MapFrom(src => src.Figures));
+
+			CreateMap<VerseChoreographySaveViewModel, VerseChoreography>();
+
+			//Verse choreography figure models
+			CreateMap<VerseChoreographyFigure, VerseChoreographyFigureViewModel>()
+				.ForMember(d => d.FigureName, act => act.MapFrom(src => src.FigureOption.Figure.Name))
+				.ForMember(d => d.IsFavourite, act => act.MapFrom(src => src.FigureOption.Figure.IsFavourite))
+				.ForMember(d => d.IsHighlight, act => act.MapFrom(src => src.FigureOption.Figure.IsHighlight))
+				.ForMember(d => d.StartPostion, act => act.MapFrom(src => src.FigureOption.StartPosition.Name))
+				.ForMember(d => d.EndPosition, act => act.MapFrom(src => src.FigureOption.EndPosition.Name))
+				.ForMember(d => d.BeatsCount, act => act.MapFrom(src => src.FigureOption.BeatCounts))
+				.ForMember(d => d.DynamicsType, act => act.MapFrom(src => src.FigureOption.DynamicsType.ToString()));
+			CreateMap<VerseChoreographyFigureViewModel, VerseChoreographyFigure>();
+
+			CreateMap<FigureOption, VerseChoreographyFigureViewModel>()
+				.ForMember(d => d.FigureOptionId, act => act.MapFrom(src => src.Id))
+				.ForMember(d => d.FigureName, act => act.MapFrom(src => src.Figure.Name))
+				.ForMember(d => d.IsFavourite, act => act.MapFrom(src => src.Figure.IsFavourite))
+			    .ForMember(d => d.IsHighlight, act => act.MapFrom(src => src.Figure.IsHighlight))
+			    .ForMember(d => d.StartPostion, act => act.MapFrom(src => src.StartPosition.Name))
+			    .ForMember(d => d.EndPosition, act => act.MapFrom(src => src.EndPosition.Name))
+			    .ForMember(d => d.BeatsCount, act => act.MapFrom(src => src.BeatCounts))
+				.ForMember(d=>d.DynamicsType, act=>act.MapFrom(src=>src.DynamicsType.ToString()));
+		}
+	}
 }

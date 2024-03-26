@@ -9,16 +9,18 @@
 
 		public int FigureOptionId { get; set; }
 
-		public string FigureName { get; set; } = string.Empty;
+		public string FigureName { get; init; } = string.Empty;
 
-		public bool IsFavourite { get; set; }
+		public bool IsFavourite { get; init; }
 
-		public bool IsHighlight { get; set; }
+		public bool IsHighlight { get; init; }
 
-		public string StartPostion { get; set; } = string.Empty;
+		public string StartPostion { get; init; } = string.Empty;
 
-		public string EndPosition { get; set; } = string.Empty;
+		public string EndPosition { get; init; } = string.Empty;
 
-		public int BeatsCount { get; set; }
+		public int BeatsCount { get; init; }
+
+		public string DynamicsType { get; init; } = string.Empty;
 	}
 }

@@ -6,9 +6,9 @@ using static ChoreographyBuilder.Infrastructure.Constants.DataConstants;
 namespace ChoreographyBuilder.Core.Models.VerseChoreography
 {
 	/// <summary>
-	/// A view model for previewing a suggested verse choreography and saving some. Added validations for the fields that are filled by the user.
+	/// A model for saving a suggested verse choreography. Added validations only for the Name field since it is the only one that is filled by the user.
 	/// </summary>
-	public class SuggestedVerseChoreographyModel
+	public class VerseChoreographySaveViewModel
 	{
 		[Required(ErrorMessage = RequiredErrorMessage)]
 		[StringLength(VerseChoreographyNameMaxLength,
@@ -16,16 +16,11 @@ namespace ChoreographyBuilder.Core.Models.VerseChoreography
 			ErrorMessage = StringLengthErrorMessage)]
 		public string Name { get; set; } = string.Empty;
 
-		[Required(ErrorMessage = RequiredErrorMessage)]
-		[Display(Name = "Verse type")]
 		public int VerseTypeId { get; init; }
 
-		[Required(ErrorMessage = RequiredErrorMessage)]
+		[Display(Name = "Total score:")]
 		public int Score { get; init; }
 
-		[Required(ErrorMessage = RequiredErrorMessage)]
-		public string UserId { get; init; } = string.Empty;
-
-		public IEnumerable<VerseChoreographyFigureViewModel> Figures { get; init; } = new List<VerseChoreographyFigureViewModel>();
+		public IList<VerseChoreographyFigureViewModel> Figures { get; set; } = new List<VerseChoreographyFigureViewModel>();
 	}
 }
