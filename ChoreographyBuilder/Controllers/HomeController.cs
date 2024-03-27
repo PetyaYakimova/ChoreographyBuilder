@@ -1,7 +1,5 @@
-﻿using ChoreographyBuilder.Models;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
 
 namespace ChoreographyBuilder.Controllers
 {
@@ -25,7 +23,6 @@ namespace ChoreographyBuilder.Controllers
 		[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
 		public IActionResult Error(int statusCode)
 		{
-			//TODO: Fix all error views
 			if (statusCode == 400)
 			{
 				return View("Error400");
@@ -36,12 +33,17 @@ namespace ChoreographyBuilder.Controllers
 				return View("Error401");
 			}
 
-            if (statusCode == 404)
-            {
-                return View("Error404");
-            }
+			if (statusCode == 404)
+			{
+				return View("Error404");
+			}
 
-            return View();
+			if (statusCode == 500)
+			{
+				return View("Error500");
+			}
+
+			return View();
 		}
 	}
 }
