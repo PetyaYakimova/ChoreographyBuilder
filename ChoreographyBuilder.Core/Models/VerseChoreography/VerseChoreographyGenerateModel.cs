@@ -19,10 +19,10 @@ namespace ChoreographyBuilder.Core.Models.VerseChoreography
 		[Display(Name = "Final figure")]
 		public int FinalFigureId { get; set; }
 
-		public IEnumerable<VerseTypeForChoreographiesViewModel> VerseTypes { get; set; } = new List<VerseTypeForChoreographiesViewModel>();
+		public IEnumerable<VerseTypeForPreviewViewModel> VerseTypes { get; set; } = new List<VerseTypeForPreviewViewModel>();
 
-		public IEnumerable<PositionForSelectionViewModel> Positions { get; set; } = new List<PositionForSelectionViewModel>();
+		public IEnumerable<PositionForPreviewViewModel> Positions { get; set; } = new List<PositionForPreviewViewModel>();
 
-		public IEnumerable<FigureForChoreographiesViewModel> Figures { get; set; } = new List<FigureForChoreographiesViewModel>();
+		public IEnumerable<FigureForPreviewViewModel> Figures { get; set; } = new List<FigureForPreviewViewModel>();
 	}
 }

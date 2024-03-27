@@ -22,7 +22,7 @@ namespace ChoreographyBuilder.Core.Models.FigureOption
 		[Display(Name = "Search by dynamics type")]
 		public DynamicsType? DynamicsType { get; init; }
 
-		public IEnumerable<PositionForSelectionViewModel> Positions { get; set; } = new List<PositionForSelectionViewModel>();
+		public IEnumerable<PositionForPreviewViewModel> Positions { get; set; } = new List<PositionForPreviewViewModel>();
 
 		public IEnumerable<DynamicsType> DynamicsTypes { get; set; } = new List<DynamicsType>();
 	}

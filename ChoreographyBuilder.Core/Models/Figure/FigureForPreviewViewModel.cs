@@ -1,9 +1,9 @@
 ﻿namespace ChoreographyBuilder.Core.Models.Figure
 {
     /// <summary>
-	/// View model only for previewing figures when filtering verse choreographies. No added validations.
+	/// View model only for previewing figures when filtering verse choreographies and when trying to delete figure. No added validations.
 	/// </summary>
-    public class FigureForChoreographiesViewModel
+    public class FigureForPreviewViewModel
     {
         public int Id { get; set; }
 

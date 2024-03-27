@@ -41,9 +41,9 @@ namespace ChoreographyBuilder.Core.Models.FigureOption
 		[DisplayName("Dynamics Type")]
 		public DynamicsType DynamicsType { get; set; }
 
-		public IEnumerable<PositionForSelectionViewModel> StartPositions { get; set; } = new List<PositionForSelectionViewModel>();
+		public IEnumerable<PositionForPreviewViewModel> StartPositions { get; set; } = new List<PositionForPreviewViewModel>();
 
-		public IEnumerable<PositionForSelectionViewModel> EndPositions { get; set; } = new List<PositionForSelectionViewModel>();
+		public IEnumerable<PositionForPreviewViewModel> EndPositions { get; set; } = new List<PositionForPreviewViewModel>();
 
 		public IEnumerable<DynamicsType> DynamicsTypes { get; set; } = new List<DynamicsType>();
 	}
