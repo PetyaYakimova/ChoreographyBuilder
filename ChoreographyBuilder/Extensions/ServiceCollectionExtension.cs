@@ -24,6 +24,9 @@ namespace Microsoft.Extensions.DependencyInjection
 			services.AddScoped<IPositionService, PositionService>();
 			services.AddScoped<IFigureService, FigureService>();
 			services.AddScoped<IFigureOptionService, FigureOptionService>();
+			services.AddScoped<IVerseChoreographyService, VerseChoreographyService>();
+			services.AddScoped<IFullChoreographyService, FullChoreographyService>();
+			services.AddScoped<IFullChoreographyVerseChoreographyService, FullChoreographyVerseChoreographyService>();
 
 			return services;
 		}

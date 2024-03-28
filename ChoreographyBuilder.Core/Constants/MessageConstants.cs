@@ -13,5 +13,9 @@
 		public const string PositionDoesntExistErrorMessage = "Position doesn't exist!";
 
 		public const string DynamicsTypeDoesntExistErrorMessage = "Dynamics type doesn't exist!";
-	}
+
+		public const string VerseChoreographyDoesntExistErrorMessage = "Verse choreography doesn't exist!";
+
+		public const string InvalidVerseChoreographyOrderErrorMessage = "Verse choreography is with invalid order!";
+    }
 }

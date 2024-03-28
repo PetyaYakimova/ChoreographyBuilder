@@ -1,11 +1,14 @@
 ﻿using AutoMapper;
 using ChoreographyBuilder.Core.Models.Figure;
 using ChoreographyBuilder.Core.Models.FigureOption;
+using ChoreographyBuilder.Core.Models.FullChoreography;
+using ChoreographyBuilder.Core.Models.FullChoreographyVerseChoreography;
 using ChoreographyBuilder.Core.Models.Position;
 using ChoreographyBuilder.Core.Models.VerseChoreography;
 using ChoreographyBuilder.Core.Models.VerseChoreographyFigure;
 using ChoreographyBuilder.Core.Models.VerseType;
 using ChoreographyBuilder.Infrastructure.Data.Models;
+using System.Security.Cryptography;
 
 namespace ChoreographyBuilder.Core.Mapping
 {
@@ -17,7 +20,7 @@ namespace ChoreographyBuilder.Core.Mapping
 			CreateMap<VerseType, VerseTypeTableViewModel>()
 				.ForMember(d => d.HasChoreographies, act => act.MapFrom(src => src.VerseChoreographies.Any()));
 
-			CreateMap<VerseType, VerseTypeForChoreographiesViewModel>()
+			CreateMap<VerseType, VerseTypeForPreviewViewModel>()
 				.ForMember(d => d.Name, act => act.MapFrom(src => $"{src.Name} ({src.BeatCounts})"));
 
 			CreateMap<VerseType, VerseTypeFormViewModel>();
@@ -27,7 +30,7 @@ namespace ChoreographyBuilder.Core.Mapping
 			CreateMap<Position, PositionTableViewModel>()
 				.ForMember(d => d.HasFigures, act => act.MapFrom(src => src.FiguresWithStartPosition.Any() || src.FiguresWithEndPosition.Any()));
 
-			CreateMap<Position, PositionForSelectionViewModel>();
+			CreateMap<Position, PositionForPreviewViewModel>();
 
 			CreateMap<Position, PositionFormViewModel>();
 			CreateMap<PositionFormViewModel, Position>();
@@ -40,7 +43,7 @@ namespace ChoreographyBuilder.Core.Mapping
 			CreateMap<Figure, FigureFormViewModel>();
 			CreateMap<FigureFormViewModel, Figure>();
 
-			CreateMap<Figure, FigureForChoreographiesViewModel>();
+			CreateMap<Figure, FigureForPreviewViewModel>();
 
 			//Figure option models
 			CreateMap<FigureOption, FigureOptionTableViewModel>()
@@ -52,6 +55,9 @@ namespace ChoreographyBuilder.Core.Mapping
 			CreateMap<FigureOption, FigureOptionFormViewModel>()
 				.ForMember(d => d.FigureName, act => act.MapFrom(src => src.Figure.Name));
 			CreateMap<FigureOptionFormViewModel, FigureOption>();
+
+			CreateMap<FigureOption, FigureOptionDeleteViewModel>()
+				.ForMember(d => d.FigureName, act => act.MapFrom(src => src.Figure.Name));
 
 			//Verse choreography models
 			CreateMap<VerseChoreography, VerseChoreographyTableViewModel>()
@@ -73,6 +79,9 @@ namespace ChoreographyBuilder.Core.Mapping
 
 			CreateMap<VerseChoreographySaveViewModel, VerseChoreography>();
 
+			CreateMap<VerseChoreography, VerseChoreographyDeleteViewModel>()
+				.ForMember(d => d.NumberOfFigures, act => act.MapFrom(src => src.Figures.Count()));
+
 			//Verse choreography figure models
 			CreateMap<VerseChoreographyFigure, VerseChoreographyFigureViewModel>()
 				.ForMember(d => d.FigureName, act => act.MapFrom(src => src.FigureOption.Figure.Name))
@@ -88,11 +97,31 @@ namespace ChoreographyBuilder.Core.Mapping
 				.ForMember(d => d.FigureOptionId, act => act.MapFrom(src => src.Id))
 				.ForMember(d => d.FigureName, act => act.MapFrom(src => src.Figure.Name))
 				.ForMember(d => d.IsFavourite, act => act.MapFrom(src => src.Figure.IsFavourite))
-			    .ForMember(d => d.IsHighlight, act => act.MapFrom(src => src.Figure.IsHighlight))
-			    .ForMember(d => d.StartPostion, act => act.MapFrom(src => src.StartPosition.Name))
-			    .ForMember(d => d.EndPosition, act => act.MapFrom(src => src.EndPosition.Name))
-			    .ForMember(d => d.BeatsCount, act => act.MapFrom(src => src.BeatCounts))
-				.ForMember(d=>d.DynamicsType, act=>act.MapFrom(src=>src.DynamicsType.ToString()));
+				.ForMember(d => d.IsHighlight, act => act.MapFrom(src => src.Figure.IsHighlight))
+				.ForMember(d => d.StartPostion, act => act.MapFrom(src => src.StartPosition.Name))
+				.ForMember(d => d.EndPosition, act => act.MapFrom(src => src.EndPosition.Name))
+				.ForMember(d => d.BeatsCount, act => act.MapFrom(src => src.BeatCounts))
+				.ForMember(d => d.DynamicsType, act => act.MapFrom(src => src.DynamicsType.ToString()));
+
+			//Full choreography models
+			CreateMap<FullChoreography, FullChoreographyTableViewModel>()
+				.ForMember(d => d.NumberOfVerses, act => act.MapFrom(src => src.VerseChoreographies.Count()));
+
+			CreateMap<FullChoreography, FullChoreographyFormViewModel>();
+			CreateMap<FullChoreographyFormViewModel, FullChoreography>();
+
+			CreateMap<FullChoreography, FullChoreographyDetailsViewModel>()
+				.ForMember(d => d.NumberOfVerses, act => act.MapFrom(src => src.VerseChoreographies.Count()))
+				.ForMember(d => d.Verses, act => act.MapFrom(src => src.VerseChoreographies));
+
+			//Full choreography verse choreography models
+			CreateMap<FullChoreographyVerseChoreography, FullChoreographyVerseChoreographyViewModel>();
+
+			CreateMap<FullChoreographyVerseChoreographyFormViewModel, FullChoreographyVerseChoreography>();
+
+			CreateMap<FullChoreographyVerseChoreography, FullChoreographyVerseChoreographyDeleteViewModel>()
+				.ForMember(d => d.VerseChoreographyName, act => act.MapFrom(src => src.VerseChoreography.Name))
+				.ForMember(d => d.FullChoreographyName, act => act.MapFrom(src => src.FullChoreography.Name));
 		}
 	}
 }
