@@ -1,5 +1,4 @@
 ﻿using ChoreographyBuilder.Core.Attributes;
-using ChoreographyBuilder.Core.Models.Figure;
 using ChoreographyBuilder.Core.Models.Position;
 using ChoreographyBuilder.Infrastructure.Data.Models.Enums;
 using System.ComponentModel;
@@ -9,10 +8,10 @@ using static ChoreographyBuilder.Infrastructure.Constants.DataConstants;
 
 namespace ChoreographyBuilder.Core.Models.FigureOption
 {
-	/// <summary>
-	/// View model for creating and editing option for figure. Added validations.
-	/// </summary>
-	public class FigureOptionFormViewModel
+    /// <summary>
+    /// View model for creating and editing option for figure. Added validations.
+    /// </summary>
+    public class FigureOptionFormViewModel
 	{
         [Required(ErrorMessage = RequiredErrorMessage)]
         public int FigureId { get; set; }

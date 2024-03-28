@@ -1,14 +1,11 @@
-﻿using ChoreographyBuilder.Core.Contracts;
-using ChoreographyBuilder.Core.Models.Figure;
-using ChoreographyBuilder.Core.Models.Position;
+﻿using ChoreographyBuilder.Attributes;
+using ChoreographyBuilder.Core.Contracts;
 using ChoreographyBuilder.Core.Models.VerseType;
-using ChoreographyBuilder.Core.Services;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ChoreographyBuilder.Controllers
 {
-    public class VerseTypeController : BaseController
+	public class VerseTypeController : BaseController
     {
         private IVerseTypeService verseTypeService;
 
@@ -18,9 +15,9 @@ namespace ChoreographyBuilder.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> All([FromQuery] AllVerseTypesQueryModel query)
+		//Check that user is admin
+		public async Task<IActionResult> All([FromQuery] AllVerseTypesQueryModel query)
         {
-            //Check that user is admin
             var model = await verseTypeService.AllVerseTypesAsync(
                 query.SearchTerm,
                 query.SearchBeats,
@@ -34,19 +31,18 @@ namespace ChoreographyBuilder.Controllers
         }
 
         [HttpGet]
-        public IActionResult Add()
+		//Check that user is admin
+		public IActionResult Add()
         {
-            //Check that user is admin
             var model = new VerseTypeFormViewModel();
 
             return View(model);
         }
 
         [HttpPost]
-        [AutoValidateAntiforgeryToken]
-        public async Task<IActionResult> Add(VerseTypeFormViewModel model)
+		//Check that user is admin
+		public async Task<IActionResult> Add(VerseTypeFormViewModel model)
         {
-            //Check that user is admin
             if (ModelState.IsValid == false)
             {
                 return View(model);
@@ -58,44 +54,32 @@ namespace ChoreographyBuilder.Controllers
         }
 
         [HttpPost]
-        [AutoValidateAntiforgeryToken]
-        public async Task<IActionResult> ChangeStatus(int id)
+        //Check that user is admin
+        [VerseTypeExists]
+		public async Task<IActionResult> ChangeStatus(int id)
         {
-            //Check that user is admin
-            if (!await DoesVerseTypeExist(id))
-            {
-                return BadRequest();
-            }
-
             await verseTypeService.ChangeVerseTypeStatusAsync(id);
 
             return RedirectToAction(nameof(All));
         }
 
         [HttpGet]
-        public async Task<IActionResult> Edit(int id)
+		//Check that user is admin
+		[VerseTypeExists]
+		[VerseTypeNotUsedInChoreographies]
+		public async Task<IActionResult> Edit(int id)
         {
-            //Check that user is admin
-            if (!await DoesVerseTypeExistAndIsNotUsedForChoreographies(id))
-            {
-                return BadRequest();
-            }
-
             var model = await verseTypeService.GetVerseTypeById(id);
 
             return View(model);
         }
 
         [HttpPost]
-        [AutoValidateAntiforgeryToken]
-        public async Task<IActionResult> Edit(int id, VerseTypeFormViewModel model)
+		//Check that user is admin
+		[VerseTypeExists]
+        [VerseTypeNotUsedInChoreographies]
+		public async Task<IActionResult> Edit(int id, VerseTypeFormViewModel model)
         {
-            //Check that user is admin
-            if (!await DoesVerseTypeExistAndIsNotUsedForChoreographies(id))
-            {
-                return BadRequest();
-            }
-
             if (ModelState.IsValid == false)
             {
                 return View(model);
@@ -106,30 +90,26 @@ namespace ChoreographyBuilder.Controllers
             return RedirectToAction(nameof(All));
         }
 
-        private async Task<bool> DoesVerseTypeExist(int verseTypeId)
+        [HttpGet]
+        //Check that user is admin
+        [VerseTypeExists]
+        [VerseTypeNotUsedInChoreographies]
+        public async Task<IActionResult> Delete(int id)
         {
-            var verseType = await verseTypeService.GetVerseTypeById(verseTypeId);
-            if (verseType == null)
-            {
-                return false;
-            }
+            var model = await verseTypeService.GetVerseTypeForDeleteAsync(id);
 
-            return true;
+            return View(model);
         }
 
-        private async Task<bool> DoesVerseTypeExistAndIsNotUsedForChoreographies(int verseTypeId)
+        [HttpPost]
+        //Check that user is admin
+        [VerseTypeExists]
+        [VerseTypeNotUsedInChoreographies]
+        public async Task<IActionResult> Delete(VerseTypeForPreviewViewModel model)
         {
-            if (!await DoesVerseTypeExist(verseTypeId))
-            {
-                return false;
-            }
+            await verseTypeService.DeleteAsync(model.Id);
 
-            if (await verseTypeService.IsVerseTypeUsedInChoreographiesAsync(verseTypeId))
-            {
-                return false;
-            }
-
-            return true;
+            return RedirectToAction(nameof(All));
         }
     }
 }
