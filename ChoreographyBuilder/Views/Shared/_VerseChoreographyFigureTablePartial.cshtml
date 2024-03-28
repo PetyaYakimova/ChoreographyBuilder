@@ -1,7 +1,7 @@
-﻿@model FigureTableViewModel
+﻿@model VerseChoreographyFigureViewModel
 <tr>
-	<td>@Model.Name</td>
-	<td>@Model.FigureOptionsCount</td>
+	<td>@Model.FigureOrder</td>
+	<td>@Model.FigureName</td>
 	<td>
 		@if (Model.IsHighlight)
 		{
@@ -31,14 +31,8 @@
 			</svg>
 		}
 	</td>
-	<td><a asp-controller="Figure" asp-action="Options" asp-route-id="@Model.Id" class="link-info custominputlink">Options</a></td>
-	<td><a asp-controller="Figure" asp-action="Edit" asp-route-id="@Model.Id" class="link-warning custominputlink">Edit</a></td>
-	<td>
-		@if (!Model.FigureUsedInChoreographies)
-		{
-			<form method="get">
-				<input type="submit" asp-controller="Figure" asp-action="Delete" asp-route-id="@Model.Id" value="Delete" class="link-danger custominputlink" />
-			</form>
-		}
-	</td>
+	<td>@Model.StartPostion</td>
+	<td>@Model.EndPosition</td>
+	<td>@Model.BeatsCount</td>
+	<td>@Model.DynamicsType</td>
 </tr>

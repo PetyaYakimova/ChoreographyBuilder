@@ -2,7 +2,7 @@
 <tr>
 	<td>@Model.Name</td>
 	<td>
-		<form method="POST">
+		<form method="post">
 			@if (Model.IsActive)
 			{
 				<input type="submit" asp-controller="Position" asp-action="ChangeStatus" asp-route-id="@Model.Id" value="Deactivate" class="link-danger custominputlink" />
@@ -16,7 +16,7 @@
 	<td>
 		@if (!Model.HasFigures)
 		{
-			<form method="GET">
+			<form method="get">
 				<input type="submit" asp-controller="Position" asp-action="Edit" asp-route-id="@Model.Id" value="Edit" class="link-warning custominputlink" />
 			</form>
 		}
@@ -24,7 +24,7 @@
 	<td>
 		@if (!Model.HasFigures)
 		{
-			<form method="DELETE">
+			<form method="get">
 				<input type="submit" asp-controller="Position" asp-action="Delete" asp-route-id="@Model.Id" value="Delete" class="link-danger custominputlink" />
 			</form>
 		}

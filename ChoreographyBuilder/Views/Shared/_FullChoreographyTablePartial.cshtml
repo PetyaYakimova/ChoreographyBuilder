@@ -1,0 +1,8 @@
+﻿@model FullChoreographyTableViewModel
+<tr>
+	<td>@Model.Name</td>
+	<td>@Model.NumberOfVerses</td>
+	<td><a asp-controller="FullChoreography" asp-action="Details" asp-route-id="@Model.Id" class="link-info custominputlink">Details</a></td>
+	<td><a asp-controller="FullChoreography" asp-action="Edit" asp-route-id="@Model.Id" class="link-warning custominputlink">Edit</a></td>
+	<td><a asp-controller="FullChoreography" asp-action="Delete" asp-route-id="@Model.Id" class="link-danger custominputlink">Delete</a></td>
+</tr>

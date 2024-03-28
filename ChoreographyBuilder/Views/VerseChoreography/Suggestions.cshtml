@@ -1,0 +1,30 @@
+﻿@model IList<VerseChoreographySaveViewModel>
+
+@{
+	ViewBag.Title = "Suggested Verse Choreographies";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+@if (Model.Any())
+{
+	@for (int i = 0; i < Model.Count; i++)
+	{
+		<div class="card darkbgwhitetext border-warning p-3">
+			<h4 class="text-center mb-3">Suggestion @(i + 1)</h4>
+			<partial name="_VerseChoreographySuggestionPartial" model="@Model[i]" />
+		</div>
+		<br />
+	}
+}
+else
+{
+	<h2 class="text-center text-danger">No verse choreographies could be generated! Try to add more figures or generate suggestions by other criteria.</h2>
+	<a asp-controller="Figure" asp-action="Add" class="btn btn-warning mb-2 w-100 p-3 fw-bold">Add a figure</a>
+	<a asp-controller="VerseChoreography" asp-action="Generate" class="btn btn-warning mb-2 w-100 p-3 fw-bold">Generate verse choreographies</a>
+}
+
+@section Scripts {
+	<partial name="_ValidationScriptsPartial" />
+}

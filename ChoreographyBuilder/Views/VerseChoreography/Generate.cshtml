@@ -1,0 +1,60 @@
+﻿@model VerseChoreographyGenerateModel
+@{
+	ViewBag.Title = "Generate Verse Choreographies";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+<form method="get">
+	<div class="row justify-content-between">
+		<div class="form-group col-md-3 d-flex justify-content-between">
+			<div class="form-group">
+				<label asp-for="VerseTypeId" class="fw-bold"></label>
+				<select asp-for="VerseTypeId" class="form-control">
+					@foreach (var verseType in Model.VerseTypes)
+					{
+						<option value="@verseType.Id">@verseType.Name</option>
+					}
+				</select>
+			</div>
+		</div>
+		<div class="form-group col-md-3 d-flex justify-content-between">
+			<div class="form-group">
+				<label asp-for="StartPositionId"></label>
+				<select asp-for="StartPositionId" class="form-control">
+					<option value="">All</option>
+					@foreach (var position in Model.Positions)
+					{
+						<option value="@position.Id">@position.Name</option>
+					}
+				</select>
+			</div>
+		</div>
+		<div class="form-group col-md-3 d-flex justify-content-between">
+			<div class="form-group">
+				<label asp-for="FinalFigureId" class="fw-bold"></label>
+				<select asp-for="FinalFigureId" class="form-control">
+					@foreach (var figure in Model.Figures)
+					{
+						<option value="@figure.Id">@figure.Name</option>
+					}
+				</select>
+			</div>
+		</div>
+	</div>
+
+	<div class="mb-3">
+		<br />
+		<input class="btn btn-warning mb-2 w-100 p-3 fw-bold" type="submit" value="Generate"
+			   asp-controller="VerseChoreography"
+			   asp-action="Suggestions"
+			   asp-route-verseType="@Model.VerseTypeId"
+			   asp-route-startPosition="@Model.StartPositionId"
+			   asp-route-finalFigure="@Model.FinalFigureId" />
+	</div>
+</form>
+
+@section Scripts {
+	<partial name="_ValidationScriptsPartial" />
+}

@@ -7,7 +7,7 @@
 	<td>
 		@if (!Model.UsedInChoreographies)
 		{
-			<form method="DELETE">
+			<form method="get">
 				<input type="submit" asp-controller="Figure" asp-action="EditOption" asp-route-id="@Model.Id" value="Edit" class="link-warning custominputlink" />
 			</form>
 		}
@@ -15,7 +15,7 @@
 	<td>
 		@if (!Model.UsedInChoreographies)
 		{
-			<form method="DELETE">
+			<form method="get">
 				<input type="submit" asp-controller="Figure" asp-action="DeleteOption" asp-route-id="@Model.Id" value="Delete" class="link-danger custominputlink" />
 			</form>
 		}

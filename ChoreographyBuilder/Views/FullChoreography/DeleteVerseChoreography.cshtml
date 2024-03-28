@@ -1,0 +1,28 @@
+﻿@model FullChoreographyVerseChoreographyDeleteViewModel
+
+@{
+	ViewBag.Title = "Verse choreography for " + @Model.FullChoreographyName + " - Delete";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+<p class="text-danger mb-4 text-center fw-bold">You are about to delete verse choreography "@Model.VerseChoreographyName" from full choreography "@Model.FullChoreographyName". Are you sure?</p>
+<div class="row">
+	<div class="row justify-content-center">
+		<div class="col-md-2">
+			<form asp-action="Details" asp-route-id="@Model.FullChoreographyId" method="get">
+				<input type="submit" value="Cancel" class="btn btn-warning mb-2 w-100 p-3 fw-bold" />
+			</form>
+		</div>
+		<div class="col-md-2">
+			<form method="post">
+				<input type="hidden" asp-for="@Model.Id" />
+				<input type="hidden" asp-for="@Model.FullChoreographyName" />
+				<input type="hidden" asp-for="@Model.FullChoreographyId" />
+				<input type="hidden" asp-for="@Model.VerseChoreographyName" />
+				<input type="submit" value="Delete" class="btn btn-danger mb-2 w-100 p-3 fw-bold" />
+			</form>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,57 @@
+﻿@model FullChoreographyDetailsViewModel
+@{
+	ViewBag.Title = Model.Name;
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+<div class="row mb-2">
+	<div class="form-group col-md-6 d-flex">
+		<label asp-for="NumberOfVerses" class="fw-bold me-2"></label>
+		<p>@Model.NumberOfVerses</p>
+	</div>
+</div>
+
+<hr />
+
+<h4>Verse choreographies:</h4>
+@if (Model.Verses.Any())
+{
+	<div class="table-responsive">
+		<table class="table darkbgwhitetext">
+			<thead>
+				<tr>
+					<th scope="col">Order</th>
+					<th scope="col">Name</th>
+					<th scope="col">Verse type</th>
+					<th scope="col">Start position</th>
+					<th scope="col">End position</th>
+					<th scope="col">Number of figures</th>
+					<th scope="col">Final figure</th>
+					<th scope="col"></th>
+					<th scope="col"></th>
+				</tr>
+			</thead>
+			<tbody>
+				@for (int i = 0; i < Model.Verses.Count(); i++)
+				{
+					<tr>
+						<td>@Model.Verses[i].VerseChoreographyOrder</td>
+						<partial name="_VerseChoreographyTablePartial" model="@Model.Verses[i].VerseChoreography" />
+						<td>
+							@if (i == Model.Verses.Count() - 1)
+							{
+								<form method="get">
+									<input type="submit" asp-controller="FullChoreography" asp-action="DeleteVerseChoreography" asp-route-id="@Model.Verses[i].Id" value="Delete" class="link-danger custominputlink" />
+								</form>
+							}
+						</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+	</div>
+}
+
+<a asp-controller="FullChoreography" asp-action="AddVerseChoreography" asp-route-id="@Model.Id" class="btn btn-warning mb-4 w-100 p-3 fw-bold">Add Verse Choreography</a>
+<a asp-controller="FullChoreography" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger mb-2 w-100 p-3 fw-bold">Delete Full Choreography</a>

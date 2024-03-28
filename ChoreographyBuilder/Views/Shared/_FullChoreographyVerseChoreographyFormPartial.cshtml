@@ -1,0 +1,38 @@
+﻿@model FullChoreographyVerseChoreographyFormViewModel
+
+<div class="row">
+	<div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
+		<form method="post">
+			<input type="hidden" asp-for="@Model.VerseChoreographyOrder" />
+			<div class="mb-3 form-group">
+				<label asp-for="VerseChoreographyOrder" class="fw-bold me-2"></label>
+				<p>@Model.VerseChoreographyOrder</p>
+			</div>
+			<div class="mb-3 form-group">
+				<label asp-for="StartPositionName" class="fw-bold me-2"></label>
+				@if (Model.StartPositionName == null)
+				{
+					<p>All positions</p>
+				}
+				else
+				{
+					<p>@Model.StartPositionName</p>
+				}
+			</div>
+			<div class="mb-3">
+				<label asp-for="@Model.VerseChoreographyId" class="form-label-add-edit"></label>
+				<select asp-for="@Model.VerseChoreographyId" class="form-control" aria-required="true">
+					<option disabled selected value="">Select Verse Choreography...</option>
+					@foreach (var verseChoreography in Model.VerseChoreographies)
+					{
+						<option value="@verseChoreography.Id">@verseChoreography.Name (verse type: @verseChoreography.VerseTypeName; final figure: @verseChoreography.FinalFigureName)</option>
+					}
+				</select>
+				<span asp-validation-for="@Model.VerseChoreographyId" class="text-danger"></span>
+			</div>
+			<div class="mb-3">
+				<input class="btn btn-warning mb-2 w-100 p-3 fw-bold" type="submit" value="Save" />
+			</div>
+		</form>
+	</div>
+</div>

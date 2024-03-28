@@ -1,15 +1,30 @@
-﻿@model AllFigureOptionsQueryModel
+﻿@model AllVerseChoreographiesQueryModel
 @{
-	ViewBag.Title = Model.FigureName + " - Options";
+	ViewBag.Title = "My Saved Verse Choreographies";
 }
 
 <h2 class="text-center">@ViewBag.Title</h2>
 <hr />
 
 <form method="get">
-	<div class="row justify-content-center">
+	<div class="row justify-content-between">
+		<div class="col-md-2">
+			<label asp-for="SearchTerm"></label>
+			<input asp-for="SearchTerm" class="form-control" placeholder="Search by name...">
+		</div>
 		<div class="form-group col-md-2 d-flex justify-content-between">
-			<input asp-for="FigureId" type="hidden" />
+			<div class="form-group">
+				<label asp-for="VerseType"></label>
+				<select asp-for="VerseType" class="form-control">
+					<option value="">All</option>
+					@foreach (var verseType in Model.VerseTypes)
+					{
+						<option value="@verseType.Id">@verseType.Name</option>
+					}
+				</select>
+			</div>
+		</div>
+		<div class="form-group col-md-2 d-flex justify-content-between">
 			<div class="form-group">
 				<label asp-for="StartPosition"></label>
 				<select asp-for="StartPosition" class="form-control">
@@ -33,18 +48,14 @@
 				</select>
 			</div>
 		</div>
-		<div class="col-md-2">
-			<label asp-for="BeatsCount"></label>
-			<input asp-for="BeatsCount" type="number" class="form-control" placeholder="Search by beats count...">
-		</div>
 		<div class="form-group col-md-2 d-flex justify-content-between">
 			<div class="form-group">
-				<label asp-for="DynamicsType"></label>
-				<select asp-for="DynamicsType" class="form-control">
+				<label asp-for="FinalFigure"></label>
+				<select asp-for="FinalFigure" class="form-control">
 					<option value="">All</option>
-					@foreach (var type in Model.DynamicsTypes)
+					@foreach (var figure in Model.Figures)
 					{
-						<option value="@type">@type.ToString()</option>
+						<option value="@figure.Id">@figure.Name</option>
 					}
 				</select>
 			</div>
@@ -59,7 +70,7 @@
 
 @if (!Model.Entities.Any())
 {
-	<h2 class="text-center text-danger">No options found by these search criteria! A figure cannot be used in a choreography if it doesn't have options. Please add options.</h2>
+	<h2 class="text-center text-danger">No saved verse choreographies found by this search criteria! Try to generate new verse choreographies.</h2>
 }
 else
 {
@@ -67,18 +78,30 @@ else
 		<table class="table darkbgwhitetext">
 			<thead>
 				<tr>
+					<th scope="col">Name</th>
+					<th scope="col">Verse type</th>
 					<th scope="col">Start position</th>
 					<th scope="col">End position</th>
-					<th scope="col">Beats count</th>
-					<th scope="col">Dynamics type</th>
+					<th scope="col">Number of figures</th>
+					<th scope="col">Final figure</th>
 					<th scope="col"></th>
 					<th scope="col"></th>
 				</tr>
 			</thead>
 			<tbody>
-				@foreach (var option in Model.Entities)
+				@foreach (var choreography in Model.Entities)
 				{
-					<partial name="_FigureOptionTablePartial" model="@option" />
+					<tr>
+						<partial name="_VerseChoreographyTablePartial" model="@choreography" />
+						<td>
+							@if (!choreography.UsedInFullChoreographies)
+							{
+								<form method="get">
+									<input type="submit" asp-controller="VerseChoreography" asp-action="Delete" asp-route-id="@choreography.Id" value="Delete" class="link-danger custominputlink" />
+								</form>
+							}
+						</td>
+					</tr>
 				}
 			</tbody>
 		</table>
@@ -96,15 +119,14 @@ else
 	<div class="row mb-5">
 		<div class="col-md-4 justify-content-md-start">
 			<a class="btn btn-success @(Model.CurrentPage == 1 ? "disabled" : string.Empty)"
-		   asp-controller="Figure"
-		   asp-action="Options"
+		   asp-controller="VerseChoreography"
+		   asp-action="Mine"
 		   asp-route-currentPage="@previousPage"
-		   asp-route-figureId="@Model.FigureId"
-		   asp-route-figureName="@Model.FigureName"
+		   asp-route-searchTerm="@Model.SearchTerm"
+		   asp-route-verseType="@Model.VerseType"
 		   asp-route-startPosition="@Model.StartPosition"
 		   asp-route-endPosition="@Model.EndPosition"
-		   asp-route-dynamicsType="@Model.DynamicsType"
-		   asp-route-beatsCount="@Model.BeatsCount">Previous page</a>
+		   asp-route-finalFigure="@Model.FinalFigure">Previous page</a>
 		</div>
 
 		<div class="col-md-4 text-center">
@@ -119,17 +141,16 @@ else
 		<div class="col-md-4">
 			<a class="btn btn-success float-end
            @(shouldButtonBeDisabled ? "disabled" : string.Empty)"
-		   asp-controller="Figure"
-		   asp-action="Options"
+		   asp-controller="VerseChoreography"
+		   asp-action="Mine"
 		   asp-route-currentPage="@(Model.CurrentPage + 1)"
-		   asp-route-figureId="@Model.FigureId"
-		   asp-route-figureName="@Model.FigureName"
+		   asp-route-searchTerm="@Model.SearchTerm"
+		   asp-route-verseType="@Model.VerseType"
 		   asp-route-startPosition="@Model.StartPosition"
 		   asp-route-endPosition="@Model.EndPosition"
-		   asp-route-dynamicsType="@Model.DynamicsType"
-		   asp-route-beatsCount="@Model.BeatsCount">Next page</a>
+		   asp-route-finalFigure="@Model.FinalFigure">Next page</a>
 		</div>
 	</div>
 }
 
-<a asp-controller="Figure" asp-action="AddOption" asp-route-id="@Model.FigureId" class="btn btn-warning mb-2 w-100 p-3 fw-bold">Add</a>
+<a asp-controller="VerseChoreography" asp-action="Generate" class="btn btn-warning mb-2 w-100 p-3 fw-bold">Generate</a>
