@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using ChoreographyBuilder.Core.Contracts;
+using ChoreographyBuilder.Core.Exceptions;
 using ChoreographyBuilder.Core.Models.VerseType;
 using ChoreographyBuilder.Infrastructure.Data.Common;
 using ChoreographyBuilder.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
+using static ChoreographyBuilder.Core.Constants.LimitConstants;
 
 namespace ChoreographyBuilder.Core.Services
 {
@@ -27,15 +29,15 @@ namespace ChoreographyBuilder.Core.Services
             await repository.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<VerseTypeForChoreographiesViewModel>> AllActiveVerseTypesOrSelectedVerseTypeAsync(int selectedVerseTypeId)
+        public async Task<IEnumerable<VerseTypeForPreviewViewModel>> AllActiveVerseTypesOrSelectedVerseTypeAsync(int? selectedVerseTypeId = null)
         {
             return await repository.AllAsReadOnly<VerseType>()
                 .Where(vt => vt.IsActive || vt.Id == selectedVerseTypeId)
-                .Select(vt => mapper.Map<VerseTypeForChoreographiesViewModel>(vt))
+                .Select(vt => mapper.Map<VerseTypeForPreviewViewModel>(vt))
                 .ToListAsync();
         }
 
-        public async Task<VerseTypeQueryServiceModel> AllVerseTypesAsync(string? searchTerm = null, int? searchedBeatsCount = null, int currentPage = 1, int itemsPerPage = 10)
+        public async Task<VerseTypeQueryServiceModel> AllVerseTypesAsync(string? searchTerm = null, int? searchedBeatsCount = null, int currentPage = 1, int itemsPerPage = DefaultNumberOfItemsPerPage)
         {
             var verseTypesToShow = repository.AllAsReadOnly<VerseType>();
 
@@ -74,9 +76,8 @@ namespace ChoreographyBuilder.Core.Services
 
             if (verseType == null)
             {
-                //Check if this is the correct exception to throw
-                throw new ArgumentNullException();
-            }
+				throw new EntityNotFoundException();
+			}
 
             verseType.IsActive = !verseType.IsActive;
 
@@ -89,14 +90,25 @@ namespace ChoreographyBuilder.Core.Services
 
             if (verseType == null)
             {
-                //Check if this is the correct exception to throw
-                throw new ArgumentNullException();
-            }
+				throw new EntityNotFoundException();
+			}
 
             verseType.Name = model.Name;
             verseType.BeatCounts = model.BeatCounts;
 
             await repository.SaveChangesAsync();
+        }
+
+        public async Task<VerseTypeForPreviewViewModel?> GetVerseTypeForDeleteAsync(int id)
+        {
+            var verseType = await repository.GetByIdAsync<VerseType>(id);
+
+            if (verseType == null)
+            {
+				throw new EntityNotFoundException();
+			}
+
+            return mapper.Map<VerseTypeForPreviewViewModel>(verseType);
         }
 
         public async Task<VerseTypeFormViewModel?> GetVerseTypeById(int id)
@@ -113,11 +125,27 @@ namespace ChoreographyBuilder.Core.Services
 
             if (verseType == null)
             {
-                //Check if this is the correct exception
-                throw new ArgumentNullException();
-            }
+				throw new EntityNotFoundException();
+			}
 
             return verseType.VerseChoreographies.Any();
+        }
+
+        public async Task<bool> VerseTypeExistByIdAsync(int id)
+        {
+            var verseType = await repository.GetByIdAsync<VerseType>(id);
+            if (verseType == null)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public async Task DeleteAsync(int id)
+        {
+            await repository.DeleteAsync<VerseType>(id);
+            await repository.SaveChangesAsync();
         }
     }
 }

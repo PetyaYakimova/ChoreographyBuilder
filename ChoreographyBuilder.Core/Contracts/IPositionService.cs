@@ -5,7 +5,7 @@ namespace ChoreographyBuilder.Core.Contracts
 {
 	public interface IPositionService
 	{
-		Task<IEnumerable<PositionForFigureViewModel>> AllActivePositionsAndSelectedPositionAsync(int? selectedPositionId);
+		Task<IEnumerable<PositionForPreviewViewModel>> AllActivePositionsAndSelectedPositionAsync(int? selectedPositionId = null);
 
 		Task AddPositionAsync(PositionFormViewModel model);
 
@@ -17,6 +17,12 @@ namespace ChoreographyBuilder.Core.Contracts
 
 		Task<bool> IsPositionUsedInFiguresAsync(int id);
 
-        Task EditPositionAsync(int positionId, PositionFormViewModel model);
-    }
+		Task EditPositionAsync(int positionId, PositionFormViewModel model);
+
+		Task<bool> PositionExistByIdAsync(int id);
+
+		Task<PositionForPreviewViewModel?> GetPositionForDeleteAsync(int id);
+
+		Task DeleteAsync(int id);
+	}
 }

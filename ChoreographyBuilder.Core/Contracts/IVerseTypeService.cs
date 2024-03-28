@@ -1,11 +1,12 @@
-﻿using ChoreographyBuilder.Core.Models.VerseType;
+﻿using ChoreographyBuilder.Core.Models.VerseChoreography;
+using ChoreographyBuilder.Core.Models.VerseType;
 using static ChoreographyBuilder.Core.Constants.LimitConstants;
 
 namespace ChoreographyBuilder.Core.Contracts
 {
 	public interface IVerseTypeService
 	{
-		Task<IEnumerable<VerseTypeForChoreographiesViewModel>> AllActiveVerseTypesOrSelectedVerseTypeAsync(int selectedVerseTypeId);
+		Task<IEnumerable<VerseTypeForPreviewViewModel>> AllActiveVerseTypesOrSelectedVerseTypeAsync(int? selectedVerseTypeId = null);
 
 		Task AddVerseTypeAsync(VerseTypeFormViewModel model);
 
@@ -18,5 +19,11 @@ namespace ChoreographyBuilder.Core.Contracts
 		Task<bool> IsVerseTypeUsedInChoreographiesAsync(int id);
 
         Task EditVerseTypeAsync(int verseTypeId, VerseTypeFormViewModel model);
+
+		Task<bool> VerseTypeExistByIdAsync(int id);
+
+        Task<VerseTypeForPreviewViewModel?> GetVerseTypeForDeleteAsync(int id);
+
+		Task DeleteAsync(int id);
     }
 }

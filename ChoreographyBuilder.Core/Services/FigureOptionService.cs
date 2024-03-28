@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using ChoreographyBuilder.Core.Contracts;
+using ChoreographyBuilder.Core.Exceptions;
 using ChoreographyBuilder.Core.Models.FigureOption;
 using ChoreographyBuilder.Infrastructure.Data.Common;
 using ChoreographyBuilder.Infrastructure.Data.Models;
@@ -9,7 +10,7 @@ using static ChoreographyBuilder.Core.Constants.LimitConstants;
 
 namespace ChoreographyBuilder.Core.Services
 {
-    public class FigureOptionService : IFigureOptionService
+	public class FigureOptionService : IFigureOptionService
 	{
 		private readonly IRepository repository;
 		private readonly IMapper mapper;
@@ -29,14 +30,19 @@ namespace ChoreographyBuilder.Core.Services
 			await repository.SaveChangesAsync();
 		}
 
+		public async Task DeleteAsync(int id)
+		{
+			await repository.DeleteAsync<FigureOption>(id);
+			await repository.SaveChangesAsync();
+		}
+
 		public async Task EditFigureOptionAsync(int optionId, FigureOptionFormViewModel model)
 		{
 			var option = await repository.GetByIdAsync<FigureOption>(optionId);
 
 			if (option == null)
 			{
-				//Check if this is the correct exception to throw
-				throw new ArgumentNullException();
+				throw new EntityNotFoundException();
 			}
 
 			option.StartPositionId = model.StartPositionId;
@@ -47,10 +53,43 @@ namespace ChoreographyBuilder.Core.Services
 			await repository.SaveChangesAsync();
 		}
 
+		public async Task<bool> FigureOptionExistForThisUserByIdAsync(int optionId, string userId)
+		{
+			FigureOption? figureOption = await repository.AllAsReadOnly<FigureOption>()
+				.Include(fo => fo.Figure)
+				.FirstOrDefaultAsync(fo => fo.Id == optionId);
+
+			if (figureOption == null)
+			{
+				return false;
+			}
+
+			if (figureOption.Figure.UserId != userId)
+			{
+				return false;
+			}
+
+			return true;
+		}
+
 		public async Task<FigureOptionFormViewModel?> GetFigureOptionByIdAsync(int optionId)
 		{
 			FigureOption? option = await repository.GetByIdAsync<FigureOption>(optionId);
 			return mapper.Map<FigureOptionFormViewModel>(option);
+		}
+
+		public async Task<FigureOptionDeleteViewModel?> GetFigureOptionForDeleteAsync(int id)
+		{
+			var option = await repository.AllAsReadOnly<FigureOption>()
+				.Include(fo => fo.Figure)
+				.FirstOrDefaultAsync(fo => fo.Id == id);
+
+			if (option == null)
+			{
+				throw new EntityNotFoundException();
+			}
+
+			return mapper.Map<FigureOptionDeleteViewModel?>(option);
 		}
 
 		public async Task<FigureOptionQueryServiceModel> GetFigureOptionsAsync(int figureId, int? searchedStartPositionId = null, int? searchedEndPositionId = null, int? searchedBeatsCount = null, DynamicsType? searchedDynamicsType = null, int currentPage = 1, int itemsPerPage = DefaultNumberOfItemsPerPage)
@@ -59,8 +98,7 @@ namespace ChoreographyBuilder.Core.Services
 
 			if (figure == null)
 			{
-				//Check if this is the correct exception to be thrown
-				throw new ArgumentNullException();
+				throw new EntityNotFoundException();
 			}
 
 			var optionsToShow = repository.AllAsReadOnly<FigureOption>()
@@ -111,31 +149,15 @@ namespace ChoreographyBuilder.Core.Services
 			};
 		}
 
-		public async Task<string> GetUserIdForFigureOptionByIdAsync(int optionId)
-		{
-			FigureOption? figureOption = await repository.AllAsReadOnly<FigureOption>()
-				.Include(fo => fo.Figure)
-				.FirstOrDefaultAsync(fo => fo.Id == optionId);
-
-			if (figureOption == null)
-			{
-				//Check if this is the correct exception to be thrown
-				throw new ArgumentNullException();
-			}
-
-			return figureOption.Figure.UserId;
-		}
-
 		public async Task<bool> IsFigureOptionUsedInChoreographiesAsync(int optionId)
 		{
 			FigureOption? option = await repository.AllAsReadOnly<FigureOption>()
 				.Include(fo => fo.VerseChoreographyFigures)
-				.FirstOrDefaultAsync(o=>o.Id==optionId);
+				.FirstOrDefaultAsync(o => o.Id == optionId);
 
 			if (option == null)
 			{
-				//Check if this is the correct exception to be thrown
-				throw new ArgumentNullException();
+				throw new EntityNotFoundException();
 			}
 
 			return option.VerseChoreographyFigures.Any();

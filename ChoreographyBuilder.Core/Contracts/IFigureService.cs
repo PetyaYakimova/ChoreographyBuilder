@@ -15,8 +15,14 @@ namespace ChoreographyBuilder.Core.Contracts
 
 		Task<string> GetFigureNameByIdAsync(int figureId);
 
-		Task<string> GetUserIdForFigureByIdAsync(int figureId);
-
 		Task<bool> IsFigureUsedInChoreographiesAsync(int figureId);
-    }
+
+		Task<IEnumerable<FigureForPreviewViewModel>> AllUserHighlightFiguresForChoreographiesAsync(string userId);
+
+		Task<bool> FigureExistForThisUserByIdAsync(int figureId, string userId);
+
+		Task<FigureForPreviewViewModel?> GetFigureForDeleteAsync(int id);
+
+		Task DeleteAsync(int id);
+	}
 }

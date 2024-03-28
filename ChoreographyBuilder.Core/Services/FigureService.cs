@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using ChoreographyBuilder.Core.Contracts;
+using ChoreographyBuilder.Core.Exceptions;
 using ChoreographyBuilder.Core.Models.Figure;
 using ChoreographyBuilder.Infrastructure.Data.Common;
 using ChoreographyBuilder.Infrastructure.Data.Models;
@@ -60,14 +61,37 @@ namespace ChoreographyBuilder.Core.Services
 			};
 		}
 
+		public async Task<IEnumerable<FigureForPreviewViewModel>> AllUserHighlightFiguresForChoreographiesAsync(string userId)
+		{
+			return await repository.AllAsReadOnly<Figure>()
+				.Where(f => f.UserId == userId)
+				.Where(f => f.IsHighlight)
+				.Select(f => mapper.Map<FigureForPreviewViewModel>(f))
+				.ToListAsync();
+		}
+
+		public async Task DeleteAsync(int id)
+		{
+			List<FigureOption> options = await repository.All<FigureOption>()
+				.Where(o => o.FigureId == id)
+				.ToListAsync();
+			
+			foreach (FigureOption option in options)
+			{
+				await repository.DeleteAsync<FigureOption>(option.Id);
+			}
+
+			await repository.DeleteAsync<Figure>(id);
+			await repository.SaveChangesAsync();
+		}
+
 		public async Task EditFigureAsync(int figureId, FigureFormViewModel model)
 		{
 			var figure = await repository.GetByIdAsync<Figure>(figureId);
 
 			if (figure == null)
 			{
-				//Check if this is the correct exception to throw
-				throw new ArgumentNullException();
+				throw new EntityNotFoundException();
 			}
 
 			figure.Name = model.Name;
@@ -77,10 +101,38 @@ namespace ChoreographyBuilder.Core.Services
 			await repository.SaveChangesAsync();
 		}
 
+		public async Task<bool> FigureExistForThisUserByIdAsync(int figureId, string userId)
+		{
+			var figure = await repository.GetByIdAsync<Figure>(figureId);
+			if (figure == null)
+			{
+				return false;
+			}
+
+			if (figure.UserId != userId)
+			{
+				return false;
+			}
+
+			return true;
+		}
+
 		public async Task<FigureFormViewModel?> GetFigureByIdAsync(int figureId)
 		{
 			Figure? figure = await repository.GetByIdAsync<Figure>(figureId);
 			return mapper.Map<FigureFormViewModel>(figure);
+		}
+
+		public async Task<FigureForPreviewViewModel?> GetFigureForDeleteAsync(int id)
+		{
+			var figure = await repository.GetByIdAsync<Figure>(id);
+
+			if (figure == null)
+			{
+				throw new EntityNotFoundException();
+			}
+
+			return mapper.Map<FigureForPreviewViewModel>(figure);
 		}
 
 		public async Task<string> GetFigureNameByIdAsync(int figureId)
@@ -89,24 +141,10 @@ namespace ChoreographyBuilder.Core.Services
 
 			if (figure == null)
 			{
-				//Check if this is the correct exception to be thrown
-				throw new ArgumentNullException();
+				throw new EntityNotFoundException();
 			}
 
 			return figure.Name;
-		}
-
-		public async Task<string> GetUserIdForFigureByIdAsync(int figureId)
-		{
-			Figure? figure = await repository.GetByIdAsync<Figure>(figureId);
-
-			if (figure == null)
-			{
-				//Check if this is the correct exception to be thrown
-				throw new ArgumentNullException();
-			}
-
-			return figure.UserId;
 		}
 
 		public async Task<bool> IsFigureUsedInChoreographiesAsync(int figureId)
@@ -118,8 +156,7 @@ namespace ChoreographyBuilder.Core.Services
 
 			if (figure == null)
 			{
-				//Check if this is the correct exception to be thrown
-				throw new ArgumentNullException();
+				throw new EntityNotFoundException();
 			}
 
 			return figure.FigureOptions.Any(fo => fo.VerseChoreographyFigures.Any());
