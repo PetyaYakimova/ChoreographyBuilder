@@ -31,13 +31,13 @@
 			</svg>
 		}
 	</td>
-	<td><a asp-controller="Figure" asp-action="Options" asp-route-id="@Model.Id" class="link-info custominputlink">Options</a></td>
-	<td><a asp-controller="Figure" asp-action="Edit" asp-route-id="@Model.Id" class="link-warning custominputlink">Edit</a></td>
+	<td><a asp-action="Options" asp-route-id="@Model.Id" class="link-info custominputlink">Options</a></td>
+	<td><a asp-action="Edit" asp-route-id="@Model.Id" class="link-warning custominputlink">Edit</a></td>
 	<td>
 		@if (!Model.FigureUsedInChoreographies)
 		{
 			<form method="get">
-				<input type="submit" asp-controller="Figure" asp-action="Delete" asp-route-id="@Model.Id" value="Delete" class="link-danger custominputlink" />
+				<input type="submit" asp-action="Delete" asp-route-id="@Model.Id" value="Delete" class="link-danger custominputlink" />
 			</form>
 		}
 	</td>

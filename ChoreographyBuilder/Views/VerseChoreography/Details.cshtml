@@ -61,5 +61,5 @@
 
 @if (!Model.UsedInFullChoreographies)
 {
-	<a asp-controller="VerseChoreography" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger mb-2 w-100 p-3 fw-bold">Delete</a>
+	<a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger mb-2 w-100 p-3 fw-bold">Delete</a>
 }

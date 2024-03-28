@@ -5,11 +5,11 @@
 		<form method="post">
 			@if (Model.IsActive)
 			{
-				<input type="submit" asp-controller="Position" asp-action="ChangeStatus" asp-route-id="@Model.Id" value="Deactivate" class="link-danger custominputlink" />
+				<input type="submit" asp-action="ChangeStatus" asp-route-id="@Model.Id" value="Deactivate" class="link-danger custominputlink" />
 			}
 			else
 			{
-				<input type="submit" asp-controller="Position" asp-action="ChangeStatus" asp-route-id="@Model.Id" value="Activate" class="link-success custominputlink" />
+				<input type="submit" asp-action="ChangeStatus" asp-route-id="@Model.Id" value="Activate" class="link-success custominputlink" />
 			}
 		</form>
 	</td>
@@ -17,7 +17,7 @@
 		@if (!Model.HasFigures)
 		{
 			<form method="get">
-				<input type="submit" asp-controller="Position" asp-action="Edit" asp-route-id="@Model.Id" value="Edit" class="link-warning custominputlink" />
+				<input type="submit" asp-action="Edit" asp-route-id="@Model.Id" value="Edit" class="link-warning custominputlink" />
 			</form>
 		}
 	</td>
@@ -25,7 +25,7 @@
 		@if (!Model.HasFigures)
 		{
 			<form method="get">
-				<input type="submit" asp-controller="Position" asp-action="Delete" asp-route-id="@Model.Id" value="Delete" class="link-danger custominputlink" />
+				<input type="submit" asp-action="Delete" asp-route-id="@Model.Id" value="Delete" class="link-danger custominputlink" />
 			</form>
 		}
 	</td>

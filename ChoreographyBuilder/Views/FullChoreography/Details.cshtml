@@ -42,7 +42,7 @@
 							@if (i == Model.Verses.Count() - 1)
 							{
 								<form method="get">
-									<input type="submit" asp-controller="FullChoreography" asp-action="DeleteVerseChoreography" asp-route-id="@Model.Verses[i].Id" value="Delete" class="link-danger custominputlink" />
+									<input type="submit" asp-action="DeleteVerseChoreography" asp-route-id="@Model.Verses[i].Id" value="Delete" class="link-danger custominputlink" />
 								</form>
 							}
 						</td>
@@ -53,5 +53,5 @@
 	</div>
 }
 
-<a asp-controller="FullChoreography" asp-action="AddVerseChoreography" asp-route-id="@Model.Id" class="btn btn-warning mb-4 w-100 p-3 fw-bold">Add Verse Choreography</a>
-<a asp-controller="FullChoreography" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger mb-2 w-100 p-3 fw-bold">Delete Full Choreography</a>
+<a asp-action="AddVerseChoreography" asp-route-id="@Model.Id" class="btn btn-warning mb-4 w-100 p-3 fw-bold">Add Verse Choreography</a>
+<a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger mb-2 w-100 p-3 fw-bold">Delete Full Choreography</a>

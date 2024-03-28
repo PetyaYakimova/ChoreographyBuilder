@@ -96,7 +96,6 @@ else
 	<div class="row mb-5">
 		<div class="col-md-4 justify-content-md-start">
 			<a class="btn btn-success @(Model.CurrentPage == 1 ? "disabled" : string.Empty)"
-		   asp-controller="Figure"
 		   asp-action="Options"
 		   asp-route-currentPage="@previousPage"
 		   asp-route-figureId="@Model.FigureId"
@@ -119,7 +118,6 @@ else
 		<div class="col-md-4">
 			<a class="btn btn-success float-end
            @(shouldButtonBeDisabled ? "disabled" : string.Empty)"
-		   asp-controller="Figure"
 		   asp-action="Options"
 		   asp-route-currentPage="@(Model.CurrentPage + 1)"
 		   asp-route-figureId="@Model.FigureId"
@@ -132,4 +130,4 @@ else
 	</div>
 }
 
-<a asp-controller="Figure" asp-action="AddOption" asp-route-id="@Model.FigureId" class="btn btn-warning mb-2 w-100 p-3 fw-bold">Add</a>
+<a asp-action="AddOption" asp-route-id="@Model.FigureId" class="btn btn-warning mb-2 w-100 p-3 fw-bold">Add</a>
