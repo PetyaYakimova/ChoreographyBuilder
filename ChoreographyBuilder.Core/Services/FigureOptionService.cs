@@ -131,6 +131,7 @@ namespace ChoreographyBuilder.Core.Services
 				.Include(o => o.StartPosition)
 				.Include(o => o.EndPosition)
 				.Include(o => o.VerseChoreographyFigures)
+				.OrderBy(o => o.Id)
 				.Skip((currentPage - 1) * itemsPerPage)
 				.Take(itemsPerPage)
 				.Select(o => mapper.Map<FigureOptionTableViewModel>(o))

@@ -52,6 +52,7 @@ namespace ChoreographyBuilder.Core.Services
 			var positions = await positionsToShow
 				.Include(p => p.FiguresWithStartPosition)
 				.Include(p => p.FiguresWithEndPosition)
+				.OrderBy(p => p.Id)
 				.Skip((currentPage - 1) * itemsPerPage)
 				.Take(itemsPerPage)
 				.Select(p => mapper.Map<PositionTableViewModel>(p))

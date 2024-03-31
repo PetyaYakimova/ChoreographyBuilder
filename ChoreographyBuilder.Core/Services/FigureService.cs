@@ -47,6 +47,7 @@ namespace ChoreographyBuilder.Core.Services
 			var figures = await figuresToShow
 				.Include(f => f.FigureOptions)
 				.ThenInclude(fo => fo.VerseChoreographyFigures)
+				.OrderBy(f => f.Id)
 				.Skip((currentPage - 1) * itemsPerPage)
 				.Take(itemsPerPage)
 				.Select(f => mapper.Map<FigureTableViewModel>(f))
@@ -75,7 +76,7 @@ namespace ChoreographyBuilder.Core.Services
 			List<FigureOption> options = await repository.All<FigureOption>()
 				.Where(o => o.FigureId == id)
 				.ToListAsync();
-			
+
 			foreach (FigureOption option in options)
 			{
 				await repository.DeleteAsync<FigureOption>(option.Id);

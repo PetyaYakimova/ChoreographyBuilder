@@ -48,6 +48,7 @@ namespace ChoreographyBuilder.Core.Services
 
 			var choreographies = await choreographiesToShow
 				.Include(c => c.VerseChoreographies)
+				.OrderBy(c => c.Id)
 				.Skip((currentPage - 1) * itemsPerPage)
 				.Take(itemsPerPage)
 				.Select(f => mapper.Map<FullChoreographyTableViewModel>(f))

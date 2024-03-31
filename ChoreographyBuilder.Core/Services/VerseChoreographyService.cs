@@ -76,6 +76,7 @@ namespace ChoreographyBuilder.Core.Services
 				 .Include(c => c.Figures)
 					.ThenInclude(cf => cf.FigureOption)
 						.ThenInclude(o => o.EndPosition)
+				.OrderBy(c => c.Id)
 				.Skip((currentPage - 1) * itemsPerPage)
 				.Take(itemsPerPage)
 				.Select(f => mapper.Map<VerseChoreographyTableViewModel>(f))
