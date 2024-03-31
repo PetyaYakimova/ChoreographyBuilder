@@ -10,7 +10,7 @@ namespace ChoreographyBuilder.Core.Contracts
 
 		Task AddFigureOptionAsync(FigureOptionFormViewModel model);
 
-		Task<FigureOptionFormViewModel?> GetFigureOptionByIdAsync(int optionId);
+		Task<FigureOptionFormViewModel> GetFigureOptionByIdAsync(int optionId);
 
 		Task<bool> IsFigureOptionUsedInChoreographiesAsync(int optionId);
 
@@ -18,7 +18,7 @@ namespace ChoreographyBuilder.Core.Contracts
 
 		Task<bool> FigureOptionExistForThisUserByIdAsync(int optionId, string userId);
 
-		Task<FigureOptionDeleteViewModel?> GetFigureOptionForDeleteAsync(int id);
+		Task<FigureOptionDeleteViewModel> GetFigureOptionForDeleteAsync(int id);
 
 		Task DeleteAsync(int id);
 	}

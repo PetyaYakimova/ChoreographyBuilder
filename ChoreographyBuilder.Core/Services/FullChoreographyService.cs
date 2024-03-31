@@ -3,21 +3,24 @@ using ChoreographyBuilder.Core.Contracts;
 using ChoreographyBuilder.Core.Exceptions;
 using ChoreographyBuilder.Core.Models.FullChoreography;
 using ChoreographyBuilder.Core.Models.Position;
-using ChoreographyBuilder.Core.Models.VerseChoreography;
 using ChoreographyBuilder.Infrastructure.Data.Common;
 using ChoreographyBuilder.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using static ChoreographyBuilder.Core.Constants.LimitConstants;
+using static ChoreographyBuilder.Core.Constants.MessageConstants;
 
 namespace ChoreographyBuilder.Core.Services
 {
 	public class FullChoreographyService : IFullChoreographyService
 	{
+		private readonly ILogger<FullChoreographyService> logger;
 		private readonly IRepository repository;
 		private readonly IMapper mapper;
 
-		public FullChoreographyService(IRepository repository, IMapper mapper)
+		public FullChoreographyService(ILogger<FullChoreographyService> logger, IRepository repository, IMapper mapper)
 		{
+			this.logger = logger;
 			this.repository = repository;
 			this.mapper = mapper;
 		}
@@ -83,6 +86,7 @@ namespace ChoreographyBuilder.Core.Services
 
 			if (choreography == null)
 			{
+				logger.LogError(EntityWithIdWasNotFoundLoggerErrorMessage, nameof(FullChoreography), id);
 				throw new EntityNotFoundException();
 			}
 
@@ -107,7 +111,7 @@ namespace ChoreographyBuilder.Core.Services
 			return true;
 		}
 
-		public async Task<FullChoreographyDetailsViewModel?> GetChoreographyDetailsByIdAsync(int id)
+		public async Task<FullChoreographyDetailsViewModel> GetChoreographyDetailsByIdAsync(int id)
 		{
 			var choreography = await repository.AllAsReadOnly<FullChoreography>()
 				.Include(c => c.VerseChoreographies)
@@ -130,21 +134,31 @@ namespace ChoreographyBuilder.Core.Services
 								.ThenInclude(o => o.EndPosition)
 				.FirstOrDefaultAsync(c => c.Id == id);
 
-			if (choreography != null)
+			if (choreography == null)
 			{
-				choreography.VerseChoreographies = choreography.VerseChoreographies.OrderBy(vs => vs.VerseChoreographyOrder);
+				logger.LogError(EntityWithIdWasNotFoundLoggerErrorMessage, nameof(FullChoreography), id);
+				throw new EntityNotFoundException();
 			}
 
-			return mapper.Map<FullChoreographyDetailsViewModel?>(choreography);
+			choreography.VerseChoreographies = choreography.VerseChoreographies.OrderBy(vs => vs.VerseChoreographyOrder);
+
+			return mapper.Map<FullChoreographyDetailsViewModel>(choreography);
 		}
 
-		public async Task<FullChoreographyFormViewModel?> GetChoreographyForEditByIdAsync(int id)
+		public async Task<FullChoreographyFormViewModel> GetChoreographyForEditByIdAsync(int id)
 		{
 			FullChoreography? choreography = await repository.GetByIdAsync<FullChoreography>(id);
-			return mapper.Map<FullChoreographyFormViewModel?>(choreography);
+
+			if (choreography == null)
+			{
+				logger.LogError(EntityWithIdWasNotFoundLoggerErrorMessage, nameof(FullChoreography), id);
+				throw new EntityNotFoundException();
+			}
+
+			return mapper.Map<FullChoreographyFormViewModel>(choreography);
 		}
 
-		public async Task<FullChoreographyTableViewModel?> GetFullChoreographyForDeleteAsync(int id)
+		public async Task<FullChoreographyTableViewModel> GetFullChoreographyForDeleteAsync(int id)
 		{
 			var choreography = await repository.AllAsReadOnly<FullChoreography>()
 				.Include(vc => vc.VerseChoreographies)
@@ -152,10 +166,11 @@ namespace ChoreographyBuilder.Core.Services
 
 			if (choreography == null)
 			{
+				logger.LogError(EntityWithIdWasNotFoundLoggerErrorMessage, nameof(FullChoreography), id);
 				throw new EntityNotFoundException();
 			}
 
-			return mapper.Map<FullChoreographyTableViewModel?>(choreography);
+			return mapper.Map<FullChoreographyTableViewModel>(choreography);
 		}
 
 		public async Task<PositionForPreviewViewModel?> GetLastVerseChoreographyEndPositionAsync(int fullChoreographyId)
@@ -187,6 +202,7 @@ namespace ChoreographyBuilder.Core.Services
 
 			if (choreography == null)
 			{
+				logger.LogError(EntityWithIdWasNotFoundLoggerErrorMessage, nameof(FullChoreography), fullChoreographyId);
 				throw new EntityNotFoundException();
 			}
 

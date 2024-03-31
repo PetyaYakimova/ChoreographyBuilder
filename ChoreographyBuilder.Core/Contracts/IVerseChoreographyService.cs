@@ -7,7 +7,7 @@ namespace ChoreographyBuilder.Core.Contracts
 	{
 		Task<VerseChoreographyQueryServiceModel> AllUserVerseChoreographiesAsync(string userId, string? searchTerm = null, int? searchedVerseTypeId = null, int? searchedStartPositionId = null, int? searchedEndPositionId = null, int? searchedFinalFigureId = null, int currentPage = 1, int itemsPerPage = DefaultNumberOfItemsPerPage);
 
-		Task<VerseChoreographyDetailsViewModel?> GetChoreographyByIdAsync(int id);
+		Task<VerseChoreographyDetailsViewModel> GetChoreographyByIdAsync(int id);
 
 		Task<IList<VerseChoreographySaveViewModel>> GenerateChoreographies(VerseChoreographyGenerateModel query, string userId);
 
@@ -19,7 +19,7 @@ namespace ChoreographyBuilder.Core.Contracts
 
 		Task<bool> IsVerseChoreographyUsedInFullChoreographies(int id);
 
-		Task<VerseChoreographyDeleteViewModel?> GetVerseChoreographyForDeleteAsync(int id);
+		Task<VerseChoreographyDeleteViewModel> GetVerseChoreographyForDeleteAsync(int id);
 
 		Task<IEnumerable<VerseChoreographyTableViewModel>> AllUserVerseChoreographiesStartingWithPositionAsync(string userId, int? startPositionId = null);
 	}

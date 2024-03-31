@@ -1,21 +1,24 @@
 ﻿using AutoMapper;
 using ChoreographyBuilder.Core.Contracts;
 using ChoreographyBuilder.Core.Exceptions;
-using ChoreographyBuilder.Core.Models.FigureOption;
 using ChoreographyBuilder.Core.Models.FullChoreographyVerseChoreography;
 using ChoreographyBuilder.Infrastructure.Data.Common;
 using ChoreographyBuilder.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using static ChoreographyBuilder.Core.Constants.MessageConstants;
 
 namespace ChoreographyBuilder.Core.Services
 {
 	public class FullChoreographyVerseChoreographyService : IFullChoreographyVerseChoreographyService
 	{
+		private readonly ILogger<FullChoreographyVerseChoreographyService> logger;
 		private readonly IRepository repository;
 		private readonly IMapper mapper;
 
-		public FullChoreographyVerseChoreographyService(IRepository repository, IMapper mapper)
+		public FullChoreographyVerseChoreographyService(ILogger<FullChoreographyVerseChoreographyService> logger, IRepository repository, IMapper mapper)
 		{
+			this.logger = logger;
 			this.repository = repository;
 			this.mapper = mapper;
 		}
@@ -36,7 +39,7 @@ namespace ChoreographyBuilder.Core.Services
 			await repository.SaveChangesAsync();
 		}
 
-		public async Task<FullChoreographyVerseChoreographyDeleteViewModel?> GetVerseChoreographyForDeleteAsync(int figureChoreographyVerseChoreographyId)
+		public async Task<FullChoreographyVerseChoreographyDeleteViewModel> GetVerseChoreographyForDeleteAsync(int figureChoreographyVerseChoreographyId)
 		{
 			var choreography = await repository.AllAsReadOnly<FullChoreographyVerseChoreography>()
 				.Include(fcvc => fcvc.VerseChoreography)
@@ -45,10 +48,11 @@ namespace ChoreographyBuilder.Core.Services
 
 			if (choreography == null)
 			{
+				logger.LogError(EntityWithIdWasNotFoundLoggerErrorMessage, nameof(FullChoreographyVerseChoreography), figureChoreographyVerseChoreographyId);
 				throw new EntityNotFoundException();
 			}
 
-			return mapper.Map<FullChoreographyVerseChoreographyDeleteViewModel?>(choreography);
+			return mapper.Map<FullChoreographyVerseChoreographyDeleteViewModel>(choreography);
 		}
 
 		public async Task<bool> VerseChoreographyInFullChoreographyExistForThisUserByIdAsync(int figureChoreographyVerseChoreographyId, string userId)

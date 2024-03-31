@@ -6,17 +6,21 @@ using ChoreographyBuilder.Infrastructure.Data.Common;
 using ChoreographyBuilder.Infrastructure.Data.Models;
 using ChoreographyBuilder.Infrastructure.Data.Models.Enums;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using static ChoreographyBuilder.Core.Constants.LimitConstants;
+using static ChoreographyBuilder.Core.Constants.MessageConstants;
 
 namespace ChoreographyBuilder.Core.Services
 {
 	public class FigureOptionService : IFigureOptionService
 	{
+		private readonly ILogger<FigureOptionService> logger;
 		private readonly IRepository repository;
 		private readonly IMapper mapper;
 
-		public FigureOptionService(IRepository repository, IMapper mapper)
+		public FigureOptionService(ILogger<FigureOptionService> logger, IRepository repository, IMapper mapper)
 		{
+			this.logger = logger;
 			this.repository = repository;
 			this.mapper = mapper;
 		}
@@ -42,6 +46,7 @@ namespace ChoreographyBuilder.Core.Services
 
 			if (option == null)
 			{
+				logger.LogError(EntityWithIdWasNotFoundLoggerErrorMessage, nameof(FigureOption), optionId);
 				throw new EntityNotFoundException();
 			}
 
@@ -72,13 +77,19 @@ namespace ChoreographyBuilder.Core.Services
 			return true;
 		}
 
-		public async Task<FigureOptionFormViewModel?> GetFigureOptionByIdAsync(int optionId)
+		public async Task<FigureOptionFormViewModel> GetFigureOptionByIdAsync(int optionId)
 		{
 			FigureOption? option = await repository.GetByIdAsync<FigureOption>(optionId);
+			if (option == null)
+			{
+				logger.LogError(EntityWithIdWasNotFoundLoggerErrorMessage, nameof(FigureOption), optionId);
+				throw new EntityNotFoundException();
+			}
+
 			return mapper.Map<FigureOptionFormViewModel>(option);
 		}
 
-		public async Task<FigureOptionDeleteViewModel?> GetFigureOptionForDeleteAsync(int id)
+		public async Task<FigureOptionDeleteViewModel> GetFigureOptionForDeleteAsync(int id)
 		{
 			var option = await repository.AllAsReadOnly<FigureOption>()
 				.Include(fo => fo.Figure)
@@ -86,10 +97,11 @@ namespace ChoreographyBuilder.Core.Services
 
 			if (option == null)
 			{
+				logger.LogError(EntityWithIdWasNotFoundLoggerErrorMessage, nameof(FigureOption), id);
 				throw new EntityNotFoundException();
 			}
 
-			return mapper.Map<FigureOptionDeleteViewModel?>(option);
+			return mapper.Map<FigureOptionDeleteViewModel>(option);
 		}
 
 		public async Task<FigureOptionQueryServiceModel> GetFigureOptionsAsync(int figureId, int? searchedStartPositionId = null, int? searchedEndPositionId = null, int? searchedBeatsCount = null, DynamicsType? searchedDynamicsType = null, int currentPage = 1, int itemsPerPage = DefaultNumberOfItemsPerPage)
@@ -98,6 +110,7 @@ namespace ChoreographyBuilder.Core.Services
 
 			if (figure == null)
 			{
+				logger.LogError(EntityWithIdWasNotFoundLoggerErrorMessage, nameof(Figure), figureId);
 				throw new EntityNotFoundException();
 			}
 
@@ -158,6 +171,7 @@ namespace ChoreographyBuilder.Core.Services
 
 			if (option == null)
 			{
+				logger.LogError(EntityWithIdWasNotFoundLoggerErrorMessage, nameof(FigureOption), optionId);
 				throw new EntityNotFoundException();
 			}
 

@@ -17,5 +17,7 @@
 		public const string VerseChoreographyDoesntExistErrorMessage = "Verse choreography doesn't exist!";
 
 		public const string InvalidVerseChoreographyOrderErrorMessage = "Verse choreography is with invalid order!";
+
+		public const string EntityWithIdWasNotFoundLoggerErrorMessage = "{0} with id {1} was not found!";
     }
 }

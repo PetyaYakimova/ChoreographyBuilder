@@ -13,7 +13,7 @@ namespace ChoreographyBuilder.Core.Contracts
 
 		Task<PositionQueryServiceModel> AllPositionsAsync(string? searchTerm = null, int currentPage = 1, int itemsPerPage = DefaultNumberOfItemsPerPage);
 
-		Task<PositionFormViewModel?> GetPositionByIdAsync(int id);
+		Task<PositionFormViewModel> GetPositionByIdAsync(int id);
 
 		Task<bool> IsPositionUsedInFiguresAsync(int id);
 
@@ -21,7 +21,7 @@ namespace ChoreographyBuilder.Core.Contracts
 
 		Task<bool> PositionExistByIdAsync(int id);
 
-		Task<PositionForPreviewViewModel?> GetPositionForDeleteAsync(int id);
+		Task<PositionForPreviewViewModel> GetPositionForDeleteAsync(int id);
 
 		Task DeleteAsync(int id);
 	}

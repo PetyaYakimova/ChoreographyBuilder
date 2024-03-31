@@ -14,7 +14,7 @@ namespace ChoreographyBuilder.Core.Contracts
 
 		Task<VerseTypeQueryServiceModel> AllVerseTypesAsync(string? searchTerm = null, int? searchedBeatsCount = null, int currentPage = 1, int itemsPerPage = DefaultNumberOfItemsPerPage);
 
-		Task<VerseTypeFormViewModel?> GetVerseTypeById(int id);
+		Task<VerseTypeFormViewModel> GetVerseTypeById(int id);
 
 		Task<bool> IsVerseTypeUsedInChoreographiesAsync(int id);
 
@@ -22,7 +22,7 @@ namespace ChoreographyBuilder.Core.Contracts
 
 		Task<bool> VerseTypeExistByIdAsync(int id);
 
-        Task<VerseTypeForPreviewViewModel?> GetVerseTypeForDeleteAsync(int id);
+        Task<VerseTypeForPreviewViewModel> GetVerseTypeForDeleteAsync(int id);
 
 		Task DeleteAsync(int id);
     }

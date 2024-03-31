@@ -7,12 +7,15 @@ using ChoreographyBuilder.Infrastructure.Data.Common;
 using ChoreographyBuilder.Infrastructure.Data.Models;
 using ChoreographyBuilder.Infrastructure.Data.Models.Enums;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using static ChoreographyBuilder.Core.Constants.LimitConstants;
+using static ChoreographyBuilder.Core.Constants.MessageConstants;
 
 namespace ChoreographyBuilder.Core.Services
 {
 	public class VerseChoreographyService : IVerseChoreographyService
 	{
+		private readonly ILogger<VerseChoreographyService> logger;
 		private readonly IRepository repository;
 		private readonly IMapper mapper;
 
@@ -20,8 +23,9 @@ namespace ChoreographyBuilder.Core.Services
 		private List<List<FigureOption>> validOptionsForGenerateChoreographies;
 		private int? startPositionForGenerateChoreographyId;
 
-		public VerseChoreographyService(IRepository repository, IMapper mapper)
+		public VerseChoreographyService(ILogger<VerseChoreographyService> logger, IRepository repository, IMapper mapper)
 		{
+			this.logger = logger;
 			this.repository = repository;
 			this.mapper = mapper;
 
@@ -102,25 +106,25 @@ namespace ChoreographyBuilder.Core.Services
 					.Where(c => c.Figures.OrderBy(f => f.FigureOrder).Select(f => f.FigureOption.StartPositionId).FirstOrDefault() == startPositionId);
 			}
 
-		var result = await choreographiesToShow
-				 .Include(c => c.VerseType)
-				 .Include(c => c.FullChoreographies)
-				 .Include(c => c.Figures)
-					.ThenInclude(cf => cf.FigureOption)
-						.ThenInclude(o => o.Figure)
-				 .Include(c => c.Figures)
-					.ThenInclude(cf => cf.FigureOption)
-						.ThenInclude(o => o.StartPosition)
-				 .Include(c => c.Figures)
-					.ThenInclude(cf => cf.FigureOption)
-						.ThenInclude(o => o.EndPosition)
-				.Select(c => mapper.Map<VerseChoreographyTableViewModel>(c))
-				.ToListAsync();
+			var result = await choreographiesToShow
+					 .Include(c => c.VerseType)
+					 .Include(c => c.FullChoreographies)
+					 .Include(c => c.Figures)
+						.ThenInclude(cf => cf.FigureOption)
+							.ThenInclude(o => o.Figure)
+					 .Include(c => c.Figures)
+						.ThenInclude(cf => cf.FigureOption)
+							.ThenInclude(o => o.StartPosition)
+					 .Include(c => c.Figures)
+						.ThenInclude(cf => cf.FigureOption)
+							.ThenInclude(o => o.EndPosition)
+					.Select(c => mapper.Map<VerseChoreographyTableViewModel>(c))
+					.ToListAsync();
 
 			return result;
 		}
 
-		public async Task<VerseChoreographyDetailsViewModel?> GetChoreographyByIdAsync(int id)
+		public async Task<VerseChoreographyDetailsViewModel> GetChoreographyByIdAsync(int id)
 		{
 			var choreography = await repository.AllAsReadOnly<VerseChoreography>()
 				.Include(c => c.VerseType)
@@ -136,10 +140,13 @@ namespace ChoreographyBuilder.Core.Services
 						.ThenInclude(fo => fo.EndPosition)
 				.FirstOrDefaultAsync(c => c.Id == id);
 
-			if (choreography != null)
+			if (choreography == null)
 			{
-				choreography.Figures = choreography.Figures.OrderBy(f => f.FigureOrder);
+				logger.LogError(EntityWithIdWasNotFoundLoggerErrorMessage, nameof(VerseChoreography), id);
+				throw new EntityNotFoundException();
 			}
+
+			choreography.Figures = choreography.Figures.OrderBy(f => f.FigureOrder);
 
 			return mapper.Map<VerseChoreographyDetailsViewModel>(choreography);
 		}
@@ -192,13 +199,14 @@ namespace ChoreographyBuilder.Core.Services
 
 			if (choreography == null)
 			{
+				logger.LogError(EntityWithIdWasNotFoundLoggerErrorMessage, nameof(VerseChoreography), id);
 				throw new EntityNotFoundException();
 			}
 
 			return choreography.FullChoreographies.Any();
 		}
 
-		public async Task<VerseChoreographyDeleteViewModel?> GetVerseChoreographyForDeleteAsync(int id)
+		public async Task<VerseChoreographyDeleteViewModel> GetVerseChoreographyForDeleteAsync(int id)
 		{
 			var choreography = await repository.AllAsReadOnly<VerseChoreography>()
 				.Include(vc => vc.Figures)
@@ -206,10 +214,11 @@ namespace ChoreographyBuilder.Core.Services
 
 			if (choreography == null)
 			{
+				logger.LogError(EntityWithIdWasNotFoundLoggerErrorMessage, nameof(VerseChoreography), id);
 				throw new EntityNotFoundException();
 			}
 
-			return mapper.Map<VerseChoreographyDeleteViewModel?>(choreography);
+			return mapper.Map<VerseChoreographyDeleteViewModel>(choreography);
 		}
 
 		public async Task<IList<VerseChoreographySaveViewModel>> GenerateChoreographies(VerseChoreographyGenerateModel query, string userId)

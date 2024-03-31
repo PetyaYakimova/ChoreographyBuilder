@@ -12,17 +12,17 @@ namespace ChoreographyBuilder.Core.Contracts
 
 		Task<bool> FullChoreographyExistForThisUserByIdAsync(int id, string userId);
 
-		Task<FullChoreographyFormViewModel?> GetChoreographyForEditByIdAsync(int id);
+		Task<FullChoreographyFormViewModel> GetChoreographyForEditByIdAsync(int id);
 
 		Task EditFullChoreographyAsync(int id, FullChoreographyFormViewModel model);
 
-		Task<FullChoreographyDetailsViewModel?> GetChoreographyDetailsByIdAsync(int id);
+		Task<FullChoreographyDetailsViewModel> GetChoreographyDetailsByIdAsync(int id);
 
 		Task<PositionForPreviewViewModel?> GetLastVerseChoreographyEndPositionAsync(int fullChoreographyId);
 
 		Task<int> GetNumberOfVerseChoreographiesForFullChoreographyAsync(int fullChoreographyId);
 
-		Task<FullChoreographyTableViewModel?> GetFullChoreographyForDeleteAsync(int id);
+		Task<FullChoreographyTableViewModel> GetFullChoreographyForDeleteAsync(int id);
 
 		Task DeleteAsync(int id);
 

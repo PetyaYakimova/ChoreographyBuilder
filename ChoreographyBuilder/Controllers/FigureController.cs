@@ -69,7 +69,7 @@ namespace ChoreographyBuilder.Controllers
 		[FigureExistsForThisUser]
 		public async Task<IActionResult> Edit(int id)
 		{
-			var model = await figureService.GetFigureByIdAsync(id);
+			FigureFormViewModel model = await figureService.GetFigureByIdAsync(id);
 
 			return View(model);
 		}
@@ -91,8 +91,8 @@ namespace ChoreographyBuilder.Controllers
 
 		[HttpGet]
 		//Check that user is user and not admin
-		[FigureExistsForThisUser]
-		[FigureNotUsedInChoreographies]
+		//[FigureExistsForThisUser]
+		//[FigureNotUsedInChoreographies]
 		public async Task<IActionResult> Delete(int id)
 		{
 			var model = await figureService.GetFigureForDeleteAsync(id);
@@ -198,7 +198,7 @@ namespace ChoreographyBuilder.Controllers
 		[FigureOptionNotUsedInChoreographies]
 		public async Task<IActionResult> EditOption(int id)
 		{
-			FigureOptionFormViewModel model = (await figureOptionService.GetFigureOptionByIdAsync(id)) ?? new FigureOptionFormViewModel();
+			FigureOptionFormViewModel model = (await figureOptionService.GetFigureOptionByIdAsync(id));
 
 			string figureName = await figureService.GetFigureNameByIdAsync(model.FigureId);
 
@@ -216,7 +216,7 @@ namespace ChoreographyBuilder.Controllers
 		[FigureOptionNotUsedInChoreographies]
 		public async Task<IActionResult> EditOption(FigureOptionFormViewModel model, int id)
 		{
-			FigureOptionFormViewModel option = await figureOptionService.GetFigureOptionByIdAsync(id) ?? new FigureOptionFormViewModel();
+			FigureOptionFormViewModel option = await figureOptionService.GetFigureOptionByIdAsync(id);
 			if (option.FigureId != model.FigureId)
 			{
 				logger.LogError("Difference between the sent figureId and the figure id from the figure option.");

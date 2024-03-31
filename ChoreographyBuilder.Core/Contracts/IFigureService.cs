@@ -11,7 +11,7 @@ namespace ChoreographyBuilder.Core.Contracts
 
 		Task EditFigureAsync(int figureId, FigureFormViewModel model);
 
-		Task<FigureFormViewModel?> GetFigureByIdAsync(int figureId);
+		Task<FigureFormViewModel> GetFigureByIdAsync(int figureId);
 
 		Task<string> GetFigureNameByIdAsync(int figureId);
 
@@ -21,7 +21,7 @@ namespace ChoreographyBuilder.Core.Contracts
 
 		Task<bool> FigureExistForThisUserByIdAsync(int figureId, string userId);
 
-		Task<FigureForPreviewViewModel?> GetFigureForDeleteAsync(int id);
+		Task<FigureForPreviewViewModel> GetFigureForDeleteAsync(int id);
 
 		Task DeleteAsync(int id);
 	}

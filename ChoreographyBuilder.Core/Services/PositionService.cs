@@ -2,21 +2,24 @@
 using ChoreographyBuilder.Core.Contracts;
 using ChoreographyBuilder.Core.Exceptions;
 using ChoreographyBuilder.Core.Models.Position;
-using ChoreographyBuilder.Core.Models.VerseType;
 using ChoreographyBuilder.Infrastructure.Data.Common;
 using ChoreographyBuilder.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using static ChoreographyBuilder.Core.Constants.LimitConstants;
+using static ChoreographyBuilder.Core.Constants.MessageConstants;
 
 namespace ChoreographyBuilder.Core.Services
 {
 	public class PositionService : IPositionService
 	{
+		private readonly ILogger<PositionService> logger;
 		private readonly IRepository repository;
 		private readonly IMapper mapper;
 
-		public PositionService(IRepository repository, IMapper mapper)
+		public PositionService(ILogger<PositionService> logger, IRepository repository, IMapper mapper)
 		{
+			this.logger = logger;
 			this.repository = repository;
 			this.mapper = mapper;
 		}
@@ -73,6 +76,7 @@ namespace ChoreographyBuilder.Core.Services
 
 			if (position == null)
 			{
+				logger.LogError(EntityWithIdWasNotFoundLoggerErrorMessage, nameof(Position), id);
 				throw new EntityNotFoundException();
 			}
 
@@ -87,6 +91,7 @@ namespace ChoreographyBuilder.Core.Services
 
 			if (position == null)
 			{
+				logger.LogError(EntityWithIdWasNotFoundLoggerErrorMessage, nameof(Position), positionId);
 				throw new EntityNotFoundException();
 			}
 
@@ -106,10 +111,16 @@ namespace ChoreographyBuilder.Core.Services
 			return true;
 		}
 
-		public async Task<PositionFormViewModel?> GetPositionByIdAsync(int id)
+		public async Task<PositionFormViewModel> GetPositionByIdAsync(int id)
 		{
 			Position? position = await repository.GetByIdAsync<Position>(id);
-			return mapper.Map<PositionFormViewModel?>(position);
+			if (position == null)
+			{
+				logger.LogError(EntityWithIdWasNotFoundLoggerErrorMessage, nameof(Position), id);
+				throw new EntityNotFoundException();
+			}
+
+			return mapper.Map<PositionFormViewModel>(position);
 		}
 
 		public async Task<bool> IsPositionUsedInFiguresAsync(int id)
@@ -121,18 +132,20 @@ namespace ChoreographyBuilder.Core.Services
 
 			if (position == null)
 			{
+				logger.LogError(EntityWithIdWasNotFoundLoggerErrorMessage, nameof(Position), id);
 				throw new EntityNotFoundException();
 			}
 
 			return position.FiguresWithStartPosition.Any() || position.FiguresWithEndPosition.Any();
 		}
 
-		public async Task<PositionForPreviewViewModel?> GetPositionForDeleteAsync(int id)
+		public async Task<PositionForPreviewViewModel> GetPositionForDeleteAsync(int id)
 		{
 			var position = await repository.GetByIdAsync<Position>(id);
 
 			if (position == null)
 			{
+				logger.LogError(EntityWithIdWasNotFoundLoggerErrorMessage, nameof(Position), id);
 				throw new EntityNotFoundException();
 			}
 

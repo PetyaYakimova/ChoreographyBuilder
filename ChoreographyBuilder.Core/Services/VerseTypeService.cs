@@ -5,17 +5,21 @@ using ChoreographyBuilder.Core.Models.VerseType;
 using ChoreographyBuilder.Infrastructure.Data.Common;
 using ChoreographyBuilder.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using static ChoreographyBuilder.Core.Constants.LimitConstants;
+using static ChoreographyBuilder.Core.Constants.MessageConstants;
 
 namespace ChoreographyBuilder.Core.Services
 {
 	public class VerseTypeService : IVerseTypeService
 	{
+		private readonly ILogger<VerseTypeService> logger;
 		private readonly IRepository repository;
 		private readonly IMapper mapper;
 
-		public VerseTypeService(IRepository repository, IMapper mapper)
+		public VerseTypeService(ILogger<VerseTypeService> logger, IRepository repository, IMapper mapper)
 		{
+			this.logger = logger;
 			this.repository = repository;
 			this.mapper = mapper;
 		}
@@ -77,6 +81,7 @@ namespace ChoreographyBuilder.Core.Services
 
 			if (verseType == null)
 			{
+				logger.LogError(EntityWithIdWasNotFoundLoggerErrorMessage, nameof(VerseType), id);
 				throw new EntityNotFoundException();
 			}
 
@@ -91,6 +96,7 @@ namespace ChoreographyBuilder.Core.Services
 
 			if (verseType == null)
 			{
+				logger.LogError(EntityWithIdWasNotFoundLoggerErrorMessage, nameof(VerseType), verseTypeId);
 				throw new EntityNotFoundException();
 			}
 
@@ -100,22 +106,30 @@ namespace ChoreographyBuilder.Core.Services
 			await repository.SaveChangesAsync();
 		}
 
-		public async Task<VerseTypeForPreviewViewModel?> GetVerseTypeForDeleteAsync(int id)
+		public async Task<VerseTypeForPreviewViewModel> GetVerseTypeForDeleteAsync(int id)
 		{
 			var verseType = await repository.GetByIdAsync<VerseType>(id);
 
 			if (verseType == null)
 			{
+				logger.LogError(EntityWithIdWasNotFoundLoggerErrorMessage, nameof(VerseType), id);
 				throw new EntityNotFoundException();
 			}
 
 			return mapper.Map<VerseTypeForPreviewViewModel>(verseType);
 		}
 
-		public async Task<VerseTypeFormViewModel?> GetVerseTypeById(int id)
+		public async Task<VerseTypeFormViewModel> GetVerseTypeById(int id)
 		{
 			VerseType? verseType = await repository.GetByIdAsync<VerseType>(id);
-			return mapper.Map<VerseTypeFormViewModel?>(verseType);
+
+			if (verseType == null)
+			{
+				logger.LogError(EntityWithIdWasNotFoundLoggerErrorMessage, nameof(VerseType), id);
+				throw new EntityNotFoundException();
+			}
+
+			return mapper.Map<VerseTypeFormViewModel>(verseType);
 		}
 
 		public async Task<bool> IsVerseTypeUsedInChoreographiesAsync(int id)
@@ -126,6 +140,7 @@ namespace ChoreographyBuilder.Core.Services
 
 			if (verseType == null)
 			{
+				logger.LogError(EntityWithIdWasNotFoundLoggerErrorMessage, nameof(VerseType), id);
 				throw new EntityNotFoundException();
 			}
 

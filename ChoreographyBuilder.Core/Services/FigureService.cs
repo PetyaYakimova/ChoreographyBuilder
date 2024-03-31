@@ -5,17 +5,21 @@ using ChoreographyBuilder.Core.Models.Figure;
 using ChoreographyBuilder.Infrastructure.Data.Common;
 using ChoreographyBuilder.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using static ChoreographyBuilder.Core.Constants.LimitConstants;
+using static ChoreographyBuilder.Core.Constants.MessageConstants;
 
 namespace ChoreographyBuilder.Core.Services
 {
 	public class FigureService : IFigureService
 	{
+		private readonly ILogger<FigureService> logger;
 		private readonly IRepository repository;
 		private readonly IMapper mapper;
 
-		public FigureService(IRepository repository, IMapper mapper)
+		public FigureService(ILogger<FigureService> logger, IRepository repository, IMapper mapper)
 		{
+			this.logger = logger;
 			this.repository = repository;
 			this.mapper = mapper;
 		}
@@ -92,6 +96,7 @@ namespace ChoreographyBuilder.Core.Services
 
 			if (figure == null)
 			{
+				logger.LogError(EntityWithIdWasNotFoundLoggerErrorMessage, nameof(Figure), figureId);
 				throw new EntityNotFoundException();
 			}
 
@@ -118,18 +123,25 @@ namespace ChoreographyBuilder.Core.Services
 			return true;
 		}
 
-		public async Task<FigureFormViewModel?> GetFigureByIdAsync(int figureId)
+		public async Task<FigureFormViewModel> GetFigureByIdAsync(int figureId)
 		{
 			Figure? figure = await repository.GetByIdAsync<Figure>(figureId);
+			if (figure == null)
+			{
+				logger.LogError(EntityWithIdWasNotFoundLoggerErrorMessage, nameof(Figure), figureId);
+				throw new EntityNotFoundException();
+			}
+
 			return mapper.Map<FigureFormViewModel>(figure);
 		}
 
-		public async Task<FigureForPreviewViewModel?> GetFigureForDeleteAsync(int id)
+		public async Task<FigureForPreviewViewModel> GetFigureForDeleteAsync(int id)
 		{
 			var figure = await repository.GetByIdAsync<Figure>(id);
 
 			if (figure == null)
 			{
+				logger.LogError(EntityWithIdWasNotFoundLoggerErrorMessage, nameof(Figure), id);
 				throw new EntityNotFoundException();
 			}
 
@@ -142,6 +154,7 @@ namespace ChoreographyBuilder.Core.Services
 
 			if (figure == null)
 			{
+				logger.LogError(EntityWithIdWasNotFoundLoggerErrorMessage, nameof(Figure), figureId);
 				throw new EntityNotFoundException();
 			}
 
@@ -157,6 +170,7 @@ namespace ChoreographyBuilder.Core.Services
 
 			if (figure == null)
 			{
+				logger.LogError(EntityWithIdWasNotFoundLoggerErrorMessage, nameof(Figure), figureId);
 				throw new EntityNotFoundException();
 			}
 

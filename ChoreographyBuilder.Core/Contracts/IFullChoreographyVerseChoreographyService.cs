@@ -10,7 +10,7 @@ namespace ChoreographyBuilder.Core.Contracts
 
 		Task<bool> VerseChoreographyIsLastForFullChoreographyByIdAdync(int figureChoreographyVerseChoreographyId);
 
-		Task<FullChoreographyVerseChoreographyDeleteViewModel?> GetVerseChoreographyForDeleteAsync(int figureChoreographyVerseChoreographyId);
+		Task<FullChoreographyVerseChoreographyDeleteViewModel> GetVerseChoreographyForDeleteAsync(int figureChoreographyVerseChoreographyId);
 
 		Task DeleteAsync(int figureChoreographyVerseChoreographyId);
 	}
