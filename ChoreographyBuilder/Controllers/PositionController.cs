@@ -7,7 +7,7 @@ namespace ChoreographyBuilder.Controllers
 {
 	public class PositionController : BaseController
     {
-        private IPositionService positionService;
+        private readonly IPositionService positionService;
 
         public PositionController(IPositionService positionService)
         {

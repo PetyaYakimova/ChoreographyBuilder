@@ -9,21 +9,24 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ChoreographyBuilder.Controllers
 {
-    public class VerseChoreographyController : BaseController
+	public class VerseChoreographyController : BaseController
 	{
-		private IVerseChoreographyService verseChoreographyService;
-		private IPositionService positionService;
-		private IVerseTypeService verseTypeService;
-		private IFigureService figureService;
-		private IFigureOptionService figureOptionService;
+		private readonly ILogger<VerseChoreographyController> logger;
+		private readonly IVerseChoreographyService verseChoreographyService;
+		private readonly IPositionService positionService;
+		private readonly IVerseTypeService verseTypeService;
+		private readonly IFigureService figureService;
+		private readonly IFigureOptionService figureOptionService;
 
 		public VerseChoreographyController(
+			ILogger<VerseChoreographyController> logger,
 			IVerseChoreographyService verseChoreographyService,
 			IPositionService positionService,
 			IVerseTypeService verseTypeService,
 			IFigureService figureService,
 			IFigureOptionService figureOptionService)
 		{
+			this.logger = logger;
 			this.verseChoreographyService = verseChoreographyService;
 			this.positionService = positionService;
 			this.verseTypeService = verseTypeService;
@@ -84,6 +87,7 @@ namespace ChoreographyBuilder.Controllers
 				query.StartPositionId != null && !(await GetAllActivePositionsAsync()).Any(p => p.Id == query.StartPositionId) ||
 				!(await GetAllUserHighlightFiguresAsync()).Any(f => f.Id == query.FinalFigureId))
 			{
+				logger.LogError("Invalid request for generating verse choreography!");
 				return RedirectToAction(nameof(Generate));
 			}
 
@@ -98,6 +102,7 @@ namespace ChoreographyBuilder.Controllers
 		{
 			if (!await verseTypeService.VerseTypeExistByIdAsync(model.VerseTypeId))
 			{
+				logger.LogError("Invalid verse type id when saving verse choreography!");
 				return BadRequest();
 			}
 
@@ -107,6 +112,7 @@ namespace ChoreographyBuilder.Controllers
 			{
 				if (!await figureOptionService.FigureOptionExistForThisUserByIdAsync(figureOptionId, userId))
 				{
+					logger.LogError("Invalid figure option id when saving verse choreography!");
 					return BadRequest();
 				}
 			}

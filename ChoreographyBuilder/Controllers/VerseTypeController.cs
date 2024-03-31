@@ -7,7 +7,7 @@ namespace ChoreographyBuilder.Controllers
 {
 	public class VerseTypeController : BaseController
     {
-        private IVerseTypeService verseTypeService;
+        private readonly IVerseTypeService verseTypeService;
 
         public VerseTypeController(IVerseTypeService verseTypeService)
         {

@@ -12,12 +12,14 @@ namespace ChoreographyBuilder.Controllers
 {
 	public class FigureController : BaseController
 	{
+		private readonly ILogger<FigureController> logger;
 		private readonly IFigureService figureService;
 		private readonly IFigureOptionService figureOptionService;
 		private readonly IPositionService positionService;
 
-		public FigureController(IFigureService figureService, IFigureOptionService figureOptionService, IPositionService positionService)
+		public FigureController(ILogger<FigureController> logger, IFigureService figureService, IFigureOptionService figureOptionService, IPositionService positionService)
 		{
+			this.logger = logger;
 			this.figureService = figureService;
 			this.figureOptionService = figureOptionService;
 			this.positionService = positionService;
@@ -217,6 +219,7 @@ namespace ChoreographyBuilder.Controllers
 			FigureOptionFormViewModel option = await figureOptionService.GetFigureOptionByIdAsync(id) ?? new FigureOptionFormViewModel();
 			if (option.FigureId != model.FigureId)
 			{
+				logger.LogError("Difference between the sent figureId and the figure id from the figure option.");
 				return BadRequest();
 			}
 
