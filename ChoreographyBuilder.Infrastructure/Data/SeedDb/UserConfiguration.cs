@@ -10,7 +10,7 @@ namespace ChoreographyBuilder.Infrastructure.Data.SeedDb
 		{
 			var data = new SeedData();
 
-			builder.HasData(new IdentityUser[] { data.DemoUser });
+			builder.HasData(new IdentityUser[] { data.DemoUser, data.AdminUser });
 		}
 	}
 }

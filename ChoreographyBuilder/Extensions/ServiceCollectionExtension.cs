@@ -55,6 +55,7 @@ namespace Microsoft.Extensions.DependencyInjection
 					options.Password.RequireLowercase = false;
 					options.Password.RequireDigit = false;
 				})
+				.AddRoles<IdentityRole>()
 				.AddEntityFrameworkStores<ChoreographyBuilderDbContext>();
 
 			return services;

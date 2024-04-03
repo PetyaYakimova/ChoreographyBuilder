@@ -14,13 +14,16 @@ namespace ChoreographyBuilder.Infrastructure.Data
 
 		protected override void OnModelCreating(ModelBuilder builder)
 		{
+			builder.ApplyConfiguration(new RoleConfiguration());
 			builder.ApplyConfiguration(new UserConfiguration());
+			builder.ApplyConfiguration(new UserInRoleConfiguration());
 			builder.ApplyConfiguration(new PositionConfiguration());
 			builder.ApplyConfiguration(new VerseTypeConfiguration());
 			builder.ApplyConfiguration(new FigureConfiguration());
 			builder.ApplyConfiguration(new FigureOptionConfiguration());
 			builder.ApplyConfiguration(new VerseChoreographyConfiguration());
 			builder.ApplyConfiguration(new VerseChoreographyFigureConfiguration());
+			builder.ApplyConfiguration(new FullChoreographyConfiguration());
 			builder.ApplyConfiguration(new FullChoreographyVerseChoreographyConfiguration());
 
 			base.OnModelCreating(builder);
