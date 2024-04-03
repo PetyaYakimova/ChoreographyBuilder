@@ -8,9 +8,8 @@ using ChoreographyBuilder.Core.Models.VerseChoreography;
 using ChoreographyBuilder.Core.Models.VerseChoreographyFigure;
 using ChoreographyBuilder.Core.Models.VerseType;
 using ChoreographyBuilder.Infrastructure.Data.Models;
-using System.Security.Cryptography;
 
-namespace ChoreographyBuilder.Core.Mapping
+namespace ChoreographyBuilder.Core.Infrastructure
 {
 	public class MappingProfile : Profile
 	{
