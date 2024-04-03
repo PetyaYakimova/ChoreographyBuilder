@@ -48,6 +48,7 @@ namespace Microsoft.Extensions.DependencyInjection
 			services
 				.AddDefaultIdentity<IdentityUser>(options =>
 				{
+					options.User.RequireUniqueEmail = true;
 					options.SignIn.RequireConfirmedAccount = false;
 					options.Password.RequireNonAlphanumeric = false;
 					options.Password.RequireUppercase = false;
