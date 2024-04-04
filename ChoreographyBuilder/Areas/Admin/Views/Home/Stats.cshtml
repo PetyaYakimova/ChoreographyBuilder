@@ -1,0 +1,74 @@
+﻿@model AdminStatisticModel
+
+@{
+	ViewBag.Title = "Statistics";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+<div class="row">
+	<div class="form-group col-md-4 d-flex">
+		<label asp-for="TotalNumberOfPositions" class="fw-bold me-2"></label>
+		<p>@Model.TotalNumberOfPositions</p>
+	</div>
+	<div class="form-group col-md-4 d-flex">
+		<label asp-for="NumberOfActivePositions" class="fw-bold me-2"></label>
+		<p>@Model.NumberOfActivePositions</p>
+	</div>
+	<form method="get" class="col-md-4 d-flex">
+		<input type="submit" asp-controller="Position" asp-action="All" value="See all" class="link-warning custominputlink" />
+	</form>
+</div>
+<hr />
+
+<div class="row">
+	<div class="form-group col-md-4 d-flex">
+		<label asp-for="TotalNumberOfVerseTypes" class="fw-bold me-2"></label>
+		<p>@Model.TotalNumberOfVerseTypes</p>
+	</div>
+	<div class="form-group col-md-4 d-flex">
+		<label asp-for="NumberOfActiveVerseTypes" class="fw-bold me-2"></label>
+		<p>@Model.NumberOfActiveVerseTypes</p>
+	</div>
+	<form method="get" class="col-md-4 d-flex">
+		<input type="submit" asp-controller="VerseType" asp-action="All" value="See all" class="link-warning custominputlink" />
+	</form>
+</div>
+<hr />
+
+<div class="row">
+	<div class="form-group col-md-4 d-flex">
+		<label asp-for="TotalNumberOfFigures" class="fw-bold me-2"></label>
+		<p>@Model.TotalNumberOfFigures</p>
+	</div>
+	<div class="form-group col-md-4 d-flex">
+		<label asp-for="UsersWithAtLeastOneFigure" class="fw-bold me-2"></label>
+		<p>@Model.UsersWithAtLeastOneFigure</p>
+	</div>
+</div>
+<hr />
+
+<div class="row">
+	<div class="form-group col-md-4 d-flex">
+		<label asp-for="TotalNumberOfSavedVerseChoreographies" class="fw-bold me-2"></label>
+		<p>@Model.TotalNumberOfSavedVerseChoreographies</p>
+	</div>
+	<div class="form-group col-md-4 d-flex">
+		<label asp-for="UsersWithAtLeastOneVerseChoreography" class="fw-bold me-2"></label>
+		<p>@Model.UsersWithAtLeastOneVerseChoreography</p>
+	</div>
+</div>
+<hr />
+
+<div class="row">
+	<div class="form-group col-md-4 d-flex">
+		<label asp-for="TotalNumberOfSavedFullChoreographies" class="fw-bold me-2"></label>
+		<p>@Model.TotalNumberOfSavedFullChoreographies</p>
+	</div>
+	<div class="form-group col-md-4 d-flex">
+		<label asp-for="UsersWithAtLeastOneFullChoreographye" class="fw-bold me-2"></label>
+		<p>@Model.UsersWithAtLeastOneFullChoreographye</p>
+	</div>
+</div>
+<hr />

@@ -1,0 +1,12 @@
+﻿@model VerseTypeFormViewModel
+@{
+    ViewBag.Title = "Create a Verse Type";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+<partial name="_VerseTypeFormPartial" model="@Model" />
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
