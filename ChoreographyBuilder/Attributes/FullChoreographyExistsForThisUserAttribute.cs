@@ -1,7 +1,7 @@
 ﻿using ChoreographyBuilder.Core.Contracts;
-using ChoreographyBuilder.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using System.Security.Claims;
 
 namespace ChoreographyBuilder.Attributes
 {
