@@ -26,6 +26,7 @@ namespace Microsoft.Extensions.DependencyInjection
 			services.AddScoped<IVerseChoreographyService, VerseChoreographyService>();
 			services.AddScoped<IFullChoreographyService, FullChoreographyService>();
 			services.AddScoped<IFullChoreographyVerseChoreographyService, FullChoreographyVerseChoreographyService>();
+			services.AddScoped<IStatisticService, StatisticService>();
 
 			return services;
 		}

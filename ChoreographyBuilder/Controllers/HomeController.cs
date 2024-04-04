@@ -1,19 +1,43 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using ChoreographyBuilder.Core.Contracts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace ChoreographyBuilder.Controllers
 {
 	public class HomeController : BaseController
 	{
-		public HomeController()
+		private readonly IStatisticService statisticService;
+
+		public HomeController(IStatisticService statisticService)
 		{
+			this.statisticService = statisticService;
 		}
 
 		[AllowAnonymous]
 		[HttpGet]
 		public IActionResult Index()
 		{
+			if (User?.Identity?.IsAuthenticated ?? false)
+			{
+				if (User.IsAdmin())
+				{
+					return RedirectToAction("Stats", "Home", new { area = "Admin" });
+				}
+				else if (User.IsUser())
+				{
+					return RedirectToAction(nameof(Stats));
+				}
+			}
 			return View();
+		}
+
+		[HttpGet]
+		public async Task<IActionResult> Stats()
+		{
+			var model = await statisticService.GetUserStatisticsAsync(User.Id());
+
+			return View(model);
 		}
 
 		[AllowAnonymous]

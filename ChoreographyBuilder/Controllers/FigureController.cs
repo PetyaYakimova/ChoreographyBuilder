@@ -3,9 +3,9 @@ using ChoreographyBuilder.Core.Contracts;
 using ChoreographyBuilder.Core.Models.Figure;
 using ChoreographyBuilder.Core.Models.FigureOption;
 using ChoreographyBuilder.Core.Models.Position;
-using ChoreographyBuilder.Extensions;
 using ChoreographyBuilder.Infrastructure.Data.Models.Enums;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using static ChoreographyBuilder.Core.Constants.MessageConstants;
 
 namespace ChoreographyBuilder.Controllers

@@ -4,8 +4,8 @@ using ChoreographyBuilder.Core.Models.FullChoreography;
 using ChoreographyBuilder.Core.Models.FullChoreographyVerseChoreography;
 using ChoreographyBuilder.Core.Models.Position;
 using ChoreographyBuilder.Core.Models.VerseChoreography;
-using ChoreographyBuilder.Extensions;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using static ChoreographyBuilder.Core.Constants.MessageConstants;
 
 namespace ChoreographyBuilder.Controllers

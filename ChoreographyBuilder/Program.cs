@@ -18,13 +18,14 @@ var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
-    //TODO: Uncomment the following line before submitting
-    //app.UseDeveloperExceptionPage();
-    //Use the following 2 line only to see the error pages
-    app.UseExceptionHandler("/Home/Error/500");
-    app.UseStatusCodePagesWithReExecute("/Home/Error", "?statusCode={0}");
+	//TODO: Check why when user tries to access amdin pages or when admin tries to access user pages they see general error page and not my custom views
+	//TODO: Uncomment the following line before submitting
+	//app.UseDeveloperExceptionPage();
+	//Use the following 2 line only to see the error pages
+	app.UseExceptionHandler("/Home/Error/500");
+	app.UseStatusCodePagesWithReExecute("/Home/Error", "?statusCode={0}");
 
-    app.UseMigrationsEndPoint();
+	app.UseMigrationsEndPoint();
 }
 else
 {
@@ -41,7 +42,14 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapDefaultControllerRoute();
-app.MapRazorPages();
+app.UseEndpoints(endpoints =>
+{
+	endpoints.MapControllerRoute(
+			name: "areas",
+			pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+		  );
+	endpoints.MapDefaultControllerRoute();
+	endpoints.MapRazorPages();
+});
 
 app.Run();

@@ -1,0 +1,41 @@
+﻿@model UserStatisticModel
+
+@{
+	ViewBag.Title = "Statistics";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+<div class="row">
+	<div class="form-group col-md-6 d-flex">
+		<label asp-for="MyTotalNumberOfFigures" class="fw-bold me-2"></label>
+		<p>@Model.MyTotalNumberOfFigures</p>
+	</div>
+	<form method="get" class="col-md-6 d-flex">
+		<input type="submit" asp-controller="Figure" asp-action="Mine" value="See all" class="link-warning custominputlink" />
+	</form>
+</div>
+<hr />
+
+<div class="row">
+	<div class="form-group col-md-6 d-flex">
+		<label asp-for="MyTotalNumberOfVerseChoreographies" class="fw-bold me-2"></label>
+		<p>@Model.MyTotalNumberOfVerseChoreographies</p>
+	</div>
+	<form method="get" class="col-md-6 d-flex">
+		<input type="submit" asp-controller="VerseChoreography" asp-action="Mine" value="See all" class="link-warning custominputlink" />
+	</form>
+</div>
+<hr />
+
+<div class="row">
+	<div class="form-group col-md-6 d-flex">
+		<label asp-for="MyTotalNumberOfFullChoreographies" class="fw-bold me-2"></label>
+		<p>@Model.MyTotalNumberOfFullChoreographies</p>
+	</div>
+	<form method="get" class="col-md-6 d-flex">
+		<input type="submit" asp-controller="FullChoreography" asp-action="Mine" value="See all" class="link-warning custominputlink" />
+	</form>
+</div>
+<hr />

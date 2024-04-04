@@ -4,8 +4,8 @@ using ChoreographyBuilder.Core.Models.Figure;
 using ChoreographyBuilder.Core.Models.Position;
 using ChoreographyBuilder.Core.Models.VerseChoreography;
 using ChoreographyBuilder.Core.Models.VerseType;
-using ChoreographyBuilder.Extensions;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace ChoreographyBuilder.Controllers
 {
