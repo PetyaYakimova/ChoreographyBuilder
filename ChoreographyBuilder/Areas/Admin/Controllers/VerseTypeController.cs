@@ -1,8 +1,8 @@
 ﻿using ChoreographyBuilder.Attributes;
-using ChoreographyBuilder.Controllers;
 using ChoreographyBuilder.Core.Contracts;
 using ChoreographyBuilder.Core.Models.VerseType;
 using Microsoft.AspNetCore.Mvc;
+using static ChoreographyBuilder.Core.Constants.MessageConstants;
 
 namespace ChoreographyBuilder.Areas.Admin.Controllers
 {
@@ -16,7 +16,6 @@ namespace ChoreographyBuilder.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        //Check that user is admin
         public async Task<IActionResult> All([FromQuery] AllVerseTypesQueryModel query)
         {
             var model = await verseTypeService.AllVerseTypesAsync(
@@ -32,7 +31,6 @@ namespace ChoreographyBuilder.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        //Check that user is admin
         public IActionResult Add()
         {
             var model = new VerseTypeFormViewModel();
@@ -41,7 +39,6 @@ namespace ChoreographyBuilder.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        //Check that user is admin
         public async Task<IActionResult> Add(VerseTypeFormViewModel model)
         {
             if (ModelState.IsValid == false)
@@ -51,21 +48,23 @@ namespace ChoreographyBuilder.Areas.Admin.Controllers
 
             await verseTypeService.AddVerseTypeAsync(model);
 
+            TempData[UserMessageSuccess] = string.Format(ItemAddedSuccessMessage, VerseTypeAsString);
+
             return RedirectToAction(nameof(All));
         }
 
         [HttpPost]
-        //Check that user is admin
         [VerseTypeExists]
         public async Task<IActionResult> ChangeStatus(int id)
         {
             await verseTypeService.ChangeVerseTypeStatusAsync(id);
 
+            TempData[UserMessageSuccess] = string.Format(ChangedStatusSuccessMessage, VerseTypeAsString);
+
             return RedirectToAction(nameof(All));
         }
 
         [HttpGet]
-        //Check that user is admin
         [VerseTypeExists]
         [VerseTypeNotUsedInChoreographies]
         public async Task<IActionResult> Edit(int id)
@@ -76,7 +75,6 @@ namespace ChoreographyBuilder.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        //Check that user is admin
         [VerseTypeExists]
         [VerseTypeNotUsedInChoreographies]
         public async Task<IActionResult> Edit(int id, VerseTypeFormViewModel model)
@@ -88,11 +86,12 @@ namespace ChoreographyBuilder.Areas.Admin.Controllers
 
             await verseTypeService.EditVerseTypeAsync(id, model);
 
+            TempData[UserMessageSuccess] = string.Format(ItemUpdatedSuccessMessage, VerseTypeAsString);
+
             return RedirectToAction(nameof(All));
         }
 
         [HttpGet]
-        //Check that user is admin
         [VerseTypeExists]
         [VerseTypeNotUsedInChoreographies]
         public async Task<IActionResult> Delete(int id)
@@ -103,12 +102,13 @@ namespace ChoreographyBuilder.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        //Check that user is admin
         [VerseTypeExists]
         [VerseTypeNotUsedInChoreographies]
         public async Task<IActionResult> Delete(VerseTypeForPreviewViewModel model)
         {
             await verseTypeService.DeleteAsync(model.Id);
+
+            TempData[UserMessageSuccess] = string.Format(ItemDeletedSuccessMessage, VerseTypeAsString);
 
             return RedirectToAction(nameof(All));
         }

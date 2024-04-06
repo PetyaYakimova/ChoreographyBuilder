@@ -5,9 +5,9 @@ namespace ChoreographyBuilder.Areas.Admin.Controllers
 {
 	public class HomeController : AdminBaseController
 	{
-		private readonly IStatisticService statisticService;
+		private readonly IUserService statisticService;
 
-		public HomeController(IStatisticService statisticService)
+		public HomeController(IUserService statisticService)
 		{
 			this.statisticService = statisticService;
 		}

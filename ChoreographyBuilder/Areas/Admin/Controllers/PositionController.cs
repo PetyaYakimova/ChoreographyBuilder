@@ -2,10 +2,11 @@
 using ChoreographyBuilder.Core.Contracts;
 using ChoreographyBuilder.Core.Models.Position;
 using Microsoft.AspNetCore.Mvc;
+using static ChoreographyBuilder.Core.Constants.MessageConstants;
 
 namespace ChoreographyBuilder.Areas.Admin.Controllers
 {
-	public class PositionController : AdminBaseController
+    public class PositionController : AdminBaseController
     {
         private readonly IPositionService positionService;
 
@@ -15,8 +16,7 @@ namespace ChoreographyBuilder.Areas.Admin.Controllers
         }
 
         [HttpGet]
-		//Check that user is admin
-		public async Task<IActionResult> All([FromQuery] AllPositionsQueryModel query)
+        public async Task<IActionResult> All([FromQuery] AllPositionsQueryModel query)
         {
             var model = await positionService.AllPositionsAsync(
                 query.SearchTerm,
@@ -30,8 +30,7 @@ namespace ChoreographyBuilder.Areas.Admin.Controllers
         }
 
         [HttpGet]
-		//Check that user is admin
-		public IActionResult Add()
+        public IActionResult Add()
         {
             var model = new PositionFormViewModel();
 
@@ -39,8 +38,7 @@ namespace ChoreographyBuilder.Areas.Admin.Controllers
         }
 
         [HttpPost]
-		//Check that user is admin
-		public async Task<IActionResult> Add(PositionFormViewModel model)
+        public async Task<IActionResult> Add(PositionFormViewModel model)
         {
             if (ModelState.IsValid == false)
             {
@@ -49,24 +47,26 @@ namespace ChoreographyBuilder.Areas.Admin.Controllers
 
             await positionService.AddPositionAsync(model);
 
+            TempData[UserMessageSuccess] = string.Format(ItemAddedSuccessMessage, PositionAsString);
+
             return RedirectToAction(nameof(All));
         }
 
         [HttpPost]
-		//Check that user is admin
-		[PositionExists]
+        [PositionExists]
         public async Task<IActionResult> ChangeStatus(int id)
         {
             await positionService.ChangePositionStatusAsync(id);
+
+            TempData[UserMessageSuccess] = String.Format(ChangedStatusSuccessMessage, PositionAsString);
 
             return RedirectToAction(nameof(All));
         }
 
         [HttpGet]
-		//Check that user is admin
-		[PositionExists]
+        [PositionExists]
         [PositionNotUsedInFigures]
-		public async Task<IActionResult> Edit(int id)
+        public async Task<IActionResult> Edit(int id)
         {
             var model = await positionService.GetPositionByIdAsync(id);
 
@@ -74,10 +74,9 @@ namespace ChoreographyBuilder.Areas.Admin.Controllers
         }
 
         [HttpPost]
-		//Check that user is admin
-		[PositionExists]
-		[PositionNotUsedInFigures]
-		public async Task<IActionResult> Edit(int id, PositionFormViewModel model)
+        [PositionExists]
+        [PositionNotUsedInFigures]
+        public async Task<IActionResult> Edit(int id, PositionFormViewModel model)
         {
             if (ModelState.IsValid == false)
             {
@@ -86,29 +85,31 @@ namespace ChoreographyBuilder.Areas.Admin.Controllers
 
             await positionService.EditPositionAsync(id, model);
 
+            TempData[UserMessageSuccess] = String.Format(ItemUpdatedSuccessMessage, PositionAsString);
+
             return RedirectToAction(nameof(All));
         }
 
-		[HttpGet]
-		//Check that user is admin
-		[PositionExists]
-		[PositionNotUsedInFigures]
-		public async Task<IActionResult> Delete(int id)
-		{
-			var model = await positionService.GetPositionForDeleteAsync(id);
+        [HttpGet]
+        [PositionExists]
+        [PositionNotUsedInFigures]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var model = await positionService.GetPositionForDeleteAsync(id);
 
-			return View(model);
-		}
+            return View(model);
+        }
 
-		[HttpPost]
-		//Check that user is admin
-		[PositionExists]
-		[PositionNotUsedInFigures]
-		public async Task<IActionResult> Delete(PositionForPreviewViewModel model)
-		{
-			await positionService.DeleteAsync(model.Id);
+        [HttpPost]
+        [PositionExists]
+        [PositionNotUsedInFigures]
+        public async Task<IActionResult> Delete(PositionForPreviewViewModel model)
+        {
+            await positionService.DeleteAsync(model.Id);
 
-			return RedirectToAction(nameof(All));
-		}
-	}
+            TempData[UserMessageSuccess] = String.Format(ItemDeletedSuccessMessage, PositionAsString);
+
+            return RedirectToAction(nameof(All));
+        }
+    }
 }
