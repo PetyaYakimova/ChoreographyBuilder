@@ -12,7 +12,7 @@ namespace ChoreographyBuilder.Controllers
 {
 	public class FigureController : BaseController
 	{
-		private readonly ILogger<FigureController> logger;
+        private readonly ILogger<FigureController> logger;
 		private readonly IFigureService figureService;
 		private readonly IFigureOptionService figureOptionService;
 		private readonly IPositionService positionService;
@@ -26,7 +26,6 @@ namespace ChoreographyBuilder.Controllers
 		}
 
 		[HttpGet]
-		//Check that user is user and not admin
 		public async Task<IActionResult> Mine([FromQuery] AllFiguresQueryModel query)
 		{
 			var model = await figureService.AllUserFiguresAsync(
@@ -42,7 +41,6 @@ namespace ChoreographyBuilder.Controllers
 		}
 
 		[HttpGet]
-		//Check that user is user and not admin
 		public IActionResult Add()
 		{
 			FigureFormViewModel model = new FigureFormViewModel();
@@ -51,7 +49,6 @@ namespace ChoreographyBuilder.Controllers
 		}
 
 		[HttpPost]
-		//Check that user is user and not admin
 		public async Task<IActionResult> Add(FigureFormViewModel model)
 		{
 			if (ModelState.IsValid == false)
@@ -61,11 +58,12 @@ namespace ChoreographyBuilder.Controllers
 
 			int figureId = await figureService.AddFigureAsync(model, User.Id());
 
-			return RedirectToAction(nameof(Options), new { Id = figureId });
+            TempData[UserMessageSuccess] = string.Format(ItemAddedSuccessMessage, FigureAsString);
+
+            return RedirectToAction(nameof(Options), new { Id = figureId });
 		}
 
 		[HttpGet]
-		//Check that user is user and not admin
 		[FigureExistsForThisUser]
 		public async Task<IActionResult> Edit(int id)
 		{
@@ -75,7 +73,6 @@ namespace ChoreographyBuilder.Controllers
 		}
 
 		[HttpPost]
-		//Check that user is user and not admin
 		[FigureExistsForThisUser]
 		public async Task<IActionResult> Edit(int id, FigureFormViewModel model)
 		{
@@ -86,13 +83,14 @@ namespace ChoreographyBuilder.Controllers
 
 			await figureService.EditFigureAsync(id, model);
 
-			return RedirectToAction(nameof(Mine));
+            TempData[UserMessageSuccess] = string.Format(ItemUpdatedSuccessMessage, FigureAsString);
+
+            return RedirectToAction(nameof(Mine));
 		}
 
 		[HttpGet]
-		//Check that user is user and not admin
-		//[FigureExistsForThisUser]
-		//[FigureNotUsedInChoreographies]
+		[FigureExistsForThisUser]
+		[FigureNotUsedInChoreographies]
 		public async Task<IActionResult> Delete(int id)
 		{
 			var model = await figureService.GetFigureForDeleteAsync(id);
@@ -101,18 +99,18 @@ namespace ChoreographyBuilder.Controllers
 		}
 
 		[HttpPost]
-		//Check that user is user and not admin
 		[FigureExistsForThisUser]
 		[FigureNotUsedInChoreographies]
 		public async Task<IActionResult> Delete(FigureForPreviewViewModel model)
 		{
 			await figureService.DeleteAsync(model.Id);
 
-			return RedirectToAction(nameof(Mine));
+			TempData[UserMessageSuccess] = string.Format(ItemDeletedSuccessMessage, FigureAsString);
+
+            return RedirectToAction(nameof(Mine));
 		}
 
 		[HttpGet]
-		//Check that user is user and not admin
 		[FigureExistsForThisUser]
 		public async Task<IActionResult> Options(int id, [FromQuery] AllFigureOptionsQueryModel query)
 		{
@@ -136,7 +134,6 @@ namespace ChoreographyBuilder.Controllers
 		}
 
 		[HttpGet]
-		//Check that user is user and not admin
 		[FigureExistsForThisUser]
 		public async Task<IActionResult> AddOption(int id)
 		{
@@ -153,7 +150,6 @@ namespace ChoreographyBuilder.Controllers
 		}
 
 		[HttpPost]
-		//Check that user is user and not admin
 		[FigureExistsForThisUser]
 		public async Task<IActionResult> AddOption(FigureOptionFormViewModel model, int id)
 		{
@@ -189,11 +185,12 @@ namespace ChoreographyBuilder.Controllers
 
 			await figureOptionService.AddFigureOptionAsync(model);
 
-			return RedirectToAction(nameof(Options), new { Id = id });
+            TempData[UserMessageSuccess] = string.Format(ItemAddedSuccessMessage, FigureOptionAsString);
+
+            return RedirectToAction(nameof(Options), new { Id = id });
 		}
 
 		[HttpGet]
-		//Check that user is user and not admin
 		[FigureOptionExistsForThisUser]
 		[FigureOptionNotUsedInChoreographies]
 		public async Task<IActionResult> EditOption(int id)
@@ -211,7 +208,6 @@ namespace ChoreographyBuilder.Controllers
 		}
 
 		[HttpPost]
-		//Check that user is user and not admin
 		[FigureOptionExistsForThisUser]
 		[FigureOptionNotUsedInChoreographies]
 		public async Task<IActionResult> EditOption(FigureOptionFormViewModel model, int id)
@@ -255,11 +251,12 @@ namespace ChoreographyBuilder.Controllers
 
 			await figureOptionService.EditFigureOptionAsync(id, model);
 
-			return RedirectToAction(nameof(Options), new { Id = option.FigureId });
+            TempData[UserMessageSuccess] = string.Format(ItemUpdatedSuccessMessage, FigureOptionAsString);
+
+            return RedirectToAction(nameof(Options), new { Id = option.FigureId });
 		}
 
 		[HttpGet]
-		//Check that user is user and not admin
 		[FigureOptionExistsForThisUser]
 		[FigureOptionNotUsedInChoreographies]
 		public async Task<IActionResult> DeleteOption(int id)
@@ -270,14 +267,15 @@ namespace ChoreographyBuilder.Controllers
 		}
 
 		[HttpPost]
-		//Check that user is user and not admin
 		[FigureOptionExistsForThisUser]
 		[FigureOptionNotUsedInChoreographies]
 		public async Task<IActionResult> DeleteOption(FigureOptionDeleteViewModel model)
 		{
 			await figureOptionService.DeleteAsync(model.Id);
 
-			return RedirectToAction(nameof(Options), new { Id = model.FigureId });
+            TempData[UserMessageSuccess] = string.Format(ItemDeletedSuccessMessage, FigureOptionAsString);
+
+            return RedirectToAction(nameof(Options), new { Id = model.FigureId });
 		}
 
 		private async Task<IEnumerable<PositionForPreviewViewModel>> GetAllActivePositionsAndSelectedPositionAsync(int? currentPositionId = null)

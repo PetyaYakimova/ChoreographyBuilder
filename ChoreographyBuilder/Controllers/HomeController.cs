@@ -2,14 +2,15 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using static ChoreographyBuilder.Constants.AreasConstants;
 
 namespace ChoreographyBuilder.Controllers
 {
 	public class HomeController : BaseController
 	{
-		private readonly IStatisticService statisticService;
+		private readonly IUserService statisticService;
 
-		public HomeController(IStatisticService statisticService)
+		public HomeController(IUserService statisticService)
 		{
 			this.statisticService = statisticService;
 		}
@@ -22,7 +23,7 @@ namespace ChoreographyBuilder.Controllers
 			{
 				if (User.IsAdmin())
 				{
-					return RedirectToAction("Stats", "Home", new { area = "Admin" });
+					return RedirectToAction("Stats", "Home", new { area = AdminAreaName });
 				}
 				else if (User.IsUser())
 				{

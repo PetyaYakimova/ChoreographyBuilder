@@ -10,185 +10,183 @@ using static ChoreographyBuilder.Core.Constants.MessageConstants;
 
 namespace ChoreographyBuilder.Controllers
 {
-	public class FullChoreographyController : BaseController
-	{
-		private readonly IFullChoreographyService fullChoreographyService;
-		private readonly IVerseChoreographyService verseChoreographyService;
-		private readonly IFullChoreographyVerseChoreographyService fullChoreographyVerseChoreographyService;
+    public class FullChoreographyController : BaseController
+    {
+        private readonly IFullChoreographyService fullChoreographyService;
+        private readonly IVerseChoreographyService verseChoreographyService;
+        private readonly IFullChoreographyVerseChoreographyService fullChoreographyVerseChoreographyService;
 
-		public FullChoreographyController(IFullChoreographyService fullChoreographyService, IVerseChoreographyService verseChoreographyService, IFullChoreographyVerseChoreographyService fullChoreographyVerseChoreographyService)
-		{
-			this.fullChoreographyService = fullChoreographyService;
-			this.verseChoreographyService = verseChoreographyService;
-			this.fullChoreographyVerseChoreographyService = fullChoreographyVerseChoreographyService;
-		}
+        public FullChoreographyController(IFullChoreographyService fullChoreographyService, IVerseChoreographyService verseChoreographyService, IFullChoreographyVerseChoreographyService fullChoreographyVerseChoreographyService)
+        {
+            this.fullChoreographyService = fullChoreographyService;
+            this.verseChoreographyService = verseChoreographyService;
+            this.fullChoreographyVerseChoreographyService = fullChoreographyVerseChoreographyService;
+        }
 
-		[HttpGet]
-		//Check that user is user and not admin
-		public async Task<IActionResult> Mine([FromQuery] AllFullChoreographiesQueryModel query)
-		{
-			var model = await fullChoreographyService.AllUserFullChoreographiesAsync(
-				User.Id(),
-				query.SearchTerm,
-				query.CurrentPage,
-				query.ItemsPerPage);
+        [HttpGet]
+        public async Task<IActionResult> Mine([FromQuery] AllFullChoreographiesQueryModel query)
+        {
+            var model = await fullChoreographyService.AllUserFullChoreographiesAsync(
+                User.Id(),
+                query.SearchTerm,
+                query.CurrentPage,
+                query.ItemsPerPage);
 
-			query.TotalItemCount = model.TotalCount;
-			query.Entities = model.Entities;
+            query.TotalItemCount = model.TotalCount;
+            query.Entities = model.Entities;
 
-			return View(query);
-		}
+            return View(query);
+        }
 
-		[HttpGet]
-		//Check that user is user and not admin
-		[FullChoreographyExistsForThisUser]
-		public async Task<IActionResult> Details(int id)
-		{
-			var model = await fullChoreographyService.GetChoreographyDetailsByIdAsync(id);
+        [HttpGet]
+        [FullChoreographyExistsForThisUser]
+        public async Task<IActionResult> Details(int id)
+        {
+            var model = await fullChoreographyService.GetChoreographyDetailsByIdAsync(id);
 
-			return View(model);
-		}
+            return View(model);
+        }
 
-		[HttpGet]
-		//Check that user is user and not admin
-		public IActionResult Add()
-		{
-			var model = new FullChoreographyFormViewModel();
+        [HttpGet]
+        public IActionResult Add()
+        {
+            var model = new FullChoreographyFormViewModel();
 
-			return View(model);
-		}
+            return View(model);
+        }
 
-		[HttpPost]
-		//Check that user is user and not admin
-		public async Task<IActionResult> Add(FullChoreographyFormViewModel model)
-		{
-			if (ModelState.IsValid == false)
-			{
-				return View(model);
-			}
+        [HttpPost]
+        public async Task<IActionResult> Add(FullChoreographyFormViewModel model)
+        {
+            if (ModelState.IsValid == false)
+            {
+                return View(model);
+            }
 
-			int fullChoreographyId = await fullChoreographyService.AddFullChoreographyAsync(model, User.Id());
+            int fullChoreographyId = await fullChoreographyService.AddFullChoreographyAsync(model, User.Id());
 
-			return RedirectToAction(nameof(Details), new { Id = fullChoreographyId });
-		}
+            TempData[UserMessageSuccess] = String.Format(ItemAddedSuccessMessage, FullChoreographyAsString);
 
-		[HttpGet]
-		//Check that user is user and not admin
-		[FullChoreographyExistsForThisUser]
-		public async Task<IActionResult> Edit(int id)
-		{
-			var model = await fullChoreographyService.GetChoreographyForEditByIdAsync(id);
+            return RedirectToAction(nameof(Details), new { Id = fullChoreographyId });
+        }
 
-			return View(model);
-		}
+        [HttpGet]
+        [FullChoreographyExistsForThisUser]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var model = await fullChoreographyService.GetChoreographyForEditByIdAsync(id);
 
-		[HttpPost]
-		//Check that user is user and not admin
-		[FullChoreographyExistsForThisUser]
-		public async Task<IActionResult> Edit(int id, FullChoreographyFormViewModel model)
-		{
-			if (ModelState.IsValid == false)
-			{
-				return View(model);
-			}
+            return View(model);
+        }
 
-			await fullChoreographyService.EditFullChoreographyAsync(id, model);
+        [HttpPost]
+        [FullChoreographyExistsForThisUser]
+        public async Task<IActionResult> Edit(int id, FullChoreographyFormViewModel model)
+        {
+            if (ModelState.IsValid == false)
+            {
+                return View(model);
+            }
 
-			return RedirectToAction(nameof(Mine));
-		}
+            await fullChoreographyService.EditFullChoreographyAsync(id, model);
 
-		[HttpGet]
-		//Check that user is user and not admin
-		[FullChoreographyExistsForThisUser]
-		public async Task<IActionResult> Delete(int id)
-		{
-			var model = await fullChoreographyService.GetFullChoreographyForDeleteAsync(id);
+            TempData[UserMessageSuccess] = String.Format(ItemUpdatedSuccessMessage, FullChoreographyAsString);
 
-			return View(model);
-		}
+            return RedirectToAction(nameof(Mine));
+        }
 
-		[HttpPost]
-		//Check that user is user and not admin
-		[FullChoreographyExistsForThisUser]
-		public async Task<IActionResult> Delete(FullChoreographyTableViewModel model)
-		{
-			await fullChoreographyService.DeleteAsync(model.Id);
+        [HttpGet]
+        [FullChoreographyExistsForThisUser]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var model = await fullChoreographyService.GetFullChoreographyForDeleteAsync(id);
 
-			return RedirectToAction(nameof(Mine));
-		}
+            return View(model);
+        }
 
-		[HttpGet]
-		//Check that user is user and not admin
-		[FullChoreographyExistsForThisUser]
-		public async Task<IActionResult> AddVerseChoreography(int id)
-		{
-			var model = new FullChoreographyVerseChoreographyFormViewModel();
-			model.VerseChoreographyOrder = (await fullChoreographyService.GetNumberOfVerseChoreographiesForFullChoreographyAsync(id)) + 1;
-			PositionForPreviewViewModel? lastVerseChoreographyEndPosition = await fullChoreographyService.GetLastVerseChoreographyEndPositionAsync(id);
-			model.VerseChoreographies = await GetAllUserVerseChoreographiesWithStartPositionAsync(lastVerseChoreographyEndPosition?.Id);
-			model.StartPositionName = lastVerseChoreographyEndPosition?.Name;
+        [HttpPost]
+        [FullChoreographyExistsForThisUser]
+        public async Task<IActionResult> Delete(FullChoreographyTableViewModel model)
+        {
+            await fullChoreographyService.DeleteAsync(model.Id);
 
-			return View(model);
-		}
+            TempData[UserMessageSuccess] = String.Format(ItemDeletedSuccessMessage, FullChoreographyAsString);
 
-		[HttpPost]
-		//Check that user is user and not admin
-		[FullChoreographyExistsForThisUser]
-		public async Task<IActionResult> AddVerseChoreography(FullChoreographyVerseChoreographyFormViewModel model, int id)
-		{
-			bool verseChoreographyExists = await verseChoreographyService.VerseChoreographyExistForThisUserByIdAsync(model.VerseChoreographyId, User.Id());
-			if (!verseChoreographyExists)
-			{
-				ModelState.AddModelError(nameof(model.VerseChoreographyId), VerseChoreographyDoesntExistErrorMessage);
-			}
+            return RedirectToAction(nameof(Mine));
+        }
 
-			int nextAvailableOrder = (await fullChoreographyService.GetNumberOfVerseChoreographiesForFullChoreographyAsync(id)) + 1;
+        [HttpGet]
+        [FullChoreographyExistsForThisUser]
+        public async Task<IActionResult> AddVerseChoreography(int id)
+        {
+            var model = new FullChoreographyVerseChoreographyFormViewModel();
+            model.VerseChoreographyOrder = (await fullChoreographyService.GetNumberOfVerseChoreographiesForFullChoreographyAsync(id)) + 1;
+            PositionForPreviewViewModel? lastVerseChoreographyEndPosition = await fullChoreographyService.GetLastVerseChoreographyEndPositionAsync(id);
+            model.VerseChoreographies = await GetAllUserVerseChoreographiesWithStartPositionAsync(lastVerseChoreographyEndPosition?.Id);
+            model.StartPositionName = lastVerseChoreographyEndPosition?.Name;
 
-			if (nextAvailableOrder != model.VerseChoreographyOrder)
-			{
-				ModelState.AddModelError(nameof(model.VerseChoreographyOrder), InvalidVerseChoreographyOrderErrorMessage);
-			}
+            return View(model);
+        }
 
-			if (ModelState.IsValid == false)
-			{
-				model.VerseChoreographyOrder = nextAvailableOrder;
-				PositionForPreviewViewModel? lastVerseChoreographyEndPosition = await fullChoreographyService.GetLastVerseChoreographyEndPositionAsync(id);
-				model.VerseChoreographies = await GetAllUserVerseChoreographiesWithStartPositionAsync(lastVerseChoreographyEndPosition?.Id);
-				model.StartPositionName = lastVerseChoreographyEndPosition?.Name;
+        [HttpPost]
+        [FullChoreographyExistsForThisUser]
+        public async Task<IActionResult> AddVerseChoreography(FullChoreographyVerseChoreographyFormViewModel model, int id)
+        {
+            bool verseChoreographyExists = await verseChoreographyService.VerseChoreographyExistForThisUserByIdAsync(model.VerseChoreographyId, User.Id());
+            if (!verseChoreographyExists)
+            {
+                ModelState.AddModelError(nameof(model.VerseChoreographyId), VerseChoreographyDoesntExistErrorMessage);
+            }
 
-				return View(model);
-			}
+            int nextAvailableOrder = (await fullChoreographyService.GetNumberOfVerseChoreographiesForFullChoreographyAsync(id)) + 1;
 
-			await fullChoreographyVerseChoreographyService.AddVerseChoreographyToFullChoreographyAsync(id, model);
+            if (nextAvailableOrder != model.VerseChoreographyOrder)
+            {
+                ModelState.AddModelError(nameof(model.VerseChoreographyOrder), InvalidVerseChoreographyOrderErrorMessage);
+            }
 
-			return RedirectToAction(nameof(Details), new { Id = id });
-		}
+            if (ModelState.IsValid == false)
+            {
+                model.VerseChoreographyOrder = nextAvailableOrder;
+                PositionForPreviewViewModel? lastVerseChoreographyEndPosition = await fullChoreographyService.GetLastVerseChoreographyEndPositionAsync(id);
+                model.VerseChoreographies = await GetAllUserVerseChoreographiesWithStartPositionAsync(lastVerseChoreographyEndPosition?.Id);
+                model.StartPositionName = lastVerseChoreographyEndPosition?.Name;
 
-		[HttpGet]
-		//Check that user is user and not admin
-		[VerseChoreographyInFullChoreographyExistsForThisUser]
-		[VerseChoreographyIsLastInFullChoreography]
-		public async Task<IActionResult> DeleteVerseChoreography(int id)
-		{
-			var model = await fullChoreographyVerseChoreographyService.GetVerseChoreographyForDeleteAsync(id);
+                return View(model);
+            }
 
-			return View(model);
-		}
+            await fullChoreographyVerseChoreographyService.AddVerseChoreographyToFullChoreographyAsync(id, model);
 
-		[HttpPost]
-		//Check that user is user and not admin
-		[VerseChoreographyInFullChoreographyExistsForThisUser]
-		[VerseChoreographyIsLastInFullChoreography]
-		public async Task<IActionResult> DeleteVerseChoreography(FullChoreographyVerseChoreographyDeleteViewModel model)
-		{
-			await fullChoreographyVerseChoreographyService.DeleteAsync(model.Id);
+            TempData[UserMessageSuccess] = String.Format(ItemAddedSuccessMessage, VerseChoreographyAsString);
 
-			return RedirectToAction(nameof(Details), new { Id = model.FullChoreographyId });
-		}
+            return RedirectToAction(nameof(Details), new { Id = id });
+        }
 
-		private async Task<IEnumerable<VerseChoreographyTableViewModel>> GetAllUserVerseChoreographiesWithStartPositionAsync(int? startPositionId = null)
-		{
-			return await verseChoreographyService.AllUserVerseChoreographiesStartingWithPositionAsync(User.Id(), startPositionId);
-		}
-	}
+        [HttpGet]
+        [VerseChoreographyInFullChoreographyExistsForThisUser]
+        [VerseChoreographyIsLastInFullChoreography]
+        public async Task<IActionResult> DeleteVerseChoreography(int id)
+        {
+            var model = await fullChoreographyVerseChoreographyService.GetVerseChoreographyForDeleteAsync(id);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [VerseChoreographyInFullChoreographyExistsForThisUser]
+        [VerseChoreographyIsLastInFullChoreography]
+        public async Task<IActionResult> DeleteVerseChoreography(FullChoreographyVerseChoreographyDeleteViewModel model)
+        {
+            await fullChoreographyVerseChoreographyService.DeleteAsync(model.Id);
+
+            TempData[UserMessageSuccess] = String.Format(ItemDeletedSuccessMessage, VerseChoreographyAsString);
+
+            return RedirectToAction(nameof(Details), new { Id = model.FullChoreographyId });
+        }
+
+        private async Task<IEnumerable<VerseChoreographyTableViewModel>> GetAllUserVerseChoreographiesWithStartPositionAsync(int? startPositionId = null)
+        {
+            return await verseChoreographyService.AllUserVerseChoreographiesStartingWithPositionAsync(User.Id(), startPositionId);
+        }
+    }
 }
