@@ -3,7 +3,7 @@
 namespace ChoreographyBuilder.Core.Models.Statistics
 {
 	/// <summary>
-	/// A view model only for displaying statistics to users. No added validations.
+	/// A view model only for displaying statistics for users. No added validations.
 	/// </summary>
 	public class UserStatisticModel
 	{
