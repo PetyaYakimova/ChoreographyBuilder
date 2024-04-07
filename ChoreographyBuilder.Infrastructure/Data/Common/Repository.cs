@@ -36,11 +36,6 @@ namespace ChoreographyBuilder.Infrastructure.Data.Common
 			return await context.SaveChangesAsync();
 		}
 
-        public void Delete<T>(T entity) where T : class
-        {
-            DbSet<T>().Remove(entity);
-        }
-
 		public async Task<T?> GetByIdAsync<T>(object id) where T : class
 		{
 			return await DbSet<T>().FindAsync(id);
