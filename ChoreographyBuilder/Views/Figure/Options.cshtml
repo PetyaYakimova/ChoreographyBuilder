@@ -59,7 +59,9 @@
 
 @if (!Model.Entities.Any())
 {
-	<h2 class="text-center text-danger">No options found by these search criteria! A figure cannot be used in a choreography if it doesn't have options. Please add options.</h2>
+	<div class="customNoResultsFoundMessage">
+		<h3 class="text-center text-danger">No options found by these search criteria! A figure cannot be used in a choreography if it doesn't have options. Please add options.</h3>
+	</div>
 }
 else
 {

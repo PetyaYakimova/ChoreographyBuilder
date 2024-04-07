@@ -1,23 +1,23 @@
 html {
-  font-size: 14px;
-  font-family: Verdana, Geneva, Tahoma, sans-serif
+    font-size: 14px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
-  background-color: #202020;
-  color: white;
+    margin-bottom: 60px;
+    background-color: #202020;
+    color: white;
 }
 
 footer {
@@ -35,4 +35,16 @@ footer {
     font-weight: 400;
     border: none;
     text-decoration: underline;
+}
+
+.customNoResultsFoundMessage {
+    background-color: #252525;
+    border: 2px solid;
+    border-color: red;
+    padding: 3em;
+    margin-bottom: 3em;
+}
+
+nav li :hover {
+    background-color: #202020;
 }

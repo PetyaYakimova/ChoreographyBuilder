@@ -70,7 +70,9 @@
 
 @if (!Model.Entities.Any())
 {
-	<h2 class="text-center text-danger">No saved verse choreographies found by this search criteria! Try to generate new verse choreographies.</h2>
+	<div class="customNoResultsFoundMessage">
+		<h3 class="text-center text-danger">No saved verse choreographies found by this search criteria! Try to generate new verse choreographies.</h3>
+	</div>
 }
 else
 {

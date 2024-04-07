@@ -23,7 +23,9 @@
 
 @if (!Model.Entities.Any())
 {
-	<h2 class="text-center text-danger">No verse types found by these search criteria!</h2>
+	<div class="customNoResultsFoundMessage">
+		<h3 class="text-center text-danger">No verse types found by these search criteria!</h3>
+	</div>
 }
 else
 {
