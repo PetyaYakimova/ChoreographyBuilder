@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33414.496
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChoreographyBuilder", "ChoreographyBuilder\ChoreographyBuilder.csproj", "{258F3767-E2E2-424C-B5FC-AB1D5772DA45}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChoreographyBuilder", "ChoreographyBuilder\ChoreographyBuilder.csproj", "{258F3767-E2E2-424C-B5FC-AB1D5772DA45}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChoreographyBuilder.Core", "ChoreographyBuilder.Core\ChoreographyBuilder.Core.csproj", "{17DE87A5-2236-461C-9352-77B0F7DF34F2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChoreographyBuilder.Core", "ChoreographyBuilder.Core\ChoreographyBuilder.Core.csproj", "{17DE87A5-2236-461C-9352-77B0F7DF34F2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChoreographyBuilder.Infrastructure", "ChoreographyBuilder.Infrastructure\ChoreographyBuilder.Infrastructure.csproj", "{439EE6DE-7D79-425C-9F85-A343B7846351}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChoreographyBuilder.Infrastructure", "ChoreographyBuilder.Infrastructure\ChoreographyBuilder.Infrastructure.csproj", "{439EE6DE-7D79-425C-9F85-A343B7846351}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChoreographyBuilder.Tests", "ChoreographyBuilder.Tests\ChoreographyBuilder.Tests.csproj", "{A30D59DC-7D64-4A41-AD86-80BD04911159}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{439EE6DE-7D79-425C-9F85-A343B7846351}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{439EE6DE-7D79-425C-9F85-A343B7846351}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{439EE6DE-7D79-425C-9F85-A343B7846351}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A30D59DC-7D64-4A41-AD86-80BD04911159}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A30D59DC-7D64-4A41-AD86-80BD04911159}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A30D59DC-7D64-4A41-AD86-80BD04911159}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A30D59DC-7D64-4A41-AD86-80BD04911159}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
