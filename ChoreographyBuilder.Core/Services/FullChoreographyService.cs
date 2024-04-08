@@ -5,6 +5,7 @@ using ChoreographyBuilder.Core.Models.FullChoreography;
 using ChoreographyBuilder.Core.Models.Position;
 using ChoreographyBuilder.Infrastructure.Data.Common;
 using ChoreographyBuilder.Infrastructure.Data.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using static ChoreographyBuilder.Core.Constants.LimitConstants;
@@ -170,6 +171,12 @@ namespace ChoreographyBuilder.Core.Services
 
 		public async Task<int> AddFullChoreographyAsync(FullChoreographyFormViewModel model, string userId)
 		{
+			if (await repository.GetByIdAsync<IdentityUser>(userId) == null)
+			{
+				logger.LogError(EntityWithIdWasNotFoundLoggerErrorMessage, nameof(IdentityUser), userId);
+				throw new EntityNotFoundException();
+			}
+
 			FullChoreography entity = mapper.Map<FullChoreography>(model);
 			entity.UserId = userId;
 

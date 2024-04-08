@@ -7,6 +7,7 @@ using ChoreographyBuilder.Infrastructure.Data.Models;
 using ChoreographyBuilder.Infrastructure.Data.Models.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using static ChoreographyBuilder.Core.Constants.LimitConstants;
 using static ChoreographyBuilder.Core.Constants.MessageConstants;
 
@@ -147,6 +148,12 @@ namespace ChoreographyBuilder.Core.Services
 
 		public async Task AddFigureOptionAsync(FigureOptionFormViewModel model)
 		{
+			if (await repository.GetByIdAsync<Figure>(model.FigureId) == null)
+			{
+				logger.LogError(EntityWithIdWasNotFoundLoggerErrorMessage, nameof(Figure), model.FigureId);
+				throw new EntityNotFoundException();
+			}
+
 			FigureOption entity = mapper.Map<FigureOption>(model);
 
 			await repository.AddAsync(entity);

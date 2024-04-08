@@ -4,6 +4,7 @@ using ChoreographyBuilder.Core.Exceptions;
 using ChoreographyBuilder.Core.Models.Figure;
 using ChoreographyBuilder.Infrastructure.Data.Common;
 using ChoreographyBuilder.Infrastructure.Data.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using static ChoreographyBuilder.Core.Constants.LimitConstants;
@@ -135,6 +136,12 @@ namespace ChoreographyBuilder.Core.Services
 
 		public async Task<int> AddFigureAsync(FigureFormViewModel model, string userId)
 		{
+			if (await repository.GetByIdAsync<IdentityUser>(userId) == null)
+			{
+				logger.LogError(EntityWithIdWasNotFoundLoggerErrorMessage, nameof(IdentityUser), userId);
+				throw new EntityNotFoundException();
+			}
+
 			Figure entity = mapper.Map<Figure>(model);
 			entity.UserId = userId;
 

@@ -14,7 +14,7 @@ namespace ChoreographyBuilder.Core.Contracts
 		Task<FigureFormViewModel> GetFigureByIdAsync(int figureId);
 
 		/// <summary>
-		/// return the name of the figure with this id.
+		/// Return the name of the figure with this id.
 		/// Throws an exception if there is no such figure with this id.
 		/// </summary>
 		/// <param name="figureId">Id of the figure</param>
@@ -30,7 +30,7 @@ namespace ChoreographyBuilder.Core.Contracts
 		Task<FigureForPreviewViewModel> GetFigureForDeleteAsync(int id);
 
 		/// <summary>
-		/// Gets the figures for for the user by the selected search criteria and returns only those of them that should be displayed on the given page.
+		/// Gets the figures for the user by the selected search criteria and returns only those of them that should be displayed on the given page.
 		/// </summary>
 		/// <param name="userId">Id of the user</param>
 		/// <param name="searchTerm"></param>
@@ -66,6 +66,7 @@ namespace ChoreographyBuilder.Core.Contracts
 
 		/// <summary>
 		/// Adds a new figure for the user with data from the model.
+		/// Throws an exception if user with the given id doesn't exist.
 		/// </summary>
 		/// <param name="model">FigureFormViewModel model</param>
 		/// <param name="userId">Id of the user</param>

@@ -67,6 +67,7 @@ namespace ChoreographyBuilder.Core.Contracts
 
 		/// <summary>
 		/// Adds a new full choreography for the user with data from the model.
+		/// Throws an exception if a user with the given id doesn't exist.
 		/// </summary>
 		/// <param name="model">FullChoreographyFormViewModel model</param>
 		/// <param name="userId">Id of the user</param>

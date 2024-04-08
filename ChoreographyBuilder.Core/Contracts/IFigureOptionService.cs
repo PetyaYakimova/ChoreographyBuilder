@@ -56,6 +56,7 @@ namespace ChoreographyBuilder.Core.Contracts
 
 		/// <summary>
 		/// Adds a new figure option with data from the model.
+		/// Throws and exception if figure with the given id in the model doesn't exist.
 		/// </summary>
 		/// <param name="model">FigureOptionFormViewModel model</param>
 		/// <returns></returns>

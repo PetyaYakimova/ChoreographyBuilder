@@ -6,6 +6,7 @@ using ChoreographyBuilder.Core.Models.VerseChoreographyFigure;
 using ChoreographyBuilder.Infrastructure.Data.Common;
 using ChoreographyBuilder.Infrastructure.Data.Models;
 using ChoreographyBuilder.Infrastructure.Data.Models.Enums;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using static ChoreographyBuilder.Core.Constants.LimitConstants;
@@ -32,6 +33,49 @@ namespace ChoreographyBuilder.Core.Services
 			allUserNonHighlightFigureOptions = new List<FigureOption>();
 			validOptionsForGenerateChoreographies = new List<List<FigureOption>>();
 		}
+
+		public async Task<VerseChoreographyDetailsViewModel> GetChoreographyByIdAsync(int id)
+		{
+			var choreography = await repository.AllAsReadOnly<VerseChoreography>()
+				.Include(c => c.VerseType)
+				.Include(c => c.FullChoreographies)
+				.Include(c => c.Figures)
+					.ThenInclude(f => f.FigureOption)
+						.ThenInclude(fo => fo.Figure)
+				.Include(c => c.Figures)
+					.ThenInclude(f => f.FigureOption)
+						.ThenInclude(fo => fo.StartPosition)
+				.Include(c => c.Figures)
+					.ThenInclude(f => f.FigureOption)
+						.ThenInclude(fo => fo.EndPosition)
+				.FirstOrDefaultAsync(c => c.Id == id);
+
+			if (choreography == null)
+			{
+				logger.LogError(EntityWithIdWasNotFoundLoggerErrorMessage, nameof(VerseChoreography), id);
+				throw new EntityNotFoundException();
+			}
+
+			choreography.Figures = choreography.Figures.OrderBy(f => f.FigureOrder);
+
+			return mapper.Map<VerseChoreographyDetailsViewModel>(choreography);
+		}
+
+		public async Task<VerseChoreographyDeleteViewModel> GetVerseChoreographyForDeleteAsync(int id)
+		{
+			var choreography = await repository.AllAsReadOnly<VerseChoreography>()
+				.Include(vc => vc.Figures)
+				.FirstOrDefaultAsync(vc => vc.Id == id);
+
+			if (choreography == null)
+			{
+				logger.LogError(EntityWithIdWasNotFoundLoggerErrorMessage, nameof(VerseChoreography), id);
+				throw new EntityNotFoundException();
+			}
+
+			return mapper.Map<VerseChoreographyDeleteViewModel>(choreography);
+		}
+
 		public async Task<VerseChoreographyQueryServiceModel> AllUserVerseChoreographiesAsync(string userId, string? searchTerm = null, int? searchedVerseTypeId = null, int? searchedStartPositionId = null, int? searchedEndPositionId = null, int? searchedFinalFigureId = null, int currentPage = 1, int itemsPerPage = DefaultNumberOfItemsPerPage)
 		{
 			var choreographiesToShow = repository.AllAsReadOnly<VerseChoreography>()
@@ -124,33 +168,6 @@ namespace ChoreographyBuilder.Core.Services
 			return result;
 		}
 
-		public async Task<VerseChoreographyDetailsViewModel> GetChoreographyByIdAsync(int id)
-		{
-			var choreography = await repository.AllAsReadOnly<VerseChoreography>()
-				.Include(c => c.VerseType)
-				.Include(c => c.FullChoreographies)
-				.Include(c => c.Figures)
-					.ThenInclude(f => f.FigureOption)
-						.ThenInclude(fo => fo.Figure)
-				.Include(c => c.Figures)
-					.ThenInclude(f => f.FigureOption)
-						.ThenInclude(fo => fo.StartPosition)
-				.Include(c => c.Figures)
-					.ThenInclude(f => f.FigureOption)
-						.ThenInclude(fo => fo.EndPosition)
-				.FirstOrDefaultAsync(c => c.Id == id);
-
-			if (choreography == null)
-			{
-				logger.LogError(EntityWithIdWasNotFoundLoggerErrorMessage, nameof(VerseChoreography), id);
-				throw new EntityNotFoundException();
-			}
-
-			choreography.Figures = choreography.Figures.OrderBy(f => f.FigureOrder);
-
-			return mapper.Map<VerseChoreographyDetailsViewModel>(choreography);
-		}
-
 		public async Task<bool> VerseChoreographyExistForThisUserByIdAsync(int id, string userId)
 		{
 			var verseChoreography = await repository.GetByIdAsync<VerseChoreography>(id);
@@ -165,30 +182,6 @@ namespace ChoreographyBuilder.Core.Services
 			}
 
 			return true;
-		}
-
-		public async Task SaveChoreographyAsync(VerseChoreographySaveViewModel model, string userId)
-		{
-			VerseChoreography entity = mapper.Map<VerseChoreography>(model);
-			entity.UserId = userId;
-
-			await repository.AddAsync(entity);
-
-			await repository.SaveChangesAsync();
-		}
-
-		public async Task DeleteAsync(int id)
-		{
-			List<VerseChoreographyFigure> figures = await repository.All<VerseChoreographyFigure>()
-				.Where(vcf => vcf.VerseChoreographyId == id)
-				.ToListAsync();
-			foreach (VerseChoreographyFigure figure in figures)
-			{
-				await repository.DeleteAsync<VerseChoreographyFigure>(figure.Id);
-			}
-
-			await repository.DeleteAsync<VerseChoreography>(id);
-			await repository.SaveChangesAsync();
 		}
 
 		public async Task<bool> IsVerseChoreographyUsedInFullChoreographies(int id)
@@ -206,19 +199,34 @@ namespace ChoreographyBuilder.Core.Services
 			return choreography.FullChoreographies.Any();
 		}
 
-		public async Task<VerseChoreographyDeleteViewModel> GetVerseChoreographyForDeleteAsync(int id)
+		public async Task SaveChoreographyAsync(VerseChoreographySaveViewModel model, string userId)
 		{
-			var choreography = await repository.AllAsReadOnly<VerseChoreography>()
-				.Include(vc => vc.Figures)
-				.FirstOrDefaultAsync(vc => vc.Id == id);
-
-			if (choreography == null)
+			if (await repository.GetByIdAsync<IdentityUser>(userId) == null)
 			{
-				logger.LogError(EntityWithIdWasNotFoundLoggerErrorMessage, nameof(VerseChoreography), id);
+				logger.LogError(EntityWithIdWasNotFoundLoggerErrorMessage, nameof(IdentityUser), userId);
 				throw new EntityNotFoundException();
 			}
 
-			return mapper.Map<VerseChoreographyDeleteViewModel>(choreography);
+			VerseChoreography entity = mapper.Map<VerseChoreography>(model);
+			entity.UserId = userId;
+
+			await repository.AddAsync(entity);
+
+			await repository.SaveChangesAsync();
+		}
+
+		public async Task DeleteVerseChoreographyAsync(int id)
+		{
+			List<VerseChoreographyFigure> figures = await repository.All<VerseChoreographyFigure>()
+				.Where(vcf => vcf.VerseChoreographyId == id)
+				.ToListAsync();
+			foreach (VerseChoreographyFigure figure in figures)
+			{
+				await repository.DeleteAsync<VerseChoreographyFigure>(figure.Id);
+			}
+
+			await repository.DeleteAsync<VerseChoreography>(id);
+			await repository.SaveChangesAsync();
 		}
 
 		public async Task<IList<VerseChoreographySaveViewModel>> GenerateChoreographies(VerseChoreographyGenerateModel query, string userId)
@@ -271,7 +279,7 @@ namespace ChoreographyBuilder.Core.Services
 			}
 
 			//Calculate score of each of the generated choreographies and leave top options
-			List<VerseChoreographyWithScoreServiceModel> topOptionsWithScore = LeaveOnlyTopRatedSuggestedChoreographiesWithOrderedFigures(MaxNumberOfSuggestedChoreographies);
+			IList<VerseChoreographyWithScoreServiceModel> topOptionsWithScore = LeaveOnlyTopRatedSuggestedChoreographiesWithOrderedFigures(MaxNumberOfSuggestedChoreographies);
 
 			//Make projection for the left choreographies
 			List<VerseChoreographySaveViewModel> suggestedOptions = new List<VerseChoreographySaveViewModel>();
@@ -337,7 +345,12 @@ namespace ChoreographyBuilder.Core.Services
 			}
 		}
 
-		private List<VerseChoreographyWithScoreServiceModel> LeaveOnlyTopRatedSuggestedChoreographiesWithOrderedFigures(int maxNumberOfOptions)
+		/// <summary>
+		/// Returns only the top scored verse choreographies with theirs scores as a collection.
+		/// </summary>
+		/// <param name="maxNumberOfOptions">The max number of choreographies that should remain.</param>
+		/// <returns></returns>
+		private IList<VerseChoreographyWithScoreServiceModel> LeaveOnlyTopRatedSuggestedChoreographiesWithOrderedFigures(int maxNumberOfOptions)
 		{
 			List<VerseChoreographyWithScoreServiceModel> choreographies = new List<VerseChoreographyWithScoreServiceModel>();
 			foreach (List<FigureOption> choreography in validOptionsForGenerateChoreographies)
@@ -357,6 +370,11 @@ namespace ChoreographyBuilder.Core.Services
 			return choreographies;
 		}
 
+		/// <summary>
+		/// Calculates a score for a choreography based on various criteria.
+		/// </summary>
+		/// <param name="choreography">Choreography as a list of figure options</param>
+		/// <returns></returns>
 		private int CalculateChoreographyScore(List<FigureOption> choreography)
 		{
 			int score = 0;

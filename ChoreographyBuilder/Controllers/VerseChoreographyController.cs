@@ -149,7 +149,7 @@ namespace ChoreographyBuilder.Controllers
         [VerseChoreographyNotUsedInFullChoreographies]
         public async Task<IActionResult> Delete(VerseChoreographyDeleteViewModel model)
         {
-            await verseChoreographyService.DeleteAsync(model.Id);
+            await verseChoreographyService.DeleteVerseChoreographyAsync(model.Id);
 
             TempData[UserMessageSuccess] = String.Format(ItemDeletedSuccessMessage, VerseChoreographyAsString);
 

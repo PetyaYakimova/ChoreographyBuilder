@@ -105,7 +105,7 @@ namespace ChoreographyBuilder.Areas.Admin.Controllers
         [PositionNotUsedInFigures]
         public async Task<IActionResult> Delete(PositionForPreviewViewModel model)
         {
-            await positionService.DeleteAsync(model.Id);
+            await positionService.DeletePositionAsync(model.Id);
 
             TempData[UserMessageSuccess] = String.Format(ItemDeletedSuccessMessage, PositionAsString);
 

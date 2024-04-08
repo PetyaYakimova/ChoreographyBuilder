@@ -106,7 +106,7 @@ namespace ChoreographyBuilder.Areas.Admin.Controllers
         [VerseTypeNotUsedInChoreographies]
         public async Task<IActionResult> Delete(VerseTypeForPreviewViewModel model)
         {
-            await verseTypeService.DeleteAsync(model.Id);
+            await verseTypeService.DeleteVerseTypeAsync(model.Id);
 
             TempData[UserMessageSuccess] = string.Format(ItemDeletedSuccessMessage, VerseTypeAsString);
 
