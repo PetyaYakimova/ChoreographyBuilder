@@ -108,7 +108,7 @@ namespace ChoreographyBuilder.Controllers
         [FullChoreographyExistsForThisUser]
         public async Task<IActionResult> Delete(FullChoreographyTableViewModel model)
         {
-            await fullChoreographyService.DeleteAsync(model.Id);
+            await fullChoreographyService.DeleteFullChoreographyAsync(model.Id);
 
             TempData[UserMessageSuccess] = String.Format(ItemDeletedSuccessMessage, FullChoreographyAsString);
 
@@ -177,7 +177,7 @@ namespace ChoreographyBuilder.Controllers
         [VerseChoreographyIsLastInFullChoreography]
         public async Task<IActionResult> DeleteVerseChoreography(FullChoreographyVerseChoreographyDeleteViewModel model)
         {
-            await fullChoreographyVerseChoreographyService.DeleteAsync(model.Id);
+            await fullChoreographyVerseChoreographyService.DeleteVerseChoreographyFromFullChoreographyAsync(model.Id);
 
             TempData[UserMessageSuccess] = String.Format(ItemDeletedSuccessMessage, VerseChoreographyAsString);
 

@@ -25,92 +25,6 @@ namespace ChoreographyBuilder.Core.Services
 			this.mapper = mapper;
 		}
 
-		public async Task<int> AddFullChoreographyAsync(FullChoreographyFormViewModel model, string userId)
-		{
-			FullChoreography entity = mapper.Map<FullChoreography>(model);
-			entity.UserId = userId;
-
-			await repository.AddAsync(entity);
-
-			await repository.SaveChangesAsync();
-
-			return entity.Id;
-		}
-
-		public async Task<FullChoreographyQueryServiceModel> AllUserFullChoreographiesAsync(string userId, string? searchTerm = null, int currentPage = 1, int itemsPerPage = DefaultNumberOfItemsPerPage)
-		{
-			var choreographiesToShow = repository.AllAsReadOnly<FullChoreography>()
-				.Where(f => f.UserId == userId);
-
-			if (searchTerm != null)
-			{
-				string normalizedSearchTerm = searchTerm.ToLower();
-				choreographiesToShow = choreographiesToShow
-					.Where(f => f.Name.ToLower().Contains(normalizedSearchTerm));
-			}
-
-			var choreographies = await choreographiesToShow
-				.Include(c => c.VerseChoreographies)
-				.OrderBy(c => c.Id)
-				.Skip((currentPage - 1) * itemsPerPage)
-				.Take(itemsPerPage)
-				.Select(f => mapper.Map<FullChoreographyTableViewModel>(f))
-				.ToListAsync();
-
-			int totalChoreographiesToShow = await choreographiesToShow.CountAsync();
-
-			return new FullChoreographyQueryServiceModel()
-			{
-				TotalCount = totalChoreographiesToShow,
-				Entities = choreographies
-			};
-		}
-
-		public async Task DeleteAsync(int id)
-		{
-			List<FullChoreographyVerseChoreography> verseChoreographies = await repository.All<FullChoreographyVerseChoreography>()
-				.Where(fcvc => fcvc.FullChoreographyId == id)
-				.ToListAsync();
-			foreach (FullChoreographyVerseChoreography verseChoreography in verseChoreographies)
-			{
-				await repository.DeleteAsync<FullChoreographyVerseChoreography>(verseChoreography.Id);
-			}
-
-			await repository.DeleteAsync<FullChoreography>(id);
-			await repository.SaveChangesAsync();
-		}
-
-		public async Task EditFullChoreographyAsync(int id, FullChoreographyFormViewModel model)
-		{
-			var choreography = await repository.GetByIdAsync<FullChoreography>(id);
-
-			if (choreography == null)
-			{
-				logger.LogError(EntityWithIdWasNotFoundLoggerErrorMessage, nameof(FullChoreography), id);
-				throw new EntityNotFoundException();
-			}
-
-			choreography.Name = model.Name;
-
-			await repository.SaveChangesAsync();
-		}
-
-		public async Task<bool> FullChoreographyExistForThisUserByIdAsync(int id, string userId)
-		{
-			var fullChoreography = await repository.GetByIdAsync<FullChoreography>(id);
-			if (fullChoreography == null)
-			{
-				return false;
-			}
-
-			if (fullChoreography.UserId != userId)
-			{
-				return false;
-			}
-
-			return true;
-		}
-
 		public async Task<FullChoreographyDetailsViewModel> GetChoreographyDetailsByIdAsync(int id)
 		{
 			var choreography = await repository.AllAsReadOnly<FullChoreography>()
@@ -207,6 +121,92 @@ namespace ChoreographyBuilder.Core.Services
 			}
 
 			return choreography.VerseChoreographies.Count();
+		}
+
+		public async Task<FullChoreographyQueryServiceModel> AllUserFullChoreographiesAsync(string userId, string? searchTerm = null, int currentPage = 1, int itemsPerPage = DefaultNumberOfItemsPerPage)
+		{
+			var choreographiesToShow = repository.AllAsReadOnly<FullChoreography>()
+				.Where(f => f.UserId == userId);
+
+			if (searchTerm != null)
+			{
+				string normalizedSearchTerm = searchTerm.ToLower();
+				choreographiesToShow = choreographiesToShow
+					.Where(f => f.Name.ToLower().Contains(normalizedSearchTerm));
+			}
+
+			var choreographies = await choreographiesToShow
+				.Include(c => c.VerseChoreographies)
+				.OrderBy(c => c.Id)
+				.Skip((currentPage - 1) * itemsPerPage)
+				.Take(itemsPerPage)
+				.Select(f => mapper.Map<FullChoreographyTableViewModel>(f))
+				.ToListAsync();
+
+			int totalChoreographiesToShow = await choreographiesToShow.CountAsync();
+
+			return new FullChoreographyQueryServiceModel()
+			{
+				TotalCount = totalChoreographiesToShow,
+				Entities = choreographies
+			};
+		}
+
+		public async Task<bool> FullChoreographyExistForThisUserByIdAsync(int id, string userId)
+		{
+			var fullChoreography = await repository.GetByIdAsync<FullChoreography>(id);
+			if (fullChoreography == null)
+			{
+				return false;
+			}
+
+			if (fullChoreography.UserId != userId)
+			{
+				return false;
+			}
+
+			return true;
+		}
+
+		public async Task<int> AddFullChoreographyAsync(FullChoreographyFormViewModel model, string userId)
+		{
+			FullChoreography entity = mapper.Map<FullChoreography>(model);
+			entity.UserId = userId;
+
+			await repository.AddAsync(entity);
+
+			await repository.SaveChangesAsync();
+
+			return entity.Id;
+		}
+
+		public async Task EditFullChoreographyAsync(int id, FullChoreographyFormViewModel model)
+		{
+			var choreography = await repository.GetByIdAsync<FullChoreography>(id);
+
+			if (choreography == null)
+			{
+				logger.LogError(EntityWithIdWasNotFoundLoggerErrorMessage, nameof(FullChoreography), id);
+				throw new EntityNotFoundException();
+			}
+
+			choreography.Name = model.Name;
+
+			await repository.SaveChangesAsync();
+		}
+
+		public async Task DeleteFullChoreographyAsync(int id)
+		{
+			List<FullChoreographyVerseChoreography> verseChoreographies = await repository.All<FullChoreographyVerseChoreography>()
+				.Where(fcvc => fcvc.FullChoreographyId == id)
+				.ToListAsync();
+			foreach (FullChoreographyVerseChoreography verseChoreography in verseChoreographies)
+			{
+				await repository.DeleteAsync<FullChoreographyVerseChoreography>(verseChoreography.Id);
+			}
+
+			await repository.DeleteAsync<FullChoreography>(id);
+			await repository.SaveChangesAsync();
 		}
 	}
 }

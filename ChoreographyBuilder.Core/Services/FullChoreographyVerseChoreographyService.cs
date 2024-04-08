@@ -23,43 +23,27 @@ namespace ChoreographyBuilder.Core.Services
 			this.mapper = mapper;
 		}
 
-		public async Task AddVerseChoreographyToFullChoreographyAsync(int fullChoreographyId, FullChoreographyVerseChoreographyFormViewModel model)
-		{
-			FullChoreographyVerseChoreography entity = mapper.Map<FullChoreographyVerseChoreography>(model);
-			entity.FullChoreographyId = fullChoreographyId;
-
-			await repository.AddAsync(entity);
-
-			await repository.SaveChangesAsync();
-		}
-
-		public async Task DeleteAsync(int figureChoreographyVerseChoreographyId)
-		{
-			await repository.DeleteAsync<FullChoreographyVerseChoreography>(figureChoreographyVerseChoreographyId);
-			await repository.SaveChangesAsync();
-		}
-
-		public async Task<FullChoreographyVerseChoreographyDeleteViewModel> GetVerseChoreographyForDeleteAsync(int figureChoreographyVerseChoreographyId)
+		public async Task<FullChoreographyVerseChoreographyDeleteViewModel> GetVerseChoreographyForDeleteAsync(int fullChoreographyVerseChoreographyId)
 		{
 			var choreography = await repository.AllAsReadOnly<FullChoreographyVerseChoreography>()
 				.Include(fcvc => fcvc.VerseChoreography)
 				.Include(fcvc => fcvc.FullChoreography)
-				.FirstOrDefaultAsync(fo => fo.Id == figureChoreographyVerseChoreographyId);
+				.FirstOrDefaultAsync(fo => fo.Id == fullChoreographyVerseChoreographyId);
 
 			if (choreography == null)
 			{
-				logger.LogError(EntityWithIdWasNotFoundLoggerErrorMessage, nameof(FullChoreographyVerseChoreography), figureChoreographyVerseChoreographyId);
+				logger.LogError(EntityWithIdWasNotFoundLoggerErrorMessage, nameof(FullChoreographyVerseChoreography), fullChoreographyVerseChoreographyId);
 				throw new EntityNotFoundException();
 			}
 
 			return mapper.Map<FullChoreographyVerseChoreographyDeleteViewModel>(choreography);
 		}
 
-		public async Task<bool> VerseChoreographyInFullChoreographyExistForThisUserByIdAsync(int figureChoreographyVerseChoreographyId, string userId)
+		public async Task<bool> VerseChoreographyInFullChoreographyExistForThisUserByIdAsync(int fullChoreographyVerseChoreographyId, string userId)
 		{
 			FullChoreographyVerseChoreography? verseChoreography = await repository.AllAsReadOnly<FullChoreographyVerseChoreography>()
 				.Include(vs => vs.FullChoreography)
-				.FirstOrDefaultAsync(vs => vs.Id == figureChoreographyVerseChoreographyId);
+				.FirstOrDefaultAsync(vs => vs.Id == fullChoreographyVerseChoreographyId);
 
 			if (verseChoreography == null)
 			{
@@ -74,11 +58,11 @@ namespace ChoreographyBuilder.Core.Services
 			return true;
 		}
 
-		public async Task<bool> VerseChoreographyIsLastForFullChoreographyByIdAdync(int figureChoreographyVerseChoreographyId)
+		public async Task<bool> VerseChoreographyIsLastForFullChoreographyByIdAdync(int fullChoreographyVerseChoreographyId)
 		{
 			FullChoreographyVerseChoreography? verseChoreography = await repository.AllAsReadOnly<FullChoreographyVerseChoreography>()
 				.Include(vs => vs.FullChoreography)
-				.FirstOrDefaultAsync(vs => vs.Id == figureChoreographyVerseChoreographyId);
+				.FirstOrDefaultAsync(vs => vs.Id == fullChoreographyVerseChoreographyId);
 
 			if (verseChoreography == null)
 			{
@@ -90,12 +74,34 @@ namespace ChoreographyBuilder.Core.Services
 				.OrderByDescending(vs => vs.VerseChoreographyOrder)
 				.FirstOrDefaultAsync();
 
-			if (lastVerseChoreographyForTheFullChoreography == null || lastVerseChoreographyForTheFullChoreography.Id != figureChoreographyVerseChoreographyId)
+			if (lastVerseChoreographyForTheFullChoreography == null || lastVerseChoreographyForTheFullChoreography.Id != fullChoreographyVerseChoreographyId)
 			{
 				return false;
 			}
 
 			return true;
+		}
+
+		public async Task AddVerseChoreographyToFullChoreographyAsync(int fullChoreographyId, FullChoreographyVerseChoreographyFormViewModel model)
+		{
+			if (await repository.GetByIdAsync<FullChoreography>(fullChoreographyId) == null)
+			{
+				logger.LogError(EntityWithIdWasNotFoundLoggerErrorMessage, nameof(FullChoreography), fullChoreographyId);
+				throw new EntityNotFoundException();
+			}
+
+			FullChoreographyVerseChoreography entity = mapper.Map<FullChoreographyVerseChoreography>(model);
+			entity.FullChoreographyId = fullChoreographyId;
+
+			await repository.AddAsync(entity);
+
+			await repository.SaveChangesAsync();
+		}
+
+		public async Task DeleteVerseChoreographyFromFullChoreographyAsync(int fullChoreographyVerseChoreographyId)
+		{
+			await repository.DeleteAsync<FullChoreographyVerseChoreography>(fullChoreographyVerseChoreographyId);
+			await repository.SaveChangesAsync();
 		}
 	}
 }

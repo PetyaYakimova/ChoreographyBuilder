@@ -103,7 +103,7 @@ namespace ChoreographyBuilder.Controllers
 		[FigureNotUsedInChoreographies]
 		public async Task<IActionResult> Delete(FigureForPreviewViewModel model)
 		{
-			await figureService.DeleteAsync(model.Id);
+			await figureService.DeleteFigureAsync(model.Id);
 
 			TempData[UserMessageSuccess] = string.Format(ItemDeletedSuccessMessage, FigureAsString);
 
@@ -271,7 +271,7 @@ namespace ChoreographyBuilder.Controllers
 		[FigureOptionNotUsedInChoreographies]
 		public async Task<IActionResult> DeleteOption(FigureOptionDeleteViewModel model)
 		{
-			await figureOptionService.DeleteAsync(model.Id);
+			await figureOptionService.DeleteFigureOptionAsync(model.Id);
 
             TempData[UserMessageSuccess] = string.Format(ItemDeletedSuccessMessage, FigureOptionAsString);
 

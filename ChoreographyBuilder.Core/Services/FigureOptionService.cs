@@ -25,58 +25,6 @@ namespace ChoreographyBuilder.Core.Services
 			this.mapper = mapper;
 		}
 
-		public async Task AddFigureOptionAsync(FigureOptionFormViewModel model)
-		{
-			FigureOption entity = mapper.Map<FigureOption>(model);
-
-			await repository.AddAsync(entity);
-
-			await repository.SaveChangesAsync();
-		}
-
-		public async Task DeleteAsync(int id)
-		{
-			await repository.DeleteAsync<FigureOption>(id);
-			await repository.SaveChangesAsync();
-		}
-
-		public async Task EditFigureOptionAsync(int optionId, FigureOptionFormViewModel model)
-		{
-			var option = await repository.GetByIdAsync<FigureOption>(optionId);
-
-			if (option == null)
-			{
-				logger.LogError(EntityWithIdWasNotFoundLoggerErrorMessage, nameof(FigureOption), optionId);
-				throw new EntityNotFoundException();
-			}
-
-			option.StartPositionId = model.StartPositionId;
-			option.EndPositionId = model.EndPositionId;
-			option.DynamicsType = model.DynamicsType;
-			option.BeatCounts = model.BeatCounts;
-
-			await repository.SaveChangesAsync();
-		}
-
-		public async Task<bool> FigureOptionExistForThisUserByIdAsync(int optionId, string userId)
-		{
-			FigureOption? figureOption = await repository.AllAsReadOnly<FigureOption>()
-				.Include(fo => fo.Figure)
-				.FirstOrDefaultAsync(fo => fo.Id == optionId);
-
-			if (figureOption == null)
-			{
-				return false;
-			}
-
-			if (figureOption.Figure.UserId != userId)
-			{
-				return false;
-			}
-
-			return true;
-		}
-
 		public async Task<FigureOptionFormViewModel> GetFigureOptionByIdAsync(int optionId)
 		{
 			FigureOption? option = await repository.GetByIdAsync<FigureOption>(optionId);
@@ -163,6 +111,25 @@ namespace ChoreographyBuilder.Core.Services
 			};
 		}
 
+		public async Task<bool> FigureOptionExistForThisUserByIdAsync(int optionId, string userId)
+		{
+			FigureOption? figureOption = await repository.AllAsReadOnly<FigureOption>()
+				.Include(fo => fo.Figure)
+				.FirstOrDefaultAsync(fo => fo.Id == optionId);
+
+			if (figureOption == null)
+			{
+				return false;
+			}
+
+			if (figureOption.Figure.UserId != userId)
+			{
+				return false;
+			}
+
+			return true;
+		}
+
 		public async Task<bool> IsFigureOptionUsedInChoreographiesAsync(int optionId)
 		{
 			FigureOption? option = await repository.AllAsReadOnly<FigureOption>()
@@ -176,6 +143,39 @@ namespace ChoreographyBuilder.Core.Services
 			}
 
 			return option.VerseChoreographyFigures.Any();
+		}
+
+		public async Task AddFigureOptionAsync(FigureOptionFormViewModel model)
+		{
+			FigureOption entity = mapper.Map<FigureOption>(model);
+
+			await repository.AddAsync(entity);
+
+			await repository.SaveChangesAsync();
+		}
+
+		public async Task EditFigureOptionAsync(int optionId, FigureOptionFormViewModel model)
+		{
+			var option = await repository.GetByIdAsync<FigureOption>(optionId);
+
+			if (option == null)
+			{
+				logger.LogError(EntityWithIdWasNotFoundLoggerErrorMessage, nameof(FigureOption), optionId);
+				throw new EntityNotFoundException();
+			}
+
+			option.StartPositionId = model.StartPositionId;
+			option.EndPositionId = model.EndPositionId;
+			option.DynamicsType = model.DynamicsType;
+			option.BeatCounts = model.BeatCounts;
+
+			await repository.SaveChangesAsync();
+		}
+
+		public async Task DeleteFigureOptionAsync(int id)
+		{
+			await repository.DeleteAsync<FigureOption>(id);
+			await repository.SaveChangesAsync();
 		}
 	}
 }
