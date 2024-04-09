@@ -5,7 +5,8 @@ using static ChoreographyBuilder.Core.Constants.MessageConstants;
 namespace ChoreographyBuilder.Core.Models.FullChoreographyVerseChoreography
 {
 	/// <summary>
-	/// View model only for when selecting verse choreography for full choreography. Added validations.
+	/// View model only for when selecting verse choreography for full choreography. 
+	/// Added validation attributes.
 	/// </summary>
 	public class FullChoreographyVerseChoreographyFormViewModel
 	{

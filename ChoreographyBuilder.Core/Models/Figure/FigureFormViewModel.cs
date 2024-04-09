@@ -6,7 +6,8 @@ using static ChoreographyBuilder.Infrastructure.Constants.DataConstants;
 namespace ChoreographyBuilder.Core.Models.Figure
 {
 	/// <summary>
-	/// View model for creting and editing figures. Added validations.
+	/// View model for creting and editing figures. 
+	/// Added validation attributes.
 	/// </summary>
 	public class FigureFormViewModel
 	{

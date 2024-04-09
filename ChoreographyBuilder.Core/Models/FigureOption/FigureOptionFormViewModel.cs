@@ -9,7 +9,8 @@ using static ChoreographyBuilder.Infrastructure.Constants.DataConstants;
 namespace ChoreographyBuilder.Core.Models.FigureOption
 {
     /// <summary>
-    /// View model for creating and editing option for figure. Added validations.
+    /// View model for creating and editing option for figure. 
+	/// Added validation attributes.
     /// </summary>
     public class FigureOptionFormViewModel
 	{

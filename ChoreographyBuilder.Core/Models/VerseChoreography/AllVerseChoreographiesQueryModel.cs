@@ -6,7 +6,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ChoreographyBuilder.Core.Models.VerseChoreography
 {
-    public class AllVerseChoreographiesQueryModel : AllEntitiesQueryBaseModel<VerseChoreographyTableViewModel>
+	/// <summary>
+	/// A model used for getting criteria for filtering verse choreographies and pagination info.
+	/// No added validation attributes.
+	/// </summary>
+	public class AllVerseChoreographiesQueryModel : AllEntitiesQueryBaseModel<VerseChoreographyTableViewModel>
     {
         [Display(Name = "Search by verse type")]
         public int? VerseType { get; init; }

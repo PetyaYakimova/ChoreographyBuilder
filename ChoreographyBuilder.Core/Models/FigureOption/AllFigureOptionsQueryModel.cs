@@ -5,6 +5,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ChoreographyBuilder.Core.Models.FigureOption
 {
+	/// <summary>
+	/// A model used for getting criteria for filtering figure options and pagination info.
+	/// No added validation attributes.
+	/// </summary>
 	public class AllFigureOptionsQueryModel : AllEntitiesQueryBaseModel<FigureOptionTableViewModel>
 	{
 		public int? FigureId { get; set; }

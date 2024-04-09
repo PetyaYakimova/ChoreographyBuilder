@@ -6,7 +6,8 @@ using static ChoreographyBuilder.Infrastructure.Constants.DataConstants;
 namespace ChoreographyBuilder.Core.Models.VerseType
 {
 	/// <summary>
-	/// View model for creting and editing verse types. Added validations.
+	/// View model for creating and editing verse types. 
+	/// Added validation attributes.
 	/// </summary>
 	public class VerseTypeFormViewModel
 	{

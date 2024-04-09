@@ -1,7 +1,8 @@
 ﻿namespace ChoreographyBuilder.Core.Models.FigureOption
 {
 	/// <summary>
-	/// View model for previewing figure option when trying to delete it. No added validations.
+	/// View model for previewing figure option when trying to delete it. 
+	/// No added validation attributes.
 	/// </summary>
 	public class FigureOptionDeleteViewModel
 	{

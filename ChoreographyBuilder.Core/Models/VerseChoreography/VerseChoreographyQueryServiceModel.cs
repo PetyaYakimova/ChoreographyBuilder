@@ -2,7 +2,11 @@
 
 namespace ChoreographyBuilder.Core.Models.VerseChoreography
 {
-    public class VerseChoreographyQueryServiceModel : EntityQueryBaseModel<VerseChoreographyTableViewModel>
+	/// <summary>
+	/// A model that has the total count of verse choreographies and a collection of a certain amount of them to display them on pages.
+	/// No added validation attributes.
+	/// </summary>
+	public class VerseChoreographyQueryServiceModel : EntityQueryBaseModel<VerseChoreographyTableViewModel>
     {
     }
 }

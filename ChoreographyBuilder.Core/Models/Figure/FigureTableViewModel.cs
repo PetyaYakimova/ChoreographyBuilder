@@ -1,7 +1,8 @@
 ﻿namespace ChoreographyBuilder.Core.Models.Figure
 {
 	/// <summary>
-	/// View model only for previewing figures in a table. No added validations.
+	/// View model only for previewing figures in a table. 
+	/// No added validation attributes.
 	/// </summary>
 	public class FigureTableViewModel
 	{

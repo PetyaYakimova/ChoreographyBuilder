@@ -3,7 +3,8 @@
 namespace ChoreographyBuilder.Core.Models.User
 {
     /// <summary>
-    /// A view model only for displaying statistics for every user. No added validations.
+    /// A view model only for displaying statistics for every user.
+    /// No added validation attributes.
     /// </summary>
     public class UserTableViewModel : UserStatisticModel
     {

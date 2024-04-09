@@ -1,7 +1,8 @@
 ﻿namespace ChoreographyBuilder.Core.Models.VerseChoreographyFigure
 {
 	/// <summary>
-	/// View model only for previewing the figures in a verse choreography. No added validations.
+	/// View model only for previewing the figures in a verse choreography. 
+	/// No added validation attributes.
 	/// </summary>
 	public class VerseChoreographyFigureViewModel
 	{

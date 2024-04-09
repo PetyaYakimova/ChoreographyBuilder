@@ -1,7 +1,8 @@
 ﻿namespace ChoreographyBuilder.Core.Models.VerseType
 {
 	/// <summary>
-	/// View model only for previewing verse types in a table. No added validations.
+	/// View model only for previewing verse types in a table. 
+	/// No added validation attributes.
 	/// </summary>
 	public class VerseTypeTableViewModel
 	{

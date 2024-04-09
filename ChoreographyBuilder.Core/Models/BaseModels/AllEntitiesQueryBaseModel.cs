@@ -3,6 +3,11 @@ using static ChoreographyBuilder.Core.Constants.LimitConstants;
 
 namespace ChoreographyBuilder.Core.Models.BaseModels
 {
+	/// <summary>
+	/// A base class for all models used to get filtering criteria and pagination info.
+	/// No added validation attributes.
+	/// </summary>
+	/// <typeparam name="Т">Type of model entities</typeparam>
 	public abstract class AllEntitiesQueryBaseModel<Т>
 	{
 		[Display(Name = "Search by name")]

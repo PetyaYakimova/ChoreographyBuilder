@@ -7,7 +7,8 @@ using static ChoreographyBuilder.Infrastructure.Constants.DataConstants;
 namespace ChoreographyBuilder.Core.Models.FullChoreography
 {
 	/// <summary>
-	/// A model for adding and editing a full choreography. Added validations.
+	/// A model for adding and editing a full choreography. 
+	/// Added validation attributes.
 	/// </summary>
 	public class FullChoreographyFormViewModel
 	{

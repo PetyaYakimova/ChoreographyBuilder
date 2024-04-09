@@ -6,7 +6,8 @@ using static ChoreographyBuilder.Infrastructure.Constants.DataConstants;
 namespace ChoreographyBuilder.Core.Models.VerseChoreography
 {
 	/// <summary>
-	/// A model for saving a suggested verse choreography. Added validations only for the Name field since it is the only one that is filled by the user.
+	/// A model for saving a suggested verse choreography. 
+	/// Added validation attributes.
 	/// </summary>
 	public class VerseChoreographySaveViewModel
 	{
@@ -16,8 +17,10 @@ namespace ChoreographyBuilder.Core.Models.VerseChoreography
 			ErrorMessage = StringLengthErrorMessage)]
 		public string Name { get; set; } = string.Empty;
 
+		[Required(ErrorMessage = RequiredErrorMessage)]
 		public int VerseTypeId { get; init; }
 
+		[Required(ErrorMessage = RequiredErrorMessage)]
 		[Display(Name = "Total score:")]
 		public int Score { get; init; }
 

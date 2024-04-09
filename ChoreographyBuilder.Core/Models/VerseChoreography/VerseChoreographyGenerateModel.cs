@@ -6,6 +6,10 @@ using static ChoreographyBuilder.Core.Constants.MessageConstants;
 
 namespace ChoreographyBuilder.Core.Models.VerseChoreography
 {
+	/// <summary>
+	/// A model for getting the requirements before generating suggestions for verse choreographies.
+	/// Added validation attributes.
+	/// </summary>
 	public class VerseChoreographyGenerateModel
 	{
 		[Required(ErrorMessage = RequiredErrorMessage)]

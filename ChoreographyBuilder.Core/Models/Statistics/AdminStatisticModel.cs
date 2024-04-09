@@ -3,7 +3,8 @@
 namespace ChoreographyBuilder.Core.Models.Statistics
 {
 	/// <summary>
-	/// A view model only for displaying statistics to admins. No added validations.
+	/// A view model only for displaying statistics to admins. 
+	/// No added validation attributes.
 	/// </summary>
 	public class AdminStatisticModel
 	{

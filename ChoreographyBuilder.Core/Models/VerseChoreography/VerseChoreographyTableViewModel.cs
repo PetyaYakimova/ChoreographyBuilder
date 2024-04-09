@@ -3,7 +3,8 @@
 namespace ChoreographyBuilder.Core.Models.VerseChoreography
 {
     /// <summary>
-	/// View model only for previewing saved verse choreographies in a table and when seelcting one for a full choreography. No added validations.
+	/// View model only for previewing saved verse choreographies in a table and when selecting one for a full choreography. 
+	/// No added validation attributes.
 	/// </summary>
 	public class VerseChoreographyTableViewModel
 	{

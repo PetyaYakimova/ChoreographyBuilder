@@ -1,7 +1,8 @@
 ﻿namespace ChoreographyBuilder.Core.Models.VerseChoreography
 {
 	/// <summary>
-	/// View model only for previewing saved verse choreography when trying to delete it. No added validations.
+	/// View model only for previewing saved verse choreography when trying to delete it. 
+	/// No added validation attributes.
 	/// </summary>
 	public class VerseChoreographyDeleteViewModel
 	{

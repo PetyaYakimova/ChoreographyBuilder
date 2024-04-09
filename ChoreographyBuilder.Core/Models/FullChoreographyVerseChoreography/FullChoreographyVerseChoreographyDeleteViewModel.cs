@@ -1,7 +1,8 @@
 ﻿namespace ChoreographyBuilder.Core.Models.FullChoreographyVerseChoreography
 {
 	/// <summary>
-	/// View model for previewing verse choreography in full choreography when trying to delete it. No added validations.
+	/// View model for previewing verse choreography in full choreography when trying to delete it. 
+	/// No added validation attributes.
 	/// </summary>
 	public class FullChoreographyVerseChoreographyDeleteViewModel
 	{

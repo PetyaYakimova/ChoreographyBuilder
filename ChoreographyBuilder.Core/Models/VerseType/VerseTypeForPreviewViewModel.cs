@@ -1,7 +1,8 @@
 ﻿namespace ChoreographyBuilder.Core.Models.VerseType
 {
 	/// <summary>
-	/// View model only for previewing verse types when selecting one for a choreography, when filling dropdowns and when previewing it before delete. No added validations.
+	/// View model only for previewing verse types when selecting one for a choreography, when filling dropdowns and when previewing it before delete. 
+	/// No added validation attributes.
 	/// </summary>
 	public class VerseTypeForPreviewViewModel
 	{

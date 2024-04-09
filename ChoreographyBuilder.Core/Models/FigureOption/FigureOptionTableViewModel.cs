@@ -1,7 +1,8 @@
 ﻿namespace ChoreographyBuilder.Core.Models.FigureOption
 {
 	/// <summary>
-	/// View model for previewing figure option. No added validations.
+	/// View model for previewing figure option. 
+	/// No added validation attributes.
 	/// </summary>
 	public class FigureOptionTableViewModel
 	{

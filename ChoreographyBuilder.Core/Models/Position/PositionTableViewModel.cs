@@ -1,7 +1,8 @@
 ﻿namespace ChoreographyBuilder.Core.Models.Position
 {
 	/// <summary>
-	/// View model only for previewing positions in a table. No added validations.
+	/// View model only for previewing positions in a table. 
+	/// No added validation attributes.
 	/// </summary>
 	public class PositionTableViewModel
 	{

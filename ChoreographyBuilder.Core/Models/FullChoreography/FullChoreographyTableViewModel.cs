@@ -3,7 +3,8 @@
 namespace ChoreographyBuilder.Core.Models.FullChoreography
 {
 	/// <summary>
-	/// View model for previewing full choreography in a table and when getting it for delete view. No added validations.
+	/// View model for previewing full choreography in a table and when getting it for delete view. 
+	/// No added validation attributes.
 	/// </summary>
 	public class FullChoreographyTableViewModel
 	{
