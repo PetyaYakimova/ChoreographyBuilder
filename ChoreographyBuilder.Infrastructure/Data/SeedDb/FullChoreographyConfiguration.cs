@@ -9,13 +9,23 @@ using System.Threading.Tasks;
 
 namespace ChoreographyBuilder.Infrastructure.Data.SeedDb
 {
-    internal class FullChoreographyConfiguration : IEntityTypeConfiguration<FullChoreography>
-    {
-        public void Configure(EntityTypeBuilder<FullChoreography> builder)
-        {
-            var data = new SeedData();
+	internal class FullChoreographyConfiguration : IEntityTypeConfiguration<FullChoreography>
+	{
+		private bool seedData;
 
-            builder.HasData(new FullChoreography[] { data.FullChoreography });
-        }
-    }
+		public FullChoreographyConfiguration(bool seedData = true) : base()
+		{
+			this.seedData = seedData;
+		}
+
+		public void Configure(EntityTypeBuilder<FullChoreography> builder)
+		{
+			if (seedData)
+			{
+				var data = new SeedData();
+
+				builder.HasData(new FullChoreography[] { data.FullChoreography });
+			}
+		}
+	}
 }
