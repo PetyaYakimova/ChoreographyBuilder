@@ -1,14 +1,9 @@
-﻿using System.Runtime.CompilerServices;
-using Castle.Core.Logging;
-using ChoreographyBuilder.Core.Contracts;
+﻿using ChoreographyBuilder.Core.Contracts;
 using ChoreographyBuilder.Core.Exceptions;
 using ChoreographyBuilder.Core.Models.Position;
 using ChoreographyBuilder.Core.Services;
-using ChoreographyBuilder.Infrastructure.Data.Models;
-using ChoreographyBuilder.Tests.Mocks;
 using Microsoft.Extensions.Logging;
 using Moq;
-using NUnit.Framework.Constraints;
 
 namespace ChoreographyBuilder.Tests.UnitTests
 {
@@ -30,7 +25,7 @@ namespace ChoreographyBuilder.Tests.UnitTests
 		[Test]
 		public async Task GetPositionById_ShouldReturnValidPositionWithCorrectDataWhenIdExists()
 		{
-			PositionFormViewModel result = await positionService.GetPositionByIdAsync(FirstPosition.Id);
+			var result = await positionService.GetPositionByIdAsync(FirstPosition.Id);
 
 			Assert.That(result.Name, Is.EqualTo(FirstPosition.Name));
 			Assert.That(result.IsActive, Is.EqualTo(FirstPosition.IsActive));
@@ -46,8 +41,9 @@ namespace ChoreographyBuilder.Tests.UnitTests
 		[Test]
 		public async Task GetPositionForDelete_ShouldReturnValidPositionWithCorrectDataWhenIdExists()
 		{
-			PositionForPreviewViewModel result = await positionService.GetPositionForDeleteAsync(FirstPosition.Id);
+			var result = await positionService.GetPositionForDeleteAsync(FirstPosition.Id);
 
+			Assert.That(result.Id, Is.EqualTo(FirstPosition.Id));
 			Assert.That(result.Name, Is.EqualTo(FirstPosition.Name));
 		}
 
@@ -61,51 +57,51 @@ namespace ChoreographyBuilder.Tests.UnitTests
 		[Test]
 		public async Task AllPositions_ShouldReturnAllPositionsWhenThereAreNoSearchCriteria()
 		{
-			var expectedNumberOfPositions = this.data.Positions.Count();
+			var expectedCount = this.data.Positions.Count();
 
-			PositionQueryServiceModel result = await positionService.AllPositionsAsync();
+			var result = await positionService.AllPositionsAsync();
 
-			Assert.That(result.TotalCount, Is.EqualTo(expectedNumberOfPositions));
-			Assert.That(result.Entities.Count(), Is.EqualTo(expectedNumberOfPositions));
+			Assert.That(result.TotalCount, Is.EqualTo(expectedCount));
+			Assert.That(result.Entities.Count(), Is.EqualTo(expectedCount));
 		}
 
 		[Test]
 		public async Task AllPositions_ShouldReturnOnlySomePositionsWhenThereIsSearchCriteria()
 		{
-			PositionQueryServiceModel result = await positionService.AllPositionsAsync("First");
+			var result = await positionService.AllPositionsAsync("First");
 
 			Assert.That(result.TotalCount, Is.EqualTo(1));
 			Assert.That(result.Entities.Count(), Is.EqualTo(1));
 		}
 
 		[Test]
-		public async Task AllActivePositionsAndSelectedPositions_ShouldReturnAllActivePositionsWhenNoSelectedPositionIsGivem()
+		public async Task AllActivePositionsAndSelectedPosition_ShouldReturnAllActivePositionsWhenNoSelectedPositionIsGiven()
 		{
-			var expectedNumberOfPositions = this.data.Positions.Count(p => p.IsActive);
+			var expectedCount = this.data.Positions.Count(p => p.IsActive);
 
 			var result = await positionService.AllActivePositionsAndSelectedPositionAsync();
 
-			Assert.That(result.Count(), Is.EqualTo(expectedNumberOfPositions));
+			Assert.That(result.Count(), Is.EqualTo(expectedCount));
 		}
 
 		[Test]
-		public async Task AllActivePositionsAndSelectedPositions_ShouldReturnAllActivePositionsAndTheSelectedInActivePosition()
+		public async Task AllActivePositionsAndSelectedPosition_ShouldReturnAllActivePositionsAndTheSelectedInActivePosition()
 		{
-			var expectedNumberOfPositions = this.data.Positions.Count(p => p.IsActive || p.Id == InactivePosition.Id);
+			var expectedCount = this.data.Positions.Count(p => p.IsActive || p.Id == InactivePosition.Id);
 
 			var result = await positionService.AllActivePositionsAndSelectedPositionAsync(InactivePosition.Id);
 
-			Assert.That(result.Count(), Is.EqualTo(expectedNumberOfPositions));
+			Assert.That(result.Count(), Is.EqualTo(expectedCount));
 		}
 
 		[Test]
-		public async Task AllActivePositionsAndSelectedPositions_ShouldReturnAllActivePositionsWhenSelectedIdIsForAnActivePosition()
+		public async Task AllActivePositionsAndSelectedPosition_ShouldReturnAllActivePositionsWhenSelectedIdIsForAnActivePosition()
 		{
-			var expectedNumberOfPositions = this.data.Positions.Count(p => p.IsActive);
+			var expectedCount = this.data.Positions.Count(p => p.IsActive);
 
 			var result = await positionService.AllActivePositionsAndSelectedPositionAsync(FirstPosition.Id);
 
-			Assert.That(result.Count(), Is.EqualTo(expectedNumberOfPositions));
+			Assert.That(result.Count(), Is.EqualTo(expectedCount));
 		}
 
 		[Test]
@@ -141,7 +137,7 @@ namespace ChoreographyBuilder.Tests.UnitTests
 		}
 
 		[Test]
-		public async Task IsPositionUsedInFigures_ShouldThrowAnExceptionIfThePositionDeesntExist()
+		public async Task IsPositionUsedInFigures_ShouldThrowAnExceptionIfThePositionDoesntExist()
 		{
 			Assert.That(async () => await positionService.IsPositionUsedInFiguresAsync(10),
 				Throws.Exception.TypeOf<EntityNotFoundException>());
@@ -173,7 +169,7 @@ namespace ChoreographyBuilder.Tests.UnitTests
 		}
 
 		[Test]
-		public async Task ChangePositionStatus_ShouldChangeTheStatusToINactiveWhenThePositionWasActive()
+		public async Task ChangePositionStatus_ShouldChangeTheStatusToInactiveWhenThePositionWasActive()
 		{
 			await positionService.ChangePositionStatusAsync(SecondPosition.Id);
 
@@ -181,7 +177,7 @@ namespace ChoreographyBuilder.Tests.UnitTests
 		}
 
 		[Test]
-		public async Task ChangePositionStatus_ShouldThrowAnExceptionIfThePositionDeesntExist()
+		public async Task ChangePositionStatus_ShouldThrowAnExceptionIfThePositionDoesntExist()
 		{
 			Assert.That(async () => await positionService.ChangePositionStatusAsync(10),
 				Throws.Exception.TypeOf<EntityNotFoundException>());
@@ -190,7 +186,7 @@ namespace ChoreographyBuilder.Tests.UnitTests
 		[Test]
 		public async Task EditPosition_ShouldEditThePositionSuccessfullyForValidPosition()
 		{
-			PositionFormViewModel model = new PositionFormViewModel()
+			var model = new PositionFormViewModel()
 			{
 				Name = "Edited name"
 			};
@@ -201,7 +197,7 @@ namespace ChoreographyBuilder.Tests.UnitTests
 		}
 
 		[Test]
-		public async Task EditPosition_ShouldThrowAnExceptionIfThePositionDeesntExist()
+		public async Task EditPosition_ShouldThrowAnExceptionIfThePositionDoesntExist()
 		{
 			Assert.That(async () => await positionService.EditPositionAsync(10, new PositionFormViewModel()),
 				Throws.Exception.TypeOf<EntityNotFoundException>());
@@ -210,12 +206,12 @@ namespace ChoreographyBuilder.Tests.UnitTests
 		[Test]
 		public async Task DeletePosition_ShouldDeleteValidPosition()
 		{
-			var positionsBefore = data.Positions.Count();
+			var positionsCountBefore = data.Positions.Count();
 
 			await positionService.DeletePositionAsync(ThirdPosition.Id);
 
-			var positionsAfter = data.Positions.Count();
-			Assert.That(positionsAfter, Is.EqualTo(positionsBefore - 1));
+			var positionsCountAfter = data.Positions.Count();
+			Assert.That(positionsCountAfter, Is.EqualTo(positionsCountBefore - 1));
 		}
 	}
 }

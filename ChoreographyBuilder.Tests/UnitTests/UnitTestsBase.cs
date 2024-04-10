@@ -37,79 +37,64 @@ namespace ChoreographyBuilder.Tests.UnitTests
 			data.Dispose();
 		}
 
-		public Position FirstPosition { get; protected set; } = null!;
+		public IdentityUser FirstUser { get; private set; } = null!;
 
-		public Position SecondPosition { get; protected set; } = null!;
+		public IdentityUser SecondUser { get; private set; } = null!;
 
-		public Position ThirdPosition { get; protected set; } = null!;
+		public IdentityUser AdminUser { get; private set; } = null!;
 
-		public Position InactivePosition { get; protected set; } = null!;
+		public IdentityRole UserRole { get; private set; } = null!;
 
-		public IdentityUser FirstUser { get; protected set; } = null!;
+		public IdentityRole AdminRole { get; private set; } = null!;
 
-		public IdentityUser SecondUser { get; protected set; } = null!;
+		public Position FirstPosition { get; private set; } = null!;
 
-		public IdentityUser AdminUser { get; protected set; } = null!;
+		public Position SecondPosition { get; private set; } = null!;
 
-		public IdentityRole UserRole { get; protected set; } = null!;
+		public Position ThirdPosition { get; private set; } = null!;
 
-		public IdentityRole AdminRole { get; protected set; } = null!;
+		public Position InactivePosition { get; private set; } = null!;
 
-		public Figure FirstFigure { get; protected set; } = null!;
+		public VerseType FirstVerseType { get; private set; } = null!;
 
-		public Figure SecondFigure { get; protected set; } = null!;
+		public VerseType SecondVerseType { get; private set; } = null!;
 
-		public Figure ThirdFigure { get; protected set; } = null!;
+		public VerseType InactiveVerseType { get; private set; } = null!;
 
-		public Figure FourthFigure { get; protected set; } = null!;
+		public Figure FirstFigure { get; private set; } = null!;
 
-		public Figure HighlightFigure { get; protected set; } = null!;
+		public Figure SecondFigure { get; private set; } = null!;
 
-		public FigureOption FirstFigureFirstOption { get; protected set; } = null!;
+		public Figure ThirdFigure { get; private set; } = null!;
+
+		public Figure FourthFigure { get; private set; } = null!;
+
+		public Figure HighlightFigure { get; private set; } = null!;
+
+		public FigureOption FirstFigureFirstOption { get; private set; } = null!;
+
+		public VerseChoreography FirstVerseChoreography { get; private set; } = null!;
+
+		public VerseChoreography SecondVerseChoreography { get; private set; } = null!;
+
+		public VerseChoreographyFigure FirstVerseChoreographyFirstFigure { get; private set; } = null!;
+
+		public VerseChoreographyFigure FirstVerseChoreographySecondFigure { get; private set; } = null!;
 
 		private void SeedDatabase()
 		{
-			this.SeedPositions();
 			this.SeedUsersAndRoles();
+
+			this.SeedPositions();
+			this.SeedVerseTypes();
+
 			this.SeedFigures();
 			this.SeedFigureOptions();
 
+			this.SeedVerseChoreographies();
+			this.SeedVerseChoreographyFigures();
+
 			data.SaveChanges();
-		}
-
-		private void SeedPositions()
-		{
-			FirstPosition = new Position()
-			{
-				Id = 1,
-				Name = "First position",
-				IsActive = true
-			};
-			data.Positions.Add(FirstPosition);
-
-			SecondPosition = new Position()
-			{
-				Id = 2,
-				Name = "Second position",
-				IsActive = true
-			};
-			data.Positions.Add(SecondPosition);
-
-			ThirdPosition = new Position()
-			{
-				Id = 3,
-				Name = "Third position",
-				IsActive = true
-			};
-			data.Positions.Add(ThirdPosition);
-
-			InactivePosition = new Position()
-			{
-				Id = 4,
-				Name = "Inactive position",
-				IsActive = false
-			};
-			data.Positions.Add(InactivePosition);
 		}
 
 		private void SeedUsersAndRoles()
@@ -173,6 +158,71 @@ namespace ChoreographyBuilder.Tests.UnitTests
 			});
 		}
 
+		private void SeedPositions()
+		{
+			FirstPosition = new Position()
+			{
+				Id = 1,
+				Name = "First position",
+				IsActive = true
+			};
+			data.Positions.Add(FirstPosition);
+
+			SecondPosition = new Position()
+			{
+				Id = 2,
+				Name = "Second position",
+				IsActive = true
+			};
+			data.Positions.Add(SecondPosition);
+
+			ThirdPosition = new Position()
+			{
+				Id = 3,
+				Name = "Third position",
+				IsActive = true
+			};
+			data.Positions.Add(ThirdPosition);
+
+			InactivePosition = new Position()
+			{
+				Id = 4,
+				Name = "Inactive position",
+				IsActive = false
+			};
+			data.Positions.Add(InactivePosition);
+		}
+
+		private void SeedVerseTypes()
+		{
+			FirstVerseType = new VerseType()
+			{
+				Id = 1,
+				Name = "First verse type",
+				BeatCounts = 32,
+				IsActive = true
+			};
+			data.VerseTypes.Add(FirstVerseType);
+
+			SecondVerseType = new VerseType()
+			{
+				Id = 2,
+				Name = "Second verse type",
+				BeatCounts = 48,
+				IsActive = true
+			};
+			data.VerseTypes.Add(SecondVerseType);
+
+			InactiveVerseType = new VerseType()
+			{
+				Id = 3,
+				Name = "Inactive verse type",
+				BeatCounts = 24,
+				IsActive = false
+			};
+			data.VerseTypes.Add(InactiveVerseType);
+		}
+
 		private void SeedFigures()
 		{
 			FirstFigure = new Figure()
@@ -224,6 +274,50 @@ namespace ChoreographyBuilder.Tests.UnitTests
 				UserId = FirstUser.Id
 			};
 			data.Figures.Add(HighlightFigure);
+		}
+
+		private void SeedVerseChoreographies()
+		{
+			FirstVerseChoreography = new VerseChoreography()
+			{
+				Id = 1,
+				Name = "First verse choreography",
+				Score = 5,
+				VerseTypeId = FirstVerseType.Id,
+				UserId = FirstUser.Id
+			};
+			data.VerseChoreographies.Add(FirstVerseChoreography);
+
+			SecondVerseChoreography = new VerseChoreography()
+			{
+				Id = 2,
+				Name = "Second verse choreography",
+				Score = 5,
+				VerseTypeId = SecondVerseType.Id,
+				UserId = FirstUser.Id
+			};
+			data.VerseChoreographies.Add(SecondVerseChoreography);
+		}
+
+		private void SeedVerseChoreographyFigures()
+		{
+			FirstVerseChoreographyFirstFigure = new VerseChoreographyFigure()
+			{
+				Id = 1,
+				FigureOptionId = FirstFigureFirstOption.Id,
+				FigureOrder = 1,
+				VerseChoreographyId = FirstVerseChoreography.Id
+			};
+			data.VerseChoreographiesFigures.Add(FirstVerseChoreographyFirstFigure);
+
+			FirstVerseChoreographySecondFigure = new VerseChoreographyFigure()
+			{
+				Id = 2,
+				FigureOptionId = FirstFigureFirstOption.Id,
+				FigureOrder = 2,
+				VerseChoreographyId = FirstVerseChoreography.Id
+			};
+			data.VerseChoreographiesFigures.Add(FirstVerseChoreographySecondFigure);
 		}
 
 		private void SeedFigureOptions()
