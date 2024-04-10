@@ -8,7 +8,7 @@ namespace ChoreographyBuilder.Infrastructure.Data.Models
 	public class VerseChoreographyFigure
 	{
 		[Key]
-		[Comment("Verse Choreograhy Figure Identifier")]
+		[Comment("Verse Choreography Figure Identifier")]
 		public int Id { get; set; }
 
 		[Required]

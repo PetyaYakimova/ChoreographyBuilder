@@ -10,12 +10,12 @@ namespace ChoreographyBuilder.Infrastructure.Data.Models
 	public class VerseChoreography
 	{
 		[Key]
-		[Comment("Verse Choreograhy Identifier")]
+		[Comment("Verse Choreography Identifier")]
 		public int Id { get; set; }
 
 		[Required]
 		[MaxLength(VerseChoreographyNameMaxLength)]
-		[Comment("Verse Chorography Name")]
+		[Comment("Verse Choreography Name")]
 		public string Name { get; set; } = string.Empty;
 
 		[Required]

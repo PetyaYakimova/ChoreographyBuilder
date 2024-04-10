@@ -12,7 +12,7 @@ namespace ChoreographyBuilder.Infrastructure.Data.Models
 		public int Id { get; set; }
 
 		[Required]
-		[Comment("Full Choreogprahy Identifier")]
+		[Comment("Full Choreography Identifier")]
 		public int FullChoreographyId { get; set; }
 
 		[ForeignKey(nameof(FullChoreographyId))]
