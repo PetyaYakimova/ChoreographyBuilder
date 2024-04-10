@@ -154,6 +154,20 @@ namespace ChoreographyBuilder.Core.Services
 				throw new EntityNotFoundException();
 			}
 
+			var positions = await repository.AllAsReadOnly<Position>().Select(p => p.Id).ToListAsync();
+
+			if (!positions.Contains(model.StartPositionId))
+			{
+				logger.LogError(EntityWithIdWasNotFoundLoggerErrorMessage, nameof(Position), model.StartPositionId);
+				throw new EntityNotFoundException();
+			}
+
+			if (!positions.Contains(model.EndPositionId))
+			{
+				logger.LogError(EntityWithIdWasNotFoundLoggerErrorMessage, nameof(Position), model.EndPositionId);
+				throw new EntityNotFoundException();
+			}
+
 			FigureOption entity = mapper.Map<FigureOption>(model);
 
 			await repository.AddAsync(entity);
@@ -168,6 +182,20 @@ namespace ChoreographyBuilder.Core.Services
 			if (option == null)
 			{
 				logger.LogError(EntityWithIdWasNotFoundLoggerErrorMessage, nameof(FigureOption), optionId);
+				throw new EntityNotFoundException();
+			}
+
+			var positions = await repository.AllAsReadOnly<Position>().Select(p=>p.Id).ToListAsync();
+
+			if (!positions.Contains(model.StartPositionId))
+			{
+				logger.LogError(EntityWithIdWasNotFoundLoggerErrorMessage, nameof(Position), model.StartPositionId);
+				throw new EntityNotFoundException();
+			}
+
+			if (!positions.Contains(model.EndPositionId))
+			{
+				logger.LogError(EntityWithIdWasNotFoundLoggerErrorMessage, nameof(Position), model.EndPositionId);
 				throw new EntityNotFoundException();
 			}
 

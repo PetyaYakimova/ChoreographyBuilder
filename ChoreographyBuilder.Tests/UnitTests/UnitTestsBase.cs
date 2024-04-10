@@ -73,6 +73,14 @@ namespace ChoreographyBuilder.Tests.UnitTests
 
 		public FigureOption FirstFigureFirstOption { get; private set; } = null!;
 
+		public FigureOption FirstFigureSecondOption { get; private set; } = null!;
+
+		public FigureOption SecondFigureFirstOption { get; private set; } = null!;
+
+		public FigureOption SecondFigureSecondOption { get; private set; } = null!;
+
+		public FigureOption HighlightFigureFirstOption { get; private set; } = null!;
+
 		public VerseChoreography FirstVerseChoreography { get; private set; } = null!;
 
 		public VerseChoreography SecondVerseChoreography { get; private set; } = null!;
@@ -276,6 +284,64 @@ namespace ChoreographyBuilder.Tests.UnitTests
 			data.Figures.Add(HighlightFigure);
 		}
 
+		private void SeedFigureOptions()
+		{
+			FirstFigureFirstOption = new FigureOption()
+			{
+				Id = 1,
+				FigureId = FirstFigure.Id,
+				BeatCounts = 6,
+				DynamicsType = DynamicsType.Regular,
+				StartPositionId = FirstPosition.Id,
+				EndPositionId = FirstPosition.Id
+			};
+			data.FigureOptions.Add(FirstFigureFirstOption);
+
+			FirstFigureSecondOption = new FigureOption()
+			{
+				Id = 2,
+				FigureId = FirstFigure.Id,
+				BeatCounts = 4,
+				DynamicsType = DynamicsType.Fast,
+				StartPositionId = SecondPosition.Id,
+				EndPositionId = FirstPosition.Id
+			};
+			data.FigureOptions.Add(FirstFigureSecondOption);
+
+			SecondFigureFirstOption = new FigureOption()
+			{
+				Id = 3,
+				FigureId = SecondFigure.Id,
+				BeatCounts = 10,
+				DynamicsType = DynamicsType.Slow,
+				StartPositionId = FirstPosition.Id,
+				EndPositionId = SecondPosition.Id
+			};
+			data.FigureOptions.Add(SecondFigureFirstOption);
+
+			SecondFigureSecondOption = new FigureOption()
+			{
+				Id = 4,
+				FigureId = SecondFigure.Id,
+				BeatCounts = 8,
+				DynamicsType = DynamicsType.Slow,
+				StartPositionId = FirstPosition.Id,
+				EndPositionId = SecondPosition.Id
+			};
+			data.FigureOptions.Add(SecondFigureSecondOption);
+
+			HighlightFigureFirstOption = new FigureOption()
+			{
+				Id = 5,
+				FigureId = HighlightFigure.Id,
+				BeatCounts = 16,
+				DynamicsType = DynamicsType.Regular,
+				StartPositionId = FirstPosition.Id,
+				EndPositionId = FirstPosition.Id
+			};
+			data.FigureOptions.Add(HighlightFigureFirstOption);
+		}
+
 		private void SeedVerseChoreographies()
 		{
 			FirstVerseChoreography = new VerseChoreography()
@@ -318,20 +384,6 @@ namespace ChoreographyBuilder.Tests.UnitTests
 				VerseChoreographyId = FirstVerseChoreography.Id
 			};
 			data.VerseChoreographiesFigures.Add(FirstVerseChoreographySecondFigure);
-		}
-
-		private void SeedFigureOptions()
-		{
-			FirstFigureFirstOption = new FigureOption()
-			{
-				Id = 1,
-				FigureId = FirstFigure.Id,
-				BeatCounts = 6,
-				DynamicsType = DynamicsType.Regular,
-				StartPositionId = FirstPosition.Id,
-				EndPositionId = FirstPosition.Id
-			};
-			data.FigureOptions.Add(FirstFigureFirstOption);
 		}
 	}
 }
