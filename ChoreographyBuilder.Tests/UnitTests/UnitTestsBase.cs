@@ -85,9 +85,25 @@ namespace ChoreographyBuilder.Tests.UnitTests
 
 		public VerseChoreography SecondVerseChoreography { get; private set; } = null!;
 
+		public VerseChoreography ThirdVerseChoreography { get; private set; } = null!;
+
+		public VerseChoreography FourthVerseChoreography { get; private set; } = null!;
+
 		public VerseChoreographyFigure FirstVerseChoreographyFirstFigure { get; private set; } = null!;
 
 		public VerseChoreographyFigure FirstVerseChoreographySecondFigure { get; private set; } = null!;
+
+		public VerseChoreographyFigure FirstVerseChoreographyThirdFigure { get; private set; } = null!;
+
+		public VerseChoreographyFigure SecondVerseChoreographyFirstFigure { get; private set; } = null!;
+
+		public VerseChoreographyFigure ThirdVerseChoreographyFirstFigure { get; private set; } = null!;
+
+		public FullChoreography FirstFullChoreography { get; private set; } = null!;
+
+		public FullChoreographyVerseChoreography FirstFullChoreographyFirstVerse { get; private set; } = null!;
+
+		public FullChoreographyVerseChoreography FirstFullChoreographySecondVerse { get; private set; } = null!;
 
 		private void SeedDatabase()
 		{
@@ -101,6 +117,9 @@ namespace ChoreographyBuilder.Tests.UnitTests
 
 			this.SeedVerseChoreographies();
 			this.SeedVerseChoreographyFigures();
+
+			this.SeedFullChoreographies();
+			this.SeedFullChoreographyVerseChoreographies();
 
 			data.SaveChanges();
 		}
@@ -293,7 +312,7 @@ namespace ChoreographyBuilder.Tests.UnitTests
 				BeatCounts = 6,
 				DynamicsType = DynamicsType.Regular,
 				StartPositionId = FirstPosition.Id,
-				EndPositionId = FirstPosition.Id
+				EndPositionId = SecondPosition.Id
 			};
 			data.FigureOptions.Add(FirstFigureFirstOption);
 
@@ -314,8 +333,8 @@ namespace ChoreographyBuilder.Tests.UnitTests
 				FigureId = SecondFigure.Id,
 				BeatCounts = 10,
 				DynamicsType = DynamicsType.Slow,
-				StartPositionId = FirstPosition.Id,
-				EndPositionId = SecondPosition.Id
+				StartPositionId = SecondPosition.Id,
+				EndPositionId = FirstPosition.Id
 			};
 			data.FigureOptions.Add(SecondFigureFirstOption);
 
@@ -363,6 +382,26 @@ namespace ChoreographyBuilder.Tests.UnitTests
 				UserId = FirstUser.Id
 			};
 			data.VerseChoreographies.Add(SecondVerseChoreography);
+
+			ThirdVerseChoreography = new VerseChoreography()
+			{
+				Id = 3,
+				Name = "Third verse choreography",
+				Score = 4,
+				VerseTypeId = FirstVerseType.Id,
+				UserId = FirstUser.Id
+			};
+			data.VerseChoreographies.Add(ThirdVerseChoreography);
+
+			FourthVerseChoreography = new VerseChoreography()
+			{
+				Id = 4,
+				Name = "Fourth verse choreography",
+				Score = 4,
+				VerseTypeId = FirstVerseType.Id,
+				UserId = SecondUser.Id
+			};
+			data.VerseChoreographies.Add(FourthVerseChoreography);
 		}
 
 		private void SeedVerseChoreographyFigures()
@@ -379,11 +418,70 @@ namespace ChoreographyBuilder.Tests.UnitTests
 			FirstVerseChoreographySecondFigure = new VerseChoreographyFigure()
 			{
 				Id = 2,
-				FigureOptionId = FirstFigureFirstOption.Id,
+				FigureOptionId = SecondFigureFirstOption.Id,
 				FigureOrder = 2,
 				VerseChoreographyId = FirstVerseChoreography.Id
 			};
 			data.VerseChoreographiesFigures.Add(FirstVerseChoreographySecondFigure);
+
+			FirstVerseChoreographyThirdFigure = new VerseChoreographyFigure()
+			{
+				Id = 3,
+				FigureOptionId = HighlightFigureFirstOption.Id,
+				FigureOrder = 3,
+				VerseChoreographyId = FirstVerseChoreography.Id
+			};
+			data.VerseChoreographiesFigures.Add(FirstVerseChoreographyThirdFigure);
+
+			SecondVerseChoreographyFirstFigure = new VerseChoreographyFigure()
+			{
+				Id = 4,
+				FigureOptionId = FirstFigureFirstOption.Id,
+				FigureOrder = 1,
+				VerseChoreographyId = SecondVerseChoreography.Id
+			};
+			data.VerseChoreographiesFigures.Add(SecondVerseChoreographyFirstFigure);
+
+			ThirdVerseChoreographyFirstFigure = new VerseChoreographyFigure()
+			{
+				Id = 5,
+				FigureOptionId = FirstFigureSecondOption.Id,
+				FigureOrder = 1,
+				VerseChoreographyId = ThirdVerseChoreography.Id
+			};
+			data.VerseChoreographiesFigures.Add(ThirdVerseChoreographyFirstFigure);
+		}
+
+		private void SeedFullChoreographies()
+		{
+			FirstFullChoreography = new FullChoreography()
+			{
+				Id = 1,
+				Name = "First full song",
+				UserId = FirstUser.Id
+			};
+			data.FullChoreographies.Add(FirstFullChoreography);
+		}
+
+		private void SeedFullChoreographyVerseChoreographies()
+		{
+			FirstFullChoreographyFirstVerse = new FullChoreographyVerseChoreography()
+			{
+				Id = 1,
+				FullChoreographyId = FirstFullChoreography.Id,
+				VerseChoreographyId = FirstVerseChoreography.Id,
+				VerseChoreographyOrder = 1
+			};
+			data.FullChoreographiesVerseChoreographies.Add(FirstFullChoreographyFirstVerse);
+
+			FirstFullChoreographySecondVerse = new FullChoreographyVerseChoreography()
+			{
+				Id = 2,
+				FullChoreographyId = FirstFullChoreography.Id,
+				VerseChoreographyId = SecondVerseChoreography.Id,
+				VerseChoreographyOrder = 2
+			};
+			data.FullChoreographiesVerseChoreographies.Add(FirstFullChoreographySecondVerse);
 		}
 	}
 }

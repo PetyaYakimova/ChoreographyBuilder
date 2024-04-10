@@ -11,7 +11,7 @@ namespace ChoreographyBuilder.Core.Contracts
 		/// </summary>
 		/// <param name="id">Id of the verse choreography</param>
 		/// <returns></returns>
-		Task<VerseChoreographyDetailsViewModel> GetChoreographyByIdAsync(int id);
+		Task<VerseChoreographyDetailsViewModel> GetVerseChoreographyByIdAsync(int id);
 
 		/// <summary>
 		/// Returns VerseChoreographyDeleteViewModel for the verse choreography with the selected id.
@@ -68,7 +68,7 @@ namespace ChoreographyBuilder.Core.Contracts
 		/// <param name="model">VerseChoreographySaveViewModel model</param>
 		/// <param name="userId">Id of the user</param>
 		/// <returns></returns>
-		Task SaveChoreographyAsync(VerseChoreographySaveViewModel model, string userId);
+		Task SaveVerseChoreographyAsync(VerseChoreographySaveViewModel model, string userId);
 
 		/// <summary>
 		/// Deletes a verse choreography by its id.

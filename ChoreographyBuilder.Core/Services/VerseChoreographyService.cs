@@ -34,7 +34,7 @@ namespace ChoreographyBuilder.Core.Services
 			validOptionsForGenerateChoreographies = new List<List<FigureOption>>();
 		}
 
-		public async Task<VerseChoreographyDetailsViewModel> GetChoreographyByIdAsync(int id)
+		public async Task<VerseChoreographyDetailsViewModel> GetVerseChoreographyByIdAsync(int id)
 		{
 			var choreography = await repository.AllAsReadOnly<VerseChoreography>()
 				.Include(c => c.VerseType)
@@ -199,11 +199,19 @@ namespace ChoreographyBuilder.Core.Services
 			return choreography.FullChoreographies.Any();
 		}
 
-		public async Task SaveChoreographyAsync(VerseChoreographySaveViewModel model, string userId)
+		public async Task SaveVerseChoreographyAsync(VerseChoreographySaveViewModel model, string userId)
 		{
 			if (await repository.GetByIdAsync<IdentityUser>(userId) == null)
 			{
 				logger.LogError(EntityWithIdWasNotFoundLoggerErrorMessage, nameof(IdentityUser), userId);
+				throw new EntityNotFoundException();
+			}
+
+			var verseTypes = await repository.AllAsReadOnly<VerseType>().Select(v => v.Id).ToListAsync();
+
+			if (!verseTypes.Contains(model.VerseTypeId))
+			{
+				logger.LogError(EntityWithIdWasNotFoundLoggerErrorMessage, nameof(VerseType), model.VerseTypeId);
 				throw new EntityNotFoundException();
 			}
 
@@ -235,6 +243,7 @@ namespace ChoreographyBuilder.Core.Services
 
 			if (verseType == null)
 			{
+				logger.LogError(EntityWithIdWasNotFoundLoggerErrorMessage, nameof(VerseType), query.VerseTypeId);
 				throw new EntityNotFoundException();
 			}
 
@@ -249,6 +258,7 @@ namespace ChoreographyBuilder.Core.Services
 
 			if (finalFigure == null)
 			{
+				logger.LogError(EntityWithIdWasNotFoundLoggerErrorMessage, nameof(Figure), query.FinalFigureId);
 				throw new EntityNotFoundException();
 			}
 
@@ -307,12 +317,12 @@ namespace ChoreographyBuilder.Core.Services
 		}
 
 		/// <summary>
-		/// A recursively used method to generate options for previous figure in a verse when generating suggestionns for choreographies.
+		/// A recursively used method to generate options for previous figure in a verse when generating suggestions for choreographies.
 		/// </summary>
 		/// <param name="currentOption">The list of the selected already figure options for this current option for choreography.</param>
 		/// <param name="endPositionId">The start position of the last figure option, which is end position for the searched previous figure option.</param>
-		/// <param name="remainingNumberOfBeats">The remaning number of beats in the verse.</param>
-		/// <param name="nextFigureId">The last selected figure for the verse, which will be the next figure from the seached previous figure.</param>
+		/// <param name="remainingNumberOfBeats">The remaining number of beats in the verse.</param>
+		/// <param name="nextFigureId">The last selected figure for the verse, which will be the next figure from the searched previous figure.</param>
 		private void GetPreviousFigure(List<FigureOption> currentOption, int endPositionId, int remainingNumberOfBeats, int nextFigureId)
 		{
 			//This is how the recursion ends

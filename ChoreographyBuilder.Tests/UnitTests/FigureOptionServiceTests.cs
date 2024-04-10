@@ -75,7 +75,7 @@ namespace ChoreographyBuilder.Tests.UnitTests
 		[Test]
 		public async Task GetFigureOptions_ShouldReturnOnlySomeFigureOptionsWhenThereIsSearchCriteria()
 		{
-			var result = await figureOptionService.GetFigureOptionsAsync(FirstFigure.Id, FirstPosition.Id, FirstPosition.Id, 6, DynamicsType.Regular);
+			var result = await figureOptionService.GetFigureOptionsAsync(FirstFigure.Id, FirstPosition.Id, SecondPosition.Id, 6, DynamicsType.Regular);
 
 			Assert.That(result.TotalCount, Is.EqualTo(1));
 			Assert.That(result.Entities.Count(), Is.EqualTo(1));

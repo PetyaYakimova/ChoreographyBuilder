@@ -58,7 +58,7 @@ namespace ChoreographyBuilder.Core.Services
 			return true;
 		}
 
-		public async Task<bool> VerseChoreographyIsLastForFullChoreographyByIdAdync(int fullChoreographyVerseChoreographyId)
+		public async Task<bool> VerseChoreographyIsLastForFullChoreographyByIdAsync(int fullChoreographyVerseChoreographyId)
 		{
 			FullChoreographyVerseChoreography? verseChoreography = await repository.AllAsReadOnly<FullChoreographyVerseChoreography>()
 				.Include(vs => vs.FullChoreography)

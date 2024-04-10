@@ -61,7 +61,7 @@ namespace ChoreographyBuilder.Controllers
         [VerseChoreographyExistsForThisUser]
         public async Task<IActionResult> Details(int id)
         {
-            var model = await verseChoreographyService.GetChoreographyByIdAsync(id);
+            var model = await verseChoreographyService.GetVerseChoreographyByIdAsync(id);
 
             return View(model);
         }
@@ -127,7 +127,7 @@ namespace ChoreographyBuilder.Controllers
                 return RedirectToAction(nameof(Generate));
             }
 
-            await verseChoreographyService.SaveChoreographyAsync(model, User.Id());
+            await verseChoreographyService.SaveVerseChoreographyAsync(model, User.Id());
 
             TempData[UserMessageSuccess] = String.Format(ItemAddedSuccessMessage, VerseChoreographyAsString);
 

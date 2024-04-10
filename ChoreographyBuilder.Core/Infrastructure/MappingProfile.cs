@@ -86,7 +86,7 @@ namespace ChoreographyBuilder.Core.Infrastructure
 				.ForMember(d => d.FigureName, act => act.MapFrom(src => src.FigureOption.Figure.Name))
 				.ForMember(d => d.IsFavourite, act => act.MapFrom(src => src.FigureOption.Figure.IsFavourite))
 				.ForMember(d => d.IsHighlight, act => act.MapFrom(src => src.FigureOption.Figure.IsHighlight))
-				.ForMember(d => d.StartPostion, act => act.MapFrom(src => src.FigureOption.StartPosition.Name))
+				.ForMember(d => d.StartPosition, act => act.MapFrom(src => src.FigureOption.StartPosition.Name))
 				.ForMember(d => d.EndPosition, act => act.MapFrom(src => src.FigureOption.EndPosition.Name))
 				.ForMember(d => d.BeatsCount, act => act.MapFrom(src => src.FigureOption.BeatCounts))
 				.ForMember(d => d.DynamicsType, act => act.MapFrom(src => src.FigureOption.DynamicsType.ToString()));
@@ -97,7 +97,7 @@ namespace ChoreographyBuilder.Core.Infrastructure
 				.ForMember(d => d.FigureName, act => act.MapFrom(src => src.Figure.Name))
 				.ForMember(d => d.IsFavourite, act => act.MapFrom(src => src.Figure.IsFavourite))
 				.ForMember(d => d.IsHighlight, act => act.MapFrom(src => src.Figure.IsHighlight))
-				.ForMember(d => d.StartPostion, act => act.MapFrom(src => src.StartPosition.Name))
+				.ForMember(d => d.StartPosition, act => act.MapFrom(src => src.StartPosition.Name))
 				.ForMember(d => d.EndPosition, act => act.MapFrom(src => src.EndPosition.Name))
 				.ForMember(d => d.BeatsCount, act => act.MapFrom(src => src.BeatCounts))
 				.ForMember(d => d.DynamicsType, act => act.MapFrom(src => src.DynamicsType.ToString()));

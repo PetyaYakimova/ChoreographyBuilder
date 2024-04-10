@@ -29,7 +29,7 @@ namespace ChoreographyBuilder.Attributes
 				int id = 0;
 				if (int.TryParse(value.ToString(), out id))
 				{
-					if (service != null && service.VerseChoreographyIsLastForFullChoreographyByIdAdync(id).Result == false)
+					if (service != null && service.VerseChoreographyIsLastForFullChoreographyByIdAsync(id).Result == false)
 					{
 						context.Result = new StatusCodeResult(StatusCodes.Status400BadRequest);
 					}

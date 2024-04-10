@@ -16,7 +16,7 @@
 
 		public bool IsHighlight { get; init; }
 
-		public string StartPostion { get; init; } = string.Empty;
+		public string StartPosition { get; init; } = string.Empty;
 
 		public string EndPosition { get; init; } = string.Empty;
 
