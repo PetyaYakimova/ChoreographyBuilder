@@ -101,6 +101,8 @@ namespace ChoreographyBuilder.Tests.UnitTests
 
 		public FullChoreography FirstFullChoreography { get; private set; } = null!;
 
+		public FullChoreography SecondFullChoreography { get; private set; } = null!;
+
 		public FullChoreographyVerseChoreography FirstFullChoreographyFirstVerse { get; private set; } = null!;
 
 		public FullChoreographyVerseChoreography FirstFullChoreographySecondVerse { get; private set; } = null!;
@@ -461,6 +463,14 @@ namespace ChoreographyBuilder.Tests.UnitTests
 				UserId = FirstUser.Id
 			};
 			data.FullChoreographies.Add(FirstFullChoreography);
+
+			SecondFullChoreography = new FullChoreography()
+			{
+				Id = 2,
+				Name = "Second full song",
+				UserId = FirstUser.Id
+			};
+			data.FullChoreographies.Add(SecondFullChoreography);
 		}
 
 		private void SeedFullChoreographyVerseChoreographies()
