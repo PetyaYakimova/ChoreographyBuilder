@@ -23,7 +23,6 @@ namespace ChoreographyBuilder.Tests.UnitTests
 			this.figureService = new FigureService(this.logger, repository, mapper);
 		}
 
-
 		[Test]
 		public async Task GetFigureById_ShouldReturnValidFigureWithCorrectDataWhenIdExists()
 		{

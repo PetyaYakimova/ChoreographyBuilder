@@ -71,7 +71,7 @@ namespace ChoreographyBuilder.Tests.UnitTests
 		[Test]
 		public async Task AllVerseTypes_ShouldReturnOnlySomeVerseTypesWhenThereIsSearchCriteria()
 		{
-			var result = await verseTypeService.AllVerseTypesAsync("First");
+			var result = await verseTypeService.AllVerseTypesAsync("First", 32);
 
 			Assert.That(result.TotalCount, Is.EqualTo(1));
 			Assert.That(result.Entities.Count(), Is.EqualTo(1));
@@ -214,7 +214,7 @@ namespace ChoreographyBuilder.Tests.UnitTests
 		{
 			var verseTypesCountBefore = data.VerseTypes.Count();
 
-			await verseTypeService.DeleteVerseTypeAsync(SecondVerseType.Id);
+			await verseTypeService.DeleteVerseTypeAsync(InactiveVerseType.Id);
 
 			var verseTypesCountAfter = data.VerseTypes.Count();
 			Assert.That(verseTypesCountAfter, Is.EqualTo(verseTypesCountBefore - 1));
