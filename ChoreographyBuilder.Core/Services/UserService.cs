@@ -55,7 +55,7 @@ namespace ChoreographyBuilder.Core.Services
 			model.TotalNumberOfSavedFullChoreographies = await repository.AllAsReadOnly<FullChoreography>()
 				.CountAsync();
 
-			model.UsersWithAtLeastOneFullChoreographye = await repository.AllAsReadOnly<FullChoreography>()
+			model.UsersWithAtLeastOneFullChoreography = await repository.AllAsReadOnly<FullChoreography>()
 				.Select(f => f.UserId)
 				.Distinct()
 				.CountAsync();

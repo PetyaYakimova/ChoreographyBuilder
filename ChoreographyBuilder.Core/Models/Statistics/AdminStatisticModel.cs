@@ -36,6 +36,6 @@ namespace ChoreographyBuilder.Core.Models.Statistics
 		public int TotalNumberOfSavedFullChoreographies { get; set; }
 
 		[Display(Name = "Users With Full Choreographies:")]
-		public int UsersWithAtLeastOneFullChoreographye { get; set; }
+		public int UsersWithAtLeastOneFullChoreography { get; set; }
 	}
 }
