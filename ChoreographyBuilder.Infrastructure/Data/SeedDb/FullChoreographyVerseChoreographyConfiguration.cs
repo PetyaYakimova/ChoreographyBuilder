@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace ChoreographyBuilder.Infrastructure.Data.SeedDb
 {
-    internal class FullChoreographyVerseChoreographyConfiguration : IEntityTypeConfiguration<FullChoreographyVerseChoreography>
+	internal class FullChoreographyVerseChoreographyConfiguration : IEntityTypeConfiguration<FullChoreographyVerseChoreography>
     {
 		private bool seedData;
 

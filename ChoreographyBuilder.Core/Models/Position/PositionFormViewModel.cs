@@ -5,7 +5,7 @@ using static ChoreographyBuilder.Infrastructure.Constants.DataConstants;
 namespace ChoreographyBuilder.Core.Models.Position
 {
 	/// <summary>
-	/// View model for creting and editing positions. 
+	/// View model for creating and editing positions. 
 	/// Added validation attributes.
 	/// </summary>
 	public class PositionFormViewModel

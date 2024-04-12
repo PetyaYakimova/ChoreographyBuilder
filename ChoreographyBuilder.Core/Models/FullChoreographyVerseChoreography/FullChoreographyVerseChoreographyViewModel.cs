@@ -3,7 +3,7 @@
 namespace ChoreographyBuilder.Core.Models.FullChoreographyVerseChoreography
 {
 	/// <summary>
-	/// View model only for previewing verse choreografies in full choreographies. 
+	/// View model only for previewing verse choreographies in full choreographies. 
 	/// No added validation attributes.
 	/// </summary>
 	public class FullChoreographyVerseChoreographyViewModel

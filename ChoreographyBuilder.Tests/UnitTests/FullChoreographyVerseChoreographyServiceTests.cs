@@ -1,9 +1,7 @@
-﻿using AutoMapper;
-using ChoreographyBuilder.Core.Contracts;
+﻿using ChoreographyBuilder.Core.Contracts;
 using ChoreographyBuilder.Core.Exceptions;
 using ChoreographyBuilder.Core.Models.FullChoreographyVerseChoreography;
 using ChoreographyBuilder.Core.Services;
-using ChoreographyBuilder.Infrastructure.Data.Common;
 using Microsoft.Extensions.Logging;
 using Moq;
 

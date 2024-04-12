@@ -6,7 +6,7 @@ using static ChoreographyBuilder.Infrastructure.Constants.DataConstants;
 namespace ChoreographyBuilder.Core.Models.Figure
 {
 	/// <summary>
-	/// View model for creting and editing figures. 
+	/// View model for creating and editing figures. 
 	/// Added validation attributes.
 	/// </summary>
 	public class FigureFormViewModel
@@ -18,7 +18,7 @@ namespace ChoreographyBuilder.Core.Models.Figure
 		public string Name { get; set; } = string.Empty;
 
 		[Required(ErrorMessage = RequiredErrorMessage)]
-		[DisplayName("Hightlight Figure")]
+		[DisplayName("Highlight Figure")]
 		public bool IsHighlight { get; set; } = false;
 
 		[Required(ErrorMessage = RequiredErrorMessage)]

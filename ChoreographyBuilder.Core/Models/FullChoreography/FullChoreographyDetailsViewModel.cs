@@ -1,5 +1,4 @@
 ﻿using ChoreographyBuilder.Core.Models.FullChoreographyVerseChoreography;
-using ChoreographyBuilder.Core.Models.VerseChoreographyFigure;
 
 namespace ChoreographyBuilder.Core.Models.FullChoreography
 {

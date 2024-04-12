@@ -48,7 +48,7 @@ namespace ChoreographyBuilder.Core.Contracts
 		Task<bool> VerseTypeExistByIdAsync(int id);
 
 		/// <summary>
-		/// Returns true if there is at least one verse choreography that uses this verse type. Otherwise it returs false.
+		/// Returns true if there is at least one verse choreography that uses this verse type. Otherwise it returns false.
 		/// Throws an exception if there is no verse type with this id.
 		/// </summary>
 		/// <param name="id">Id of the verse type</param>

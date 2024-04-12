@@ -46,7 +46,7 @@ namespace ChoreographyBuilder.Core.Contracts
 		Task<bool> PositionExistByIdAsync(int id);
 
 		/// <summary>
-		/// Returns true if there is at least one figure option that uses this position for start or end figure. Otherwise it returs false.
+		/// Returns true if there is at least one figure option that uses this position for start or end figure. Otherwise it returns false.
 		/// Throws an exception if there is no position with this id.
 		/// </summary>
 		/// <param name="id">Id of the position</param>

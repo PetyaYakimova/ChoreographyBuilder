@@ -8,11 +8,11 @@ using static ChoreographyBuilder.Infrastructure.Constants.DataConstants;
 
 namespace ChoreographyBuilder.Core.Models.FigureOption
 {
-    /// <summary>
-    /// View model for creating and editing option for figure. 
+	/// <summary>
+	/// View model for creating and editing option for figure. 
 	/// Added validation attributes.
-    /// </summary>
-    public class FigureOptionFormViewModel
+	/// </summary>
+	public class FigureOptionFormViewModel
 	{
         [Required(ErrorMessage = RequiredErrorMessage)]
         public int FigureId { get; set; }

@@ -1,6 +1,5 @@
 ﻿using ChoreographyBuilder.Core.Contracts;
 using ChoreographyBuilder.Core.Exceptions;
-using ChoreographyBuilder.Core.Models.Figure;
 using ChoreographyBuilder.Core.Models.FullChoreography;
 using ChoreographyBuilder.Core.Services;
 using Microsoft.Extensions.Logging;

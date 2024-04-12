@@ -10,7 +10,7 @@ using static ChoreographyBuilder.Core.Constants.MessageConstants;
 
 namespace ChoreographyBuilder.Controllers
 {
-    public class FullChoreographyController : BaseController
+	public class FullChoreographyController : BaseController
     {
         private readonly IFullChoreographyService fullChoreographyService;
         private readonly IVerseChoreographyService verseChoreographyService;

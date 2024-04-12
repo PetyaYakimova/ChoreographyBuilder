@@ -1,7 +1,5 @@
 ﻿using ChoreographyBuilder.Core.Contracts;
 using ChoreographyBuilder.Core.Services;
-using Microsoft.Extensions.Logging;
-using Moq;
 
 namespace ChoreographyBuilder.Tests.UnitTests
 {

@@ -1,5 +1,4 @@
 ﻿using ChoreographyBuilder.Core.Contracts;
-using ChoreographyBuilder.Core.Models.Position;
 using ChoreographyBuilder.Core.Models.Statistics;
 using ChoreographyBuilder.Core.Models.User;
 using ChoreographyBuilder.Infrastructure.Data.Common;
@@ -10,7 +9,7 @@ using static ChoreographyBuilder.Core.Constants.LimitConstants;
 
 namespace ChoreographyBuilder.Core.Services
 {
-    public class UserService : IUserService
+	public class UserService : IUserService
 	{
 		private readonly IRepository repository;
 		public UserService(IRepository repository)

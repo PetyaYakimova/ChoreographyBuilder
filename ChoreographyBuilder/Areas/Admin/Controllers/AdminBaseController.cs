@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using static ChoreographyBuilder.Infrastructure.Constants.RoleConstants;
 using static ChoreographyBuilder.Constants.AreasConstants;
+using static ChoreographyBuilder.Infrastructure.Constants.RoleConstants;
 
 namespace ChoreographyBuilder.Areas.Admin.Controllers
 {

@@ -10,7 +10,7 @@ using static ChoreographyBuilder.Core.Constants.MessageConstants;
 
 namespace ChoreographyBuilder.Controllers
 {
-    public class VerseChoreographyController : BaseController
+	public class VerseChoreographyController : BaseController
     {
         private readonly ILogger<VerseChoreographyController> logger;
         private readonly IVerseChoreographyService verseChoreographyService;
@@ -122,7 +122,7 @@ namespace ChoreographyBuilder.Controllers
 
             if (ModelState.IsValid == false)
             {
-                TempData[UserMessageError] = InvalidVerseChoreograpyErrorMessage;
+                TempData[UserMessageError] = InvalidVerseChoreographyErrorMessage;
 
                 return RedirectToAction(nameof(Generate));
             }

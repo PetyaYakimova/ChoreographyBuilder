@@ -6,7 +6,7 @@ using static ChoreographyBuilder.Core.Constants.MessageConstants;
 
 namespace ChoreographyBuilder.Areas.Admin.Controllers
 {
-    public class PositionController : AdminBaseController
+	public class PositionController : AdminBaseController
     {
         private readonly IPositionService positionService;
 

@@ -5,7 +5,7 @@ using static ChoreographyBuilder.Infrastructure.Constants.RoleConstants;
 
 namespace ChoreographyBuilder.Infrastructure.Data.SeedDb
 {
-    internal class SeedData
+	internal class SeedData
     {
         public IdentityRole AdminRole { get; set; } = null!;
 

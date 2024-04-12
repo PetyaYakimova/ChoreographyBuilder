@@ -1,6 +1,4 @@
-﻿using ChoreographyBuilder.Core.Models.Figure;
-
-namespace ChoreographyBuilder.Core.Models.BaseModels
+﻿namespace ChoreographyBuilder.Core.Models.BaseModels
 {
 	/// <summary>
 	/// A base class for all models that get the total count of all entities and a collection of a certain amount of them to display them on pages.

@@ -1,6 +1,4 @@
-﻿using ChoreographyBuilder.Core.Models.FullChoreographyVerseChoreography;
-using ChoreographyBuilder.Core.Models.VerseChoreography;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using static ChoreographyBuilder.Core.Constants.MessageConstants;
 using static ChoreographyBuilder.Infrastructure.Constants.DataConstants;
 

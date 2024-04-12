@@ -36,7 +36,7 @@
         
         public const string VerseChoreographiesSuggestionsGeneratedSuccessMessage = "Verse choreographies suggestions are generated.";
         
-        public const string InvalidVerseChoreograpyErrorMessage = "This verse choreography is not valid!";
+        public const string InvalidVerseChoreographyErrorMessage = "This verse choreography is not valid!";
 
         public const string PositionAsString = "position";
         

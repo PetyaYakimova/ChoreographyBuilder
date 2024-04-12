@@ -1,7 +1,7 @@
 ﻿namespace ChoreographyBuilder.Core.Models.VerseChoreography
 {
 	/// <summary>
-	/// A model used in a service for keeping informating about choreography with score when generating suggestions for choreographies.
+	/// A model used in a service for keeping information about choreography with score when generating suggestions for choreographies.
 	/// No added validation attributes.
 	/// </summary>
 	public class VerseChoreographyWithScoreServiceModel
