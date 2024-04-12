@@ -17,6 +17,7 @@
 						<option value="@verseType.Id">@verseType.Name</option>
 					}
 				</select>
+				<span asp-validation-for="VerseTypeId" class="text-danger"></span>
 			</div>
 		</div>
 		<div class="form-group col-md-3 d-flex justify-content-between">
@@ -29,6 +30,7 @@
 						<option value="@position.Id">@position.Name</option>
 					}
 				</select>
+				<span asp-validation-for="StartPositionId" class="text-danger"></span>
 			</div>
 		</div>
 		<div class="form-group col-md-3 d-flex justify-content-between">
@@ -40,6 +42,7 @@
 						<option value="@figure.Id">@figure.Name</option>
 					}
 				</select>
+				<span asp-validation-for="FinalFigureId" class="text-danger"></span>
 			</div>
 		</div>
 	</div>
