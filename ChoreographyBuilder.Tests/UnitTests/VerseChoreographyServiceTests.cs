@@ -196,6 +196,28 @@ namespace ChoreographyBuilder.Tests.UnitTests
 		}
 
 		[Test]
+		public async Task SaveVerseChoreography_ShouldThrowAnExceptionIfAnyOfTheFigureOptionIdsAreNotForThisUser()
+		{
+			VerseChoreographySaveViewModel model = new VerseChoreographySaveViewModel()
+			{
+				Name = "Test verse choreography",
+				VerseTypeId = FirstVerseType.Id,
+				Score = 4,
+				Figures = new List<VerseChoreographyFigureViewModel>()
+				{
+					new VerseChoreographyFigureViewModel()
+					{
+						FigureOrder = 1,
+						FigureOptionId = FourthFigureFirstOption.Id
+					}
+				}
+			};
+
+			Assert.That(async () => await verseChoreographyService.SaveVerseChoreographyAsync(model, FirstUser.Id),
+				Throws.Exception.TypeOf<EntityNotFoundException>());
+		}
+
+		[Test]
 		public async Task DeleteVerseChoreography_ShouldDeleteTheVerseChoreographySuccessfullyForValidVerseChoreographyWithNoFigures()
 		{
 			var verseChoreographyCountBefore = data.VerseChoreographies.Count();

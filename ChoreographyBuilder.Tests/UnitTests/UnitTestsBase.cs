@@ -81,6 +81,8 @@ namespace ChoreographyBuilder.Tests.UnitTests
 
 		public FigureOption HighlightFigureFirstOption { get; private set; } = null!;
 
+		public FigureOption FourthFigureFirstOption { get; private set; } = null!;
+
 		public VerseChoreography FirstVerseChoreography { get; private set; } = null!;
 
 		public VerseChoreography SecondVerseChoreography { get; private set; } = null!;
@@ -361,6 +363,17 @@ namespace ChoreographyBuilder.Tests.UnitTests
 				EndPositionId = FirstPosition.Id
 			};
 			data.FigureOptions.Add(HighlightFigureFirstOption);
+
+			FourthFigureFirstOption = new FigureOption()
+			{
+				Id = 6,
+				FigureId = FourthFigure.Id,
+				BeatCounts = 10,
+				DynamicsType = DynamicsType.Slow,
+				StartPositionId = SecondPosition.Id,
+				EndPositionId = FirstPosition.Id
+			};
+			data.FigureOptions.Add(FourthFigureFirstOption);
 		}
 
 		private void SeedVerseChoreographies()

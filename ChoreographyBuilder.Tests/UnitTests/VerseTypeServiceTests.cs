@@ -152,7 +152,7 @@ namespace ChoreographyBuilder.Tests.UnitTests
 
 			VerseTypeFormViewModel model = new VerseTypeFormViewModel()
 			{
-				Name = "Test position",
+				Name = "Test verse type",
 				BeatCounts = 40,
 				IsActive = true
 			};
@@ -161,6 +161,20 @@ namespace ChoreographyBuilder.Tests.UnitTests
 
 			var verseTypesCountAfter = this.data.VerseTypes.Count();
 			Assert.That(verseTypesCountAfter, Is.EqualTo(verseTypesCountBefore + 1));
+		}
+
+		[Test]
+		public async Task AddVerseType_ShouldThrowAnExceptionIfTheBeatsCountIsOddNumber()
+		{
+			VerseTypeFormViewModel model = new VerseTypeFormViewModel()
+			{
+				Name = "Test verse type",
+				BeatCounts = 7,
+				IsActive = true
+			};
+
+			Assert.That(async () => await verseTypeService.AddVerseTypeAsync(model),
+				Throws.Exception.TypeOf<InvalidModelException>());
 		}
 
 		[Test]
@@ -202,10 +216,23 @@ namespace ChoreographyBuilder.Tests.UnitTests
 		}
 
 		[Test]
-		public async Task EditVerseType_ShouldThrowAnExceptionIfTheVerseTypeExist()
+		public async Task EditVerseType_ShouldThrowAnExceptionIfTheVerseTypeDoesntExist()
 		{
 			Assert.That(async () => await verseTypeService.EditVerseTypeAsync(10, new VerseTypeFormViewModel()),
 				Throws.Exception.TypeOf<EntityNotFoundException>());
+		}
+
+		[Test]
+		public async Task EditVerseType_ShouldThrowAnExceptionIfTheBeatsCountIsOddNumber()
+		{
+			VerseTypeFormViewModel model = new VerseTypeFormViewModel()
+			{
+				Name = "Edited name",
+				BeatCounts = 11
+			};
+
+			Assert.That(async () => await verseTypeService.EditVerseTypeAsync(SecondVerseType.Id, model),
+				Throws.Exception.TypeOf<InvalidModelException>());
 		}
 
 		[Test]

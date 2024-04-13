@@ -208,6 +208,23 @@ namespace ChoreographyBuilder.Tests.UnitTests
 		}
 
 		[Test]
+		public async Task AddFigureOption_ShouldThrowAnExceptionIfBeatsCountIsOddNumber()
+		{
+			FigureOptionFormViewModel model = new FigureOptionFormViewModel()
+			{
+				BeatCounts = 7,
+				DynamicsType = DynamicsType.Regular,
+				EndPositionId = FirstPosition.Id,
+				StartPositionId = FirstPosition.Id,
+				FigureId = FirstFigure.Id,
+				FigureName = FirstFigure.Name
+			};
+
+			Assert.That(async () => await figureOptionService.AddFigureOptionAsync(model),
+				Throws.Exception.TypeOf<InvalidModelException>());
+		}
+
+		[Test]
 		public async Task EditFigureOption_ShouldEditTheFigureOptionSuccessfullyForValidFigureOption()
 		{
 			var model = new FigureOptionFormViewModel()
@@ -267,6 +284,23 @@ namespace ChoreographyBuilder.Tests.UnitTests
 
 			Assert.That(async () => await figureOptionService.EditFigureOptionAsync(FirstFigureFirstOption.Id, model),
 				Throws.Exception.TypeOf<EntityNotFoundException>());
+		}
+
+		[Test]
+		public async Task EditFigureOption_ShouldThrowAnExceptionIfBeatsCountIsOddNumber()
+		{
+			FigureOptionFormViewModel model = new FigureOptionFormViewModel()
+			{
+				BeatCounts = 7,
+				DynamicsType = DynamicsType.Regular,
+				EndPositionId = FirstPosition.Id,
+				StartPositionId = FirstPosition.Id,
+				FigureId = FirstFigure.Id,
+				FigureName = FirstFigure.Name
+			};
+
+			Assert.That(async () => await figureOptionService.EditFigureOptionAsync(FirstFigureFirstOption.Id, model),
+				Throws.Exception.TypeOf<InvalidModelException>());
 		}
 
 		[Test]
