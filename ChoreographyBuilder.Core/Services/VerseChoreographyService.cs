@@ -215,6 +215,14 @@ namespace ChoreographyBuilder.Core.Services
 				throw new EntityNotFoundException();
 			}
 
+			var figureOptionsForThisUser = await repository.AllAsReadOnly<FigureOption>().Where(o => o.Figure.UserId == userId).Select(o => o.Id).ToListAsync();
+
+			if (model.Figures.Any(f => !figureOptionsForThisUser.Contains(f.FigureOptionId)))
+			{
+				logger.LogError(InvalidFigureOptionIdWhenSavingVerseChoreographyErrorMessage);
+				throw new EntityNotFoundException();
+			}
+
 			VerseChoreography entity = mapper.Map<VerseChoreography>(model);
 			entity.UserId = userId;
 

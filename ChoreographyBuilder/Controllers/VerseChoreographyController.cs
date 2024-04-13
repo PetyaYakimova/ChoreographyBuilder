@@ -105,7 +105,7 @@ namespace ChoreographyBuilder.Controllers
         {
             if (!await verseTypeService.VerseTypeExistByIdAsync(model.VerseTypeId))
             {
-                logger.LogError("Invalid verse type id when saving verse choreography!");
+                logger.LogError(InvalidVerseTypeIdWhenSavingVerseChoreographyErrorMessage);
                 return BadRequest();
             }
 
@@ -115,7 +115,7 @@ namespace ChoreographyBuilder.Controllers
             {
                 if (!await figureOptionService.FigureOptionExistForThisUserByIdAsync(figureOptionId, userId))
                 {
-                    logger.LogError("Invalid figure option id when saving verse choreography!");
+                    logger.LogError(InvalidFigureOptionIdWhenSavingVerseChoreographyErrorMessage);
                     return BadRequest();
                 }
             }

@@ -47,7 +47,7 @@ namespace ChoreographyBuilder.Core.Contracts
 		/// Returns true if the verse choreography is for this user.
 		/// Returns false if the verse choreography doesn't exist at all, or if it is for another user.
 		/// </summary>
-		/// <param name="id">Id of the verse choreorgaphy</param>
+		/// <param name="id">Id of the verse choreography</param>
 		/// <param name="userId">Id of the user</param>
 		/// <returns></returns>
 		Task<bool> VerseChoreographyExistForThisUserByIdAsync(int id, string userId);
@@ -64,6 +64,7 @@ namespace ChoreographyBuilder.Core.Contracts
 		/// <summary>
 		/// Adds a new verse choreography for the user with data from the model.
 		/// Throws an exception if user with the given id doesn't exist.
+		/// Throws an exception if the verse type or any of the figure options ids in the model are not valid.
 		/// </summary>
 		/// <param name="model">VerseChoreographySaveViewModel model</param>
 		/// <param name="userId">Id of the user</param>
