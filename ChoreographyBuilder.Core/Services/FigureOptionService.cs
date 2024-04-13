@@ -153,19 +153,7 @@ namespace ChoreographyBuilder.Core.Services
 				throw new EntityNotFoundException();
 			}
 
-			var positions = await repository.AllAsReadOnly<Position>().Select(p => p.Id).ToListAsync();
-
-			if (!positions.Contains(model.StartPositionId))
-			{
-				logger.LogError(EntityWithIdWasNotFoundLoggerErrorMessage, nameof(Position), model.StartPositionId);
-				throw new EntityNotFoundException();
-			}
-
-			if (!positions.Contains(model.EndPositionId))
-			{
-				logger.LogError(EntityWithIdWasNotFoundLoggerErrorMessage, nameof(Position), model.EndPositionId);
-				throw new EntityNotFoundException();
-			}
+			await CheckFigureOptionFormViewModelIsValid(model);
 
 			FigureOption entity = mapper.Map<FigureOption>(model);
 
@@ -184,19 +172,7 @@ namespace ChoreographyBuilder.Core.Services
 				throw new EntityNotFoundException();
 			}
 
-			var positions = await repository.AllAsReadOnly<Position>().Select(p=>p.Id).ToListAsync();
-
-			if (!positions.Contains(model.StartPositionId))
-			{
-				logger.LogError(EntityWithIdWasNotFoundLoggerErrorMessage, nameof(Position), model.StartPositionId);
-				throw new EntityNotFoundException();
-			}
-
-			if (!positions.Contains(model.EndPositionId))
-			{
-				logger.LogError(EntityWithIdWasNotFoundLoggerErrorMessage, nameof(Position), model.EndPositionId);
-				throw new EntityNotFoundException();
-			}
+			await CheckFigureOptionFormViewModelIsValid(model);
 
 			option.StartPositionId = model.StartPositionId;
 			option.EndPositionId = model.EndPositionId;
@@ -210,6 +186,36 @@ namespace ChoreographyBuilder.Core.Services
 		{
 			await repository.DeleteAsync<FigureOption>(id);
 			await repository.SaveChangesAsync();
+		}
+
+		/// <summary>
+		/// Checks whether the given model is valid and if it is not - throws an exception.
+		/// </summary>
+		/// <param name="model"></param>
+		/// <returns></returns>
+		/// <exception cref="EntityNotFoundException"></exception>
+		/// <exception cref="InvalidModelException"></exception>
+		private async Task CheckFigureOptionFormViewModelIsValid(FigureOptionFormViewModel model)
+		{
+			var positions = await repository.AllAsReadOnly<Position>().Select(p => p.Id).ToListAsync();
+
+			if (!positions.Contains(model.StartPositionId))
+			{
+				logger.LogError(EntityWithIdWasNotFoundLoggerErrorMessage, nameof(Position), model.StartPositionId);
+				throw new EntityNotFoundException();
+			}
+
+			if (!positions.Contains(model.EndPositionId))
+			{
+				logger.LogError(EntityWithIdWasNotFoundLoggerErrorMessage, nameof(Position), model.EndPositionId);
+				throw new EntityNotFoundException();
+			}
+
+			if (model.BeatCounts % 2 != 0)
+			{
+				logger.LogError(BeatsCountIsNotEvenNumberLoggerErrorMessage, nameof(FigureOption));
+				throw new InvalidModelException();
+			}
 		}
 	}
 }

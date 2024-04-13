@@ -120,6 +120,8 @@ namespace ChoreographyBuilder.Core.Services
 
 		public async Task AddVerseTypeAsync(VerseTypeFormViewModel model)
 		{
+			VerseTypeFormViewModelIsValid(model);
+
 			VerseType entity = mapper.Map<VerseType>(model);
 
 			await repository.AddAsync(entity);
@@ -152,6 +154,8 @@ namespace ChoreographyBuilder.Core.Services
 				throw new EntityNotFoundException();
 			}
 
+			VerseTypeFormViewModelIsValid(model);
+
 			verseType.Name = model.Name;
 			verseType.BeatCounts = model.BeatCounts;
 
@@ -162,6 +166,20 @@ namespace ChoreographyBuilder.Core.Services
 		{
 			await repository.DeleteAsync<VerseType>(id);
 			await repository.SaveChangesAsync();
+		}
+
+		/// <summary>
+		/// Checks whether the given model is valid and if it is not - throws an exception.
+		/// </summary>
+		/// <param name="model"></param>
+		/// <exception cref="InvalidModelException"></exception>
+		private void VerseTypeFormViewModelIsValid(VerseTypeFormViewModel model)
+		{
+			if (model.BeatCounts % 2 != 0)
+			{
+				logger.LogError(BeatsCountIsNotEvenNumberLoggerErrorMessage, nameof(VerseType));
+				throw new InvalidModelException();
+			}
 		}
 	}
 }

@@ -33,12 +33,12 @@ namespace ChoreographyBuilder.Core.Contracts
 		/// <param name="searchedDynamicsType"></param>
 		/// <param name="currentPage"></param>
 		/// <param name="itemsPerPage"></param>
-		/// <returns>FigureOptionQueryServiceModel with the options for the current page and the total number of opitons by this search criteria</returns>
+		/// <returns>FigureOptionQueryServiceModel with the options for the current page and the total number of options by this search criteria</returns>
 		Task<FigureOptionQueryServiceModel> GetFigureOptionsAsync(int figureId, int? searchedStartPositionId = null, int? searchedEndPositionId = null, int? searchedBeatsCount = null, DynamicsType? searchedDynamicsType = null, int currentPage = 1, int itemsPerPage = DefaultNumberOfItemsPerPage);
 
 		/// <summary>
 		/// Returns true if the figure options is linked to a figure that is for this user. 
-		/// Returns false if the figuure option doesn't exist at all, or if it is for another user.
+		/// Returns false if the figure option doesn't exist at all, or if it is for another user.
 		/// </summary>
 		/// <param name="optionId">Id of the option</param>
 		/// <param name="userId">Id of the user</param>
@@ -56,7 +56,9 @@ namespace ChoreographyBuilder.Core.Contracts
 
 		/// <summary>
 		/// Adds a new figure option with data from the model.
-		/// Throws and exception if figure with the given id in the model doesn't exist.
+		/// Throws an exception if figure with the given id in the model doesn't exist.
+		/// Throws an exception if the given in the model start position, end position are not valid.
+		/// Throws an exception if the given in the model beats count is not an even number.
 		/// </summary>
 		/// <param name="model">FigureOptionFormViewModel model</param>
 		/// <returns></returns>
@@ -65,6 +67,8 @@ namespace ChoreographyBuilder.Core.Contracts
 		/// <summary>
 		/// Edits the figure option with the given id with the updated data from the model.
 		/// Throws an exception if there is no such figure option with this id.
+		/// Throws an exception if the given in the model start position, end position are not valid.
+		/// Throws an exception if the given in the model beats count is not an even number.
 		/// </summary>
 		/// <param name="optionId">Id of the option</param>
 		/// <param name="model">FigureOptionFormViewModel model</param>

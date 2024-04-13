@@ -57,6 +57,7 @@ namespace ChoreographyBuilder.Core.Contracts
 
 		/// <summary>
 		/// Adds a new verse type with data from the model.
+		/// Throws an exception if the given beats count in the model are not an even number.
 		/// </summary>
 		/// <param name="model">VerseTypeFormViewModel model</param>
 		/// <returns></returns>
@@ -73,6 +74,7 @@ namespace ChoreographyBuilder.Core.Contracts
 		/// <summary>
 		/// Edits the verse type with the given id with the updated data from the model.
 		/// Throws an exception if there is no such verse type with this id.
+		/// Throws an exception if the given beats count in the model are not an even number.
 		/// </summary>
 		/// <param name="verseTypeId">Id of the verse type</param>
 		/// <param name="model">VerseTypeFormViewModel model</param>
