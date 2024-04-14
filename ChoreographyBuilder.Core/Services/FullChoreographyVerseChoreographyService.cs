@@ -84,10 +84,24 @@ namespace ChoreographyBuilder.Core.Services
 
 		public async Task AddVerseChoreographyToFullChoreographyAsync(int fullChoreographyId, FullChoreographyVerseChoreographyFormViewModel model)
 		{
-			if (await repository.GetByIdAsync<FullChoreography>(fullChoreographyId) == null)
+			var fullChoreography = await repository.GetByIdAsync<FullChoreography>(fullChoreographyId);
+			if (fullChoreography == null)
 			{
 				logger.LogError(EntityWithIdWasNotFoundLoggerErrorMessage, nameof(FullChoreography), fullChoreographyId);
 				throw new EntityNotFoundException();
+			}
+
+			var verseChoreography = await repository.GetByIdAsync<VerseChoreography>(model.VerseChoreographyId);
+			if (verseChoreography == null)
+			{
+				logger.LogError(EntityWithIdWasNotFoundLoggerErrorMessage, nameof(VerseChoreography), model.VerseChoreographyId);
+				throw new EntityNotFoundException();
+			}
+
+			if (fullChoreography.UserId != verseChoreography.UserId)
+			{
+				logger.LogError(UserForTheVerseChoreographyAndForTheFullChoreographyIsNotTheSameLoggerErrorMessage);
+				throw new InvalidModelException(UserForTheVerseChoreographyAndForTheFullChoreographyIsNotTheSameLoggerErrorMessage);
 			}
 
 			FullChoreographyVerseChoreography entity = mapper.Map<FullChoreographyVerseChoreography>(model);

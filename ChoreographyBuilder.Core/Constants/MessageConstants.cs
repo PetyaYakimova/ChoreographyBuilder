@@ -25,6 +25,8 @@ namespace ChoreographyBuilder.Core.Constants
 
 		public const string BeatsCountIsNotEvenNumberLoggerErrorMessage = "The beats count for {0} is not an even number!";
 
+		public const string UserForTheVerseChoreographyAndForTheFullChoreographyIsNotTheSameLoggerErrorMessage = "The user for the verse choreography and the user for the full choreography are not the same!";
+
 		public const string UserMessageSuccess = "UserMessageSuccess";
 
 		public const string UserMessageError = "UserMessageError";
