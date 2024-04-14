@@ -5,17 +5,17 @@ namespace ChoreographyBuilder.Areas.Admin.Controllers
 {
 	public class HomeController : AdminBaseController
 	{
-		private readonly IUserService statisticService;
+		private readonly IUserService userService;
 
-		public HomeController(IUserService statisticService)
+		public HomeController(IUserService userService)
 		{
-			this.statisticService = statisticService;
+			this.userService = userService;
 		}
 
 		[HttpGet]
 		public async Task<IActionResult> Stats()
 		{
-			var model = await statisticService.GetAdminStatisticsAsync();
+			var model = await userService.GetAdminStatisticsAsync();
 
 			return View(model);
 		}

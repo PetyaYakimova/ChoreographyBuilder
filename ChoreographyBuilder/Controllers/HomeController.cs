@@ -8,11 +8,11 @@ namespace ChoreographyBuilder.Controllers
 {
 	public class HomeController : BaseController
 	{
-		private readonly IUserService statisticService;
+		private readonly IUserService userService;
 
-		public HomeController(IUserService statisticService)
+		public HomeController(IUserService userService)
 		{
-			this.statisticService = statisticService;
+			this.userService = userService;
 		}
 
 		[AllowAnonymous]
@@ -36,7 +36,7 @@ namespace ChoreographyBuilder.Controllers
 		[HttpGet]
 		public async Task<IActionResult> Stats()
 		{
-			var model = await statisticService.GetUserStatisticsAsync(User.Id());
+			var model = await userService.GetUserStatisticsAsync(User.Id());
 
 			return View(model);
 		}
