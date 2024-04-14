@@ -112,6 +112,32 @@ namespace ChoreographyBuilder.Tests.UnitTests
 		}
 
 		[Test]
+		public async Task AddVerseChoreographyToFullChoreography_ShouldThrowExceptionWhenVerseChoreographyIdDoesntExists()
+		{
+			var model = new FullChoreographyVerseChoreographyFormViewModel()
+			{
+				VerseChoreographyOrder = 3,
+				VerseChoreographyId = 10
+			};
+
+			Assert.That(async () => await fullChoreographyVerseChoreographyService.AddVerseChoreographyToFullChoreographyAsync(FirstFullChoreography.Id, model),
+				Throws.Exception.TypeOf<EntityNotFoundException>());
+		}
+
+		[Test]
+		public async Task AddVerseChoreographyToFullChoreography_ShouldThrowExceptionWhenVerseChoreographyHasDifferentUserThanFullChoreography()
+		{
+			var model = new FullChoreographyVerseChoreographyFormViewModel()
+			{
+				VerseChoreographyOrder = 3,
+				VerseChoreographyId = FourthVerseChoreography.Id
+			};
+
+			Assert.That(async () => await fullChoreographyVerseChoreographyService.AddVerseChoreographyToFullChoreographyAsync(FirstFullChoreography.Id, model),
+				Throws.Exception.TypeOf<InvalidModelException>());
+		}
+
+		[Test]
 		public async Task DeleteVerseChoreographyFromFullChoreography_ShouldDeleteSuccessfully()
 		{
 			var countVerseChoreographiesForThisFullChoreographyBefore = data.FullChoreographiesVerseChoreographies.Count(v => v.FullChoreographyId == FirstFullChoreography.Id);
