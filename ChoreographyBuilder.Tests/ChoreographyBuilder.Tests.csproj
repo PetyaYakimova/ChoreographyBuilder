@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ChoreographyBuilder.Core\ChoreographyBuilder.Core.csproj" />
+    <ProjectReference Include="..\ChoreographyBuilder\ChoreographyBuilder.csproj" />
   </ItemGroup>
 
 </Project>
