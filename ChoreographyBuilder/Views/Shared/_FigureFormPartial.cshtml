@@ -9,14 +9,14 @@
 				<span asp-validation-for="@Model.Name" class="text-danger"></span>
 			</div>
 			<div class="form-check">
-				@Html.EditorFor(@Model =>Model.IsFavourite)
-				@Html.LabelFor(@Model =>Model.IsFavourite)
+				<input asp-for="@Model.IsFavourite" type="checkbox"></input>
+				<label asp-for="@Model.IsFavourite"> </label>
 				<span asp-validation-for="@Model.IsFavourite" class="text-danger"></span>
 			</div>
 			<br />
 			<div class="form-check">
-				@Html.EditorFor(@Model =>Model.IsHighlight)
-				@Html.LabelFor(@Model =>Model.IsHighlight)
+				<input asp-for="@Model.IsHighlight" type="checkbox"></input>
+				<label asp-for="@Model.IsHighlight"> </label>
 				<span asp-validation-for="@Model.IsHighlight" class="text-danger"></span>
 			</div>
 			<br />
