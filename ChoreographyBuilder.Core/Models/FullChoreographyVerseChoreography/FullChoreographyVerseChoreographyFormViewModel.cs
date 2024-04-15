@@ -11,6 +11,7 @@ namespace ChoreographyBuilder.Core.Models.FullChoreographyVerseChoreography
 	public class FullChoreographyVerseChoreographyFormViewModel
 	{
 		[Required(ErrorMessage = RequiredErrorMessage)]
+		[Display(Name = "Verse choreography:")]
 		public int VerseChoreographyId { get; set; }
 
 		[Required(ErrorMessage = RequiredErrorMessage)]
