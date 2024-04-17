@@ -158,7 +158,7 @@ namespace ChoreographyBuilder.Infrastructure.Data.SeedDb
             SeedPositions();
             SeedFigures();
             SeedFigureOptions();
-            SeedVerseChoreogprahies();
+            SeedVerseChoreographies();
             SeedVerseChoreographyFigures();
             SeedFullChoreographies();
             SeedFullChoreographyVerses();
@@ -671,7 +671,7 @@ namespace ChoreographyBuilder.Infrastructure.Data.SeedDb
             };
         }
 
-        private void SeedVerseChoreogprahies()
+        private void SeedVerseChoreographies()
         {
             SwingVerseChoreography1 = new VerseChoreography()
             {

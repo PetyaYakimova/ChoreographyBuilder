@@ -8,6 +8,7 @@ namespace ChoreographyBuilder.Infrastructure.Data
 	public class ChoreographyBuilderDbContext : IdentityDbContext
 	{
 		private bool seedData;
+
 		public ChoreographyBuilderDbContext(
 			DbContextOptions<ChoreographyBuilderDbContext> options,
 			bool seedData = true)
