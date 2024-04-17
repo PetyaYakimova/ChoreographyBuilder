@@ -33,7 +33,7 @@ namespace ChoreographyBuilder.Tests.UnitTests
 		}
 
 		[Test]
-		public async Task GetFigureById_ShouldThrowExceptionWhenIdDoesntExists()
+		public void GetFigureById_ShouldThrowExceptionWhenIdDoesntExists()
 		{
 			Assert.That(async () => await figureService.GetFigureByIdAsync(10),
 				Throws.Exception.TypeOf<EntityNotFoundException>());
@@ -48,7 +48,7 @@ namespace ChoreographyBuilder.Tests.UnitTests
 		}
 
 		[Test]
-		public async Task GetFigureNameById_ShouldThrowExceptionWhenIdDoesntExists()
+		public void GetFigureNameById_ShouldThrowExceptionWhenIdDoesntExists()
 		{
 			Assert.That(async () => await figureService.GetFigureNameByIdAsync(10),
 				Throws.Exception.TypeOf<EntityNotFoundException>());
@@ -64,7 +64,7 @@ namespace ChoreographyBuilder.Tests.UnitTests
 		}
 
 		[Test]
-		public async Task GetFigureForDelete_ShouldThrowExceptionWhenIdDoesntExists()
+		public void GetFigureForDelete_ShouldThrowExceptionWhenIdDoesntExists()
 		{
 			Assert.That(async () => await figureService.GetFigureForDeleteAsync(10),
 				Throws.Exception.TypeOf<EntityNotFoundException>());
@@ -142,7 +142,7 @@ namespace ChoreographyBuilder.Tests.UnitTests
 		}
 
 		[Test]
-		public async Task IsFigureUsedInChoreographies_ShouldThrowAnExceptionIfTheFigureDoesntExist()
+		public void IsFigureUsedInChoreographies_ShouldThrowAnExceptionIfTheFigureDoesntExist()
 		{
 			Assert.That(async () => await figureService.IsFigureUsedInChoreographiesAsync(10),
 				Throws.Exception.TypeOf<EntityNotFoundException>());
@@ -167,7 +167,7 @@ namespace ChoreographyBuilder.Tests.UnitTests
 		}
 
 		[Test]
-		public async Task AddFigure_ShouldThrowAnExceptionIfUserIdIsNotValid()
+		public void AddFigure_ShouldThrowAnExceptionIfUserIdIsNotValid()
 		{
 			Assert.That(async () => await figureService.AddFigureAsync(new FigureFormViewModel(), "InvalidUserId"),
 				Throws.Exception.TypeOf<EntityNotFoundException>());
@@ -191,7 +191,7 @@ namespace ChoreographyBuilder.Tests.UnitTests
 		}
 
 		[Test]
-		public async Task EditFigure_ShouldThrowAnExceptionIfThFigureDoesntExist()
+		public void EditFigure_ShouldThrowAnExceptionIfThFigureDoesntExist()
 		{
 			Assert.That(async () => await figureService.EditFigureAsync(10, new FigureFormViewModel()),
 				Throws.Exception.TypeOf<EntityNotFoundException>());

@@ -35,7 +35,7 @@ namespace ChoreographyBuilder.Tests.UnitTests
 		}
 
 		[Test]
-		public async Task GetChoreographyDetailsById_ShouldThrowExceptionWhenIdDoesntExists()
+		public void GetChoreographyDetailsById_ShouldThrowExceptionWhenIdDoesntExists()
 		{
 			Assert.That(async () => await fullChoreographyService.GetChoreographyDetailsByIdAsync(10),
 				Throws.Exception.TypeOf<EntityNotFoundException>());
@@ -50,7 +50,7 @@ namespace ChoreographyBuilder.Tests.UnitTests
 		}
 
 		[Test]
-		public async Task GetChoreographyForEditById_ShouldThrowExceptionWhenIdDoesntExists()
+		public void GetChoreographyForEditById_ShouldThrowExceptionWhenIdDoesntExists()
 		{
 			Assert.That(async () => await fullChoreographyService.GetChoreographyForEditByIdAsync(10),
 				Throws.Exception.TypeOf<EntityNotFoundException>());
@@ -67,7 +67,7 @@ namespace ChoreographyBuilder.Tests.UnitTests
 		}
 
 		[Test]
-		public async Task GetFullChoreographyForDelete_ShouldThrowExceptionWhenIdDoesntExists()
+		public void GetFullChoreographyForDelete_ShouldThrowExceptionWhenIdDoesntExists()
 		{
 			Assert.That(async () => await fullChoreographyService.GetFullChoreographyForDeleteAsync(10),
 				Throws.Exception.TypeOf<EntityNotFoundException>());
@@ -116,7 +116,7 @@ namespace ChoreographyBuilder.Tests.UnitTests
 		}
 
 		[Test]
-		public async Task GetNumberOfVerseChoreographiesForFullChoreography_ShouldThrowExceptionWhenIdDoesntExists()
+		public void GetNumberOfVerseChoreographiesForFullChoreography_ShouldThrowExceptionWhenIdDoesntExists()
 		{
 			Assert.That(async () => await fullChoreographyService.GetNumberOfVerseChoreographiesForFullChoreographyAsync(10),
 				Throws.Exception.TypeOf<EntityNotFoundException>());
@@ -184,7 +184,7 @@ namespace ChoreographyBuilder.Tests.UnitTests
 		}
 
 		[Test]
-		public async Task AddFullChoreography_ShouldThrowAnExceptionIfUserIdIsNotValid()
+		public void AddFullChoreography_ShouldThrowAnExceptionIfUserIdIsNotValid()
 		{
 			Assert.That(async () => await fullChoreographyService.AddFullChoreographyAsync(new FullChoreographyFormViewModel(), "InvalidUserId"),
 				Throws.Exception.TypeOf<EntityNotFoundException>());
@@ -204,7 +204,7 @@ namespace ChoreographyBuilder.Tests.UnitTests
 		}
 
 		[Test]
-		public async Task EditFullChoreography_ShouldThrowAnExceptionIfThFullChoreographyDoesntExist()
+		public void EditFullChoreography_ShouldThrowAnExceptionIfThFullChoreographyDoesntExist()
 		{
 			Assert.That(async () => await fullChoreographyService.EditFullChoreographyAsync(10, new FullChoreographyFormViewModel()),
 				Throws.Exception.TypeOf<EntityNotFoundException>());

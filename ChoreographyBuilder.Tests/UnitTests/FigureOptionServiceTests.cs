@@ -38,7 +38,7 @@ namespace ChoreographyBuilder.Tests.UnitTests
 		}
 
 		[Test]
-		public async Task GetFigureOptionById_ShouldThrowExceptionWhenIdDoesntExists()
+		public void GetFigureOptionById_ShouldThrowExceptionWhenIdDoesntExists()
 		{
 			Assert.That(async () => await figureOptionService.GetFigureOptionByIdAsync(50),
 				Throws.Exception.TypeOf<EntityNotFoundException>());
@@ -54,7 +54,7 @@ namespace ChoreographyBuilder.Tests.UnitTests
 		}
 
 		[Test]
-		public async Task GetFigureOptionForDelete_ShouldThrowExceptionWhenIdDoesntExists()
+		public void GetFigureOptionForDelete_ShouldThrowExceptionWhenIdDoesntExists()
 		{
 			Assert.That(async () => await figureOptionService.GetFigureOptionForDeleteAsync(50),
 				Throws.Exception.TypeOf<EntityNotFoundException>());
@@ -81,7 +81,7 @@ namespace ChoreographyBuilder.Tests.UnitTests
 		}
 
 		[Test]
-		public async Task GetFigureOptions_ShouldThrowExceptionWhenFigureIdDoesntExists()
+		public void GetFigureOptions_ShouldThrowExceptionWhenFigureIdDoesntExists()
 		{
 			Assert.That(async () => await figureOptionService.GetFigureOptionsAsync(50),
 				Throws.Exception.TypeOf<EntityNotFoundException>());
@@ -129,7 +129,7 @@ namespace ChoreographyBuilder.Tests.UnitTests
 		}
 
 		[Test]
-		public async Task IsFigureOptionUsedInChoreographies_ShouldThrowAnExceptionIfTheFigureOptionDoesntExist()
+		public void IsFigureOptionUsedInChoreographies_ShouldThrowAnExceptionIfTheFigureOptionDoesntExist()
 		{
 			Assert.That(async () => await figureOptionService.IsFigureOptionUsedInChoreographiesAsync(50),
 				Throws.Exception.TypeOf<EntityNotFoundException>());
@@ -157,7 +157,7 @@ namespace ChoreographyBuilder.Tests.UnitTests
 		}
 
 		[Test]
-		public async Task AddFigureOption_ShouldThrowAnExceptionIfFigureIdIsNotValid()
+		public void AddFigureOption_ShouldThrowAnExceptionIfFigureIdIsNotValid()
 		{
 			FigureOptionFormViewModel model = new FigureOptionFormViewModel()
 			{
@@ -174,7 +174,7 @@ namespace ChoreographyBuilder.Tests.UnitTests
 		}
 
 		[Test]
-		public async Task AddFigureOption_ShouldThrowAnExceptionIfStartPositionIdIsNotValid()
+		public void AddFigureOption_ShouldThrowAnExceptionIfStartPositionIdIsNotValid()
 		{
 			FigureOptionFormViewModel model = new FigureOptionFormViewModel()
 			{
@@ -191,7 +191,7 @@ namespace ChoreographyBuilder.Tests.UnitTests
 		}
 
 		[Test]
-		public async Task AddFigureOption_ShouldThrowAnExceptionIfEndPositionIdIsNotValid()
+		public void AddFigureOption_ShouldThrowAnExceptionIfEndPositionIdIsNotValid()
 		{
 			FigureOptionFormViewModel model = new FigureOptionFormViewModel()
 			{
@@ -208,7 +208,7 @@ namespace ChoreographyBuilder.Tests.UnitTests
 		}
 
 		[Test]
-		public async Task AddFigureOption_ShouldThrowAnExceptionIfBeatsCountIsOddNumber()
+		public void AddFigureOption_ShouldThrowAnExceptionIfBeatsCountIsOddNumber()
 		{
 			FigureOptionFormViewModel model = new FigureOptionFormViewModel()
 			{
@@ -246,14 +246,14 @@ namespace ChoreographyBuilder.Tests.UnitTests
 		}
 
 		[Test]
-		public async Task EditFigureOption_ShouldThrowAnExceptionIfThFigureOptionDoesntExist()
+		public void EditFigureOption_ShouldThrowAnExceptionIfThFigureOptionDoesntExist()
 		{
 			Assert.That(async () => await figureOptionService.EditFigureOptionAsync(50, new FigureOptionFormViewModel()),
 				Throws.Exception.TypeOf<EntityNotFoundException>());
 		}
 
 		[Test]
-		public async Task EditFigureOption_ShouldThrowAnExceptionIfStartPositionIdIsNotValid()
+		public void EditFigureOption_ShouldThrowAnExceptionIfStartPositionIdIsNotValid()
 		{
 			FigureOptionFormViewModel model = new FigureOptionFormViewModel()
 			{
@@ -270,7 +270,7 @@ namespace ChoreographyBuilder.Tests.UnitTests
 		}
 
 		[Test]
-		public async Task EditFigureOption_ShouldThrowAnExceptionIfEndPositionIdIsNotValid()
+		public void EditFigureOption_ShouldThrowAnExceptionIfEndPositionIdIsNotValid()
 		{
 			FigureOptionFormViewModel model = new FigureOptionFormViewModel()
 			{
@@ -287,7 +287,7 @@ namespace ChoreographyBuilder.Tests.UnitTests
 		}
 
 		[Test]
-		public async Task EditFigureOption_ShouldThrowAnExceptionIfBeatsCountIsOddNumber()
+		public void EditFigureOption_ShouldThrowAnExceptionIfBeatsCountIsOddNumber()
 		{
 			FigureOptionFormViewModel model = new FigureOptionFormViewModel()
 			{

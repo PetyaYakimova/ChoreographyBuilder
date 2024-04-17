@@ -39,7 +39,7 @@ namespace ChoreographyBuilder.Tests.UnitTests
 		}
 
 		[Test]
-		public async Task GetVerseChoreographyById_ShouldThrowExceptionWhenIdDoesntExists()
+		public void GetVerseChoreographyById_ShouldThrowExceptionWhenIdDoesntExists()
 		{
 			Assert.That(async () => await verseChoreographyService.GetVerseChoreographyByIdAsync(10),
 				Throws.Exception.TypeOf<EntityNotFoundException>());
@@ -56,7 +56,7 @@ namespace ChoreographyBuilder.Tests.UnitTests
 		}
 
 		[Test]
-		public async Task GetVerseChoreographyForDelete_ShouldThrowExceptionWhenIdDoesntExists()
+		public void GetVerseChoreographyForDelete_ShouldThrowExceptionWhenIdDoesntExists()
 		{
 			Assert.That(async () => await verseChoreographyService.GetVerseChoreographyForDeleteAsync(10),
 				Throws.Exception.TypeOf<EntityNotFoundException>());
@@ -141,7 +141,7 @@ namespace ChoreographyBuilder.Tests.UnitTests
 		}
 
 		[Test]
-		public async Task IsVerseChoreographyUsedInFullChoreographies_ShouldThrowAnExceptionIfTheVerseChoreographyDoesntExist()
+		public void IsVerseChoreographyUsedInFullChoreographies_ShouldThrowAnExceptionIfTheVerseChoreographyDoesntExist()
 		{
 			Assert.That(async () => await verseChoreographyService.IsVerseChoreographyUsedInFullChoreographies(10),
 				Throws.Exception.TypeOf<EntityNotFoundException>());
@@ -174,14 +174,14 @@ namespace ChoreographyBuilder.Tests.UnitTests
 		}
 
 		[Test]
-		public async Task SaveVerseChoreography_ShouldThrowAnExceptionIfUserIdIsNotValid()
+		public void SaveVerseChoreography_ShouldThrowAnExceptionIfUserIdIsNotValid()
 		{
 			Assert.That(async () => await verseChoreographyService.SaveVerseChoreographyAsync(new VerseChoreographySaveViewModel(), "InvalidUserId"),
 				Throws.Exception.TypeOf<EntityNotFoundException>());
 		}
 
 		[Test]
-		public async Task SaveVerseChoreography_ShouldThrowAnExceptionIfVerseTypeIdIsNotValid()
+		public void SaveVerseChoreography_ShouldThrowAnExceptionIfVerseTypeIdIsNotValid()
 		{
 			VerseChoreographySaveViewModel model = new VerseChoreographySaveViewModel()
 			{
@@ -196,7 +196,7 @@ namespace ChoreographyBuilder.Tests.UnitTests
 		}
 
 		[Test]
-		public async Task SaveVerseChoreography_ShouldThrowAnExceptionIfAnyOfTheFigureOptionIdsAreNotForThisUser()
+		public void SaveVerseChoreography_ShouldThrowAnExceptionIfAnyOfTheFigureOptionIdsAreNotForThisUser()
 		{
 			VerseChoreographySaveViewModel model = new VerseChoreographySaveViewModel()
 			{
@@ -278,7 +278,7 @@ namespace ChoreographyBuilder.Tests.UnitTests
 		}
 
 		[Test]
-		public async Task GenerateChoreographies_ShouldThrowAnExceptionWhenInvalidFigureIdIsGiven()
+		public void GenerateChoreographies_ShouldThrowAnExceptionWhenInvalidFigureIdIsGiven()
 		{
 			VerseChoreographyGenerateModel query = new VerseChoreographyGenerateModel()
 			{
@@ -291,7 +291,7 @@ namespace ChoreographyBuilder.Tests.UnitTests
 		}
 
 		[Test]
-		public async Task GenerateChoreographies_ShouldThrowAnExceptionWhenInvalidVerseTypeIsGiven()
+		public void GenerateChoreographies_ShouldThrowAnExceptionWhenInvalidVerseTypeIsGiven()
 		{
 			VerseChoreographyGenerateModel query = new VerseChoreographyGenerateModel()
 			{

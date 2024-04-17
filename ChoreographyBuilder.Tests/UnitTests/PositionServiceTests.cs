@@ -32,7 +32,7 @@ namespace ChoreographyBuilder.Tests.UnitTests
 		}
 
 		[Test]
-		public async Task GetPositionById_ShouldThrowExceptionWhenIdDoesntExists()
+		public void GetPositionById_ShouldThrowExceptionWhenIdDoesntExists()
 		{
 			Assert.That(async () => await positionService.GetPositionByIdAsync(10),
 				Throws.Exception.TypeOf<EntityNotFoundException>());
@@ -48,7 +48,7 @@ namespace ChoreographyBuilder.Tests.UnitTests
 		}
 
 		[Test]
-		public async Task GetPositionForDelete_ShouldThrowExceptionWhenIdDoesntExists()
+		public void GetPositionForDelete_ShouldThrowExceptionWhenIdDoesntExists()
 		{
 			Assert.That(async () => await positionService.GetPositionForDeleteAsync(10),
 				Throws.Exception.TypeOf<EntityNotFoundException>());
@@ -137,7 +137,7 @@ namespace ChoreographyBuilder.Tests.UnitTests
 		}
 
 		[Test]
-		public async Task IsPositionUsedInFigures_ShouldThrowAnExceptionIfThePositionDoesntExist()
+		public void IsPositionUsedInFigures_ShouldThrowAnExceptionIfThePositionDoesntExist()
 		{
 			Assert.That(async () => await positionService.IsPositionUsedInFiguresAsync(10),
 				Throws.Exception.TypeOf<EntityNotFoundException>());
@@ -177,7 +177,7 @@ namespace ChoreographyBuilder.Tests.UnitTests
 		}
 
 		[Test]
-		public async Task ChangePositionStatus_ShouldThrowAnExceptionIfThePositionDoesntExist()
+		public void ChangePositionStatus_ShouldThrowAnExceptionIfThePositionDoesntExist()
 		{
 			Assert.That(async () => await positionService.ChangePositionStatusAsync(10),
 				Throws.Exception.TypeOf<EntityNotFoundException>());
@@ -197,7 +197,7 @@ namespace ChoreographyBuilder.Tests.UnitTests
 		}
 
 		[Test]
-		public async Task EditPosition_ShouldThrowAnExceptionIfThePositionDoesntExist()
+		public void EditPosition_ShouldThrowAnExceptionIfThePositionDoesntExist()
 		{
 			Assert.That(async () => await positionService.EditPositionAsync(10, new PositionFormViewModel()),
 				Throws.Exception.TypeOf<EntityNotFoundException>());

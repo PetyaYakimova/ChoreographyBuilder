@@ -33,7 +33,7 @@ namespace ChoreographyBuilder.Tests.UnitTests
 		}
 
 		[Test]
-		public async Task GetVerseTypeById_ShouldThrowExceptionWhenIdDoesntExists()
+		public void GetVerseTypeById_ShouldThrowExceptionWhenIdDoesntExists()
 		{
 			Assert.That(async () => await verseTypeService.GetVerseTypeById(10),
 				Throws.Exception.TypeOf<EntityNotFoundException>());
@@ -50,7 +50,7 @@ namespace ChoreographyBuilder.Tests.UnitTests
 		}
 
 		[Test]
-		public async Task GetVerseTypeForDelete_ShouldThrowExceptionWhenIdDoesntExists()
+		public void GetVerseTypeForDelete_ShouldThrowExceptionWhenIdDoesntExists()
 		{
 			Assert.That(async () => await verseTypeService.GetVerseTypeForDeleteAsync(10),
 				Throws.Exception.TypeOf<EntityNotFoundException>());
@@ -139,7 +139,7 @@ namespace ChoreographyBuilder.Tests.UnitTests
 		}
 
 		[Test]
-		public async Task IsVerseTypeUsedInChoreographies_ShouldThrowAnExceptionIfTheVerseTypeDoesntExist()
+		public void IsVerseTypeUsedInChoreographies_ShouldThrowAnExceptionIfTheVerseTypeDoesntExist()
 		{
 			Assert.That(async () => await verseTypeService.IsVerseTypeUsedInChoreographiesAsync(10),
 				Throws.Exception.TypeOf<EntityNotFoundException>());
@@ -164,7 +164,7 @@ namespace ChoreographyBuilder.Tests.UnitTests
 		}
 
 		[Test]
-		public async Task AddVerseType_ShouldThrowAnExceptionIfTheBeatsCountIsOddNumber()
+		public void AddVerseType_ShouldThrowAnExceptionIfTheBeatsCountIsOddNumber()
 		{
 			VerseTypeFormViewModel model = new VerseTypeFormViewModel()
 			{
@@ -194,7 +194,7 @@ namespace ChoreographyBuilder.Tests.UnitTests
 		}
 
 		[Test]
-		public async Task ChangeVerseTypeStatus_ShouldThrowAnExceptionIfTheVerseTypeDoesntExist()
+		public void ChangeVerseTypeStatus_ShouldThrowAnExceptionIfTheVerseTypeDoesntExist()
 		{
 			Assert.That(async () => await verseTypeService.ChangeVerseTypeStatusAsync(10),
 				Throws.Exception.TypeOf<EntityNotFoundException>());
@@ -216,14 +216,14 @@ namespace ChoreographyBuilder.Tests.UnitTests
 		}
 
 		[Test]
-		public async Task EditVerseType_ShouldThrowAnExceptionIfTheVerseTypeDoesntExist()
+		public void EditVerseType_ShouldThrowAnExceptionIfTheVerseTypeDoesntExist()
 		{
 			Assert.That(async () => await verseTypeService.EditVerseTypeAsync(10, new VerseTypeFormViewModel()),
 				Throws.Exception.TypeOf<EntityNotFoundException>());
 		}
 
 		[Test]
-		public async Task EditVerseType_ShouldThrowAnExceptionIfTheBeatsCountIsOddNumber()
+		public void EditVerseType_ShouldThrowAnExceptionIfTheBeatsCountIsOddNumber()
 		{
 			VerseTypeFormViewModel model = new VerseTypeFormViewModel()
 			{
