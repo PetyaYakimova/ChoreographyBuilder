@@ -20,7 +20,7 @@ namespace ChoreographyBuilder.Core.Models.Statistics
 		[Display(Name = "Active Verse Types:")]
 		public int NumberOfActiveVerseTypes { get; set; }
 
-		[Display(Name = "All User Figures:")]
+		[Display(Name = "All Figures:")]
 		public int TotalNumberOfFigures { get; set; }
 
 		[Display(Name = "Users With Figures:")]
