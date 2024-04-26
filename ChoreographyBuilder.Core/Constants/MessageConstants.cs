@@ -27,6 +27,8 @@ namespace ChoreographyBuilder.Core.Constants
 
 		public const string UserForTheVerseChoreographyAndForTheFullChoreographyIsNotTheSameLoggerErrorMessage = "The user for the verse choreography and the user for the full choreography are not the same!";
 
+		public const string UnmatchedFigureIdsLoggerErrorMessage = "Difference between the sent figureId and the figure id from the figure option.";
+
 		public const string UserMessageSuccess = "UserMessageSuccess";
 
 		public const string UserMessageError = "UserMessageError";
@@ -44,6 +46,10 @@ namespace ChoreographyBuilder.Core.Constants
 		public const string InvalidVerseTypeIdWhenSavingVerseChoreographyErrorMessage = "Invalid verse type id when saving verse choreography!";
 
 		public const string InvalidFigureOptionIdWhenSavingVerseChoreographyErrorMessage = "Invalid figure option id when saving verse choreography!";
+
+		public const string InvalidFigureOrderWhenUpdatingVerseChoreographyErrorMessage = "Invalid figure order when updating verse choreography!";
+
+		public const string NewFigureDoesNotMatchOldFigureDataErrorMessage = "The new figure has different start position, end position or beats count!";
 
 		public const string VerseChoreographiesSuggestionsGeneratedSuccessMessage = "Verse choreographies suggestions are generated.";
 
