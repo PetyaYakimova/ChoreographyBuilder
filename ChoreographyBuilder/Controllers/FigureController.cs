@@ -195,7 +195,7 @@ namespace ChoreographyBuilder.Controllers
 		[FigureOptionNotUsedInChoreographies]
 		public async Task<IActionResult> EditOption(int id)
 		{
-			FigureOptionFormViewModel model = (await figureOptionService.GetFigureOptionByIdAsync(id));
+			FigureOptionFormViewModel model = await figureOptionService.GetFigureOptionByIdAsync(id);
 
 			string figureName = await figureService.GetFigureNameByIdAsync(model.FigureId);
 
@@ -215,7 +215,7 @@ namespace ChoreographyBuilder.Controllers
 			FigureOptionFormViewModel option = await figureOptionService.GetFigureOptionByIdAsync(id);
 			if (option.FigureId != model.FigureId)
 			{
-				logger.LogError("Difference between the sent figureId and the figure id from the figure option.");
+				logger.LogError(UnmatchedFigureIdsLoggerErrorMessage);
 				return BadRequest();
 			}
 
