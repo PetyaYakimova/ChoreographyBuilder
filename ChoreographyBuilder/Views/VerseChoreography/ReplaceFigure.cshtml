@@ -1,0 +1,73 @@
+﻿@model VerseChoreographyFigureReplaceViewModel
+@{
+	ViewBag.Title = "Replace figure " + Model.FigureName + " in verse choreography";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+<div class="row mb-2">
+	<div class="form-group col-md-6 d-flex">
+		<label asp-for="FigureOrder" class="fw-bold me-2"></label>
+		<p>@Model.FigureOrder</p>
+	</div>
+	<div class="form-group col-md-6 d-flex">
+		<label asp-for="DynamicsType" class="fw-bold me-2"></label>
+		<p>@Model.DynamicsType</p>
+	</div>
+</div>
+
+<div class="row mb-2">
+	<div class="form-group col-md-6 d-flex">
+		<label asp-for="StartPosition" class="fw-bold me-2"></label>
+		<p>@Model.StartPosition</p>
+	</div>
+	<div class="form-group col-md-6 d-flex">
+		<label asp-for="EndPosition" class="fw-bold me-2"></label>
+		<p>@Model.EndPosition</p>
+	</div>
+</div>
+
+<div class="row mb-2">
+	<div class="form-group col-md-6 d-flex">
+		<label asp-for="BeatsCount" class="fw-bold me-2"></label>
+		<p>@Model.BeatsCount</p>
+	</div>
+</div>
+
+<hr />
+
+@if (Model.PossibleReplacementFigures.Any())
+{
+	<div class="row">
+		<div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
+			<form method="post">
+				<input type="hidden" asp-for="@Model.FigureOrder"/>
+				<div class="mb-3">
+					<label asp-for="@Model.ReplacementFigureOptionId" class="form-label-add-edit"></label>
+					<select asp-for="@Model.ReplacementFigureOptionId" class="form-control" aria-required="true">
+						<option disabled selected value="">Select new figure...</option>
+						@foreach (var figure in Model.PossibleReplacementFigures)
+						{
+							<option value="@figure.FigureOptionId">@figure.FigureName</option>
+						}
+					</select>
+					<span asp-validation-for="@Model.ReplacementFigureOptionId" class="text-danger"></span>
+				</div>
+				<div class="mb-3">
+					<input class="btn btn-warning mb-2 w-100 p-3 fw-bold" type="submit" value="Replace"/>
+				</div>
+			</form>
+		</div>
+	</div>
+}
+else
+{
+	<div class="customNoResultsFoundMessage">
+		<h3 class="text-center text-danger">There are no figures that can replace this one! Try to add more figures.</h3>
+	</div>
+	<a asp-controller="Figure" asp-action="Add" class="btn btn-warning mb-2 w-100 p-3 fw-bold">Add a figure</a>
+}
+
+@section Scripts {
+	<partial name="_ValidationScriptsPartial" />
+}
