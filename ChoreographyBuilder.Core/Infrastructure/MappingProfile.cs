@@ -92,7 +92,17 @@ namespace ChoreographyBuilder.Core.Infrastructure
 				.ForMember(d => d.DynamicsType, act => act.MapFrom(src => src.FigureOption.DynamicsType.ToString()));
 			CreateMap<VerseChoreographyFigureViewModel, VerseChoreographyFigure>();
 
+			CreateMap<VerseChoreographyFigure, VerseChoreographyFigureReplaceViewModel>()
+				.ForMember(d => d.FigureName, act => act.MapFrom(src => src.FigureOption.Figure.Name))
+				.ForMember(d => d.IsFavourite, act => act.MapFrom(src => src.FigureOption.Figure.IsFavourite))
+				.ForMember(d => d.IsHighlight, act => act.MapFrom(src => src.FigureOption.Figure.IsHighlight))
+				.ForMember(d => d.StartPosition, act => act.MapFrom(src => src.FigureOption.StartPosition.Name))
+				.ForMember(d => d.EndPosition, act => act.MapFrom(src => src.FigureOption.EndPosition.Name))
+				.ForMember(d => d.BeatsCount, act => act.MapFrom(src => src.FigureOption.BeatCounts))
+				.ForMember(d => d.DynamicsType, act => act.MapFrom(src => src.FigureOption.DynamicsType.ToString()));
+
 			CreateMap<FigureOption, VerseChoreographyFigureViewModel>()
+				.ForMember(d=>d.Id, act=>act.Ignore())
 				.ForMember(d => d.FigureOptionId, act => act.MapFrom(src => src.Id))
 				.ForMember(d => d.FigureName, act => act.MapFrom(src => src.Figure.Name))
 				.ForMember(d => d.IsFavourite, act => act.MapFrom(src => src.Figure.IsFavourite))
