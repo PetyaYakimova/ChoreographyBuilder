@@ -231,6 +231,58 @@ namespace ChoreographyBuilder.Core.Services
 			await repository.SaveChangesAsync();
 		}
 
+		public async Task ChangeFigureInVerseChoreographyAsync(int id, VerseChoreographyFigureSelectedReplacementServiceModel newFigure)
+		{
+			var choreography = await repository.AllAsReadOnly<VerseChoreography>()
+				.Include(vc => vc.Figures)
+					.ThenInclude(f => f.FigureOption)
+				.FirstOrDefaultAsync(vc => vc.Id == id);
+
+			if (choreography == null)
+			{
+				logger.LogError(EntityWithIdWasNotFoundLoggerErrorMessage, nameof(VerseChoreography), id);
+				throw new EntityNotFoundException();
+			}
+
+			var newFigureOption = await repository.AllAsReadOnly<FigureOption>()
+				.Include(f => f.Figure)
+				.FirstOrDefaultAsync(fo => fo.Id == newFigure.FigureOptionId);
+
+			if (newFigureOption == null)
+			{
+				logger.LogError(EntityWithIdWasNotFoundLoggerErrorMessage, nameof(FigureOption), newFigure.FigureOptionId);
+				throw new EntityNotFoundException();
+			}
+
+			if (choreography.UserId != newFigureOption.Figure.UserId)
+			{
+				logger.LogError(InvalidFigureOptionIdWhenSavingVerseChoreographyErrorMessage);
+				throw new EntityNotFoundException();
+			}
+
+			var currentFigureOption = await repository.All<VerseChoreographyFigure>()
+				.Include(vcf => vcf.FigureOption)
+				.Where(vcf => vcf.VerseChoreographyId == id)
+				.FirstOrDefaultAsync(vcf => vcf.FigureOrder == newFigure.FigureOrder);
+
+			if (currentFigureOption == null)
+			{
+				logger.LogError(InvalidFigureOrderWhenUpdatingVerseChoreographyErrorMessage);
+				throw new EntityNotFoundException();
+			}
+
+			if ((newFigureOption.StartPositionId != currentFigureOption.FigureOption.StartPositionId)
+			    || (newFigureOption.EndPositionId != currentFigureOption.FigureOption.EndPositionId)
+			    || (newFigureOption.BeatCounts != currentFigureOption.FigureOption.BeatCounts))
+			{
+				logger.LogError(NewFigureDoesNotMatchOldFigureDataErrorMessage);
+				throw new InvalidModelException();
+			}
+
+			currentFigureOption.FigureOptionId = newFigureOption.Id;
+			await repository.SaveChangesAsync();
+		}
+
 		public async Task DeleteVerseChoreographyAsync(int id)
 		{
 			List<VerseChoreographyFigure> figures = await repository.All<VerseChoreographyFigure>()

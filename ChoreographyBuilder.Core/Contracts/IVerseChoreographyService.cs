@@ -1,4 +1,5 @@
 ﻿using ChoreographyBuilder.Core.Models.VerseChoreography;
+using ChoreographyBuilder.Core.Models.VerseChoreographyFigure;
 using static ChoreographyBuilder.Core.Constants.LimitConstants;
 
 namespace ChoreographyBuilder.Core.Contracts
@@ -70,6 +71,18 @@ namespace ChoreographyBuilder.Core.Contracts
 		/// <param name="userId">Id of the user</param>
 		/// <returns></returns>
 		Task SaveVerseChoreographyAsync(VerseChoreographySaveViewModel model, string userId);
+
+		/// <summary>
+		/// Changes a figure in a verse choreography with the new given figure.
+		/// Throws an exception if the verse choreography or the new figure don't exist.
+		/// Throws an exception if the verse choreography and the new figure option are for different users.
+		/// Throws an exception if the verse choreography doesn't have that number of figure order already.
+		/// Throws an exception if the old figure in that place doesn't have the same start position, end position and beats count as the new one.
+		/// </summary>
+		/// <param name="id"></param>
+		/// <param name="newFigure"></param>
+		/// <returns></returns>
+		Task ChangeFigureInVerseChoreographyAsync(int id, VerseChoreographyFigureSelectedReplacementServiceModel newFigure);
 
 		/// <summary>
 		/// Deletes a verse choreography by its id.

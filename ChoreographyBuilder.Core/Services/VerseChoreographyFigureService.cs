@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using ChoreographyBuilder.Core.Contracts;
 using ChoreographyBuilder.Core.Exceptions;
-using ChoreographyBuilder.Core.Models.FigureOption;
 using ChoreographyBuilder.Core.Models.VerseChoreographyFigure;
 using ChoreographyBuilder.Infrastructure.Data.Common;
 using ChoreographyBuilder.Infrastructure.Data.Models;
