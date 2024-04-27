@@ -35,4 +35,9 @@
 	<td>@Model.EndPosition</td>
 	<td>@Model.BeatsCount</td>
 	<td>@Model.DynamicsType</td>
+	<td>
+		<form method="get">
+			<input type="submit" asp-action="ReplaceFigure" asp-route-id="@Model.Id" value="Replace" class="link-warning custominputlink" />
+		</form>
+	</td>
 </tr>
