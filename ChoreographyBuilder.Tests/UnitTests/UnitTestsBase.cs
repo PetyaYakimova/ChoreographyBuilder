@@ -79,6 +79,8 @@ namespace ChoreographyBuilder.Tests.UnitTests
 
 		public FigureOption SecondFigureSecondOption { get; private set; } = null!;
 
+		public FigureOption SecondFigureThirdOption { get; private set; } = null!;
+
 		public FigureOption HighlightFigureFirstOption { get; private set; } = null!;
 
 		public FigureOption FourthFigureFirstOption { get; private set; } = null!;
@@ -353,9 +355,20 @@ namespace ChoreographyBuilder.Tests.UnitTests
 			};
 			data.FigureOptions.Add(SecondFigureSecondOption);
 
-			HighlightFigureFirstOption = new FigureOption()
+			SecondFigureThirdOption = new FigureOption()
 			{
 				Id = 5,
+				FigureId = SecondFigure.Id,
+				BeatCounts = 6, 
+				DynamicsType = DynamicsType.Regular,
+				StartPositionId = FirstPosition.Id,
+				EndPositionId = SecondPosition.Id
+			};
+			data.FigureOptions.Add(SecondFigureThirdOption);
+
+			HighlightFigureFirstOption = new FigureOption()
+			{
+				Id = 6,
 				FigureId = HighlightFigure.Id,
 				BeatCounts = 16,
 				DynamicsType = DynamicsType.Regular,
@@ -366,7 +379,7 @@ namespace ChoreographyBuilder.Tests.UnitTests
 
 			FourthFigureFirstOption = new FigureOption()
 			{
-				Id = 6,
+				Id = 7,
 				FigureId = FourthFigure.Id,
 				BeatCounts = 10,
 				DynamicsType = DynamicsType.Slow,
