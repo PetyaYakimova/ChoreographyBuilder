@@ -6,6 +6,7 @@ using ChoreographyBuilder.Core.Models.VerseChoreography;
 using ChoreographyBuilder.Core.Models.VerseType;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using ChoreographyBuilder.Core.Models.VerseChoreographyFigure;
 using static ChoreographyBuilder.Core.Constants.MessageConstants;
 
 namespace ChoreographyBuilder.Controllers
@@ -14,7 +15,8 @@ namespace ChoreographyBuilder.Controllers
     {
         private readonly ILogger<VerseChoreographyController> logger;
         private readonly IVerseChoreographyService verseChoreographyService;
-        private readonly IPositionService positionService;
+        private readonly IVerseChoreographyFigureService verseChoreographyFigureService;
+		private readonly IPositionService positionService;
         private readonly IVerseTypeService verseTypeService;
         private readonly IFigureService figureService;
         private readonly IFigureOptionService figureOptionService;
@@ -22,6 +24,7 @@ namespace ChoreographyBuilder.Controllers
         public VerseChoreographyController(
             ILogger<VerseChoreographyController> logger,
             IVerseChoreographyService verseChoreographyService,
+            IVerseChoreographyFigureService verseChoreographyFigureService,
             IPositionService positionService,
             IVerseTypeService verseTypeService,
             IFigureService figureService,
@@ -29,6 +32,7 @@ namespace ChoreographyBuilder.Controllers
         {
             this.logger = logger;
             this.verseChoreographyService = verseChoreographyService;
+            this.verseChoreographyFigureService = verseChoreographyFigureService;
             this.positionService = positionService;
             this.verseTypeService = verseTypeService;
             this.figureService = figureService;
@@ -132,6 +136,38 @@ namespace ChoreographyBuilder.Controllers
             TempData[UserMessageSuccess] = String.Format(ItemAddedSuccessMessage, VerseChoreographyAsString);
 
             return RedirectToAction(nameof(Mine));
+        }
+
+        [HttpGet]
+        [VerseChoreographyFigureExistsForThisUser]
+        public async Task<IActionResult> ReplaceFigure(int id)
+        {
+	        VerseChoreographyFigureReplaceViewModel model = await verseChoreographyFigureService.GetVerseChoreographyFigureForReplaceAsync(id);
+            model.PossibleReplacementFigures = await verseChoreographyFigureService.GetPossibleReplacementsForVerseChoreographyFigureAsync(id);
+
+	        return View(model);
+        }
+
+        [HttpPost]
+        [VerseChoreographyFigureExistsForThisUser]
+        public async Task<IActionResult> ReplaceFigure(VerseChoreographyFigureReplaceViewModel model, int id)
+        {
+	        if (ModelState.IsValid == false)
+	        {
+		        VerseChoreographyFigureReplaceViewModel updatedModel = await verseChoreographyFigureService.GetVerseChoreographyFigureForReplaceAsync(id);
+		        updatedModel.PossibleReplacementFigures = await verseChoreographyFigureService.GetPossibleReplacementsForVerseChoreographyFigureAsync(id);
+		        return View(updatedModel);
+	        }
+
+            VerseChoreographyFigureSelectedReplacementServiceModel serviceModel = new VerseChoreographyFigureSelectedReplacementServiceModel()
+            {
+                FigureOptionId = model.ReplacementFigureOptionId,
+                FigureOrder = model.FigureOrder
+            };
+
+            int verseChoreographyId = await verseChoreographyFigureService.GetVerseChoreographyIdForVerseChoreographyFigureByIdAsync(id);
+            await verseChoreographyService.ChangeFigureInVerseChoreographyAsync(verseChoreographyId, serviceModel);
+            return RedirectToAction(nameof(Details), new { Id = verseChoreographyId });
         }
 
         [HttpGet]
