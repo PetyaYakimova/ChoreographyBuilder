@@ -3,6 +3,7 @@ using ChoreographyBuilder.Core.Exceptions;
 using ChoreographyBuilder.Core.Models.VerseChoreography;
 using ChoreographyBuilder.Core.Models.VerseChoreographyFigure;
 using ChoreographyBuilder.Core.Services;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Moq;
 using static ChoreographyBuilder.Core.Constants.LimitConstants;
@@ -29,13 +30,16 @@ namespace ChoreographyBuilder.Tests.UnitTests
 		{
 			var result = await verseChoreographyService.GetVerseChoreographyByIdAsync(FirstVerseChoreography.Id);
 
-			Assert.That(result.Id, Is.EqualTo((FirstVerseChoreography.Id)));
-			Assert.That(result.Name, Is.EqualTo(FirstVerseChoreography.Name));
-			Assert.That(result.Figures.Count(), Is.EqualTo(FirstVerseChoreography.Figures.Count()));
-			Assert.That(result.NumberOfFigures, Is.EqualTo(FirstVerseChoreography.Figures.Count()));
-			Assert.That(result.FinalFigureName, Is.EqualTo(HighlightFigure.Name));
-			Assert.That(result.StartPositionName, Is.EqualTo(FirstPosition.Name));
-			Assert.That(result.EndPositionName, Is.EqualTo(FirstPosition.Name));
+			Assert.Multiple(() =>
+			{
+				Assert.That(result.Id, Is.EqualTo((FirstVerseChoreography.Id)));
+				Assert.That(result.Name, Is.EqualTo(FirstVerseChoreography.Name));
+				Assert.That(result.Figures.Count(), Is.EqualTo(FirstVerseChoreography.Figures.Count()));
+				Assert.That(result.NumberOfFigures, Is.EqualTo(FirstVerseChoreography.Figures.Count()));
+				Assert.That(result.FinalFigureName, Is.EqualTo(HighlightFigure.Name));
+				Assert.That(result.StartPositionName, Is.EqualTo(FirstPosition.Name));
+				Assert.That(result.EndPositionName, Is.EqualTo(FirstPosition.Name));
+			});
 		}
 
 		[Test]
@@ -50,9 +54,12 @@ namespace ChoreographyBuilder.Tests.UnitTests
 		{
 			var result = await verseChoreographyService.GetVerseChoreographyForDeleteAsync(FirstVerseChoreography.Id);
 
-			Assert.That(result.Id, Is.EqualTo((FirstVerseChoreography.Id)));
-			Assert.That(result.Name, Is.EqualTo(FirstVerseChoreography.Name));
-			Assert.That(result.NumberOfFigures, Is.EqualTo(FirstVerseChoreography.Figures.Count()));
+			Assert.Multiple(() =>
+			{
+				Assert.That(result.Id, Is.EqualTo((FirstVerseChoreography.Id)));
+				Assert.That(result.Name, Is.EqualTo(FirstVerseChoreography.Name));
+				Assert.That(result.NumberOfFigures, Is.EqualTo(FirstVerseChoreography.Figures.Count()));
+			});
 		}
 
 		[Test]
@@ -69,8 +76,11 @@ namespace ChoreographyBuilder.Tests.UnitTests
 
 			var result = await verseChoreographyService.AllUserVerseChoreographiesAsync(FirstUser.Id);
 
-			Assert.That(result.TotalCount, Is.EqualTo(expectedCount));
-			Assert.That(result.Entities.Count(), Is.EqualTo(expectedCount));
+			Assert.Multiple(() =>
+			{
+				Assert.That(result.TotalCount, Is.EqualTo(expectedCount));
+				Assert.That(result.Entities.Count(), Is.EqualTo(expectedCount));
+			});
 		}
 
 		[Test]
@@ -78,8 +88,11 @@ namespace ChoreographyBuilder.Tests.UnitTests
 		{
 			var result = await verseChoreographyService.AllUserVerseChoreographiesAsync(FirstUser.Id, "First", FirstVerseType.Id, FirstPosition.Id, FirstPosition.Id, HighlightFigure.Id);
 
-			Assert.That(result.TotalCount, Is.EqualTo(1));
-			Assert.That(result.Entities.Count(), Is.EqualTo(1));
+			Assert.Multiple(() =>
+			{
+				Assert.That(result.TotalCount, Is.EqualTo(1));
+				Assert.That(result.Entities.Count(), Is.EqualTo(1));
+			});
 		}
 
 		[Test]
@@ -218,6 +231,82 @@ namespace ChoreographyBuilder.Tests.UnitTests
 		}
 
 		[Test]
+		public async Task ChangeFigureInVerseChoreography_ShouldChangeTheFigureCorrectlyWithValidData()
+		{
+			VerseChoreographyFigureSelectedReplacementServiceModel newFigure = new VerseChoreographyFigureSelectedReplacementServiceModel()
+			{
+				FigureOrder = 1,
+				FigureOptionId = SecondFigureThirdOption.Id
+			};
+
+			await verseChoreographyService.ChangeFigureInVerseChoreographyAsync(FirstVerseChoreography.Id, newFigure);
+
+			var verseChoreographyFigureAfter = await this.data.VerseChoreographiesFigures
+				.Where(vcf => vcf.VerseChoreographyId == FirstVerseChoreography.Id)
+				.FirstOrDefaultAsync(vcf => vcf.FigureOrder == newFigure.FigureOrder);
+			Assert.That(verseChoreographyFigureAfter.FigureOptionId, Is.EqualTo(newFigure.FigureOptionId));
+		}
+
+		[Test]
+		public void ChangeFigureInVerseChoreography_ShouldThrowAnExceptionIfChoreographyDoesntExist()
+		{
+			Assert.That(async () => await verseChoreographyService.ChangeFigureInVerseChoreographyAsync(10, new VerseChoreographyFigureSelectedReplacementServiceModel()),
+				Throws.Exception.TypeOf<EntityNotFoundException>());
+		}
+
+		[Test]
+		public void ChangeFigureInVerseChoreography_ShouldThrowAnExceptionIfNewOptionDoesntExist()
+		{
+			VerseChoreographyFigureSelectedReplacementServiceModel newFigure = new VerseChoreographyFigureSelectedReplacementServiceModel()
+			{
+				FigureOrder = 1,
+				FigureOptionId = 50
+			};
+
+			Assert.That(async () => await verseChoreographyService.ChangeFigureInVerseChoreographyAsync(FirstVerseChoreography.Id, newFigure),
+				Throws.Exception.TypeOf<EntityNotFoundException>());
+		}
+
+		[Test]
+		public void ChangeFigureInVerseChoreography_ShouldThrowAnExceptionIfUserForTheNewOptionIsDifferentFromUserFOrVerseChoreography()
+		{
+			VerseChoreographyFigureSelectedReplacementServiceModel newFigure = new VerseChoreographyFigureSelectedReplacementServiceModel()
+			{
+				FigureOrder = 1,
+				FigureOptionId = FourthFigureFirstOption.Id
+			};
+
+			Assert.That(async () => await verseChoreographyService.ChangeFigureInVerseChoreographyAsync(FirstVerseChoreography.Id, newFigure),
+				Throws.Exception.TypeOf<EntityNotFoundException>());
+		}
+
+		[Test]
+		public void ChangeFigureInVerseChoreography_ShouldThrowAnExceptionIfInvalidFigureOrderIsGiven()
+		{
+			VerseChoreographyFigureSelectedReplacementServiceModel newFigure = new VerseChoreographyFigureSelectedReplacementServiceModel()
+			{
+				FigureOrder = 10,
+				FigureOptionId = SecondFigureThirdOption.Id
+			};
+
+			Assert.That(async () => await verseChoreographyService.ChangeFigureInVerseChoreographyAsync(FirstVerseChoreography.Id, newFigure),
+				Throws.Exception.TypeOf<EntityNotFoundException>());
+		}
+
+		[Test]
+		public void ChangeFigureInVerseChoreography_ShouldThrowAnExceptionIfSomeOfTheParametersForTheNewFigureDoNotMatchTheOldFigure()
+		{
+			VerseChoreographyFigureSelectedReplacementServiceModel newFigure = new VerseChoreographyFigureSelectedReplacementServiceModel()
+			{
+				FigureOrder = 1,
+				FigureOptionId = SecondFigureFirstOption.Id
+			};
+
+			Assert.That(async () => await verseChoreographyService.ChangeFigureInVerseChoreographyAsync(FirstVerseChoreography.Id, newFigure),
+				Throws.Exception.TypeOf<InvalidModelException>());
+		}
+
+		[Test]
 		public async Task DeleteVerseChoreography_ShouldDeleteTheVerseChoreographySuccessfullyForValidVerseChoreographyWithNoFigures()
 		{
 			var verseChoreographyCountBefore = data.VerseChoreographies.Count();
@@ -227,8 +316,11 @@ namespace ChoreographyBuilder.Tests.UnitTests
 
 			var verseChoreographyCountAfter = data.VerseChoreographies.Count();
 			var verseChoreographyFiguresCountAfter = data.VerseChoreographiesFigures.Count();
-			Assert.That(verseChoreographyCountAfter, Is.EqualTo(verseChoreographyCountBefore - 1));
-			Assert.That(verseChoreographyFiguresCountAfter, Is.EqualTo(verseChoreographyFiguresCountBefore));
+			Assert.Multiple(() =>
+			{
+				Assert.That(verseChoreographyCountAfter, Is.EqualTo(verseChoreographyCountBefore - 1));
+				Assert.That(verseChoreographyFiguresCountAfter, Is.EqualTo(verseChoreographyFiguresCountBefore));
+			});
 		}
 
 		[Test]
@@ -242,8 +334,11 @@ namespace ChoreographyBuilder.Tests.UnitTests
 
 			var verseChoreographyCountAfter = data.VerseChoreographies.Count();
 			var verseChoreographyFiguresCountAfter = data.VerseChoreographiesFigures.Count();
-			Assert.That(verseChoreographyCountAfter, Is.EqualTo(verseChoreographyCountBefore - 1));
-			Assert.That(verseChoreographyFiguresCountAfter, Is.EqualTo(verseChoreographyFiguresCountBefore - thisVerseChoreographyFiguresCount));
+			Assert.Multiple(() =>
+			{
+				Assert.That(verseChoreographyCountAfter, Is.EqualTo(verseChoreographyCountBefore - 1));
+				Assert.That(verseChoreographyFiguresCountAfter, Is.EqualTo(verseChoreographyFiguresCountBefore - thisVerseChoreographyFiguresCount));
+			});
 		}
 
 		[Test]
@@ -257,8 +352,11 @@ namespace ChoreographyBuilder.Tests.UnitTests
 
 			var result = await verseChoreographyService.GenerateChoreographies(query, FirstUser.Id);
 
-			Assert.That(result, Is.Not.Null);
-			Assert.That(result.Count(), Is.LessThanOrEqualTo(MaxNumberOfSuggestedChoreographies));
+			Assert.Multiple(() =>
+			{
+				Assert.That(result, Is.Not.Null);
+				Assert.That(result.Count(), Is.LessThanOrEqualTo(MaxNumberOfSuggestedChoreographies));
+			});
 		}
 
 		[Test]
@@ -273,8 +371,11 @@ namespace ChoreographyBuilder.Tests.UnitTests
 
 			var result = await verseChoreographyService.GenerateChoreographies(query, FirstUser.Id);
 
-			Assert.That(result, Is.Not.Null);
-			Assert.That(result.Count(), Is.LessThanOrEqualTo(MaxNumberOfSuggestedChoreographies));
+			Assert.Multiple(() =>
+			{
+				Assert.That(result, Is.Not.Null);
+				Assert.That(result.Count(), Is.LessThanOrEqualTo(MaxNumberOfSuggestedChoreographies));
+			});
 		}
 
 		[Test]
