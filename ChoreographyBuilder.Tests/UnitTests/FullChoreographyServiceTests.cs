@@ -28,10 +28,13 @@ namespace ChoreographyBuilder.Tests.UnitTests
 		{
 			var result = await fullChoreographyService.GetChoreographyDetailsByIdAsync(FirstFullChoreography.Id);
 
-			Assert.That(result.Id, Is.EqualTo(FirstFullChoreography.Id));
-			Assert.That(result.Name, Is.EqualTo(FirstFullChoreography.Name));
-			Assert.That(result.NumberOfVerses, Is.EqualTo(FirstFullChoreography.VerseChoreographies.Count()));
-			Assert.That(result.Verses.Count(), Is.EqualTo(FirstFullChoreography.VerseChoreographies.Count()));
+			Assert.Multiple(() =>
+			{
+				Assert.That(result.Id, Is.EqualTo(FirstFullChoreography.Id));
+				Assert.That(result.Name, Is.EqualTo(FirstFullChoreography.Name));
+				Assert.That(result.NumberOfVerses, Is.EqualTo(FirstFullChoreography.VerseChoreographies.Count()));
+				Assert.That(result.Verses.Count(), Is.EqualTo(FirstFullChoreography.VerseChoreographies.Count()));
+			});
 		}
 
 		[Test]
@@ -61,9 +64,12 @@ namespace ChoreographyBuilder.Tests.UnitTests
 		{
 			var result = await fullChoreographyService.GetFullChoreographyForDeleteAsync(FirstFullChoreography.Id);
 
-			Assert.That(result.Id, Is.EqualTo(FirstFullChoreography.Id));
-			Assert.That(result.Name, Is.EqualTo(FirstFullChoreography.Name));
-			Assert.That(result.NumberOfVerses, Is.EqualTo(FirstFullChoreography.VerseChoreographies.Count()));
+			Assert.Multiple(() =>
+			{
+				Assert.That(result.Id, Is.EqualTo(FirstFullChoreography.Id));
+				Assert.That(result.Name, Is.EqualTo(FirstFullChoreography.Name));
+				Assert.That(result.NumberOfVerses, Is.EqualTo(FirstFullChoreography.VerseChoreographies.Count()));
+			});
 		}
 
 		[Test]
@@ -78,9 +84,12 @@ namespace ChoreographyBuilder.Tests.UnitTests
 		{
 			var result = await fullChoreographyService.GetLastVerseChoreographyEndPositionAsync(FirstFullChoreography.Id);
 
-			Assert.That(result, Is.Not.Null);
-			Assert.That(result.Id, Is.EqualTo(SecondPosition.Id));
-			Assert.That(result.Name, Is.EqualTo(SecondPosition.Name));
+			Assert.Multiple(() =>
+			{
+				Assert.That(result, Is.Not.Null);
+				Assert.That(result.Id, Is.EqualTo(SecondPosition.Id));
+				Assert.That(result.Name, Is.EqualTo(SecondPosition.Name));
+			});
 		}
 
 		[Test]
@@ -129,8 +138,11 @@ namespace ChoreographyBuilder.Tests.UnitTests
 
 			var result = await fullChoreographyService.AllUserFullChoreographiesAsync(FirstUser.Id);
 
-			Assert.That(result.TotalCount, Is.EqualTo(expectedCount));
-			Assert.That(result.Entities.Count(), Is.EqualTo(expectedCount));
+			Assert.Multiple(() =>
+			{
+				Assert.That(result.TotalCount, Is.EqualTo(expectedCount));
+				Assert.That(result.Entities.Count(), Is.EqualTo(expectedCount));
+			});
 		}
 
 		[Test]
@@ -138,8 +150,11 @@ namespace ChoreographyBuilder.Tests.UnitTests
 		{
 			var result = await fullChoreographyService.AllUserFullChoreographiesAsync(FirstUser.Id, "First");
 
-			Assert.That(result.TotalCount, Is.EqualTo(1));
-			Assert.That(result.Entities.Count(), Is.EqualTo(1));
+			Assert.Multiple(() =>
+			{
+				Assert.That(result.TotalCount, Is.EqualTo(1));
+				Assert.That(result.Entities.Count(), Is.EqualTo(1));
+			});
 		}
 
 
@@ -220,8 +235,11 @@ namespace ChoreographyBuilder.Tests.UnitTests
 
 			var fullChoreographyCountAfter = data.FullChoreographies.Count();
 			var fullChoreographyVersesCountAfter = data.FullChoreographiesVerseChoreographies.Count();
-			Assert.That(fullChoreographyCountAfter, Is.EqualTo(fullChoreographyCountBefore - 1));
-			Assert.That(fullChoreographyVersesCountAfter, Is.EqualTo(fullChoreographyVersesCountBefore));
+			Assert.Multiple(() =>
+			{
+				Assert.That(fullChoreographyCountAfter, Is.EqualTo(fullChoreographyCountBefore - 1));
+				Assert.That(fullChoreographyVersesCountAfter, Is.EqualTo(fullChoreographyVersesCountBefore));
+			});
 		}
 
 		[Test]
@@ -235,8 +253,11 @@ namespace ChoreographyBuilder.Tests.UnitTests
 
 			var fullChoreographyCountAfter = data.FullChoreographies.Count();
 			var fullChoreographyVersesCountAfter = data.FullChoreographiesVerseChoreographies.Count();
-			Assert.That(fullChoreographyCountAfter, Is.EqualTo(fullChoreographyCountBefore - 1));
-			Assert.That(fullChoreographyVersesCountAfter, Is.EqualTo(fullChoreographyVersesCountBefore - thisFullChoreographyVersesCount));
+			Assert.Multiple(() =>
+			{
+				Assert.That(fullChoreographyCountAfter, Is.EqualTo(fullChoreographyCountBefore - 1));
+				Assert.That(fullChoreographyVersesCountAfter, Is.EqualTo(fullChoreographyVersesCountBefore - thisFullChoreographyVersesCount));
+			});
 		}
 	}
 }

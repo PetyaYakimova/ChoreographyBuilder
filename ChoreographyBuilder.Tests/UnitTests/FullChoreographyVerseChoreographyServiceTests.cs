@@ -27,9 +27,12 @@ namespace ChoreographyBuilder.Tests.UnitTests
 		{
 			var result = await fullChoreographyVerseChoreographyService.GetVerseChoreographyForDeleteAsync(FirstFullChoreographySecondVerse.Id);
 
-			Assert.That(result.Id, Is.EqualTo(FirstFullChoreographySecondVerse.Id));
-			Assert.That(result.FullChoreographyId, Is.EqualTo(FirstFullChoreography.Id));
-			Assert.That(result.FullChoreographyName, Is.EqualTo(FirstFullChoreography.Name));
+			Assert.Multiple(() =>
+			{
+				Assert.That(result.Id, Is.EqualTo(FirstFullChoreographySecondVerse.Id));
+				Assert.That(result.FullChoreographyId, Is.EqualTo(FirstFullChoreography.Id));
+				Assert.That(result.FullChoreographyName, Is.EqualTo(FirstFullChoreography.Name));
+			});
 		}
 
 		[Test]
