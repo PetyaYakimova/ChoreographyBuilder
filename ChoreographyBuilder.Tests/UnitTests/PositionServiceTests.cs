@@ -27,8 +27,11 @@ namespace ChoreographyBuilder.Tests.UnitTests
 		{
 			var result = await positionService.GetPositionByIdAsync(FirstPosition.Id);
 
-			Assert.That(result.Name, Is.EqualTo(FirstPosition.Name));
-			Assert.That(result.IsActive, Is.EqualTo(FirstPosition.IsActive));
+			Assert.Multiple(() =>
+			{
+				Assert.That(result.Name, Is.EqualTo(FirstPosition.Name));
+				Assert.That(result.IsActive, Is.EqualTo(FirstPosition.IsActive));
+			});
 		}
 
 		[Test]
@@ -43,8 +46,11 @@ namespace ChoreographyBuilder.Tests.UnitTests
 		{
 			var result = await positionService.GetPositionForDeleteAsync(FirstPosition.Id);
 
-			Assert.That(result.Id, Is.EqualTo(FirstPosition.Id));
-			Assert.That(result.Name, Is.EqualTo(FirstPosition.Name));
+			Assert.Multiple(() =>
+			{
+				Assert.That(result.Id, Is.EqualTo(FirstPosition.Id));
+				Assert.That(result.Name, Is.EqualTo(FirstPosition.Name));
+			});
 		}
 
 		[Test]
@@ -61,8 +67,11 @@ namespace ChoreographyBuilder.Tests.UnitTests
 
 			var result = await positionService.AllPositionsAsync();
 
-			Assert.That(result.TotalCount, Is.EqualTo(expectedCount));
-			Assert.That(result.Entities.Count(), Is.EqualTo(expectedCount));
+			Assert.Multiple(() =>
+			{
+				Assert.That(result.TotalCount, Is.EqualTo(expectedCount));
+				Assert.That(result.Entities.Count(), Is.EqualTo(expectedCount));
+			});
 		}
 
 		[Test]
@@ -70,8 +79,11 @@ namespace ChoreographyBuilder.Tests.UnitTests
 		{
 			var result = await positionService.AllPositionsAsync("First");
 
-			Assert.That(result.TotalCount, Is.EqualTo(1));
-			Assert.That(result.Entities.Count(), Is.EqualTo(1));
+			Assert.Multiple(() =>
+			{
+				Assert.That(result.TotalCount, Is.EqualTo(1));
+				Assert.That(result.Entities.Count(), Is.EqualTo(1));
+			});
 		}
 
 		[Test]

@@ -27,9 +27,12 @@ namespace ChoreographyBuilder.Tests.UnitTests
 		{
 			var result = await verseTypeService.GetVerseTypeById(FirstVerseType.Id);
 
-			Assert.That(result.Name, Is.EqualTo(FirstVerseType.Name));
-			Assert.That(result.BeatCounts, Is.EqualTo(FirstVerseType.BeatCounts));
-			Assert.That(result.IsActive, Is.EqualTo(FirstVerseType.IsActive));
+			Assert.Multiple(() =>
+			{
+				Assert.That(result.Name, Is.EqualTo(FirstVerseType.Name));
+				Assert.That(result.BeatCounts, Is.EqualTo(FirstVerseType.BeatCounts));
+				Assert.That(result.IsActive, Is.EqualTo(FirstVerseType.IsActive));
+			});
 		}
 
 		[Test]
@@ -44,9 +47,12 @@ namespace ChoreographyBuilder.Tests.UnitTests
 		{
 			var result = await verseTypeService.GetVerseTypeForDeleteAsync(FirstVerseType.Id);
 
-			Assert.That(result.Id, Is.EqualTo(FirstVerseType.Id));
-			Assert.IsTrue(result.Name.Contains(FirstVerseType.Name));
-			Assert.IsTrue(result.Name.Contains(FirstVerseType.BeatCounts.ToString()));
+			Assert.Multiple(() =>
+			{
+				Assert.That(result.Id, Is.EqualTo(FirstVerseType.Id));
+				Assert.IsTrue(result.Name.Contains(FirstVerseType.Name));
+				Assert.IsTrue(result.Name.Contains(FirstVerseType.BeatCounts.ToString()));
+			});
 		}
 
 		[Test]
@@ -57,14 +63,17 @@ namespace ChoreographyBuilder.Tests.UnitTests
 		}
 
 		[Test]
-		public async Task AllVerseTypes_ShouldReturnAllVerseTypessWhenThereAreNoSearchCriteria()
+		public async Task AllVerseTypes_ShouldReturnAllVerseTypesWhenThereAreNoSearchCriteria()
 		{
 			var expectedCount = this.data.VerseTypes.Count();
 
 			var result = await verseTypeService.AllVerseTypesAsync();
 
-			Assert.That(result.TotalCount, Is.EqualTo(expectedCount));
-			Assert.That(result.Entities.Count(), Is.EqualTo(expectedCount));
+			Assert.Multiple(() =>
+			{
+				Assert.That(result.TotalCount, Is.EqualTo(expectedCount));
+				Assert.That(result.Entities.Count(), Is.EqualTo(expectedCount));
+			});
 		}
 
 		[Test]
@@ -72,8 +81,11 @@ namespace ChoreographyBuilder.Tests.UnitTests
 		{
 			var result = await verseTypeService.AllVerseTypesAsync("First", 32);
 
-			Assert.That(result.TotalCount, Is.EqualTo(1));
-			Assert.That(result.Entities.Count(), Is.EqualTo(1));
+			Assert.Multiple(() =>
+			{
+				Assert.That(result.TotalCount, Is.EqualTo(1));
+				Assert.That(result.Entities.Count(), Is.EqualTo(1));
+			});
 		}
 
 		[Test]
@@ -211,8 +223,11 @@ namespace ChoreographyBuilder.Tests.UnitTests
 
 			await verseTypeService.EditVerseTypeAsync(SecondVerseType.Id, model);
 
-			Assert.That(SecondVerseType.Name, Is.EqualTo(model.Name));
-			Assert.That(SecondVerseType.BeatCounts, Is.EqualTo(model.BeatCounts));
+			Assert.Multiple(() =>
+			{
+				Assert.That(SecondVerseType.Name, Is.EqualTo(model.Name));
+				Assert.That(SecondVerseType.BeatCounts, Is.EqualTo(model.BeatCounts));
+			});
 		}
 
 		[Test]
