@@ -27,9 +27,12 @@ namespace ChoreographyBuilder.Tests.UnitTests
 		{
 			var result = await figureService.GetFigureByIdAsync(FirstFigure.Id);
 
-			Assert.That(result.Name, Is.EqualTo(FirstFigure.Name));
-			Assert.That(result.IsFavourite, Is.EqualTo(FirstFigure.IsFavourite));
-			Assert.That(result.IsHighlight, Is.EqualTo(FirstFigure.IsHighlight));
+			Assert.Multiple(() =>
+			{
+				Assert.That(result.Name, Is.EqualTo(FirstFigure.Name));
+				Assert.That(result.IsFavourite, Is.EqualTo(FirstFigure.IsFavourite));
+				Assert.That(result.IsHighlight, Is.EqualTo(FirstFigure.IsHighlight));
+			});
 		}
 
 		[Test]
@@ -59,8 +62,11 @@ namespace ChoreographyBuilder.Tests.UnitTests
 		{
 			var result = await figureService.GetFigureForDeleteAsync(FirstFigure.Id);
 
-			Assert.That(result.Id, Is.EqualTo(FirstFigure.Id));
-			Assert.That(result.Name, Is.EqualTo(FirstFigure.Name));
+			Assert.Multiple(() =>
+			{
+				Assert.That(result.Id, Is.EqualTo(FirstFigure.Id));
+				Assert.That(result.Name, Is.EqualTo(FirstFigure.Name));
+			});
 		}
 
 		[Test]
@@ -77,8 +83,11 @@ namespace ChoreographyBuilder.Tests.UnitTests
 
 			var result = await figureService.AllUserFiguresAsync(FirstUser.Id);
 
-			Assert.That(result.TotalCount, Is.EqualTo(expectedCount));
-			Assert.That(result.Entities.Count(), Is.EqualTo(expectedCount));
+			Assert.Multiple(() =>
+			{
+				Assert.That(result.TotalCount, Is.EqualTo(expectedCount));
+				Assert.That(result.Entities.Count(), Is.EqualTo(expectedCount));
+			});
 		}
 
 		[Test]
@@ -86,8 +95,11 @@ namespace ChoreographyBuilder.Tests.UnitTests
 		{
 			var result = await figureService.AllUserFiguresAsync(FirstUser.Id, "Second");
 
-			Assert.That(result.TotalCount, Is.EqualTo(1));
-			Assert.That(result.Entities.Count(), Is.EqualTo(1));
+			Assert.Multiple(() =>
+			{
+				Assert.That(result.TotalCount, Is.EqualTo(1));
+				Assert.That(result.Entities.Count(), Is.EqualTo(1));
+			});
 		}
 
 		[Test]
@@ -185,9 +197,12 @@ namespace ChoreographyBuilder.Tests.UnitTests
 
 			await figureService.EditFigureAsync(SecondFigure.Id, model);
 
-			Assert.That(SecondFigure.Name, Is.EqualTo(model.Name));
-			Assert.That(SecondFigure.IsFavourite, Is.EqualTo(model.IsFavourite));
-			Assert.That(SecondFigure.IsHighlight, Is.EqualTo(model.IsHighlight));
+			Assert.Multiple(() =>
+			{
+				Assert.That(SecondFigure.Name, Is.EqualTo(model.Name));
+				Assert.That(SecondFigure.IsFavourite, Is.EqualTo(model.IsFavourite));
+				Assert.That(SecondFigure.IsHighlight, Is.EqualTo(model.IsHighlight));
+			});
 		}
 
 		[Test]
@@ -207,8 +222,11 @@ namespace ChoreographyBuilder.Tests.UnitTests
 
 			var figureCountAfter = data.Figures.Count();
 			var figureOptionsCountAfter = data.FigureOptions.Count();
-			Assert.That(figureCountAfter, Is.EqualTo(figureCountBefore - 1));
-			Assert.That(figureOptionsCountAfter, Is.EqualTo(figureOptionsCountBefore));
+			Assert.Multiple(() =>
+			{
+				Assert.That(figureCountAfter, Is.EqualTo(figureCountBefore - 1));
+				Assert.That(figureOptionsCountAfter, Is.EqualTo(figureOptionsCountBefore));
+			});
 		}
 
 		[Test]
@@ -222,8 +240,11 @@ namespace ChoreographyBuilder.Tests.UnitTests
 
 			var figureCountAfter = data.Figures.Count();
 			var figureOptionsCountAfter = data.FigureOptions.Count();
-			Assert.That(figureCountAfter, Is.EqualTo(figureCountBefore - 1));
-			Assert.That(figureOptionsCountAfter, Is.EqualTo(figureOptionsCountBefore - thisFigureOptionsCount));
+			Assert.Multiple(() =>
+			{
+				Assert.That(figureCountAfter, Is.EqualTo(figureCountBefore - 1));
+				Assert.That(figureOptionsCountAfter, Is.EqualTo(figureOptionsCountBefore - thisFigureOptionsCount));
+			});
 		}
 	}
 }

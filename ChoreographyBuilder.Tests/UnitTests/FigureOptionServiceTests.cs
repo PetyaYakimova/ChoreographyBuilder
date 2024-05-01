@@ -29,12 +29,15 @@ namespace ChoreographyBuilder.Tests.UnitTests
 		{
 			var result = await figureOptionService.GetFigureOptionByIdAsync(FirstFigureFirstOption.Id);
 
-			Assert.That(result.BeatCounts, Is.EqualTo(FirstFigureFirstOption.BeatCounts));
-			Assert.That(result.DynamicsType, Is.EqualTo(FirstFigureFirstOption.DynamicsType));
-			Assert.That(result.StartPositionId, Is.EqualTo(FirstFigureFirstOption.StartPositionId));
-			Assert.That(result.EndPositionId, Is.EqualTo(FirstFigureFirstOption.EndPositionId));
-			Assert.That(result.FigureId, Is.EqualTo(FirstFigureFirstOption.FigureId));
-			Assert.That(result.FigureName, Is.EqualTo(FirstFigure.Name));
+			Assert.Multiple(() =>
+			{
+				Assert.That(result.BeatCounts, Is.EqualTo(FirstFigureFirstOption.BeatCounts));
+				Assert.That(result.DynamicsType, Is.EqualTo(FirstFigureFirstOption.DynamicsType));
+				Assert.That(result.StartPositionId, Is.EqualTo(FirstFigureFirstOption.StartPositionId));
+				Assert.That(result.EndPositionId, Is.EqualTo(FirstFigureFirstOption.EndPositionId));
+				Assert.That(result.FigureId, Is.EqualTo(FirstFigureFirstOption.FigureId));
+				Assert.That(result.FigureName, Is.EqualTo(FirstFigure.Name));
+			});
 		}
 
 		[Test]
@@ -49,8 +52,11 @@ namespace ChoreographyBuilder.Tests.UnitTests
 		{
 			var result = await figureOptionService.GetFigureOptionForDeleteAsync(FirstFigureFirstOption.Id);
 
-			Assert.That(result.Id, Is.EqualTo(FirstFigureFirstOption.Id));
-			Assert.That(result.FigureName, Is.EqualTo(FirstFigure.Name));
+			Assert.Multiple(() =>
+			{
+				Assert.That(result.Id, Is.EqualTo(FirstFigureFirstOption.Id));
+				Assert.That(result.FigureName, Is.EqualTo(FirstFigure.Name));
+			});
 		}
 
 		[Test]
@@ -67,8 +73,11 @@ namespace ChoreographyBuilder.Tests.UnitTests
 
 			var result = await figureOptionService.GetFigureOptionsAsync(FirstFigure.Id);
 
-			Assert.That(result.TotalCount, Is.EqualTo(expectedCount));
-			Assert.That(result.Entities.Count(), Is.EqualTo(expectedCount));
+			Assert.Multiple(() =>
+			{
+				Assert.That(result.TotalCount, Is.EqualTo(expectedCount));
+				Assert.That(result.Entities.Count(), Is.EqualTo(expectedCount));
+			});
 		}
 
 		[Test]
@@ -76,8 +85,11 @@ namespace ChoreographyBuilder.Tests.UnitTests
 		{
 			var result = await figureOptionService.GetFigureOptionsAsync(FirstFigure.Id, FirstPosition.Id, SecondPosition.Id, 6, DynamicsType.Regular);
 
-			Assert.That(result.TotalCount, Is.EqualTo(1));
-			Assert.That(result.Entities.Count(), Is.EqualTo(1));
+			Assert.Multiple(() =>
+			{
+				Assert.That(result.TotalCount, Is.EqualTo(1));
+				Assert.That(result.Entities.Count(), Is.EqualTo(1));
+			});
 		}
 
 		[Test]
@@ -239,10 +251,13 @@ namespace ChoreographyBuilder.Tests.UnitTests
 
 			await figureOptionService.EditFigureOptionAsync(FirstFigureFirstOption.Id, model);
 
-			Assert.That(FirstFigureFirstOption.BeatCounts, Is.EqualTo(model.BeatCounts));
-			Assert.That(FirstFigureFirstOption.StartPositionId, Is.EqualTo(model.StartPositionId));
-			Assert.That(FirstFigureFirstOption.EndPositionId, Is.EqualTo(model.EndPositionId));
-			Assert.That(FirstFigureFirstOption.DynamicsType, Is.EqualTo(model.DynamicsType));
+			Assert.Multiple(() =>
+			{
+				Assert.That(FirstFigureFirstOption.BeatCounts, Is.EqualTo(model.BeatCounts));
+				Assert.That(FirstFigureFirstOption.StartPositionId, Is.EqualTo(model.StartPositionId));
+				Assert.That(FirstFigureFirstOption.EndPositionId, Is.EqualTo(model.EndPositionId));
+				Assert.That(FirstFigureFirstOption.DynamicsType, Is.EqualTo(model.DynamicsType));
+			});
 		}
 
 		[Test]
