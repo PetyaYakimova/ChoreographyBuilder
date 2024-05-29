@@ -1,50 +1,13 @@
-html {
-    font-size: 14px;
-    font-family: Verdana, Geneva, Tahoma, sans-serif
-}
+@import url(reset.css);
 
-@media (min-width: 768px) {
-    html {
-        font-size: 16px;
-    }
-}
+@import url(typography.css);
 
-html {
-    position: relative;
-    min-height: 100%;
-}
+@import url(layout.css);
 
-body {
-    margin-bottom: 60px;
-    background-color: #202020;
-    color: white;
-}
+@import url(navigation.css);
 
-footer {
-    background-color: black;
-    color: white;
-}
+@import url(site-header.css);
 
-.darkbgwhitetext {
-    background-color: #202020;
-    color: white;
-}
+@import url(site-footer.css);
 
-.custominputlink {
-    background-color: #202020;
-    font-weight: 400;
-    border: none;
-    text-decoration: underline;
-}
-
-.customNoResultsFoundMessage {
-    background-color: #252525;
-    border: 2px solid;
-    border-color: red;
-    padding: 3em;
-    margin-bottom: 3em;
-}
-
-nav li :hover {
-    background-color: #202020;
-}
+@import url(main.css);
