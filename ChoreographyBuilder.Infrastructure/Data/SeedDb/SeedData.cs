@@ -283,7 +283,8 @@ namespace ChoreographyBuilder.Infrastructure.Data.SeedDb
                 Name = "Change of place",
                 IsHighlight = false,
                 IsFavourite = false,
-                UserId = DemoUser.Id
+                UserId = DemoUser.Id,
+                CanBeShared = false
             };
 
             AmericanSpin = new Figure()
@@ -292,8 +293,9 @@ namespace ChoreographyBuilder.Infrastructure.Data.SeedDb
                 Name = "American Spin",
                 IsHighlight = false,
                 IsFavourite = false,
-                UserId = DemoUser.Id
-            };
+                UserId = DemoUser.Id,
+				CanBeShared = false
+			};
 
             SpinWithBlock = new Figure()
             {
@@ -301,8 +303,9 @@ namespace ChoreographyBuilder.Infrastructure.Data.SeedDb
                 Name = "Spin with block",
                 IsHighlight = false,
                 IsFavourite = true,
-                UserId = DemoUser.Id
-            };
+                UserId = DemoUser.Id,
+				CanBeShared = false
+			};
 
             Tunnel = new Figure()
             {
@@ -310,8 +313,9 @@ namespace ChoreographyBuilder.Infrastructure.Data.SeedDb
                 Name = "Tunnel",
                 IsHighlight = true,
                 IsFavourite = true,
-                UserId = DemoUser.Id
-            };
+                UserId = DemoUser.Id,
+				CanBeShared = false
+			};
 
             Cartwheel = new Figure()
             {
@@ -319,8 +323,9 @@ namespace ChoreographyBuilder.Infrastructure.Data.SeedDb
                 Name = "Cartwheel",
                 IsHighlight = true,
                 IsFavourite = true,
-                UserId = DemoUser.Id
-            };
+                UserId = DemoUser.Id,
+				CanBeShared = false
+			};
 
             SendIn = new Figure()
             {
@@ -328,8 +333,9 @@ namespace ChoreographyBuilder.Infrastructure.Data.SeedDb
                 Name = "Get into closed",
                 IsHighlight = false,
                 IsFavourite = false,
-                UserId = DemoUser.Id
-            };
+                UserId = DemoUser.Id,
+				CanBeShared = false
+			};
 
             SwingOut = new Figure()
             {
@@ -337,8 +343,9 @@ namespace ChoreographyBuilder.Infrastructure.Data.SeedDb
                 Name = "Swing Out",
                 IsHighlight = false,
                 IsFavourite = false,
-                UserId = DemoUser.Id
-            };
+                UserId = DemoUser.Id,
+				CanBeShared = false
+			};
 
             Helicopter = new Figure()
             {
@@ -346,8 +353,9 @@ namespace ChoreographyBuilder.Infrastructure.Data.SeedDb
                 Name = "Helicopter",
                 IsHighlight = true,
                 IsFavourite = false,
-                UserId = DemoUser.Id
-            };
+                UserId = DemoUser.Id,
+				CanBeShared = false
+			};
 
             LeftSidePass = new Figure()
             {
@@ -355,8 +363,9 @@ namespace ChoreographyBuilder.Infrastructure.Data.SeedDb
                 Name = "Left Side Pass",
                 IsHighlight = false,
                 IsFavourite = false,
-                UserId = DemoUser.Id
-            };
+                UserId = DemoUser.Id,
+				CanBeShared = false
+			};
 
             SendOut = new Figure()
             {
@@ -364,8 +373,9 @@ namespace ChoreographyBuilder.Infrastructure.Data.SeedDb
                 Name = "Send out",
                 IsHighlight = false,
                 IsFavourite = true,
-                UserId = DemoUser.Id
-            };
+                UserId = DemoUser.Id,
+				CanBeShared = false
+			};
         }
 
         private void SeedFigureOptions()

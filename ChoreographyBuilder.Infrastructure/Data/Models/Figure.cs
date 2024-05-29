@@ -33,6 +33,10 @@ namespace ChoreographyBuilder.Infrastructure.Data.Models
 		[ForeignKey(nameof(UserId))]
 		public IdentityUser User { get; set; } = null!;
 
+		[Required]
+		[Comment("Figure Can Be Shared With Other Users")]
+		public bool CanBeShared { get; set; }
+
 		public IEnumerable<FigureOption> FigureOptions { get; set; } = new List<FigureOption>();
 	}
 }
