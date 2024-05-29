@@ -14,16 +14,16 @@ namespace ChoreographyBuilder.Core.Models.FigureOption
 		public int? FigureId { get; set; }
 		public string FigureName { get; set; } = string.Empty;
 
-		[Display(Name = "Search by start position")]
+		[Display(Name = "Start position")]
 		public int? StartPosition { get; init; }
 
-		[Display(Name = "Search by end position")]
+		[Display(Name = "End position")]
 		public int? EndPosition { get; init; }
 
-		[Display(Name = "Search by beats")]
+		[Display(Name = "Beats count")]
 		public int? BeatsCount { get; init; }
 
-		[Display(Name = "Search by dynamics type")]
+		[Display(Name = "Dynamics type")]
 		public DynamicsType? DynamicsType { get; init; }
 
 		public IEnumerable<PositionForPreviewViewModel> Positions { get; set; } = new List<PositionForPreviewViewModel>();
