@@ -14,6 +14,8 @@
 
 		public bool IsFavourite { get; set; }
 
+		public bool CanBeShared { get; set; }
+
 		public int FigureOptionsCount { get; set; }
 
 		public bool FigureUsedInChoreographies { get; set; }

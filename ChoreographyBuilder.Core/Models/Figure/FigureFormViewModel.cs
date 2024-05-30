@@ -24,5 +24,9 @@ namespace ChoreographyBuilder.Core.Models.Figure
 		[Required(ErrorMessage = RequiredErrorMessage)]
 		[DisplayName("Favourite Figure")]
 		public bool IsFavourite { get; set; } = false;
+
+		[Required(ErrorMessage = RequiredErrorMessage)]
+		[DisplayName("Share Figure With Other Users")]
+		public bool CanBeShared { get; set; } = false;
 	}
 }
