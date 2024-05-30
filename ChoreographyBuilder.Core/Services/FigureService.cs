@@ -118,6 +118,17 @@ namespace ChoreographyBuilder.Core.Services
 			return true;
 		}
 
+		public async Task<bool> FigureExistAndCanBeCopiedByIdAsync(int figureId)
+		{
+			var figure = await repository.GetByIdAsync<Figure>(figureId);
+			if (figure == null)
+			{
+				return false;
+			}
+
+			return figure.CanBeShared;
+		}
+
 		public async Task<bool> IsFigureUsedInChoreographiesAsync(int figureId)
 		{
 			Figure? figure = await repository.AllAsReadOnly<Figure>()
@@ -165,6 +176,7 @@ namespace ChoreographyBuilder.Core.Services
 			figure.Name = model.Name;
 			figure.IsFavourite = model.IsFavourite;
 			figure.IsHighlight = model.IsHighlight;
+			figure.CanBeShared = model.CanBeShared;
 
 			await repository.SaveChangesAsync();
 		}

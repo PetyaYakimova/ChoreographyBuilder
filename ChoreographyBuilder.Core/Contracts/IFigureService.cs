@@ -56,6 +56,14 @@ namespace ChoreographyBuilder.Core.Contracts
 		Task<bool> FigureExistForThisUserByIdAsync(int figureId, string userId);
 
 		/// <summary>
+		/// Returns true if the figure exists and can be shared.
+		/// Returns false if the figure doesn't exist at all, or if it cannot be shared.
+		/// </summary>
+		/// <param name="figureId">Id of the figure</param>
+		/// <returns></returns>
+		Task<bool> FigureExistAndCanBeCopiedByIdAsync(int figureId);
+
+		/// <summary>
 		/// Returns true if there is at least one verse choreography that uses a figure option of this figure. 
 		/// Returns false if the figure is not used for any verse choreography. 
 		/// Throws an exception if there is no such figure with this id.
