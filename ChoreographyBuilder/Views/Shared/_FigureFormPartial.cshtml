@@ -20,6 +20,12 @@
 				<span asp-validation-for="@Model.IsHighlight" class="text-danger"></span>
 			</div>
 			<br />
+			<div class="form-check">
+				<input asp-for="@Model.CanBeShared" type="checkbox"></input>
+				<label asp-for="@Model.CanBeShared"> </label>
+				<span asp-validation-for="@Model.CanBeShared" class="text-danger"></span>
+			</div>
+			<br />
 			<div class="mb-3">
 				<input class="btn btn-warning mb-2 w-100 p-3 fw-bold" type="submit" value="Save" />
 			</div>
