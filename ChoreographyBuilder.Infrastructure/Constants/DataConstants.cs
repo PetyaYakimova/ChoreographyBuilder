@@ -12,15 +12,15 @@
 		public const int PositionNameMaxLength = 70;
 
 		public const int FigureNameMinLength = 5;
-		public const int FigureNameMaxLength = 30;
+		public const int FigureNameMaxLength = 70;
 
 		public const int FigureOptionBeatsCountMin = 2;
 		public const int FigureOptionBeatsCountMax = 120;
 
 		public const int VerseChoreographyNameMinLength = 5;
-		public const int VerseChoreographyNameMaxLength = 50;
+		public const int VerseChoreographyNameMaxLength = 70;
 
 		public const int FullChoreographyNameMinLength = 5;
-		public const int FullChoreographyNameMaxLength = 50;
+		public const int FullChoreographyNameMaxLength = 70;
 	}
 }
