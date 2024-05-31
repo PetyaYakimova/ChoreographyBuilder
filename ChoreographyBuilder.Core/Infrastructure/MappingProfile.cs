@@ -44,6 +44,10 @@ namespace ChoreographyBuilder.Core.Infrastructure
 
 			CreateMap<Figure, FigureForPreviewViewModel>();
 
+			CreateMap<Figure, FigureForCopyViewModel>()
+				.ForMember(d => d.FigureOptionsCount, act => act.MapFrom(src => src.FigureOptions.Count()))
+				.ForMember(d => d.UserEmailAddress, act => act.MapFrom(src => src.User.Email));
+
 			//Figure option models
 			CreateMap<FigureOption, FigureOptionTableViewModel>()
 				.ForMember(d => d.StartPositionName, act => act.MapFrom(src => src.StartPosition.Name))
