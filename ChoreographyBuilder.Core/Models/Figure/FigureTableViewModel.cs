@@ -19,5 +19,7 @@
 		public int FigureOptionsCount { get; set; }
 
 		public bool FigureUsedInChoreographies { get; set; }
+
+		public string UserEmailAddress { get; set; } = string.Empty;
 	}
 }

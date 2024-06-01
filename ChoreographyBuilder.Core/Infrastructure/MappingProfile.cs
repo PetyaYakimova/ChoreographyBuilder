@@ -37,7 +37,8 @@ namespace ChoreographyBuilder.Core.Infrastructure
 			//Figure models
 			CreateMap<Figure, FigureTableViewModel>()
 				.ForMember(d => d.FigureOptionsCount, act => act.MapFrom(src => src.FigureOptions.Count()))
-				.ForMember(d => d.FigureUsedInChoreographies, act => act.MapFrom(src => src.FigureOptions.Any(fo => fo.VerseChoreographyFigures.Any())));
+				.ForMember(d => d.FigureUsedInChoreographies, act => act.MapFrom(src => src.FigureOptions.Any(fo => fo.VerseChoreographyFigures.Any())))
+				.ForMember(d => d.UserEmailAddress, act => act.MapFrom(src => src.User.Email));
 
 			CreateMap<Figure, FigureFormViewModel>();
 			CreateMap<FigureFormViewModel, Figure>();
