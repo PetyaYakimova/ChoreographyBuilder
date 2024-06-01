@@ -30,14 +30,22 @@ namespace ChoreographyBuilder.Core.Contracts
 		Task<FigureForPreviewViewModel> GetFigureForDeleteAsync(int id);
 
 		/// <summary>
-		/// Gets the figures for the user by the selected search criteria and returns only those of them that should be displayed on the given page.
+		/// Returns the figure for copy model of a figure with the selected id. 
+		/// Throws an exception if there is no such figure with this id.
+		/// </summary>
+		/// <param name="id">Id of the figure</param>
+		/// <returns></returns>
+		Task<FigureForCopyViewModel> GetFigureForCopyAsync(int id);
+
+		/// <summary>
+		/// Gets the figures for the user (his own figure or the shared figures from other users) by the selected search criteria and returns only those of them that should be displayed on the given page.
 		/// </summary>
 		/// <param name="userId">Id of the user</param>
 		/// <param name="searchTerm"></param>
 		/// <param name="currentPage"></param>
 		/// <param name="itemsPerPage"></param>
 		/// <returns></returns>
-		Task<FigureQueryServiceModel> AllUserFiguresAsync(string userId, string? searchTerm = null, int currentPage = 1, int itemsPerPage = DefaultNumberOfItemsPerPage);
+		Task<FigureQueryServiceModel> AllUserFiguresAsync(string userId, bool sharedFigures = false, string? searchTerm = null, int currentPage = 1, int itemsPerPage = DefaultNumberOfItemsPerPage);
 
 		/// <summary>
 		/// Returns a collection with all the highlight figures for the user.
@@ -80,6 +88,15 @@ namespace ChoreographyBuilder.Core.Contracts
 		/// <param name="userId">Id of the user</param>
 		/// <returns></returns>
 		Task<int> AddFigureAsync(FigureFormViewModel model, string userId);
+
+		/// <summary>
+		/// Copies the figure with the given id with all its options for the given user.
+		/// Throws an exception if the figure or the user with the given id doesn't exist.
+		/// </summary>
+		/// <param name="figureId">Id of the existing figure</param>
+		/// <param name="userId">Id of the user</param>
+		/// <returns></returns>
+		Task<int> CopyFigureForUserAsync(int figureId, string userId);
 
 		/// <summary>
 		/// Edits the figure with the given id with the updated data from the model.

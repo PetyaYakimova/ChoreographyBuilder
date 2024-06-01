@@ -63,10 +63,37 @@ namespace ChoreographyBuilder.Core.Services
 			return mapper.Map<FigureForPreviewViewModel>(figure);
 		}
 
-		public async Task<FigureQueryServiceModel> AllUserFiguresAsync(string userId, string? searchTerm = null, int currentPage = 1, int itemsPerPage = DefaultNumberOfItemsPerPage)
+		public async Task<FigureForCopyViewModel> GetFigureForCopyAsync(int id)
 		{
-			var figuresToShow = repository.AllAsReadOnly<Figure>()
-				.Where(f => f.UserId == userId);
+			var figure = await repository.AllAsReadOnly<Figure>()
+				.Include(f => f.FigureOptions)
+				.Include(f => f.User)
+				.FirstOrDefaultAsync(f => f.Id == id);
+
+			if (figure == null)
+			{
+				logger.LogError(EntityWithIdWasNotFoundLoggerErrorMessage, nameof(Figure), id);
+				throw new EntityNotFoundException();
+			}
+
+			return mapper.Map<FigureForCopyViewModel>(figure);
+		}
+
+		public async Task<FigureQueryServiceModel> AllUserFiguresAsync(string userId, bool sharedFigures = false, string? searchTerm = null, int currentPage = 1, int itemsPerPage = DefaultNumberOfItemsPerPage)
+		{
+			var figuresToShow = repository.AllAsReadOnly<Figure>();
+
+			if (sharedFigures)
+			{
+				figuresToShow = figuresToShow
+					.Where(f => f.UserId != userId)
+					.Where(f => f.CanBeShared);
+			}
+			else
+			{
+				figuresToShow = figuresToShow
+					.Where(f => f.UserId == userId);
+			}
 
 			if (searchTerm != null)
 			{
@@ -78,6 +105,7 @@ namespace ChoreographyBuilder.Core.Services
 			var figures = await figuresToShow
 				.Include(f => f.FigureOptions)
 				.ThenInclude(fo => fo.VerseChoreographyFigures)
+				.Include(f => f.User)
 				.OrderBy(f => f.Id)
 				.Skip((currentPage - 1) * itemsPerPage)
 				.Take(itemsPerPage)
@@ -161,6 +189,57 @@ namespace ChoreographyBuilder.Core.Services
 			await repository.SaveChangesAsync();
 
 			return entity.Id;
+		}
+
+		public async Task<int> CopyFigureForUserAsync(int figureId, string userId)
+		{
+			if (await repository.GetByIdAsync<IdentityUser>(userId) == null)
+			{
+				logger.LogError(EntityWithIdWasNotFoundLoggerErrorMessage, nameof(IdentityUser), userId);
+				throw new EntityNotFoundException();
+			}
+
+			Figure? existingFigure = await repository.AllAsReadOnly<Figure>()
+				.Include(f => f.FigureOptions)
+				.FirstOrDefaultAsync(f => f.Id == figureId);
+
+			if (existingFigure == null)
+			{
+				logger.LogError(EntityWithIdWasNotFoundLoggerErrorMessage, nameof(Figure), figureId);
+				throw new EntityNotFoundException();
+			}
+
+			Figure newFigure = new Figure()
+			{
+				Name = existingFigure.Name + " - Copied",
+				IsFavourite = existingFigure.IsFavourite,
+				IsHighlight = existingFigure.IsHighlight,
+				CanBeShared = existingFigure.CanBeShared,
+				UserId = userId
+			};
+
+			await repository.AddAsync(newFigure);
+
+			if (existingFigure.FigureOptions.Any())
+			{
+				foreach (FigureOption fo in existingFigure.FigureOptions)
+				{
+					FigureOption newOption = new FigureOption()
+					{
+						Figure = newFigure,
+						DynamicsType = fo.DynamicsType,
+						BeatCounts = fo.BeatCounts,
+						EndPositionId = fo.EndPositionId,
+						StartPositionId = fo.StartPositionId
+					};
+
+					await repository.AddAsync(newOption);
+				}
+			}
+
+			await repository.SaveChangesAsync();
+
+			return newFigure.Id;
 		}
 
 		public async Task EditFigureAsync(int figureId, FigureFormViewModel model)
