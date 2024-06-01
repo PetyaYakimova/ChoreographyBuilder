@@ -5,7 +5,7 @@ using System.Security.Claims;
 
 namespace ChoreographyBuilder.Attributes
 {
-	public class FigureExistsAndCanBeCopiedAttribute : ActionFilterAttribute
+	public class FigureExistsForThisUserOrIsSharedAttribute : ActionFilterAttribute
 	{
 		public override void OnActionExecuting(ActionExecutingContext context)
 		{
@@ -31,7 +31,7 @@ namespace ChoreographyBuilder.Attributes
 				if (int.TryParse(value.ToString(), out id))
 				{
 					if (service != null &&
-						(service.FigureExistForThisUserByIdAsync(id, context.HttpContext.User.Id()).Result == false ||
+						(service.FigureExistForThisUserByIdAsync(id, context.HttpContext.User.Id()).Result == false &&
 						service.FigureExistAndCanBeCopiedByIdAsync(id).Result == false))
 					{
 						context.Result = new StatusCodeResult(StatusCodes.Status400BadRequest);
