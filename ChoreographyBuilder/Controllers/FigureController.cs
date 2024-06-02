@@ -30,6 +30,23 @@ namespace ChoreographyBuilder.Controllers
 		{
 			var model = await figureService.AllUserFiguresAsync(
 				User.Id(),
+				false,
+				query.SearchTerm,
+				query.CurrentPage,
+				query.ItemsPerPage);
+
+			query.TotalItemCount = model.TotalCount;
+			query.Entities = model.Entities;
+
+			return View(query);
+		}
+
+		[HttpGet]
+		public async Task<IActionResult> Shared([FromQuery] AllFiguresQueryModel query)
+		{
+			var model = await figureService.AllUserFiguresAsync(
+				User.Id(),
+				true,
 				query.SearchTerm,
 				query.CurrentPage,
 				query.ItemsPerPage);
@@ -61,6 +78,26 @@ namespace ChoreographyBuilder.Controllers
             TempData[UserMessageSuccess] = string.Format(ItemAddedSuccessMessage, FigureAsString);
 
             return RedirectToAction(nameof(Options), new { Id = figureId });
+		}
+
+		[HttpGet]
+		[FigureExistsForThisUserOrIsShared]
+		public async Task<IActionResult> Copy(int id)
+		{
+			var model = await figureService.GetFigureForCopyAsync(id);
+
+			return View(model);
+		}
+
+		[HttpPost]
+		[FigureExistsForThisUserOrIsShared]
+		public async Task<IActionResult> Copy(FigureForCopyViewModel model)
+		{
+			await figureService.CopyFigureForUserAsync(model.Id, User.Id());
+
+			TempData[UserMessageSuccess] = string.Format(ItemAddedSuccessMessage, FigureAsString);
+
+			return RedirectToAction(nameof(Mine));
 		}
 
 		[HttpGet]
@@ -113,6 +150,29 @@ namespace ChoreographyBuilder.Controllers
 		[HttpGet]
 		[FigureExistsForThisUser]
 		public async Task<IActionResult> Options(int id, [FromQuery] AllFigureOptionsQueryModel query)
+		{
+			var model = await figureOptionService.GetFigureOptionsAsync(
+				id,
+				query.StartPosition,
+				query.EndPosition,
+				query.BeatsCount,
+				query.DynamicsType,
+				query.CurrentPage,
+				query.ItemsPerPage);
+
+			query.TotalItemCount = model.TotalCount;
+			query.Entities = model.Entities;
+			query.FigureId = model.FigureId;
+			query.FigureName = model.FigureName;
+			query.Positions = await GetAllActivePositionsAndSelectedPositionAsync();
+			query.DynamicsTypes = GetAllDynamicsTypes();
+
+			return View(query);
+		}
+
+		[HttpGet]
+		[FigureExistsForThisUserOrIsShared]
+		public async Task<IActionResult> PreviewOptions(int id, [FromQuery] AllFigureOptionsQueryModel query)
 		{
 			var model = await figureOptionService.GetFigureOptionsAsync(
 				id,
