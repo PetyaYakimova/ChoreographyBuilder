@@ -1,0 +1,28 @@
+﻿@model FigureForCopyViewModel
+
+@{
+	ViewBag.Title = @Model.Name + " - Copy";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+<p class="text-info mb-4 text-center fw-bold">You are about to copy "@Model.Name" figure with @Model.FigureOptionsCount options from user @Model.UserEmailAddress. Are you sure?</p>
+<div class="row">
+	<div class="row justify-content-center">
+		<div class="col-md-2">
+			<form asp-action="Mine" method="get">
+				<input type="submit" value="Cancel" class="btn btn-warning mb-2 w-100 p-3 fw-bold" />
+			</form>
+		</div>
+		<div class="col-md-2">
+			<form asp-action="Copy" method="post">
+				<input type="hidden" asp-for="@Model.Id" />
+				<input type="hidden" asp-for="@Model.Name" />
+				<input type="hidden" asp-for="@Model.FigureOptionsCount" />
+				<input type="hidden" asp-for="@Model.UserEmailAddress" />
+				<input type="submit" value="Copy" class="btn btn-info mb-2 w-100 p-3 fw-bold" />
+			</form>
+		</div>
+	</div>
+</div>
