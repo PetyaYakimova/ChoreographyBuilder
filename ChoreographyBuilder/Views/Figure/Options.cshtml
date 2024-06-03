@@ -82,7 +82,25 @@ else
 			<tbody>
 				@foreach (var option in Model.Entities)
 				{
-					<partial name="_FigureOptionTablePartial" model="@option" />
+					<tr>
+						<partial name="_FigureOptionTablePartial" model="@option" />
+						<td>
+							@if (!option.UsedInChoreographies)
+							{
+								<form method="get">
+									<input type="submit" asp-action="EditOption" asp-route-id="@option.Id" value="Edit" class="link-warning custominputlink" />
+								</form>
+							}
+						</td>
+						<td>
+							@if (!option.UsedInChoreographies)
+							{
+								<form method="get">
+									<input type="submit" asp-action="DeleteOption" asp-route-id="@option.Id" value="Delete" class="link-danger custominputlink" />
+								</form>
+							}
+						</td>
+					</tr>
 				}
 			</tbody>
 		</table>
