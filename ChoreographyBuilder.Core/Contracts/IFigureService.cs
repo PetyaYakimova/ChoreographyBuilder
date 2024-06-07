@@ -1,4 +1,5 @@
 ﻿using ChoreographyBuilder.Core.Models.Figure;
+using ChoreographyBuilder.Infrastructure.Data.Models.Enums;
 using static ChoreographyBuilder.Core.Constants.LimitConstants;
 
 namespace ChoreographyBuilder.Core.Contracts
@@ -45,7 +46,7 @@ namespace ChoreographyBuilder.Core.Contracts
 		/// <param name="currentPage"></param>
 		/// <param name="itemsPerPage"></param>
 		/// <returns></returns>
-		Task<FigureQueryServiceModel> AllUserFiguresAsync(string userId, bool sharedFigures = false, string? searchTerm = null, int currentPage = 1, int itemsPerPage = DefaultNumberOfItemsPerPage);
+		Task<FigureQueryServiceModel> AllUserFiguresAsync(string userId, bool sharedFigures = false, string? searchTerm = null, int? searchedStartPositionId = null, int? searchedEndPositionId = null, int? searchedBeatsCount = null, DynamicsType? searchedDynamicsType = null, int currentPage = 1, int itemsPerPage = DefaultNumberOfItemsPerPage);
 
 		/// <summary>
 		/// Returns a collection with all the highlight figures for the user.
