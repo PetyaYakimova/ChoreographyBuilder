@@ -4,6 +4,7 @@ using ChoreographyBuilder.Core.Exceptions;
 using ChoreographyBuilder.Core.Models.Figure;
 using ChoreographyBuilder.Infrastructure.Data.Common;
 using ChoreographyBuilder.Infrastructure.Data.Models;
+using ChoreographyBuilder.Infrastructure.Data.Models.Enums;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -79,7 +80,7 @@ namespace ChoreographyBuilder.Core.Services
 			return mapper.Map<FigureForCopyViewModel>(figure);
 		}
 
-		public async Task<FigureQueryServiceModel> AllUserFiguresAsync(string userId, bool sharedFigures = false, string? searchTerm = null, int currentPage = 1, int itemsPerPage = DefaultNumberOfItemsPerPage)
+		public async Task<FigureQueryServiceModel> AllUserFiguresAsync(string userId, bool sharedFigures = false, string? searchTerm = null, int? searchedStartPositionId = null, int? searchedEndPositionId = null, int? searchedBeatsCount = null, DynamicsType? searchedDynamicsType = null, int currentPage = 1, int itemsPerPage = DefaultNumberOfItemsPerPage)
 		{
 			var figuresToShow = repository.AllAsReadOnly<Figure>();
 
@@ -100,6 +101,30 @@ namespace ChoreographyBuilder.Core.Services
 				string normalizedSearchTerm = searchTerm.ToLower();
 				figuresToShow = figuresToShow
 					.Where(f => f.Name.ToLower().Contains(normalizedSearchTerm));
+			}
+
+			if (searchedStartPositionId != null)
+			{
+				figuresToShow = figuresToShow
+					.Where(f => f.FigureOptions.Any(o => o.StartPositionId == searchedStartPositionId));
+			}
+
+			if (searchedEndPositionId != null)
+			{
+				figuresToShow = figuresToShow
+					.Where(f => f.FigureOptions.Any(o => o.EndPositionId == searchedEndPositionId));
+			}
+
+			if (searchedBeatsCount != null)
+			{
+				figuresToShow = figuresToShow
+					.Where(f => f.FigureOptions.Any(o => o.BeatCounts == searchedBeatsCount));
+			}
+
+			if (searchedDynamicsType != null)
+			{
+				figuresToShow = figuresToShow
+					.Where(f => f.FigureOptions.Any(o => o.DynamicsType == searchedDynamicsType));
 			}
 
 			var figures = await figuresToShow
