@@ -93,7 +93,7 @@ namespace ChoreographyBuilder.Tests.UnitTests
 		[Test]
 		public async Task AllUserFigures_ShouldReturnOnlySomeFiguresWhenThereIsSearchCriteria()
 		{
-			var result = await figureService.AllUserFiguresAsync(FirstUser.Id, "Second");
+			var result = await figureService.AllUserFiguresAsync(FirstUser.Id, false, "Second");
 
 			Assert.Multiple(() =>
 			{
