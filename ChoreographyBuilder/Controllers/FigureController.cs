@@ -12,7 +12,7 @@ namespace ChoreographyBuilder.Controllers
 {
 	public class FigureController : BaseController
 	{
-        private readonly ILogger<FigureController> logger;
+		private readonly ILogger<FigureController> logger;
 		private readonly IFigureService figureService;
 		private readonly IFigureOptionService figureOptionService;
 		private readonly IPositionService positionService;
@@ -32,11 +32,17 @@ namespace ChoreographyBuilder.Controllers
 				User.Id(),
 				false,
 				query.SearchTerm,
+				query.StartPosition,
+				query.EndPosition,
+				query.BeatsCount,
+				query.DynamicsType,
 				query.CurrentPage,
 				query.ItemsPerPage);
 
 			query.TotalItemCount = model.TotalCount;
 			query.Entities = model.Entities;
+			query.Positions = await GetAllActivePositionsAndSelectedPositionAsync();
+			query.DynamicsTypes = GetAllDynamicsTypes();
 
 			return View(query);
 		}
@@ -48,11 +54,17 @@ namespace ChoreographyBuilder.Controllers
 				User.Id(),
 				true,
 				query.SearchTerm,
+				query.StartPosition,
+				query.EndPosition,
+				query.BeatsCount,
+				query.DynamicsType,
 				query.CurrentPage,
 				query.ItemsPerPage);
 
 			query.TotalItemCount = model.TotalCount;
 			query.Entities = model.Entities;
+			query.Positions = await GetAllActivePositionsAndSelectedPositionAsync();
+			query.DynamicsTypes = GetAllDynamicsTypes();
 
 			return View(query);
 		}
@@ -75,9 +87,9 @@ namespace ChoreographyBuilder.Controllers
 
 			int figureId = await figureService.AddFigureAsync(model, User.Id());
 
-            TempData[UserMessageSuccess] = string.Format(ItemAddedSuccessMessage, FigureAsString);
+			TempData[UserMessageSuccess] = string.Format(ItemAddedSuccessMessage, FigureAsString);
 
-            return RedirectToAction(nameof(Options), new { Id = figureId });
+			return RedirectToAction(nameof(Options), new { Id = figureId });
 		}
 
 		[HttpGet]
@@ -120,9 +132,9 @@ namespace ChoreographyBuilder.Controllers
 
 			await figureService.EditFigureAsync(id, model);
 
-            TempData[UserMessageSuccess] = string.Format(ItemUpdatedSuccessMessage, FigureAsString);
+			TempData[UserMessageSuccess] = string.Format(ItemUpdatedSuccessMessage, FigureAsString);
 
-            return RedirectToAction(nameof(Mine));
+			return RedirectToAction(nameof(Mine));
 		}
 
 		[HttpGet]
@@ -144,7 +156,7 @@ namespace ChoreographyBuilder.Controllers
 
 			TempData[UserMessageSuccess] = string.Format(ItemDeletedSuccessMessage, FigureAsString);
 
-            return RedirectToAction(nameof(Mine));
+			return RedirectToAction(nameof(Mine));
 		}
 
 		[HttpGet]
@@ -245,9 +257,9 @@ namespace ChoreographyBuilder.Controllers
 
 			await figureOptionService.AddFigureOptionAsync(model);
 
-            TempData[UserMessageSuccess] = string.Format(ItemAddedSuccessMessage, FigureOptionAsString);
+			TempData[UserMessageSuccess] = string.Format(ItemAddedSuccessMessage, FigureOptionAsString);
 
-            return RedirectToAction(nameof(Options), new { Id = id });
+			return RedirectToAction(nameof(Options), new { Id = id });
 		}
 
 		[HttpGet]
@@ -311,9 +323,9 @@ namespace ChoreographyBuilder.Controllers
 
 			await figureOptionService.EditFigureOptionAsync(id, model);
 
-            TempData[UserMessageSuccess] = string.Format(ItemUpdatedSuccessMessage, FigureOptionAsString);
+			TempData[UserMessageSuccess] = string.Format(ItemUpdatedSuccessMessage, FigureOptionAsString);
 
-            return RedirectToAction(nameof(Options), new { Id = option.FigureId });
+			return RedirectToAction(nameof(Options), new { Id = option.FigureId });
 		}
 
 		[HttpGet]
@@ -333,9 +345,9 @@ namespace ChoreographyBuilder.Controllers
 		{
 			await figureOptionService.DeleteFigureOptionAsync(model.Id);
 
-            TempData[UserMessageSuccess] = string.Format(ItemDeletedSuccessMessage, FigureOptionAsString);
+			TempData[UserMessageSuccess] = string.Format(ItemDeletedSuccessMessage, FigureOptionAsString);
 
-            return RedirectToAction(nameof(Options), new { Id = model.FigureId });
+			return RedirectToAction(nameof(Options), new { Id = model.FigureId });
 		}
 
 		private async Task<IEnumerable<PositionForPreviewViewModel>> GetAllActivePositionsAndSelectedPositionAsync(int? currentPositionId = null)
