@@ -10,7 +10,7 @@
 <div class="row">
 	<div class="form-group col-md-6 d-flex">
 		<label asp-for="MyTotalNumberOfFigures" class="fw-bold me-2"></label>
-		<p>@Model.MyTotalNumberOfFigures</p>
+		<p class="mb-0">@Model.MyTotalNumberOfFigures</p>
 	</div>
 	<form method="get" class="col-md-6 d-flex">
 		<input type="submit" asp-controller="Figure" asp-action="Mine" value="See all" class="link-warning custominputlink" />
@@ -21,7 +21,7 @@
 <div class="row">
 	<div class="form-group col-md-6 d-flex">
 		<label asp-for="MyTotalNumberOfVerseChoreographies" class="fw-bold me-2"></label>
-		<p>@Model.MyTotalNumberOfVerseChoreographies</p>
+		<p class="mb-0">@Model.MyTotalNumberOfVerseChoreographies</p>
 	</div>
 	<form method="get" class="col-md-6 d-flex">
 		<input type="submit" asp-controller="VerseChoreography" asp-action="Mine" value="See all" class="link-warning custominputlink" />
@@ -32,7 +32,7 @@
 <div class="row">
 	<div class="form-group col-md-6 d-flex">
 		<label asp-for="MyTotalNumberOfFullChoreographies" class="fw-bold me-2"></label>
-		<p>@Model.MyTotalNumberOfFullChoreographies</p>
+		<p class="mb-0">@Model.MyTotalNumberOfFullChoreographies</p>
 	</div>
 	<form method="get" class="col-md-6 d-flex">
 		<input type="submit" asp-controller="FullChoreography" asp-action="Mine" value="See all" class="link-warning custominputlink" />
