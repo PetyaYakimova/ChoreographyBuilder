@@ -31,9 +31,11 @@
 			<tbody>
 				@for (int i = 0; i < Model.Figures.Count; i++)
 				{
-					<input type="hidden" asp-for="@Model.Figures[i].FigureOptionId" />
-					<input type="hidden" asp-for="@Model.Figures[i].FigureOrder" />
-					<partial name="_VerseChoreographyFigureTablePartial" model="@Model.Figures[i]" />
+					<tr>
+						<input type="hidden" asp-for="@Model.Figures[i].FigureOptionId" />
+						<input type="hidden" asp-for="@Model.Figures[i].FigureOrder" />
+						<partial name="_VerseChoreographyFigureTablePartial" model="@Model.Figures[i]" />
+					</tr>
 				}
 			</tbody>
 		</table>
