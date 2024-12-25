@@ -28,4 +28,11 @@
     <ProjectReference Include="..\ChoreographyBuilder.Core\ChoreographyBuilder.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="Views\VerseChoreography\Add.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>
