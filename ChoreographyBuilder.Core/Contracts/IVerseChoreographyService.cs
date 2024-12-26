@@ -64,6 +64,15 @@ namespace ChoreographyBuilder.Core.Contracts
 
 		/// <summary>
 		/// Adds a new verse choreography for the user with data from the model.
+		/// Throws an exception if a user with the given id doesn't exist.
+		/// </summary>
+		/// <param name="model">FullChoreographyFormViewModel model</param>
+		/// <param name="userId">Id of the user</param>
+		/// <returns></returns>
+		Task<int> AddVerseChoreographyAsync(VerseChoreographyFormViewModel model, string userId);
+
+		/// <summary>
+		/// Adds a new verse choreography for the user with data from the model.
 		/// Throws an exception if user with the given id doesn't exist.
 		/// Throws an exception if the verse type or any of the figure options ids in the model are not valid.
 		/// </summary>
