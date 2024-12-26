@@ -199,6 +199,24 @@ namespace ChoreographyBuilder.Core.Services
 			return choreography.FullChoreographies.Any();
 		}
 
+		public async Task<int> AddVerseChoreographyAsync(VerseChoreographyFormViewModel model, string userId)
+		{
+			if (await repository.GetByIdAsync<IdentityUser>(userId) == null)
+			{
+				logger.LogError(EntityWithIdWasNotFoundLoggerErrorMessage, nameof(IdentityUser), userId);
+				throw new EntityNotFoundException();
+			}
+
+			VerseChoreography entity = mapper.Map<VerseChoreography>(model);
+			entity.UserId = userId;
+
+			await repository.AddAsync(entity);
+
+			await repository.SaveChangesAsync();
+
+			return entity.Id;
+		}
+
 		public async Task SaveVerseChoreographyAsync(VerseChoreographySaveViewModel model, string userId)
 		{
 			if (await repository.GetByIdAsync<IdentityUser>(userId) == null)
