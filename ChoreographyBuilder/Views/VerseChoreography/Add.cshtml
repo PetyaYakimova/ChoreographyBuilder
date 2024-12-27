@@ -1,34 +1,11 @@
 ﻿@model VerseChoreographyFormViewModel
 @{
-	ViewBag.Title = "Add Verse Choreography";
+	ViewBag.Title = "Create a Verse Choreography";
 }
 
 <h2 class="text-center">@ViewBag.Title</h2>
 <hr />
-
-<form method="get">
-	<div class="row justify-content-between">
-		<div class="form-group col-md-3 d-flex justify-content-between">
-			<div class="form-group">
-				<label asp-for="VerseTypeId" class="fw-bold"></label>
-				<select asp-for="VerseTypeId" class="form-control">
-					@foreach (var verseType in Model.VerseTypes)
-					{
-						<option value="@verseType.Id">@verseType.Name</option>
-					}
-				</select>
-				<span asp-validation-for="VerseTypeId" class="text-danger"></span>
-			</div>
-		</div>
-	</div>
-
-	<div class="mb-3">
-		<br />
-		<input class="btn btn-warning mb-2 w-100 p-3 fw-bold" type="submit" value="Save"
-			   asp-action="Add"
-			   asp-route-verseType="@Model.VerseTypeId">
-	</div>
-</form>
+<partial name="_VerseChoreographyFormPartial" model="@Model" />
 
 @section Scripts {
 	<partial name="_ValidationScriptsPartial" />
