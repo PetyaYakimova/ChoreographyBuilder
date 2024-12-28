@@ -83,6 +83,8 @@ namespace ChoreographyBuilder.Core.Infrastructure
 
 			CreateMap<VerseChoreographySaveViewModel, VerseChoreography>();
 
+			CreateMap<VerseChoreographyFormViewModel, VerseChoreography>();
+
 			CreateMap<VerseChoreography, VerseChoreographyDeleteViewModel>()
 				.ForMember(d => d.NumberOfFigures, act => act.MapFrom(src => src.Figures.Count()));
 
