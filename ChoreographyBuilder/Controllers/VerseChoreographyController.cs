@@ -3,10 +3,10 @@ using ChoreographyBuilder.Core.Contracts;
 using ChoreographyBuilder.Core.Models.Figure;
 using ChoreographyBuilder.Core.Models.Position;
 using ChoreographyBuilder.Core.Models.VerseChoreography;
+using ChoreographyBuilder.Core.Models.VerseChoreographyFigure;
 using ChoreographyBuilder.Core.Models.VerseType;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-using ChoreographyBuilder.Core.Models.VerseChoreographyFigure;
 using static ChoreographyBuilder.Core.Constants.MessageConstants;
 
 namespace ChoreographyBuilder.Controllers
@@ -145,6 +145,21 @@ namespace ChoreographyBuilder.Controllers
 			model.VerseTypes = await GetAllActiveVerseTypesAsync();
 
 			return View(model);
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> Add(VerseChoreographyFormViewModel model)
+		{
+			if (ModelState.IsValid == false)
+			{
+				return View(model);
+			}
+
+			int verseChoreographyId = await verseChoreographyService.AddVerseChoreographyAsync(model, User.Id());
+
+			TempData[UserMessageSuccess] = String.Format(ItemAddedSuccessMessage, VerseChoreographyAsString);
+
+			return RedirectToAction(nameof(Details), new { Id = verseChoreographyId });
 		}
 
 		[HttpGet]
