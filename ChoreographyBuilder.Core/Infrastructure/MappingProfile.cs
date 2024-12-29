@@ -79,7 +79,8 @@ namespace ChoreographyBuilder.Core.Infrastructure
 				.ForMember(d => d.NumberOfFigures, act => act.MapFrom(src => src.Figures.Count()))
 				.ForMember(d => d.FinalFigureName, act => act.MapFrom(src => src.Figures.OrderByDescending(f => f.FigureOrder).Select(f => f.FigureOption.Figure.Name).FirstOrDefault()))
 				.ForMember(d => d.UsedInFullChoreographies, act => act.MapFrom(src => src.FullChoreographies.Any()))
-				.ForMember(d => d.Figures, act => act.MapFrom(src => src.Figures));
+				.ForMember(d => d.Figures, act => act.MapFrom(src => src.Figures))
+				.ForMember(d => d.HasEnoughFigures, act => act.MapFrom(src => src.Figures.Sum(f => f.FigureOption.BeatCounts) >= src.VerseType.BeatCounts));
 
 			CreateMap<VerseChoreographySaveViewModel, VerseChoreography>();
 
@@ -109,7 +110,7 @@ namespace ChoreographyBuilder.Core.Infrastructure
 				.ForMember(d => d.DynamicsType, act => act.MapFrom(src => src.FigureOption.DynamicsType.ToString()));
 
 			CreateMap<FigureOption, VerseChoreographyFigureViewModel>()
-				.ForMember(d=>d.Id, act=>act.Ignore())
+				.ForMember(d => d.Id, act => act.Ignore())
 				.ForMember(d => d.FigureOptionId, act => act.MapFrom(src => src.Id))
 				.ForMember(d => d.FigureName, act => act.MapFrom(src => src.Figure.Name))
 				.ForMember(d => d.IsFavourite, act => act.MapFrom(src => src.Figure.IsFavourite))
