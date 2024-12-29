@@ -9,5 +9,7 @@ namespace ChoreographyBuilder.Core.Models.VerseChoreography
 	public class VerseChoreographyDetailsViewModel : VerseChoreographyTableViewModel
 	{
 		public IEnumerable<VerseChoreographyFigureViewModel> Figures { get; set; } = new List<VerseChoreographyFigureViewModel>();
+
+		public bool HasEnoughFigures { get; set; }
 	}
 }
