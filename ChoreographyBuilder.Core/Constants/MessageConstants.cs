@@ -55,7 +55,11 @@ namespace ChoreographyBuilder.Core.Constants
 
 		public const string InvalidVerseChoreographyErrorMessage = "This verse choreography is not valid!";
 
-		public const string PositionAsString = "position";
+        public const string FigureOptionDoesntExistErrorMessage = "Figure option doesn't exist!";
+
+        public const string InvalidFigureOrderErrorMessage = "Figure is with invalid order!";
+
+        public const string PositionAsString = "position";
 
 		public const string VerseTypeAsString = "verse type";
 
