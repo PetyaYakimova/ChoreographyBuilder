@@ -1,73 +1,78 @@
 ﻿@model VerseChoreographyDetailsViewModel
 @{
-	ViewBag.Title = Model.Name;
+    ViewBag.Title = Model.Name;
 }
 
 <h2 class="text-center">@ViewBag.Title</h2>
 <hr />
 <div class="row mb-2">
-	<div class="form-group col-md-6 d-flex">
-		<label asp-for="VerseTypeName" class="fw-bold me-2"></label>
-		<p>@Model.VerseTypeName</p>
-	</div>
-	<div class="form-group col-md-6 d-flex">
-		<label asp-for="NumberOfFigures" class="fw-bold me-2"></label>
-		<p>@Model.NumberOfFigures</p>
-	</div>
+    <div class="form-group col-md-6 d-flex">
+        <label asp-for="VerseTypeName" class="fw-bold me-2"></label>
+        <p>@Model.VerseTypeName</p>
+    </div>
+    <div class="form-group col-md-6 d-flex">
+        <label asp-for="NumberOfFigures" class="fw-bold me-2"></label>
+        <p>@Model.NumberOfFigures</p>
+    </div>
 </div>
 
 <div class="row mb-2">
-	<div class="form-group col-md-6 d-flex">
-		<label asp-for="StartPositionName" class="fw-bold me-2"></label>
-		<p>@Model.StartPositionName</p>
-	</div>
-	<div class="form-group col-md-6 d-flex">
-		<label asp-for="EndPositionName" class="fw-bold me-2"></label>
-		<p>@Model.EndPositionName</p>
-	</div>
+    <div class="form-group col-md-6 d-flex">
+        <label asp-for="StartPositionName" class="fw-bold me-2"></label>
+        <p>@Model.StartPositionName</p>
+    </div>
+    <div class="form-group col-md-6 d-flex">
+        <label asp-for="EndPositionName" class="fw-bold me-2"></label>
+        <p>@Model.EndPositionName</p>
+    </div>
 </div>
 
 <div class="row mb-2">
-	<div class="form-group col-md-6 d-flex">
-		<label asp-for="FinalFigureName" class="fw-bold me-2"></label>
-		<p>@Model.FinalFigureName</p>
-	</div>
+    <div class="form-group col-md-6 d-flex">
+        <label asp-for="FinalFigureName" class="fw-bold me-2"></label>
+        <p>@Model.FinalFigureName</p>
+    </div>
 </div>
 
 <hr />
 
 <div class="table-responsive">
-	<table class="table darkbgwhitetext">
-		<thead>
-			<tr>
-				<th scope="col">Order</th>
-				<th scope="col">Name</th>
-				<th scope="col">Highlight</th>
-				<th scope="col">Favourite</th>
-				<th scope="col">Start position</th>
-				<th scope="col">End position</th>
-				<th scope="col">Beats count</th>
-				<th scope="col">Dynamics type</th>
-				<th></th>
-			</tr>
-		</thead>
-		<tbody>
-			@foreach (var figure in Model.Figures)
-			{
-				<tr>
-					<partial name="_VerseChoreographyFigureTablePartial" model="@figure" />
-					<td>
-						<form method="get">
-							<input type="submit" asp-action="ReplaceFigure" asp-route-id="@figure.Id" value="Replace" class="link-warning custominputlink" />
-						</form>
-					</td>
-				</tr>
-			}
-		</tbody>
-	</table>
+    <table class="table darkbgwhitetext">
+        <thead>
+            <tr>
+                <th scope="col">Order</th>
+                <th scope="col">Name</th>
+                <th scope="col">Highlight</th>
+                <th scope="col">Favourite</th>
+                <th scope="col">Start position</th>
+                <th scope="col">End position</th>
+                <th scope="col">Beats count</th>
+                <th scope="col">Dynamics type</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var figure in Model.Figures)
+            {
+                <tr>
+                    <partial name="_VerseChoreographyFigureTablePartial" model="@figure" />
+                    <td>
+                        <form method="get">
+                            <input type="submit" asp-action="ReplaceFigure" asp-route-id="@figure.Id" value="Replace" class="link-warning custominputlink" />
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>
+
+@if (!Model.HasEnoughFigures)
+{
+    <a asp-action="AddFigure" asp-route-id="@Model.Id" class="btn btn-warning mb-4 w-100 p-3 fw-bold">Add Figure</a>
+}
 
 @if (!Model.UsedInFullChoreographies)
 {
-	<a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger mb-2 w-100 p-3 fw-bold">Delete</a>
+    <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger mb-2 w-100 p-3 fw-bold">Delete</a>
 }
