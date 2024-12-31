@@ -1,10 +1,12 @@
 ﻿using ChoreographyBuilder.Attributes;
 using ChoreographyBuilder.Core.Contracts;
 using ChoreographyBuilder.Core.Models.Figure;
+using ChoreographyBuilder.Core.Models.FullChoreographyVerseChoreography;
 using ChoreographyBuilder.Core.Models.Position;
 using ChoreographyBuilder.Core.Models.VerseChoreography;
 using ChoreographyBuilder.Core.Models.VerseChoreographyFigure;
 using ChoreographyBuilder.Core.Models.VerseType;
+using ChoreographyBuilder.Core.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using static ChoreographyBuilder.Core.Constants.MessageConstants;
@@ -162,7 +164,53 @@ namespace ChoreographyBuilder.Controllers
 			return RedirectToAction(nameof(Details), new { Id = verseChoreographyId });
 		}
 
-		[HttpGet]
+        [HttpGet]
+        [VerseChoreographyExistsForThisUser]
+        public async Task<IActionResult> AddFigure(int id)
+        {
+            var model = new VerseChoreographyFigureOptionFormViewModel();
+            model.VerseChoreographyOrder = (await verseChoreographyService.GetNumberOfFiguresForVerseChoreographyAsync(id)) + 1;
+            PositionForPreviewViewModel? lastfigureEndPosition = await verseChoreographyService.GetLastFigureEndPositionAsync(id);
+            model.Figures = await GetAllUserFiguresWithStartPositionAsync(lastfigureEndPosition?.Id);
+            model.StartPositionName = lastfigureEndPosition?.Name;
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [VerseChoreographyExistsForThisUser]
+        public async Task<IActionResult> AddFigure(VerseChoreographyFigureOptionFormViewModel model, int id)
+        {
+            bool figureOptionExists = await figureOptionService.FigureOptionExistForThisUserByIdAsync(model.FigureOptionId, User.Id());
+            if (!figureOptionExists)
+            {
+                ModelState.AddModelError(nameof(model.FigureOptionId), FigureOptionDoesntExistErrorMessage);
+            }
+
+            int nextAvailableOrder = (await verseChoreographyService.GetNumberOfFiguresForVerseChoreographyAsync(id)) + 1;
+
+            if (nextAvailableOrder != model.FigureOrder)
+            {
+                ModelState.AddModelError(nameof(model.FigureOrder), InvalidFigureOrderErrorMessage);
+            }
+
+            if (ModelState.IsValid == false)
+            {
+                model.VerseChoreographyOrder = nextAvailableOrder;
+                PositionForPreviewViewModel? lastVerseChoreographyEndPosition = await fullChoreographyService.GetLastVerseChoreographyEndPositionAsync(id);
+                model.VerseChoreographies = await GetAllUserVerseChoreographiesWithStartPositionAsync(lastVerseChoreographyEndPosition?.Id);
+                model.StartPositionName = lastVerseChoreographyEndPosition?.Name;
+                return View(model);
+            }
+
+            await fullChoreographyVerseChoreographyService.AddVerseChoreographyToFullChoreographyAsync(id, model);
+
+            TempData[UserMessageSuccess] = String.Format(ItemAddedSuccessMessage, VerseChoreographyAsString);
+
+            return RedirectToAction(nameof(Details), new { Id = id });
+        }
+
+        [HttpGet]
 		[VerseChoreographyFigureExistsForThisUser]
 		public async Task<IActionResult> ReplaceFigure(int id)
 		{
