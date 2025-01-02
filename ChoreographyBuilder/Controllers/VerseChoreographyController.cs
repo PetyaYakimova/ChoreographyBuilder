@@ -169,7 +169,7 @@ namespace ChoreographyBuilder.Controllers
         public async Task<IActionResult> AddFigure(int id)
         {
             var model = new VerseChoreographyFigureOptionFormViewModel();
-            model.VerseChoreographyOrder = (await verseChoreographyService.GetNumberOfFiguresForVerseChoreographyAsync(id)) + 1;
+            model.FigureOrder = (await verseChoreographyService.GetNumberOfFiguresForVerseChoreographyAsync(id)) + 1;
             PositionForPreviewViewModel? lastfigureEndPosition = await verseChoreographyService.GetLastFigureEndPositionAsync(id);
             model.Figures = await GetAllUserFiguresWithStartPositionAsync(lastfigureEndPosition?.Id);
             model.StartPositionName = lastfigureEndPosition?.Name;
