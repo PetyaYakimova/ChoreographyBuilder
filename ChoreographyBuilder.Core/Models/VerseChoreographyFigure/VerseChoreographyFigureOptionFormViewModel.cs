@@ -22,6 +22,6 @@ namespace ChoreographyBuilder.Core.Models.VerseChoreographyFigure
         public string? StartPositionName { get; set; }
 
         //TODO: Change it with model that has the figure name in it as well
-        public IEnumerable<FigureOptionTableViewModel> Figures { get; set; } = new List<FigureOptionTableViewModel>();
+        public IEnumerable<FigureOptionWithFigureViewModel> Figures { get; set; } = new List<FigureOptionWithFigureViewModel>();
     }
 }
