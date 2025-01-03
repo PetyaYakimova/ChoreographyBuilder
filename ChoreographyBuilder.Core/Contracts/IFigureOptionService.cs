@@ -1,4 +1,5 @@
 ﻿using ChoreographyBuilder.Core.Models.FigureOption;
+using ChoreographyBuilder.Core.Models.VerseChoreography;
 using ChoreographyBuilder.Infrastructure.Data.Models.Enums;
 using static ChoreographyBuilder.Core.Constants.LimitConstants;
 
@@ -54,15 +55,24 @@ namespace ChoreographyBuilder.Core.Contracts
 		/// <returns></returns>
 		Task<bool> IsFigureOptionUsedInChoreographiesAsync(int optionId);
 
-		/// <summary>
-		/// Adds a new figure option with data from the model.
-		/// Throws an exception if figure with the given id in the model doesn't exist.
-		/// Throws an exception if the given in the model start position, end position are not valid.
-		/// Throws an exception if the given in the model beats count is not an even number.
-		/// </summary>
-		/// <param name="model">FigureOptionFormViewModel model</param>
-		/// <returns></returns>
-		Task AddFigureOptionAsync(FigureOptionFormViewModel model);
+        /// <summary>
+        /// Returns a collection with all the figure options for the user that start with a certain start position.
+        /// </summary>
+        /// <param name="userId">Id of the user</param>
+        /// <param name="startPositionId">Id of the start position</param>
+        /// <returns></returns>
+        Task<IEnumerable<FigureOptionWithFigureViewModel>> AllUserFiguresStartingWithPositionAsync(string userId, int? startPositionId = null);
+
+
+        /// <summary>
+        /// Adds a new figure option with data from the model.
+        /// Throws an exception if figure with the given id in the model doesn't exist.
+        /// Throws an exception if the given in the model start position, end position are not valid.
+        /// Throws an exception if the given in the model beats count is not an even number.
+        /// </summary>
+        /// <param name="model">FigureOptionFormViewModel model</param>
+        /// <returns></returns>
+        Task AddFigureOptionAsync(FigureOptionFormViewModel model);
 
 		/// <summary>
 		/// Edits the figure option with the given id with the updated data from the model.
