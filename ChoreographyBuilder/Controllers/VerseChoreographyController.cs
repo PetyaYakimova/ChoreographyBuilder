@@ -1,6 +1,7 @@
 ﻿using ChoreographyBuilder.Attributes;
 using ChoreographyBuilder.Core.Contracts;
 using ChoreographyBuilder.Core.Models.Figure;
+using ChoreographyBuilder.Core.Models.FigureOption;
 using ChoreographyBuilder.Core.Models.FullChoreographyVerseChoreography;
 using ChoreographyBuilder.Core.Models.Position;
 using ChoreographyBuilder.Core.Models.VerseChoreography;
@@ -278,5 +279,10 @@ namespace ChoreographyBuilder.Controllers
 		{
 			return await figureService.AllUserHighlightFiguresForChoreographiesAsync(User.Id());
 		}
-	}
+
+        private async Task<IEnumerable<FigureOptionWithFigureViewModel>> GetAllUserFiguresWithStartPositionAsync(int? startPositionId = null)
+        {
+            return await figureOptionService.AllUserFiguresStartingWithPositionAsync(User.Id(), startPositionId);
+        }
+    }
 }
