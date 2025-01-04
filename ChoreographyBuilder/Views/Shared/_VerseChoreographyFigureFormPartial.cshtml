@@ -19,6 +19,10 @@
                     <p>@Model.StartPositionName</p>
                 }
             </div>
+            <div class="mb-3 form-group">
+                <label asp-for="RemainingBeats" class="fw-bold me-2"></label>
+                <p>@Model.RemainingBeats</p>
+            </div>
             <div class="mb-3">
                 <label asp-for="@Model.FigureOptionId" class="fw-bold me-2"></label>
                 <select asp-for="@Model.FigureOptionId" class="form-control" aria-required="true">
