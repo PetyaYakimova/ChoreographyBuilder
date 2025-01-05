@@ -77,7 +77,8 @@ namespace ChoreographyBuilder.Core.Infrastructure
                 .ForMember(d => d.EndPositionName, act => act.MapFrom(src => src.Figures.OrderByDescending(f => f.FigureOrder).Select(f => f.FigureOption.EndPosition.Name).FirstOrDefault()))
                 .ForMember(d => d.NumberOfFigures, act => act.MapFrom(src => src.Figures.Count()))
                 .ForMember(d => d.FinalFigureName, act => act.MapFrom(src => src.Figures.OrderByDescending(f => f.FigureOrder).Select(f => f.FigureOption.Figure.Name).FirstOrDefault()))
-                .ForMember(d => d.UsedInFullChoreographies, act => act.MapFrom(src => src.FullChoreographies.Any()));
+                .ForMember(d => d.UsedInFullChoreographies, act => act.MapFrom(src => src.FullChoreographies.Any()))
+                .ForMember(d => d.HasEnoughFigures, act => act.MapFrom(src => src.Figures.Sum(f => f.FigureOption.BeatCounts) >= src.VerseType.BeatCounts));
 
             CreateMap<VerseChoreography, VerseChoreographyDetailsViewModel>()
                 .ForMember(d => d.VerseTypeName, act => act.MapFrom(src => $"{src.VerseType.Name} ({src.VerseType.BeatCounts})"))
