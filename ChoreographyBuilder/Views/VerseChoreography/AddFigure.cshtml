@@ -1,0 +1,12 @@
+﻿@model VerseChoreographyFigureOptionFormViewModel
+@{
+    ViewBag.Title = "Add a Figure";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+<partial name="_VerseChoreographyFigureFormPartial" model="@Model" />
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
