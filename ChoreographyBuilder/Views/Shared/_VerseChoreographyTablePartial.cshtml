@@ -1,10 +1,19 @@
 ﻿@model VerseChoreographyTableViewModel
-	<td>@Model.Name</td>
-	<td>@Model.VerseTypeName</td>
-	<td>@Model.StartPositionName</td>
-	<td>@Model.EndPositionName</td>
-	<td>@Model.NumberOfFigures</td>
-	<td>@Model.FinalFigureName</td>
-	<td>
-		<a asp-controller="VerseChoreography" asp-action="Details" asp-route-id="@Model.Id" class="link-info custominputlink">Details</a>
-	</td>
+<td>
+    @if (!Model.HasEnoughFigures)
+    {
+        <p class="text-warning">@Model.Name (Unfinished)</p>
+    }
+    else
+    {
+        <p>@Model.Name</p>
+    }
+</td>
+<td>@Model.VerseTypeName</td>
+<td>@Model.StartPositionName</td>
+<td>@Model.EndPositionName</td>
+<td>@Model.NumberOfFigures</td>
+<td>@Model.FinalFigureName</td>
+<td>
+    <a asp-controller="VerseChoreography" asp-action="Details" asp-route-id="@Model.Id" class="link-info custominputlink">Details</a>
+</td>
