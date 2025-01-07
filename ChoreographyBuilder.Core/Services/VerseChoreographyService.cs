@@ -111,6 +111,23 @@ namespace ChoreographyBuilder.Core.Services
             return choreography.Figures.Count();
         }
 
+        public async Task<int> GetNumberOfRemainingBeatsForVerseChoreographyAsync(int verseChoreorgaphyId)
+        {
+            VerseChoreography? choreography = await repository.AllAsReadOnly<VerseChoreography>()
+                .Include(c => c.Figures)
+                    .ThenInclude(f => f.FigureOption)
+                .Include(c => c.VerseType)
+                .FirstOrDefaultAsync(c => c.Id == verseChoreorgaphyId);
+
+            if (choreography == null)
+            {
+                logger.LogError(EntityWithIdWasNotFoundLoggerErrorMessage, nameof(VerseChoreography), verseChoreorgaphyId);
+                throw new EntityNotFoundException();
+            }
+
+            return choreography.VerseType.BeatCounts - (choreography.Figures.Sum(f => f.FigureOption.BeatCounts));
+        }
+
         public async Task<VerseChoreographyQueryServiceModel> AllUserVerseChoreographiesAsync(string userId, string? searchTerm = null, int? searchedVerseTypeId = null, int? searchedStartPositionId = null, int? searchedEndPositionId = null, int? searchedFinalFigureId = null, int currentPage = 1, int itemsPerPage = DefaultNumberOfItemsPerPage)
         {
             var choreographiesToShow = repository.AllAsReadOnly<VerseChoreography>()
