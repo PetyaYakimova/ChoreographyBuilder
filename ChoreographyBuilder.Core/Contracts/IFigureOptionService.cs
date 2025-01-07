@@ -56,12 +56,13 @@ namespace ChoreographyBuilder.Core.Contracts
 		Task<bool> IsFigureOptionUsedInChoreographiesAsync(int optionId);
 
         /// <summary>
-        /// Returns a collection with all the figure options for the user that start with a certain start position.
+        /// Returns a collection with all the figure options for the user that start with a certain start position and have less beats than the remaining beats in the verse choreography.
         /// </summary>
         /// <param name="userId">Id of the user</param>
+		/// <param name="remainingBeats">Number of beats reamaining in the verse choreography</param>
         /// <param name="startPositionId">Id of the start position</param>
         /// <returns></returns>
-        Task<IEnumerable<FigureOptionWithFigureViewModel>> AllUserFiguresStartingWithPositionAsync(string userId, int? startPositionId = null);
+        Task<IEnumerable<FigureOptionWithFigureViewModel>> AllUserFiguresStartingWithPositionAndLessThanBeatsAsync(string userId, int remainingBeats, int? startPositionId = null);
 
 
         /// <summary>
