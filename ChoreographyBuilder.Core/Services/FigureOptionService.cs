@@ -146,10 +146,11 @@ namespace ChoreographyBuilder.Core.Services
             return option.VerseChoreographyFigures.Any();
         }
 
-        public async Task<IEnumerable<FigureOptionWithFigureViewModel>> AllUserFiguresStartingWithPositionAsync(string userId, int? startPositionId = null)
+        public async Task<IEnumerable<FigureOptionWithFigureViewModel>> AllUserFiguresStartingWithPositionAndLessThanBeatsAsync(string userId, int remainingBeats, int? startPositionId = null)
         {
             var figuresToShow = repository.AllAsReadOnly<FigureOption>()
-                 .Where(fo => fo.Figure.UserId == userId);
+                 .Where(fo => fo.Figure.UserId == userId)
+                 .Where(fo => fo.BeatCounts <= remainingBeats);
 
             if (startPositionId != null)
             {
@@ -162,7 +163,6 @@ namespace ChoreographyBuilder.Core.Services
                      .Include(fo => fo.VerseChoreographyFigures)
                      .Include(fo => fo.StartPosition)
                      .Include(fo => fo.EndPosition)
-                     .Include(fo => fo.DynamicsType)
                     .Select(fo => mapper.Map<FigureOptionWithFigureViewModel>(fo))
                     .ToListAsync();
 
