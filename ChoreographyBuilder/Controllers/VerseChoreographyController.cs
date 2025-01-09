@@ -179,38 +179,41 @@ namespace ChoreographyBuilder.Controllers
             return View(model);
         }
 
-        //[HttpPost]
-        //[VerseChoreographyExistsForThisUser]
-        //public async Task<IActionResult> AddFigure(VerseChoreographyFigureOptionFormViewModel model, int id)
-        //{
-        //    bool figureOptionExists = await figureOptionService.FigureOptionExistForThisUserByIdAsync(model.FigureOptionId, User.Id());
-        //    if (!figureOptionExists)
-        //    {
-        //        ModelState.AddModelError(nameof(model.FigureOptionId), FigureOptionDoesntExistErrorMessage);
-        //    }
+        [HttpPost]
+        [VerseChoreographyExistsForThisUser]
+        public async Task<IActionResult> AddFigure(VerseChoreographyFigureOptionFormViewModel model, int id)
+        {
+            bool figureOptionExists = await figureOptionService.FigureOptionExistForThisUserByIdAsync(model.FigureOptionId, User.Id());
+            if (!figureOptionExists)
+            {
+                ModelState.AddModelError(nameof(model.FigureOptionId), FigureOptionDoesntExistErrorMessage);
+            }
 
-        //    int nextAvailableOrder = (await verseChoreographyService.GetNumberOfFiguresForVerseChoreographyAsync(id)) + 1;
+            int nextAvailableOrder = (await verseChoreographyService.GetNumberOfFiguresForVerseChoreographyAsync(id)) + 1;
+            if (nextAvailableOrder != model.FigureOrder)
+            {
+                ModelState.AddModelError(nameof(model.FigureOrder), InvalidFigureOrderErrorMessage);
+            }
 
-        //    if (nextAvailableOrder != model.FigureOrder)
-        //    {
-        //        ModelState.AddModelError(nameof(model.FigureOrder), InvalidFigureOrderErrorMessage);
-        //    }
+            int remainingBeats = await verseChoreographyService.GetNumberOfRemainingBeatsForVerseChoreographyAsync(id);
+            int figureBeats = await figureOptionService.GetBeatsForFigureOptionAsync(model.FigureOptionId);
+            if (remainingBeats>model.FigureOptionId)
 
-        //    if (ModelState.IsValid == false)
-        //    {
-        //        model.VerseChoreographyOrder = nextAvailableOrder;
-        //        PositionForPreviewViewModel? lastVerseChoreographyEndPosition = await fullChoreographyService.GetLastVerseChoreographyEndPositionAsync(id);
-        //        model.VerseChoreographies = await GetAllUserVerseChoreographiesWithStartPositionAsync(lastVerseChoreographyEndPosition?.Id);
-        //        model.StartPositionName = lastVerseChoreographyEndPosition?.Name;
-        //        return View(model);
-        //    }
+            if (ModelState.IsValid == false)
+            {
+                model.VerseChoreographyOrder = nextAvailableOrder;
+                PositionForPreviewViewModel? lastVerseChoreographyEndPosition = await fullChoreographyService.GetLastVerseChoreographyEndPositionAsync(id);
+                model.VerseChoreographies = await GetAllUserVerseChoreographiesWithStartPositionAsync(lastVerseChoreographyEndPosition?.Id);
+                model.StartPositionName = lastVerseChoreographyEndPosition?.Name;
+                return View(model);
+            }
 
-        //    await fullChoreographyVerseChoreographyService.AddVerseChoreographyToFullChoreographyAsync(id, model);
+            await fullChoreographyVerseChoreographyService.AddVerseChoreographyToFullChoreographyAsync(id, model);
 
-        //    TempData[UserMessageSuccess] = String.Format(ItemAddedSuccessMessage, VerseChoreographyAsString);
+            TempData[UserMessageSuccess] = String.Format(ItemAddedSuccessMessage, VerseChoreographyAsString);
 
-        //    return RedirectToAction(nameof(Details), new { Id = id });
-        //}
+            return RedirectToAction(nameof(Details), new { Id = id });
+        }
 
         [HttpGet]
         [VerseChoreographyFigureExistsForThisUser]
