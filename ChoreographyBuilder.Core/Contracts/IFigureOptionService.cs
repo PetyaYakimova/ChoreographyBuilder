@@ -23,19 +23,27 @@ namespace ChoreographyBuilder.Core.Contracts
 		/// <returns>FigureOptionDeleteModel</returns>
 		Task<FigureOptionDeleteViewModel> GetFigureOptionForDeleteAsync(int id);
 
-		/// <summary>
-		/// Gets the figure options for a figure by the selected search criteria and returns only those of them that should be displayed on the given page.
-		/// Throws an exception if there is no such figure with the given figure id.
-		/// </summary>
-		/// <param name="figureId">Id of the figure</param>
-		/// <param name="searchedStartPositionId"></param>
-		/// <param name="searchedEndPositionId"></param>
-		/// <param name="searchedBeatsCount"></param>
-		/// <param name="searchedDynamicsType"></param>
-		/// <param name="currentPage"></param>
-		/// <param name="itemsPerPage"></param>
-		/// <returns>FigureOptionQueryServiceModel with the options for the current page and the total number of options by this search criteria</returns>
-		Task<FigureOptionQueryServiceModel> GetFigureOptionsAsync(int figureId, int? searchedStartPositionId = null, int? searchedEndPositionId = null, int? searchedBeatsCount = null, DynamicsType? searchedDynamicsType = null, int currentPage = 1, int itemsPerPage = DefaultNumberOfItemsPerPage);
+        /// <summary>
+        /// Returns the beats count of a figure options with the selected id.
+        /// Throws an exception if there is no such figure option with this id.
+        /// </summary>
+        /// <param name="id">Id of the option</param>
+        /// <returns>integer</returns>
+        Task<int> GetBeatsForFigureOptionAsync(int id);
+
+        /// <summary>
+        /// Gets the figure options for a figure by the selected search criteria and returns only those of them that should be displayed on the given page.
+        /// Throws an exception if there is no such figure with the given figure id.
+        /// </summary>
+        /// <param name="figureId">Id of the figure</param>
+        /// <param name="searchedStartPositionId"></param>
+        /// <param name="searchedEndPositionId"></param>
+        /// <param name="searchedBeatsCount"></param>
+        /// <param name="searchedDynamicsType"></param>
+        /// <param name="currentPage"></param>
+        /// <param name="itemsPerPage"></param>
+        /// <returns>FigureOptionQueryServiceModel with the options for the current page and the total number of options by this search criteria</returns>
+        Task<FigureOptionQueryServiceModel> GetFigureOptionsAsync(int figureId, int? searchedStartPositionId = null, int? searchedEndPositionId = null, int? searchedBeatsCount = null, DynamicsType? searchedDynamicsType = null, int currentPage = 1, int itemsPerPage = DefaultNumberOfItemsPerPage);
 
 		/// <summary>
 		/// Returns true if the figure options is linked to a figure that is for this user. 
