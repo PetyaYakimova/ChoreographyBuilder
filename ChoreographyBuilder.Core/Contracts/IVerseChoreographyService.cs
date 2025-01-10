@@ -48,6 +48,14 @@ namespace ChoreographyBuilder.Core.Contracts
         Task<int> GetNumberOfRemainingBeatsForVerseChoreographyAsync(int verseChoreographyId);
 
         /// <summary>
+        /// Returns the start position name of a verse choreography with the selected id.
+        /// Throws an exception if there is no such choreography with this id.
+        /// </summary>
+        /// <param name="id">Id of the verse choreography</param>
+        /// <returns></returns>
+        Task<string?> GetStartPositionNameForVerseChoreographyAsync(int id);
+
+        /// <summary>
         /// Gets the verse choreographies for the user by the selected search criteria and returns only those of them that should be displayed on the given page.
         /// </summary>
         /// <param name="userId">Id of the user</param>
