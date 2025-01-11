@@ -67,6 +67,21 @@ namespace ChoreographyBuilder.Core.Services
             return option.BeatCounts;
         }
 
+        public async Task<string> GetStartPositionNameForFigureOptionAsync(int id)
+        {
+            var option = await repository.AllAsReadOnly<FigureOption>()
+                .Include(fo => fo.StartPosition)
+                .FirstOrDefaultAsync(fo => fo.Id == id);
+
+            if (option == null)
+            {
+                logger.LogError(EntityWithIdWasNotFoundLoggerErrorMessage, nameof(FigureOption), id);
+                throw new EntityNotFoundException();
+            }
+
+            return option.StartPosition.Name;
+        }
+
         public async Task<FigureOptionQueryServiceModel> GetFigureOptionsAsync(int figureId, int? searchedStartPositionId = null, int? searchedEndPositionId = null, int? searchedBeatsCount = null, DynamicsType? searchedDynamicsType = null, int currentPage = 1, int itemsPerPage = DefaultNumberOfItemsPerPage)
         {
             var figure = await repository.GetByIdAsync<Figure>(figureId);
