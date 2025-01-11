@@ -24,12 +24,20 @@ namespace ChoreographyBuilder.Core.Contracts
 		Task<FigureOptionDeleteViewModel> GetFigureOptionForDeleteAsync(int id);
 
         /// <summary>
-        /// Returns the beats count of a figure options with the selected id.
+        /// Returns the beats count of a figure option with the selected id.
         /// Throws an exception if there is no such figure option with this id.
         /// </summary>
         /// <param name="id">Id of the option</param>
-        /// <returns>integer</returns>
+        /// <returns></returns>
         Task<int> GetBeatsForFigureOptionAsync(int id);
+
+        /// <summary>
+        /// Returns the start position name of a figure option with the selected id.
+        /// Throws an exception if there is no such figure option with this id.
+        /// </summary>
+        /// <param name="id">Id of the option</param>
+        /// <returns></returns>
+        Task<string> GetStartPositionNameForFigureOptionAsync(int id);
 
         /// <summary>
         /// Gets the figure options for a figure by the selected search criteria and returns only those of them that should be displayed on the given page.
