@@ -197,20 +197,34 @@ namespace ChoreographyBuilder.Controllers
 
             int remainingBeats = await verseChoreographyService.GetNumberOfRemainingBeatsForVerseChoreographyAsync(id);
             int figureBeats = await figureOptionService.GetBeatsForFigureOptionAsync(model.FigureOptionId);
-            if (remainingBeats>model.FigureOptionId)
+            if (remainingBeats > figureBeats)
+            {
+                ModelState.AddModelError(nameof(model.FigureOptionId), FigureHasTooManyBeatsErrorMessage);
+            }
+
+            if (model.StartPositionName != null)
+            {
+                string figureStartPositionName = await figureOptionService.GetStartPositionNameForFigureOptionAsync(model.FigureOptionId);
+                if (figureStartPositionName != model.StartPositionName)
+                {
+                    ModelState.AddModelError(nameof(model.FigureOptionId), FigureStartsWithWrongPositionErrorMessage);
+                }
+            }
 
             if (ModelState.IsValid == false)
             {
-                model.VerseChoreographyOrder = nextAvailableOrder;
-                PositionForPreviewViewModel? lastVerseChoreographyEndPosition = await fullChoreographyService.GetLastVerseChoreographyEndPositionAsync(id);
-                model.VerseChoreographies = await GetAllUserVerseChoreographiesWithStartPositionAsync(lastVerseChoreographyEndPosition?.Id);
-                model.StartPositionName = lastVerseChoreographyEndPosition?.Name;
+                model.FigureOrder = (await verseChoreographyService.GetNumberOfFiguresForVerseChoreographyAsync(id)) + 1;
+                model.RemainingBeats = await verseChoreographyService.GetNumberOfRemainingBeatsForVerseChoreographyAsync(id);
+                PositionForPreviewViewModel? lastfigureEndPosition = await verseChoreographyService.GetLastFigureEndPositionAsync(id);
+                model.Figures = await GetAllUserFiguresWithStartPositionAndLessThanRemainingBeatsAsync(model.RemainingBeats, lastfigureEndPosition?.Id);
+                model.StartPositionName = lastfigureEndPosition?.Name;
+
                 return View(model);
             }
 
-            await fullChoreographyVerseChoreographyService.AddVerseChoreographyToFullChoreographyAsync(id, model);
+            await verseChoreographyFigureService.AddFigureToVerseChoreographyAsync(id, model);
 
-            TempData[UserMessageSuccess] = String.Format(ItemAddedSuccessMessage, VerseChoreographyAsString);
+            TempData[UserMessageSuccess] = String.Format(ItemAddedSuccessMessage, FigureAsString);
 
             return RedirectToAction(nameof(Details), new { Id = id });
         }
