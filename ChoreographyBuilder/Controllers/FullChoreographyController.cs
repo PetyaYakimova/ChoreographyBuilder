@@ -10,7 +10,7 @@ using static ChoreographyBuilder.Core.Constants.MessageConstants;
 
 namespace ChoreographyBuilder.Controllers
 {
-	public class FullChoreographyController : BaseController
+    public class FullChoreographyController : BaseController
     {
         private readonly IFullChoreographyService fullChoreographyService;
         private readonly IVerseChoreographyService verseChoreographyService;
@@ -143,6 +143,15 @@ namespace ChoreographyBuilder.Controllers
             if (nextAvailableOrder != model.VerseChoreographyOrder)
             {
                 ModelState.AddModelError(nameof(model.VerseChoreographyOrder), InvalidVerseChoreographyOrderErrorMessage);
+            }
+
+            if (model.StartPositionName != null)
+            {
+                string? verseChoreographyStartPositionName = await verseChoreographyService.GetStartPositionNameForVerseChoreographyAsync(model.VerseChoreographyId);
+                if (verseChoreographyStartPositionName != model.StartPositionName)
+                {
+                    ModelState.AddModelError(nameof(model.VerseChoreographyId), VerseChoreorgaphyStartsWithWrongPositionErrorMessage);
+                }
             }
 
             if (ModelState.IsValid == false)
