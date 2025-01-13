@@ -29,6 +29,8 @@ namespace ChoreographyBuilder.Core.Constants
 
         public const string UserForTheVerseChoreographyAndForTheFullChoreographyIsNotTheSameLoggerErrorMessage = "The user for the verse choreography and the user for the full choreography are not the same!";
 
+        public const string UserForTheFigureAndForTheVerseChoreographyIsNotTheSameLoggerErrorMessage = "The user for the figure and the user for the verse choreography are not the same!";
+
         public const string UnmatchedFigureIdsLoggerErrorMessage = "Difference between the sent figureId and the figure id from the figure option.";
 
         public const string UserMessageSuccess = "UserMessageSuccess";
