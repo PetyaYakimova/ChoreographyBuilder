@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ChoreographyBuilder.Core.Models.FullChoreographyVerseChoreography;
 using ChoreographyBuilder.Core.Models.VerseChoreographyFigure;
 
 namespace ChoreographyBuilder.Core.Contracts
 {
-	public interface IVerseChoreographyFigureService
+    public interface IVerseChoreographyFigureService
 	{
 		/// <summary>
 		/// Returns the verse choreography figure replace model of a verse choreography figure with the selected id. 
@@ -41,5 +37,15 @@ namespace ChoreographyBuilder.Core.Contracts
 		/// <param name="userId">Id of the user</param>
 		/// <returns></returns>
 		Task<bool> VerseChoreographyFigureExistForThisUserByIdAsync(int verseChoreographyFigureId, string userId);
-	}
+
+        /// <summary>
+        /// Adds a new verse choreography figure record with data from the model.
+        /// Throws an exception if a verse choreography with the given id doesn't exist or if the given figure option id doesn't exist.
+        /// Throws an exception if the user of the verse choreography and the figure option are not the same.
+        /// </summary>
+        /// <param name="verseChoreographyId">Id of the verse choreography</param>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        Task AddFigureToVerseChoreographyAsync(int verseChoreographyId, VerseChoreographyFigureOptionFormViewModel model);
+    }
 }
