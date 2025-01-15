@@ -32,7 +32,7 @@ namespace ChoreographyBuilder.Core.Contracts
 		/// <summary>
 		/// Adds a new full choreography verse choreography record with data from the model.
 		/// Throws an exception if a full choreography with the given id doesn't exist or if the given verse choreography id doesn't exist.
-		/// Throws an exception if the user is of the full choreography and the verse choreography are not the same.
+		/// Throws an exception if the user of the full choreography and the verse choreography are not the same.
 		/// </summary>
 		/// <param name="fullChoreographyId">Id of the full choreography</param>
 		/// <param name="model"></param>
