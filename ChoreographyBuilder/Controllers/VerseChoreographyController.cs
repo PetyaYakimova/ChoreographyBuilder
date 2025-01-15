@@ -197,7 +197,7 @@ namespace ChoreographyBuilder.Controllers
 
             int remainingBeats = await verseChoreographyService.GetNumberOfRemainingBeatsForVerseChoreographyAsync(id);
             int figureBeats = await figureOptionService.GetBeatsForFigureOptionAsync(model.FigureOptionId);
-            if (remainingBeats > figureBeats)
+            if (remainingBeats < figureBeats)
             {
                 ModelState.AddModelError(nameof(model.FigureOptionId), FigureHasTooManyBeatsErrorMessage);
             }
@@ -226,7 +226,15 @@ namespace ChoreographyBuilder.Controllers
 
             TempData[UserMessageSuccess] = String.Format(ItemAddedSuccessMessage, FigureAsString);
 
-            return RedirectToAction(nameof(Details), new { Id = id });
+            int remainingBeatsAfterAddingFigure = await verseChoreographyService.GetNumberOfRemainingBeatsForVerseChoreographyAsync(id);
+            if (remainingBeatsAfterAddingFigure > 0)
+            {
+                return RedirectToAction(nameof(AddFigure), new { Id = id });
+            }
+            else
+            {
+                return RedirectToAction(nameof(Details), new { Id = id });
+            }
         }
 
         [HttpGet]
