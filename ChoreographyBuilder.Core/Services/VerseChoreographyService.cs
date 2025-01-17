@@ -207,7 +207,7 @@ namespace ChoreographyBuilder.Core.Services
             };
         }
 
-        public async Task<IEnumerable<VerseChoreographyTableViewModel>> AllUserVerseChoreographiesStartingWithPositionAsync(string userId, int? startPositionId = null)
+        public async Task<IEnumerable<VerseChoreographyTableViewModel>> AllUserCompleteVerseChoreographiesStartingWithPositionAsync(string userId, int? startPositionId = null)
         {
             var choreographiesToShow = repository.AllAsReadOnly<VerseChoreography>()
                  .Where(c => c.UserId == userId);
@@ -252,11 +252,11 @@ namespace ChoreographyBuilder.Core.Services
             return true;
         }
 
-        public async Task<bool> IsVerseChoreographyUsedInFullChoreographies(int id)
+        public async Task<bool> IsVerseChoreographyUsedInFullChoreographiesAsync(int id)
         {
             VerseChoreography? choreography = await repository.AllAsReadOnly<VerseChoreography>()
-                .Include(vt => vt.FullChoreographies)
-                .FirstOrDefaultAsync(vt => vt.Id == id);
+                .Include(vc => vc.FullChoreographies)
+                .FirstOrDefaultAsync(vc => vc.Id == id);
 
             if (choreography == null)
             {
@@ -265,6 +265,23 @@ namespace ChoreographyBuilder.Core.Services
             }
 
             return choreography.FullChoreographies.Any();
+        }
+
+        public async Task<bool> IsVerseChoreographyCompleteAsync(int id)
+        {
+            VerseChoreography? choreography = await repository.AllAsReadOnly<VerseChoreography>()
+                .Include(vc => vc.Figures)
+                    .ThenInclude(vcf => vcf.FigureOption)
+                .Include(vc => vc.VerseType)
+                .FirstOrDefaultAsync(vc => vc.Id == id);
+
+            if (choreography == null)
+            {
+                logger.LogError(EntityWithIdWasNotFoundLoggerErrorMessage, nameof(VerseChoreography), id);
+                throw new EntityNotFoundException();
+            }
+
+            return choreography.Figures.Sum(f => f.FigureOption.BeatCounts) == choreography.VerseType.BeatCounts;
         }
 
         public async Task<int> AddVerseChoreographyAsync(VerseChoreographyFormViewModel model, string userId)
