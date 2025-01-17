@@ -75,7 +75,7 @@ namespace ChoreographyBuilder.Core.Contracts
         /// <param name="userId">Id of the user</param>
         /// <param name="startPositionId">Id of the start position</param>
         /// <returns></returns>
-        Task<IEnumerable<VerseChoreographyTableViewModel>> AllUserVerseChoreographiesStartingWithPositionAsync(string userId, int? startPositionId = null);
+        Task<IEnumerable<VerseChoreographyTableViewModel>> AllUserCompleteVerseChoreographiesStartingWithPositionAsync(string userId, int? startPositionId = null);
 
         /// <summary>
         /// Returns true if the verse choreography is for this user.
@@ -87,13 +87,22 @@ namespace ChoreographyBuilder.Core.Contracts
         Task<bool> VerseChoreographyExistForThisUserByIdAsync(int id, string userId);
 
         /// <summary>
-        /// Returns true if there is at least one full choreography that uses this verse choreography 
+        /// Returns true if there is at least one full c that uses this verse choreography. 
         /// Returns false if the verse choreography is not used for any full choreography. 
         /// Throws an exception if there is no such verse choreography with this id.
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        Task<bool> IsVerseChoreographyUsedInFullChoreographies(int id);
+        Task<bool> IsVerseChoreographyUsedInFullChoreographiesAsync(int id);
+
+        /// <summary>
+        /// Returns true if the figures in the verse choreography have a sum of their beats exactly equal to the beats in the verse type for the verse choreography. 
+        /// Returns false if the verse choreography does not have enough figures.
+        /// Throws an exception if there is no such verse choreography with this id.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task<bool> IsVerseChoreographyCompleteAsync(int id);
 
         /// <summary>
         /// Adds a new verse choreography for the user with data from the model.
