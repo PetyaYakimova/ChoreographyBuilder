@@ -100,7 +100,7 @@ namespace ChoreographyBuilder.Tests.UnitTests
 		{
 			var expectedCount = this.data.VerseChoreographies.Count(c => c.UserId == FirstUser.Id);
 
-			var result = await verseChoreographyService.AllUserVerseChoreographiesStartingWithPositionAsync(FirstUser.Id);
+			var result = await verseChoreographyService.AllUserCompleteVerseChoreographiesStartingWithPositionAsync(FirstUser.Id);
 
 			Assert.That(result.Count(), Is.EqualTo(expectedCount));
 		}
@@ -108,7 +108,7 @@ namespace ChoreographyBuilder.Tests.UnitTests
 		[Test]
 		public async Task AllUserVerseChoreographiesStartingWithPosition_ShouldReturnSomeVerseChoreographiesWhenPositionIsSelected()
 		{
-			var result = await verseChoreographyService.AllUserVerseChoreographiesStartingWithPositionAsync(FirstUser.Id, SecondPosition.Id);
+			var result = await verseChoreographyService.AllUserCompleteVerseChoreographiesStartingWithPositionAsync(FirstUser.Id, SecondPosition.Id);
 
 			Assert.That(result.Count(), Is.EqualTo(1));
 		}
@@ -140,7 +140,7 @@ namespace ChoreographyBuilder.Tests.UnitTests
 		[Test]
 		public async Task IsVerseChoreographyUsedInFullChoreographies_ShouldReturnTrueWhenTheVerseChoreographyIsUsed()
 		{
-			var result = await verseChoreographyService.IsVerseChoreographyUsedInFullChoreographies(FirstVerseChoreography.Id);
+			var result = await verseChoreographyService.IsVerseChoreographyUsedInFullChoreographiesAsync(FirstVerseChoreography.Id);
 
 			Assert.IsTrue(result);
 		}
@@ -148,7 +148,7 @@ namespace ChoreographyBuilder.Tests.UnitTests
 		[Test]
 		public async Task IsVerseChoreographyUsedInFullChoreographies_ShouldReturnFalseWhenTheVerseChoreographyIsNotUsed()
 		{
-			var result = await verseChoreographyService.IsVerseChoreographyUsedInFullChoreographies(FourthVerseChoreography.Id);
+			var result = await verseChoreographyService.IsVerseChoreographyUsedInFullChoreographiesAsync(FourthVerseChoreography.Id);
 
 			Assert.IsFalse(result);
 		}
@@ -156,7 +156,7 @@ namespace ChoreographyBuilder.Tests.UnitTests
 		[Test]
 		public void IsVerseChoreographyUsedInFullChoreographies_ShouldThrowAnExceptionIfTheVerseChoreographyDoesntExist()
 		{
-			Assert.That(async () => await verseChoreographyService.IsVerseChoreographyUsedInFullChoreographies(10),
+			Assert.That(async () => await verseChoreographyService.IsVerseChoreographyUsedInFullChoreographiesAsync(10),
 				Throws.Exception.TypeOf<EntityNotFoundException>());
 		}
 
