@@ -28,7 +28,7 @@ namespace ChoreographyBuilder.Attributes
 				int id = 0;
 				if (int.TryParse(value.ToString(), out id))
 				{
-					if (service != null && service.IsVerseChoreographyUsedInFullChoreographies(id).Result)
+					if (service != null && service.IsVerseChoreographyUsedInFullChoreographiesAsync(id).Result)
 					{
 						context.Result = new StatusCodeResult(StatusCodes.Status400BadRequest);
 					}
