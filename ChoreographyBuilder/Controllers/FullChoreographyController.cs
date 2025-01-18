@@ -122,7 +122,7 @@ namespace ChoreographyBuilder.Controllers
             var model = new FullChoreographyVerseChoreographyFormViewModel();
             model.VerseChoreographyOrder = (await fullChoreographyService.GetNumberOfVerseChoreographiesForFullChoreographyAsync(id)) + 1;
             PositionForPreviewViewModel? lastVerseChoreographyEndPosition = await fullChoreographyService.GetLastVerseChoreographyEndPositionAsync(id);
-            model.VerseChoreographies = await GetAllUserVerseChoreographiesWithStartPositionAsync(lastVerseChoreographyEndPosition?.Id);
+            model.VerseChoreographies = await GetAllUserCompleteVerseChoreographiesWithStartPositionAsync(lastVerseChoreographyEndPosition?.Id);
             model.StartPositionName = lastVerseChoreographyEndPosition?.Name;
 
             return View(model);
@@ -158,7 +158,7 @@ namespace ChoreographyBuilder.Controllers
             {
                 model.VerseChoreographyOrder = nextAvailableOrder;
                 PositionForPreviewViewModel? lastVerseChoreographyEndPosition = await fullChoreographyService.GetLastVerseChoreographyEndPositionAsync(id);
-                model.VerseChoreographies = await GetAllUserVerseChoreographiesWithStartPositionAsync(lastVerseChoreographyEndPosition?.Id);
+                model.VerseChoreographies = await GetAllUserCompleteVerseChoreographiesWithStartPositionAsync(lastVerseChoreographyEndPosition?.Id);
                 model.StartPositionName = lastVerseChoreographyEndPosition?.Name;
 
                 return View(model);
@@ -193,9 +193,9 @@ namespace ChoreographyBuilder.Controllers
             return RedirectToAction(nameof(Details), new { Id = model.FullChoreographyId });
         }
 
-        private async Task<IEnumerable<VerseChoreographyTableViewModel>> GetAllUserVerseChoreographiesWithStartPositionAsync(int? startPositionId = null)
+        private async Task<IEnumerable<VerseChoreographyTableViewModel>> GetAllUserCompleteVerseChoreographiesWithStartPositionAsync(int? startPositionId = null)
         {
-            return await verseChoreographyService.AllUserVerseChoreographiesStartingWithPositionAsync(User.Id(), startPositionId);
+            return await verseChoreographyService.AllUserCompleteVerseChoreographiesStartingWithPositionAsync(User.Id(), startPositionId);
         }
     }
 }
