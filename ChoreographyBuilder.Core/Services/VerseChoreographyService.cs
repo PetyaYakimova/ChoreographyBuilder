@@ -210,7 +210,8 @@ namespace ChoreographyBuilder.Core.Services
         public async Task<IEnumerable<VerseChoreographyTableViewModel>> AllUserCompleteVerseChoreographiesStartingWithPositionAsync(string userId, int? startPositionId = null)
         {
             var choreographiesToShow = repository.AllAsReadOnly<VerseChoreography>()
-                 .Where(c => c.UserId == userId);
+                 .Where(c => c.UserId == userId)
+                 .Where(c => (c.Figures.Sum(f => f.FigureOption.BeatCounts) == c.VerseType.BeatCounts));
 
             if (startPositionId != null)
             {
