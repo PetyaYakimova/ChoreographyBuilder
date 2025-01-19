@@ -70,7 +70,7 @@ namespace ChoreographyBuilder.Core.Contracts
         Task<VerseChoreographyQueryServiceModel> AllUserVerseChoreographiesAsync(string userId, string? searchTerm = null, int? searchedVerseTypeId = null, int? searchedStartPositionId = null, int? searchedEndPositionId = null, int? searchedFinalFigureId = null, int currentPage = 1, int itemsPerPage = DefaultNumberOfItemsPerPage);
 
         /// <summary>
-        /// Returns a collection with all the verse choreographies for the user that start with a certain start position.
+        /// Returns a collection with all the complete verse choreographies for the user that start with a certain start position.
         /// </summary>
         /// <param name="userId">Id of the user</param>
         /// <param name="startPositionId">Id of the start position</param>
