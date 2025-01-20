@@ -272,7 +272,7 @@ namespace ChoreographyBuilder.Controllers
         }
 
         [HttpGet]
-        [FigureInVerseChoreographyExistsForThisUser]
+        [VerseChoreographyFigureExistsForThisUser]
         [FigureIsLastInVerseChoreography]
         [VerseChoreographyIsNotComplete]
         public async Task<IActionResult> DeleteFigure(int id)
@@ -283,7 +283,7 @@ namespace ChoreographyBuilder.Controllers
         }
 
         [HttpPost]
-        [FigureInVerseChoreographyExistsForThisUser]
+        [VerseChoreographyFigureExistsForThisUser]
         [FigureIsLastInVerseChoreography]
         [VerseChoreographyIsNotComplete]
         public async Task<IActionResult> DeleteFigure(VerseChoreographyFigureDeleteViewModel model)
