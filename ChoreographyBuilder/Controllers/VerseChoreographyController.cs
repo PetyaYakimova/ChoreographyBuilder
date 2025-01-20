@@ -167,6 +167,7 @@ namespace ChoreographyBuilder.Controllers
 
         [HttpGet]
         [VerseChoreographyExistsForThisUser]
+        [VerseChoreographyIsNotComplete]
         public async Task<IActionResult> AddFigure(int id)
         {
             var model = new VerseChoreographyFigureOptionFormViewModel();
@@ -181,6 +182,7 @@ namespace ChoreographyBuilder.Controllers
 
         [HttpPost]
         [VerseChoreographyExistsForThisUser]
+        [VerseChoreographyIsNotComplete]
         public async Task<IActionResult> AddFigure(VerseChoreographyFigureOptionFormViewModel model, int id)
         {
             bool figureOptionExists = await figureOptionService.FigureOptionExistForThisUserByIdAsync(model.FigureOptionId, User.Id());
@@ -267,6 +269,30 @@ namespace ChoreographyBuilder.Controllers
             int verseChoreographyId = await verseChoreographyFigureService.GetVerseChoreographyIdForVerseChoreographyFigureByIdAsync(id);
             await verseChoreographyService.ChangeFigureInVerseChoreographyAsync(verseChoreographyId, serviceModel);
             return RedirectToAction(nameof(Details), new { Id = verseChoreographyId });
+        }
+
+        [HttpGet]
+        [FigureInVerseChoreographyExistsForThisUser]
+        [FigureIsLastInVerseChoreography]
+        [VerseChoreographyIsNotComplete]
+        public async Task<IActionResult> DeleteFigure(int id)
+        {
+            var model = await verseChoreographyFigureService.GetFigureForGelete(id);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [FigureInVerseChoreographyExistsForThisUser]
+        [FigureIsLastInVerseChoreography]
+        [VerseChoreographyIsNotComplete]
+        public async Task<IActionResult> DeleteFigure(VerseChoreographyFigureDeleteViewModel model)
+        {
+            await verseChoreographyFigureService.DeleteFigureFromVerseChoreographyAsync(model.Id);
+
+            TempData[UserMessageSuccess] = String.Format(ItemDeletedSuccessMessage, FigureAsString);
+
+            return RedirectToAction(nameof(Details), new { Id = model.FullChoreographyId });
         }
 
         [HttpGet]
