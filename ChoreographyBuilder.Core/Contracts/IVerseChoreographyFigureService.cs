@@ -39,6 +39,14 @@ namespace ChoreographyBuilder.Core.Contracts
 		Task<bool> VerseChoreographyFigureExistForThisUserByIdAsync(int verseChoreographyFigureId, string userId);
 
         /// <summary>
+        /// Returns true if the verse choreography figure record is the last in order in the verse choreography.
+        /// Returns false if the verse choreography figure record doesn't exist at all, or if is not the last for the verse choreography.
+        /// </summary>
+        /// <param name="verseChoreographyFigureId">Id of the verse choreography figure mapping record</param>
+        /// <returns></returns>
+        Task<bool> FigureIsLastForVerseChoreographyByIdAsync(int verseChoreographyFigureId);
+
+        /// <summary>
         /// Adds a new verse choreography figure record with data from the model.
         /// Throws an exception if a verse choreography with the given id doesn't exist or if the given figure option id doesn't exist.
         /// Throws an exception if the user of the verse choreography and the figure option are not the same.
