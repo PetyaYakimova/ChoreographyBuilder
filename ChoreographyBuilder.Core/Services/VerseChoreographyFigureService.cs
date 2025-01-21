@@ -103,6 +103,30 @@ namespace ChoreographyBuilder.Core.Services
             return true;
         }
 
+        public async Task<bool> FigureIsLastForVerseChoreographyByIdAsync(int verseChoreographyFigureId)
+        {
+            VerseChoreographyFigure? figure = await repository.AllAsReadOnly<VerseChoreographyFigure>()
+                .Include(vcf => vcf.VerseChoreography)
+                .FirstOrDefaultAsync(vcf => vcf.Id == verseChoreographyFigureId);
+
+            if (figure == null)
+            {
+                return false;
+            }
+
+            VerseChoreographyFigure? lastfigureForTheVerseChoreography = await repository.AllAsReadOnly<VerseChoreographyFigure>()
+                .Where(vcf => vcf.VerseChoreographyId == figure.VerseChoreographyId)
+                .OrderByDescending(vcf => vcf.FigureOrder)
+                .FirstOrDefaultAsync();
+
+            if (lastfigureForTheVerseChoreography == null || lastfigureForTheVerseChoreography.Id != verseChoreographyFigureId)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
         public async Task AddFigureToVerseChoreographyAsync(int verseChoreographyId, VerseChoreographyFigureOptionFormViewModel model)
         {
             var verseChoreography = await repository.GetByIdAsync<VerseChoreography>(verseChoreographyId);
