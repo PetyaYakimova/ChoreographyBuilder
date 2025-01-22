@@ -100,9 +100,18 @@ namespace ChoreographyBuilder.Core.Contracts
         /// Returns false if the verse choreography does not have enough figures.
         /// Throws an exception if there is no such verse choreography with this id.
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">Id of the verse choreography</param>
         /// <returns></returns>
         Task<bool> IsVerseChoreographyCompleteAsync(int id);
+
+        /// <summary>
+        /// Returns true if the figures in the verse choreography have a sum of their beats exactly equal to the beats in the verse type for the verse choreography. 
+        /// Returns false if the verse choreography does not have enough figures.
+        /// Throws an exception if there is no such verse choreography figure with this id.
+        /// </summary>
+        /// <param name="verseChoreographyFigureId">Id of the verse choreography figure record</param>
+        /// <returns></returns>
+        Task<bool> IsVerseChoreographyForFigureCompleteAsync(int verseChoreographyFigureId);
 
         /// <summary>
         /// Adds a new verse choreography for the user with data from the model.
