@@ -285,6 +285,23 @@ namespace ChoreographyBuilder.Core.Services
             return choreography.Figures.Sum(f => f.FigureOption.BeatCounts) == choreography.VerseType.BeatCounts;
         }
 
+        public async Task<bool> IsVerseChoreographyForFigureCompleteAsync(int verseChoreographyFigureId)
+        {
+            VerseChoreography? choreography = await repository.AllAsReadOnly<VerseChoreography>()
+                .Include(vc => vc.Figures)
+                    .ThenInclude(vcf => vcf.FigureOption)
+                .Include(vc => vc.VerseType)
+                .FirstOrDefaultAsync(vc => vc.Figures.Any(f => f.Id == verseChoreographyFigureId));
+
+            if (choreography == null)
+            {
+                logger.LogError(EntityWithIdWasNotFoundLoggerErrorMessage, nameof(VerseChoreographyFigure), verseChoreographyFigureId);
+                throw new EntityNotFoundException();
+            }
+
+            return choreography.Figures.Sum(f => f.FigureOption.BeatCounts) == choreography.VerseType.BeatCounts;
+        }
+
         public async Task<int> AddVerseChoreographyAsync(VerseChoreographyFormViewModel model, string userId)
         {
             if (await repository.GetByIdAsync<IdentityUser>(userId) == null)
