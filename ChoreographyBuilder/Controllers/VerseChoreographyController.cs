@@ -274,7 +274,7 @@ namespace ChoreographyBuilder.Controllers
         [HttpGet]
         [VerseChoreographyFigureExistsForThisUser]
         [FigureIsLastInVerseChoreography]
-        [VerseChoreographyIsNotComplete]
+        [VerseChoreographyForFigureIsNotComplete]
         public async Task<IActionResult> DeleteFigure(int id)
         {
             var model = await verseChoreographyFigureService.GetFigureForGelete(id);
@@ -285,7 +285,7 @@ namespace ChoreographyBuilder.Controllers
         [HttpPost]
         [VerseChoreographyFigureExistsForThisUser]
         [FigureIsLastInVerseChoreography]
-        [VerseChoreographyIsNotComplete]
+        [VerseChoreographyForFigureIsNotComplete]
         public async Task<IActionResult> DeleteFigure(VerseChoreographyFigureDeleteViewModel model)
         {
             await verseChoreographyFigureService.DeleteFigureFromVerseChoreographyAsync(model.Id);
