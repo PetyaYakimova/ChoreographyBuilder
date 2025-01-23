@@ -1,0 +1,27 @@
+﻿@model VerseChoreographyFigureDeleteViewModel
+@{
+	ViewBag.Title = "Figure " + @Model.FigureName + " in choreography " + Model.VerseChoreographyName + " - Delete";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+<p class="text-danger mb-4 text-center fw-bold">You are about to delete figure "@Model.FigureName" from verse choreography "@Model.VerseChoreographyName". Are you sure?</p>
+<div class="row">
+	<div class="row justify-content-center">
+		<div class="col-md-2">
+			<form asp-action="Details" asp-route-id="@Model.VerseChoreographyId" method="get">
+				<input type="submit" value="Cancel" class="btn btn-warning mb-2 w-100 p-3 fw-bold" />
+			</form>
+		</div>
+		<div class="col-md-2">
+			<form method="post">
+				<input type="hidden" asp-for="@Model.Id" />
+				<input type="hidden" asp-for="@Model.VerseChoreographyName" />
+				<input type="hidden" asp-for="@Model.VerseChoreographyId" />
+				<input type="hidden" asp-for="@Model.FigureName" />
+				<input type="submit" value="Delete" class="btn btn-danger mb-2 w-100 p-3 fw-bold" />
+			</form>
+		</div>
+	</div>
+</div>
