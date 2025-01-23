@@ -49,17 +49,26 @@
                 <th scope="col">Beats count</th>
                 <th scope="col">Dynamics type</th>
                 <th></th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var figure in Model.Figures)
+            @for (int i = 0; i < Model.Figures.Count(); i++)
             {
                 <tr>
-                    <partial name="_VerseChoreographyFigureTablePartial" model="@figure" />
+                    <partial name="_VerseChoreographyFigureTablePartial" model="@Model.Figures[i]" />
                     <td>
                         <form method="get">
-                            <input type="submit" asp-action="ReplaceFigure" asp-route-id="@figure.Id" value="Replace" class="link-warning custominputlink" />
+                            <input type="submit" asp-action="ReplaceFigure" asp-route-id="@Model.Figures[i].Id" value="Replace" class="link-warning custominputlink" />
                         </form>
+                    </td>
+                    <td>
+                        @if ((i == Model.Figures.Count() - 1) && Model.HasEnoughFigures == false)
+                        {
+                            <form method="get">
+                                <input type="submit" asp-action="DeleteFigure" asp-route-id="@Model.Figures[i].Id" value="Delete" class="link-danger custominputlink" />
+                            </form>
+                        }
                     </td>
                 </tr>
             }
