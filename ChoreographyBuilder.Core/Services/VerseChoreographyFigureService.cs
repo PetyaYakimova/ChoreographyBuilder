@@ -71,6 +71,22 @@ namespace ChoreographyBuilder.Core.Services
             return mapper.Map<List<VerseChoreographyFigureViewModel>>(result);
         }
 
+        public async Task<VerseChoreographyFigureDeleteViewModel> GetFigureForDeleteAsync(int verseChoreographyFigureId)
+        {
+            var figure = await repository.AllAsReadOnly<VerseChoreographyFigure>()
+                .Include(vcf => vcf.VerseChoreography)
+                .Include(vcf => vcf.FigureOption.Figure)
+                .FirstOrDefaultAsync(vcf => vcf.Id == verseChoreographyFigureId);
+
+            if (figure == null)
+            {
+                logger.LogError(EntityWithIdWasNotFoundLoggerErrorMessage, nameof(VerseChoreographyFigure), verseChoreographyFigureId);
+                throw new EntityNotFoundException();
+            }
+
+            return mapper.Map<VerseChoreographyFigureDeleteViewModel>(figure);
+        }
+
         public async Task<int> GetVerseChoreographyIdForVerseChoreographyFigureByIdAsync(int verseChoreographyFigureId)
         {
             var verseChoreographyFigure = await repository.GetByIdAsync<VerseChoreographyFigure>(verseChoreographyFigureId);
