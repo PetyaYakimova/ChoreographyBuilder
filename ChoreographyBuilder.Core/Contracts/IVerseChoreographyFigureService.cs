@@ -21,13 +21,21 @@ namespace ChoreographyBuilder.Core.Contracts
 		/// <returns></returns>
 		Task<IEnumerable<VerseChoreographyFigureViewModel>> GetPossibleReplacementsForVerseChoreographyFigureAsync(int verseChoreographyFigureId);
 
-		/// <summary>
-		/// Returns the verse choreography id of the given verse choreography figure. 
-		/// Throws an exception if there is no such verse choreography figure with this id.
-		/// </summary>
-		/// <param name="verseChoreographyFigureId">>Id of the verse choreography figure</param>
-		/// <returns></returns>
-		Task<int> GetVerseChoreographyIdForVerseChoreographyFigureByIdAsync(int verseChoreographyFigureId);
+        /// <summary>
+        /// Returns VerseChoreographyFigureDeleteViewModel of a verse choreography figure mapping record with the selected id. 
+        /// Throws an exception if there is no such verse choreography figure record with this id.
+        /// </summary>
+        /// <param name="verseChoreographyFigureId">Id of the verse choreography figure mapping record</param>
+        /// <returns></returns>
+        Task<VerseChoreographyFigureDeleteViewModel> GetFigureForDeleteAsync(int verseChoreographyFigureId);
+
+        /// <summary>
+        /// Returns the verse choreography id of the given verse choreography figure. 
+        /// Throws an exception if there is no such verse choreography figure with this id.
+        /// </summary>
+        /// <param name="verseChoreographyFigureId">>Id of the verse choreography figure</param>
+        /// <returns></returns>
+        Task<int> GetVerseChoreographyIdForVerseChoreographyFigureByIdAsync(int verseChoreographyFigureId);
 
 		/// <summary>
 		/// Returns true if the verse choreography figure is linked to a verse choreography that is for this user. 
