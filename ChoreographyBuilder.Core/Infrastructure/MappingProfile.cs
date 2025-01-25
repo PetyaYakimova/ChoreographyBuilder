@@ -130,6 +130,10 @@ namespace ChoreographyBuilder.Core.Infrastructure
 
             CreateMap<VerseChoreographyFigureOptionFormViewModel, VerseChoreographyFigure>();
 
+            CreateMap<VerseChoreographyFigure, VerseChoreographyFigureDeleteViewModel>()
+               .ForMember(d => d.VerseChoreographyName, act => act.MapFrom(src => src.VerseChoreography.Name))
+               .ForMember(d => d.FigureName, act => act.MapFrom(src => src.FigureOption.Figure.Name));
+
             //Full choreography models
             CreateMap<FullChoreography, FullChoreographyTableViewModel>()
                 .ForMember(d => d.NumberOfVerses, act => act.MapFrom(src => src.VerseChoreographies.Count()));
