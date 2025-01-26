@@ -8,6 +8,6 @@ namespace ChoreographyBuilder.Core.Models.VerseChoreography
 	/// </summary>
 	public class VerseChoreographyDetailsViewModel : VerseChoreographyTableViewModel
 	{
-		public IEnumerable<VerseChoreographyFigureViewModel> Figures { get; set; } = new List<VerseChoreographyFigureViewModel>();
+		public IList<VerseChoreographyFigureViewModel> Figures { get; set; } = new List<VerseChoreographyFigureViewModel>();
 	}
 }
