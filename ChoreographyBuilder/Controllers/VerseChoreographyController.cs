@@ -277,7 +277,7 @@ namespace ChoreographyBuilder.Controllers
         [VerseChoreographyForFigureIsNotComplete]
         public async Task<IActionResult> DeleteFigure(int id)
         {
-            var model = await verseChoreographyFigureService.GetFigureForGelete(id);
+            var model = await verseChoreographyFigureService.GetFigureForDeleteAsync(id);
 
             return View(model);
         }
@@ -292,7 +292,7 @@ namespace ChoreographyBuilder.Controllers
 
             TempData[UserMessageSuccess] = String.Format(ItemDeletedSuccessMessage, FigureAsString);
 
-            return RedirectToAction(nameof(Details), new { Id = model.FullChoreographyId });
+            return RedirectToAction(nameof(Details), new { Id = model.VerseChoreographyId });
         }
 
         [HttpGet]
