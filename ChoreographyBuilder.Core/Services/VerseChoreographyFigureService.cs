@@ -174,5 +174,11 @@ namespace ChoreographyBuilder.Core.Services
 
             await repository.SaveChangesAsync();
         }
+
+        public async Task DeleteFigureFromVerseChoreographyAsync(int verseChoreographyFigureId)
+        {
+            await repository.DeleteAsync<VerseChoreographyFigure>(verseChoreographyFigureId);
+            await repository.SaveChangesAsync();
+        }
     }
 }
