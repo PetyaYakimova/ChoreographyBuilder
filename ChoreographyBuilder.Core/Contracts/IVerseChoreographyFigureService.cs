@@ -63,5 +63,12 @@ namespace ChoreographyBuilder.Core.Contracts
         /// <param name="model"></param>
         /// <returns></returns>
         Task AddFigureToVerseChoreographyAsync(int verseChoreographyId, VerseChoreographyFigureOptionFormViewModel model);
+
+        /// <summary>
+		/// Deletes a verse choreography figure record by its id.
+		/// </summary>
+		/// <param name="verseChoreographyFigureId">Id of the verse choreography figure mapping record</param>
+		/// <returns></returns>
+		Task DeleteFigureFromVerseChoreographyAsync(int verseChoreographyFigureId);
     }
 }
