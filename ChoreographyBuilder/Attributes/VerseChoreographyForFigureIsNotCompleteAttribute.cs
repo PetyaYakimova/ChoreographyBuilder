@@ -2,41 +2,40 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace ChoreographyBuilder.Attributes
+namespace ChoreographyBuilder.Attributes;
+
+public class VerseChoreographyForFigureIsNotCompleteAttribute : ActionFilterAttribute
 {
-    public class VerseChoreographyForFigureIsNotCompleteAttribute : ActionFilterAttribute
+    public override void OnActionExecuting(ActionExecutingContext context)
     {
-        public override void OnActionExecuting(ActionExecutingContext context)
+        base.OnActionExecuting(context);
+
+        IVerseChoreographyService? service = context.HttpContext.RequestServices.GetService<IVerseChoreographyService>();
+
+        if (service == null)
         {
-            base.OnActionExecuting(context);
+            context.Result = new StatusCodeResult(StatusCodes.Status500InternalServerError);
+        }
 
-            IVerseChoreographyService? service = context.HttpContext.RequestServices.GetService<IVerseChoreographyService>();
+        object? value = context.HttpContext.GetRouteData().Values["id"];
+        if (value == null)
+        {
+            context.Result = new StatusCodeResult(StatusCodes.Status404NotFound);
+        }
 
-            if (service == null)
+        if (value != null)
+        {
+            int id = 0;
+            if (int.TryParse(value.ToString(), out id))
             {
-                context.Result = new StatusCodeResult(StatusCodes.Status500InternalServerError);
+                if (service != null && service.IsVerseChoreographyForFigureCompleteAsync(id).Result == true)
+                {
+                    context.Result = new StatusCodeResult(StatusCodes.Status400BadRequest);
+                }
             }
-
-            object? value = context.HttpContext.GetRouteData().Values["id"];
-            if (value == null)
+            else
             {
                 context.Result = new StatusCodeResult(StatusCodes.Status404NotFound);
-            }
-
-            if (value != null)
-            {
-                int id = 0;
-                if (int.TryParse(value.ToString(), out id))
-                {
-                    if (service != null && service.IsVerseChoreographyForFigureCompleteAsync(id).Result == true)
-                    {
-                        context.Result = new StatusCodeResult(StatusCodes.Status400BadRequest);
-                    }
-                }
-                else
-                {
-                    context.Result = new StatusCodeResult(StatusCodes.Status404NotFound);
-                }
             }
         }
     }
