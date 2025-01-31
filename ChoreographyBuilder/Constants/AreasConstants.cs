@@ -1,7 +1,6 @@
-﻿namespace ChoreographyBuilder.Constants
+﻿namespace ChoreographyBuilder.Constants;
+
+public static class AreasConstants
 {
-    public static class AreasConstants
-    {
-        public const string AdminAreaName = "Admin";
-    }
+    public const string AdminAreaName = "Admin";
 }
