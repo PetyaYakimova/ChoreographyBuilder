@@ -2,10 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using static ChoreographyBuilder.Infrastructure.Constants.RoleConstants;
 
-namespace ChoreographyBuilder.Controllers
+namespace ChoreographyBuilder.Controllers;
+
+[Authorize(Roles = UserRoleName)]
+public class BaseController : Controller
 {
-	[Authorize(Roles = UserRoleName)]
-	public class BaseController : Controller
-	{
-	}
 }
