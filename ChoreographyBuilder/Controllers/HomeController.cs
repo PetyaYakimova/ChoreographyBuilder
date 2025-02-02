@@ -4,68 +4,67 @@ using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using static ChoreographyBuilder.Constants.AreasConstants;
 
-namespace ChoreographyBuilder.Controllers
+namespace ChoreographyBuilder.Controllers;
+
+public class HomeController : BaseController
 {
-	public class HomeController : BaseController
+	private readonly IUserService userService;
+
+	public HomeController(IUserService userService)
 	{
-		private readonly IUserService userService;
+		this.userService = userService;
+	}
 
-		public HomeController(IUserService userService)
+	[AllowAnonymous]
+	[HttpGet]
+	public IActionResult Index()
+	{
+		if (User?.Identity?.IsAuthenticated ?? false)
 		{
-			this.userService = userService;
+			if (User.IsAdmin())
+			{
+				return RedirectToAction("Stats", "Home", new { area = AdminAreaName });
+			}
+			else if (User.IsUser())
+			{
+				return RedirectToAction(nameof(Stats));
+			}
+		}
+		return View();
+	}
+
+	[HttpGet]
+	public async Task<IActionResult> Stats()
+	{
+		var model = await userService.GetUserStatisticsAsync(User.Id());
+
+		return View(model);
+	}
+
+	[AllowAnonymous]
+	[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+	public IActionResult Error(int statusCode)
+	{
+		if (statusCode == 400)
+		{
+			return View("Error400");
 		}
 
-		[AllowAnonymous]
-		[HttpGet]
-		public IActionResult Index()
+		if (statusCode == 401)
 		{
-			if (User?.Identity?.IsAuthenticated ?? false)
-			{
-				if (User.IsAdmin())
-				{
-					return RedirectToAction("Stats", "Home", new { area = AdminAreaName });
-				}
-				else if (User.IsUser())
-				{
-					return RedirectToAction(nameof(Stats));
-				}
-			}
-			return View();
+			return View("Error401");
 		}
 
-		[HttpGet]
-		public async Task<IActionResult> Stats()
+		if (statusCode == 404)
 		{
-			var model = await userService.GetUserStatisticsAsync(User.Id());
-
-			return View(model);
+			return View("Error404");
 		}
 
-		[AllowAnonymous]
-		[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-		public IActionResult Error(int statusCode)
+		if (statusCode == 500)
 		{
-			if (statusCode == 400)
-			{
-				return View("Error400");
-			}
-
-			if (statusCode == 401)
-			{
-				return View("Error401");
-			}
-
-			if (statusCode == 404)
-			{
-				return View("Error404");
-			}
-
-			if (statusCode == 500)
-			{
-				return View("Error500");
-			}
-
-			return View();
+			return View("Error500");
 		}
+
+		return View();
 	}
 }

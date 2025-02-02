@@ -2,175 +2,217 @@
 using ChoreographyBuilder.Core.Contracts;
 using ChoreographyBuilder.Core.Models.Figure;
 using ChoreographyBuilder.Core.Models.FigureOption;
-using ChoreographyBuilder.Core.Models.FullChoreographyVerseChoreography;
 using ChoreographyBuilder.Core.Models.Position;
 using ChoreographyBuilder.Core.Models.VerseChoreography;
 using ChoreographyBuilder.Core.Models.VerseChoreographyFigure;
 using ChoreographyBuilder.Core.Models.VerseType;
-using ChoreographyBuilder.Core.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using static ChoreographyBuilder.Core.Constants.MessageConstants;
 
-namespace ChoreographyBuilder.Controllers
+namespace ChoreographyBuilder.Controllers;
+
+public class VerseChoreographyController : BaseController
 {
-    public class VerseChoreographyController : BaseController
+    private readonly ILogger<VerseChoreographyController> logger;
+    private readonly IVerseChoreographyService verseChoreographyService;
+    private readonly IVerseChoreographyFigureService verseChoreographyFigureService;
+    private readonly IPositionService positionService;
+    private readonly IVerseTypeService verseTypeService;
+    private readonly IFigureService figureService;
+    private readonly IFigureOptionService figureOptionService;
+
+    public VerseChoreographyController(
+        ILogger<VerseChoreographyController> logger,
+        IVerseChoreographyService verseChoreographyService,
+        IVerseChoreographyFigureService verseChoreographyFigureService,
+        IPositionService positionService,
+        IVerseTypeService verseTypeService,
+        IFigureService figureService,
+        IFigureOptionService figureOptionService)
     {
-        private readonly ILogger<VerseChoreographyController> logger;
-        private readonly IVerseChoreographyService verseChoreographyService;
-        private readonly IVerseChoreographyFigureService verseChoreographyFigureService;
-        private readonly IPositionService positionService;
-        private readonly IVerseTypeService verseTypeService;
-        private readonly IFigureService figureService;
-        private readonly IFigureOptionService figureOptionService;
+        this.logger = logger;
+        this.verseChoreographyService = verseChoreographyService;
+        this.verseChoreographyFigureService = verseChoreographyFigureService;
+        this.positionService = positionService;
+        this.verseTypeService = verseTypeService;
+        this.figureService = figureService;
+        this.figureOptionService = figureOptionService;
+    }
 
-        public VerseChoreographyController(
-            ILogger<VerseChoreographyController> logger,
-            IVerseChoreographyService verseChoreographyService,
-            IVerseChoreographyFigureService verseChoreographyFigureService,
-            IPositionService positionService,
-            IVerseTypeService verseTypeService,
-            IFigureService figureService,
-            IFigureOptionService figureOptionService)
+    [HttpGet]
+    public async Task<IActionResult> Mine([FromQuery] AllVerseChoreographiesQueryModel query)
+    {
+        var model = await verseChoreographyService.AllUserVerseChoreographiesAsync(
+            User.Id(),
+            query.SearchTerm,
+            query.VerseType,
+            query.StartPosition,
+            query.EndPosition,
+            query.FinalFigure,
+            query.CurrentPage,
+            query.ItemsPerPage);
+
+        query.TotalItemCount = model.TotalCount;
+        query.Entities = model.Entities;
+        query.VerseTypes = await GetAllActiveVerseTypesAsync();
+        query.Positions = await GetAllActivePositionsAsync();
+        query.Figures = await GetAllUserHighlightFiguresAsync();
+
+        return View(query);
+    }
+
+    [HttpGet]
+    [VerseChoreographyExistsForThisUser]
+    public async Task<IActionResult> Details(int id)
+    {
+        var model = await verseChoreographyService.GetVerseChoreographyByIdAsync(id);
+
+        return View(model);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Generate()
+    {
+        var model = new VerseChoreographyGenerateModel();
+        model.VerseTypes = await GetAllActiveVerseTypesAsync();
+        model.Positions = await GetAllActivePositionsAsync();
+        model.Figures = await GetAllUserHighlightFiguresAsync();
+
+        return View(model);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Suggestions([FromQuery] VerseChoreographyGenerateModel query)
+    {
+        if (!(await GetAllActiveVerseTypesAsync()).Any(vt => vt.Id == query.VerseTypeId) ||
+            query.StartPositionId != null && !(await GetAllActivePositionsAsync()).Any(p => p.Id == query.StartPositionId) ||
+            !(await GetAllUserHighlightFiguresAsync()).Any(f => f.Id == query.FinalFigureId))
         {
-            this.logger = logger;
-            this.verseChoreographyService = verseChoreographyService;
-            this.verseChoreographyFigureService = verseChoreographyFigureService;
-            this.positionService = positionService;
-            this.verseTypeService = verseTypeService;
-            this.figureService = figureService;
-            this.figureOptionService = figureOptionService;
+            logger.LogError(InvalidRequestForGeneratingVerseChoreographiesErrorMessage);
+            TempData[UserMessageError] = InvalidRequestForGeneratingVerseChoreographiesErrorMessage;
+
+            return RedirectToAction(nameof(Generate));
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Mine([FromQuery] AllVerseChoreographiesQueryModel query)
+        var model = await verseChoreographyService.GenerateChoreographies(query, User.Id());
+
+        if (model.Any())
         {
-            var model = await verseChoreographyService.AllUserVerseChoreographiesAsync(
-                User.Id(),
-                query.SearchTerm,
-                query.VerseType,
-                query.StartPosition,
-                query.EndPosition,
-                query.FinalFigure,
-                query.CurrentPage,
-                query.ItemsPerPage);
-
-            query.TotalItemCount = model.TotalCount;
-            query.Entities = model.Entities;
-            query.VerseTypes = await GetAllActiveVerseTypesAsync();
-            query.Positions = await GetAllActivePositionsAsync();
-            query.Figures = await GetAllUserHighlightFiguresAsync();
-
-            return View(query);
+            TempData[UserMessageSuccess] = VerseChoreographiesSuggestionsGeneratedSuccessMessage;
         }
 
-        [HttpGet]
-        [VerseChoreographyExistsForThisUser]
-        public async Task<IActionResult> Details(int id)
-        {
-            var model = await verseChoreographyService.GetVerseChoreographyByIdAsync(id);
+        return View(model);
+    }
 
-            return View(model);
+    [HttpPost]
+    public async Task<IActionResult> Save(VerseChoreographySaveViewModel model)
+    {
+        if (!await verseTypeService.VerseTypeExistByIdAsync(model.VerseTypeId))
+        {
+            logger.LogError(InvalidVerseTypeIdWhenSavingVerseChoreographyErrorMessage);
+            return BadRequest();
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Generate()
+        List<int> figureOptionsIds = model.Figures.Select(f => f.FigureOptionId).ToList();
+        string userId = User.Id();
+        foreach (int figureOptionId in figureOptionsIds)
         {
-            var model = new VerseChoreographyGenerateModel();
-            model.VerseTypes = await GetAllActiveVerseTypesAsync();
-            model.Positions = await GetAllActivePositionsAsync();
-            model.Figures = await GetAllUserHighlightFiguresAsync();
-
-            return View(model);
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> Suggestions([FromQuery] VerseChoreographyGenerateModel query)
-        {
-            if (!(await GetAllActiveVerseTypesAsync()).Any(vt => vt.Id == query.VerseTypeId) ||
-                query.StartPositionId != null && !(await GetAllActivePositionsAsync()).Any(p => p.Id == query.StartPositionId) ||
-                !(await GetAllUserHighlightFiguresAsync()).Any(f => f.Id == query.FinalFigureId))
+            if (!await figureOptionService.FigureOptionExistForThisUserByIdAsync(figureOptionId, userId))
             {
-                logger.LogError(InvalidRequestForGeneratingVerseChoreographiesErrorMessage);
-                TempData[UserMessageError] = InvalidRequestForGeneratingVerseChoreographiesErrorMessage;
-
-                return RedirectToAction(nameof(Generate));
-            }
-
-            var model = await verseChoreographyService.GenerateChoreographies(query, User.Id());
-
-            if (model.Any())
-            {
-                TempData[UserMessageSuccess] = VerseChoreographiesSuggestionsGeneratedSuccessMessage;
-            }
-
-            return View(model);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Save(VerseChoreographySaveViewModel model)
-        {
-            if (!await verseTypeService.VerseTypeExistByIdAsync(model.VerseTypeId))
-            {
-                logger.LogError(InvalidVerseTypeIdWhenSavingVerseChoreographyErrorMessage);
+                logger.LogError(InvalidFigureOptionIdWhenSavingVerseChoreographyErrorMessage);
                 return BadRequest();
             }
-
-            List<int> figureOptionsIds = model.Figures.Select(f => f.FigureOptionId).ToList();
-            string userId = User.Id();
-            foreach (int figureOptionId in figureOptionsIds)
-            {
-                if (!await figureOptionService.FigureOptionExistForThisUserByIdAsync(figureOptionId, userId))
-                {
-                    logger.LogError(InvalidFigureOptionIdWhenSavingVerseChoreographyErrorMessage);
-                    return BadRequest();
-                }
-            }
-
-            if (ModelState.IsValid == false)
-            {
-                TempData[UserMessageError] = InvalidVerseChoreographyErrorMessage;
-
-                return RedirectToAction(nameof(Generate));
-            }
-
-            await verseChoreographyService.SaveVerseChoreographyAsync(model, User.Id());
-
-            TempData[UserMessageSuccess] = String.Format(ItemAddedSuccessMessage, VerseChoreographyAsString);
-
-            return RedirectToAction(nameof(Mine));
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Add()
+        if (ModelState.IsValid == false)
         {
-            VerseChoreographyFormViewModel model = new VerseChoreographyFormViewModel();
-            model.VerseTypes = await GetAllActiveVerseTypesAsync();
+            TempData[UserMessageError] = InvalidVerseChoreographyErrorMessage;
 
+            return RedirectToAction(nameof(Generate));
+        }
+
+        await verseChoreographyService.SaveVerseChoreographyAsync(model, User.Id());
+
+        TempData[UserMessageSuccess] = String.Format(ItemAddedSuccessMessage, VerseChoreographyAsString);
+
+        return RedirectToAction(nameof(Mine));
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Add()
+    {
+        VerseChoreographyFormViewModel model = new VerseChoreographyFormViewModel();
+        model.VerseTypes = await GetAllActiveVerseTypesAsync();
+
+        return View(model);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Add(VerseChoreographyFormViewModel model)
+    {
+        if (ModelState.IsValid == false)
+        {
             return View(model);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Add(VerseChoreographyFormViewModel model)
+        int verseChoreographyId = await verseChoreographyService.AddVerseChoreographyAsync(model, User.Id());
+
+        TempData[UserMessageSuccess] = String.Format(ItemAddedSuccessMessage, VerseChoreographyAsString);
+
+        return RedirectToAction(nameof(Details), new { Id = verseChoreographyId });
+    }
+
+    [HttpGet]
+    [VerseChoreographyExistsForThisUser]
+    [VerseChoreographyIsNotComplete]
+    public async Task<IActionResult> AddFigure(int id)
+    {
+        var model = new VerseChoreographyFigureOptionFormViewModel();
+        model.FigureOrder = (await verseChoreographyService.GetNumberOfFiguresForVerseChoreographyAsync(id)) + 1;
+        model.RemainingBeats = await verseChoreographyService.GetNumberOfRemainingBeatsForVerseChoreographyAsync(id);
+        PositionForPreviewViewModel? lastfigureEndPosition = await verseChoreographyService.GetLastFigureEndPositionAsync(id);
+        model.Figures = await GetAllUserFiguresWithStartPositionAndLessThanRemainingBeatsAsync(model.RemainingBeats, lastfigureEndPosition?.Id);
+        model.StartPositionName = lastfigureEndPosition?.Name;
+
+        return View(model);
+    }
+
+    [HttpPost]
+    [VerseChoreographyExistsForThisUser]
+    [VerseChoreographyIsNotComplete]
+    public async Task<IActionResult> AddFigure(VerseChoreographyFigureOptionFormViewModel model, int id)
+    {
+        bool figureOptionExists = await figureOptionService.FigureOptionExistForThisUserByIdAsync(model.FigureOptionId, User.Id());
+        if (!figureOptionExists)
         {
-            if (ModelState.IsValid == false)
-            {
-                return View(model);
-            }
-
-            int verseChoreographyId = await verseChoreographyService.AddVerseChoreographyAsync(model, User.Id());
-
-            TempData[UserMessageSuccess] = String.Format(ItemAddedSuccessMessage, VerseChoreographyAsString);
-
-            return RedirectToAction(nameof(Details), new { Id = verseChoreographyId });
+            ModelState.AddModelError(nameof(model.FigureOptionId), FigureOptionDoesntExistErrorMessage);
         }
 
-        [HttpGet]
-        [VerseChoreographyExistsForThisUser]
-        [VerseChoreographyIsNotComplete]
-        public async Task<IActionResult> AddFigure(int id)
+        int nextAvailableOrder = (await verseChoreographyService.GetNumberOfFiguresForVerseChoreographyAsync(id)) + 1;
+        if (nextAvailableOrder != model.FigureOrder)
         {
-            var model = new VerseChoreographyFigureOptionFormViewModel();
+            ModelState.AddModelError(nameof(model.FigureOrder), InvalidFigureOrderErrorMessage);
+        }
+
+        int remainingBeats = await verseChoreographyService.GetNumberOfRemainingBeatsForVerseChoreographyAsync(id);
+        int figureBeats = await figureOptionService.GetBeatsForFigureOptionAsync(model.FigureOptionId);
+        if (remainingBeats < figureBeats)
+        {
+            ModelState.AddModelError(nameof(model.FigureOptionId), FigureHasTooManyBeatsErrorMessage);
+        }
+
+        if (model.StartPositionName != null)
+        {
+            string figureStartPositionName = await figureOptionService.GetStartPositionNameForFigureOptionAsync(model.FigureOptionId);
+            if (figureStartPositionName != model.StartPositionName)
+            {
+                ModelState.AddModelError(nameof(model.FigureOptionId), FigureStartsWithWrongPositionErrorMessage);
+            }
+        }
+
+        if (ModelState.IsValid == false)
+        {
             model.FigureOrder = (await verseChoreographyService.GetNumberOfFiguresForVerseChoreographyAsync(id)) + 1;
             model.RemainingBeats = await verseChoreographyService.GetNumberOfRemainingBeatsForVerseChoreographyAsync(id);
             PositionForPreviewViewModel? lastfigureEndPosition = await verseChoreographyService.GetLastFigureEndPositionAsync(id);
@@ -180,161 +222,116 @@ namespace ChoreographyBuilder.Controllers
             return View(model);
         }
 
-        [HttpPost]
-        [VerseChoreographyExistsForThisUser]
-        [VerseChoreographyIsNotComplete]
-        public async Task<IActionResult> AddFigure(VerseChoreographyFigureOptionFormViewModel model, int id)
+        await verseChoreographyFigureService.AddFigureToVerseChoreographyAsync(id, model);
+
+        TempData[UserMessageSuccess] = String.Format(ItemAddedSuccessMessage, FigureAsString);
+
+        int remainingBeatsAfterAddingFigure = await verseChoreographyService.GetNumberOfRemainingBeatsForVerseChoreographyAsync(id);
+        if (remainingBeatsAfterAddingFigure > 0)
         {
-            bool figureOptionExists = await figureOptionService.FigureOptionExistForThisUserByIdAsync(model.FigureOptionId, User.Id());
-            if (!figureOptionExists)
-            {
-                ModelState.AddModelError(nameof(model.FigureOptionId), FigureOptionDoesntExistErrorMessage);
-            }
+            return RedirectToAction(nameof(AddFigure), new { Id = id });
+        }
+        else
+        {
+            return RedirectToAction(nameof(Details), new { Id = id });
+        }
+    }
 
-            int nextAvailableOrder = (await verseChoreographyService.GetNumberOfFiguresForVerseChoreographyAsync(id)) + 1;
-            if (nextAvailableOrder != model.FigureOrder)
-            {
-                ModelState.AddModelError(nameof(model.FigureOrder), InvalidFigureOrderErrorMessage);
-            }
+    [HttpGet]
+    [VerseChoreographyFigureExistsForThisUser]
+    public async Task<IActionResult> ReplaceFigure(int id)
+    {
+        VerseChoreographyFigureReplaceViewModel model = await verseChoreographyFigureService.GetVerseChoreographyFigureForReplaceAsync(id);
+        model.PossibleReplacementFigures = await verseChoreographyFigureService.GetPossibleReplacementsForVerseChoreographyFigureAsync(id);
 
-            int remainingBeats = await verseChoreographyService.GetNumberOfRemainingBeatsForVerseChoreographyAsync(id);
-            int figureBeats = await figureOptionService.GetBeatsForFigureOptionAsync(model.FigureOptionId);
-            if (remainingBeats < figureBeats)
-            {
-                ModelState.AddModelError(nameof(model.FigureOptionId), FigureHasTooManyBeatsErrorMessage);
-            }
+        return View(model);
+    }
 
-            if (model.StartPositionName != null)
-            {
-                string figureStartPositionName = await figureOptionService.GetStartPositionNameForFigureOptionAsync(model.FigureOptionId);
-                if (figureStartPositionName != model.StartPositionName)
-                {
-                    ModelState.AddModelError(nameof(model.FigureOptionId), FigureStartsWithWrongPositionErrorMessage);
-                }
-            }
-
-            if (ModelState.IsValid == false)
-            {
-                model.FigureOrder = (await verseChoreographyService.GetNumberOfFiguresForVerseChoreographyAsync(id)) + 1;
-                model.RemainingBeats = await verseChoreographyService.GetNumberOfRemainingBeatsForVerseChoreographyAsync(id);
-                PositionForPreviewViewModel? lastfigureEndPosition = await verseChoreographyService.GetLastFigureEndPositionAsync(id);
-                model.Figures = await GetAllUserFiguresWithStartPositionAndLessThanRemainingBeatsAsync(model.RemainingBeats, lastfigureEndPosition?.Id);
-                model.StartPositionName = lastfigureEndPosition?.Name;
-
-                return View(model);
-            }
-
-            await verseChoreographyFigureService.AddFigureToVerseChoreographyAsync(id, model);
-
-            TempData[UserMessageSuccess] = String.Format(ItemAddedSuccessMessage, FigureAsString);
-
-            int remainingBeatsAfterAddingFigure = await verseChoreographyService.GetNumberOfRemainingBeatsForVerseChoreographyAsync(id);
-            if (remainingBeatsAfterAddingFigure > 0)
-            {
-                return RedirectToAction(nameof(AddFigure), new { Id = id });
-            }
-            else
-            {
-                return RedirectToAction(nameof(Details), new { Id = id });
-            }
+    [HttpPost]
+    [VerseChoreographyFigureExistsForThisUser]
+    public async Task<IActionResult> ReplaceFigure(VerseChoreographyFigureReplaceViewModel model, int id)
+    {
+        if (ModelState.IsValid == false)
+        {
+            VerseChoreographyFigureReplaceViewModel updatedModel = await verseChoreographyFigureService.GetVerseChoreographyFigureForReplaceAsync(id);
+            updatedModel.PossibleReplacementFigures = await verseChoreographyFigureService.GetPossibleReplacementsForVerseChoreographyFigureAsync(id);
+            return View(updatedModel);
         }
 
-        [HttpGet]
-        [VerseChoreographyFigureExistsForThisUser]
-        public async Task<IActionResult> ReplaceFigure(int id)
+        VerseChoreographyFigureSelectedReplacementServiceModel serviceModel = new VerseChoreographyFigureSelectedReplacementServiceModel()
         {
-            VerseChoreographyFigureReplaceViewModel model = await verseChoreographyFigureService.GetVerseChoreographyFigureForReplaceAsync(id);
-            model.PossibleReplacementFigures = await verseChoreographyFigureService.GetPossibleReplacementsForVerseChoreographyFigureAsync(id);
+            FigureOptionId = model.ReplacementFigureOptionId,
+            FigureOrder = model.FigureOrder
+        };
 
-            return View(model);
-        }
+        int verseChoreographyId = await verseChoreographyFigureService.GetVerseChoreographyIdForVerseChoreographyFigureByIdAsync(id);
+        await verseChoreographyService.ChangeFigureInVerseChoreographyAsync(verseChoreographyId, serviceModel);
+        return RedirectToAction(nameof(Details), new { Id = verseChoreographyId });
+    }
 
-        [HttpPost]
-        [VerseChoreographyFigureExistsForThisUser]
-        public async Task<IActionResult> ReplaceFigure(VerseChoreographyFigureReplaceViewModel model, int id)
-        {
-            if (ModelState.IsValid == false)
-            {
-                VerseChoreographyFigureReplaceViewModel updatedModel = await verseChoreographyFigureService.GetVerseChoreographyFigureForReplaceAsync(id);
-                updatedModel.PossibleReplacementFigures = await verseChoreographyFigureService.GetPossibleReplacementsForVerseChoreographyFigureAsync(id);
-                return View(updatedModel);
-            }
+    [HttpGet]
+    [VerseChoreographyFigureExistsForThisUser]
+    [FigureIsLastInVerseChoreography]
+    [VerseChoreographyForFigureIsNotComplete]
+    public async Task<IActionResult> DeleteFigure(int id)
+    {
+        var model = await verseChoreographyFigureService.GetFigureForDeleteAsync(id);
 
-            VerseChoreographyFigureSelectedReplacementServiceModel serviceModel = new VerseChoreographyFigureSelectedReplacementServiceModel()
-            {
-                FigureOptionId = model.ReplacementFigureOptionId,
-                FigureOrder = model.FigureOrder
-            };
+        return View(model);
+    }
 
-            int verseChoreographyId = await verseChoreographyFigureService.GetVerseChoreographyIdForVerseChoreographyFigureByIdAsync(id);
-            await verseChoreographyService.ChangeFigureInVerseChoreographyAsync(verseChoreographyId, serviceModel);
-            return RedirectToAction(nameof(Details), new { Id = verseChoreographyId });
-        }
+    [HttpPost]
+    [VerseChoreographyFigureExistsForThisUser]
+    [FigureIsLastInVerseChoreography]
+    [VerseChoreographyForFigureIsNotComplete]
+    public async Task<IActionResult> DeleteFigure(VerseChoreographyFigureDeleteViewModel model)
+    {
+        await verseChoreographyFigureService.DeleteFigureFromVerseChoreographyAsync(model.Id);
 
-        [HttpGet]
-        [VerseChoreographyFigureExistsForThisUser]
-        [FigureIsLastInVerseChoreography]
-        [VerseChoreographyForFigureIsNotComplete]
-        public async Task<IActionResult> DeleteFigure(int id)
-        {
-            var model = await verseChoreographyFigureService.GetFigureForDeleteAsync(id);
+        TempData[UserMessageSuccess] = String.Format(ItemDeletedSuccessMessage, FigureAsString);
 
-            return View(model);
-        }
+        return RedirectToAction(nameof(Details), new { Id = model.VerseChoreographyId });
+    }
 
-        [HttpPost]
-        [VerseChoreographyFigureExistsForThisUser]
-        [FigureIsLastInVerseChoreography]
-        [VerseChoreographyForFigureIsNotComplete]
-        public async Task<IActionResult> DeleteFigure(VerseChoreographyFigureDeleteViewModel model)
-        {
-            await verseChoreographyFigureService.DeleteFigureFromVerseChoreographyAsync(model.Id);
+    [HttpGet]
+    [VerseChoreographyExistsForThisUser]
+    [VerseChoreographyNotUsedInFullChoreographies]
+    public async Task<IActionResult> Delete(int id)
+    {
+        var model = await verseChoreographyService.GetVerseChoreographyForDeleteAsync(id);
 
-            TempData[UserMessageSuccess] = String.Format(ItemDeletedSuccessMessage, FigureAsString);
+        return View(model);
+    }
 
-            return RedirectToAction(nameof(Details), new { Id = model.VerseChoreographyId });
-        }
+    [HttpPost]
+    [VerseChoreographyExistsForThisUser]
+    [VerseChoreographyNotUsedInFullChoreographies]
+    public async Task<IActionResult> Delete(VerseChoreographyDeleteViewModel model)
+    {
+        await verseChoreographyService.DeleteVerseChoreographyAsync(model.Id);
 
-        [HttpGet]
-        [VerseChoreographyExistsForThisUser]
-        [VerseChoreographyNotUsedInFullChoreographies]
-        public async Task<IActionResult> Delete(int id)
-        {
-            var model = await verseChoreographyService.GetVerseChoreographyForDeleteAsync(id);
+        TempData[UserMessageSuccess] = String.Format(ItemDeletedSuccessMessage, VerseChoreographyAsString);
 
-            return View(model);
-        }
+        return RedirectToAction(nameof(Mine));
+    }
 
-        [HttpPost]
-        [VerseChoreographyExistsForThisUser]
-        [VerseChoreographyNotUsedInFullChoreographies]
-        public async Task<IActionResult> Delete(VerseChoreographyDeleteViewModel model)
-        {
-            await verseChoreographyService.DeleteVerseChoreographyAsync(model.Id);
+    private async Task<IEnumerable<VerseTypeForPreviewViewModel>> GetAllActiveVerseTypesAsync()
+    {
+        return await verseTypeService.AllActiveVerseTypesOrSelectedVerseTypeAsync();
+    }
 
-            TempData[UserMessageSuccess] = String.Format(ItemDeletedSuccessMessage, VerseChoreographyAsString);
+    private async Task<IEnumerable<PositionForPreviewViewModel>> GetAllActivePositionsAsync()
+    {
+        return await positionService.AllActivePositionsAndSelectedPositionAsync();
+    }
 
-            return RedirectToAction(nameof(Mine));
-        }
+    private async Task<IEnumerable<FigureForPreviewViewModel>> GetAllUserHighlightFiguresAsync()
+    {
+        return await figureService.AllUserHighlightFiguresForChoreographiesAsync(User.Id());
+    }
 
-        private async Task<IEnumerable<VerseTypeForPreviewViewModel>> GetAllActiveVerseTypesAsync()
-        {
-            return await verseTypeService.AllActiveVerseTypesOrSelectedVerseTypeAsync();
-        }
-
-        private async Task<IEnumerable<PositionForPreviewViewModel>> GetAllActivePositionsAsync()
-        {
-            return await positionService.AllActivePositionsAndSelectedPositionAsync();
-        }
-
-        private async Task<IEnumerable<FigureForPreviewViewModel>> GetAllUserHighlightFiguresAsync()
-        {
-            return await figureService.AllUserHighlightFiguresForChoreographiesAsync(User.Id());
-        }
-
-        private async Task<IEnumerable<FigureOptionWithFigureViewModel>> GetAllUserFiguresWithStartPositionAndLessThanRemainingBeatsAsync(int remainingbeats, int? startPositionId = null)
-        {
-            return await figureOptionService.AllUserFiguresStartingWithPositionAndLessThanBeatsAsync(User.Id(), remainingbeats, startPositionId);
-        }
+    private async Task<IEnumerable<FigureOptionWithFigureViewModel>> GetAllUserFiguresWithStartPositionAndLessThanRemainingBeatsAsync(int remainingbeats, int? startPositionId = null)
+    {
+        return await figureOptionService.AllUserFiguresStartingWithPositionAndLessThanBeatsAsync(User.Id(), remainingbeats, startPositionId);
     }
 }
