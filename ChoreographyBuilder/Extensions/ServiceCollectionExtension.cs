@@ -6,61 +6,60 @@ using ChoreographyBuilder.Infrastructure.Data.Common;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace Microsoft.Extensions.DependencyInjection
+namespace Microsoft.Extensions.DependencyInjection;
+
+public static class ServiceCollectionExtension
 {
-	public static class ServiceCollectionExtension
+	public static IServiceCollection AddMappingServices (this IServiceCollection services) 
 	{
-		public static IServiceCollection AddMappingServices (this IServiceCollection services) 
-		{
-			services.AddAutoMapper(typeof(MappingProfile));
+		services.AddAutoMapper(typeof(MappingProfile));
 
-			return services;
-		}
+		return services;
+	}
 
-		public static IServiceCollection AddApplicationServices(this IServiceCollection services)
-		{
-			services.AddScoped<IVerseTypeService, VerseTypeService>();
-			services.AddScoped<IPositionService, PositionService>();
-			services.AddScoped<IFigureService, FigureService>();
-			services.AddScoped<IFigureOptionService, FigureOptionService>();
-			services.AddScoped<IVerseChoreographyService, VerseChoreographyService>();
-			services.AddScoped<IVerseChoreographyFigureService, VerseChoreographyFigureService>();
-			services.AddScoped<IFullChoreographyService, FullChoreographyService>();
-			services.AddScoped<IFullChoreographyVerseChoreographyService, FullChoreographyVerseChoreographyService>();
-			services.AddScoped<IUserService, UserService>();
+	public static IServiceCollection AddApplicationServices(this IServiceCollection services)
+	{
+		services.AddScoped<IVerseTypeService, VerseTypeService>();
+		services.AddScoped<IPositionService, PositionService>();
+		services.AddScoped<IFigureService, FigureService>();
+		services.AddScoped<IFigureOptionService, FigureOptionService>();
+		services.AddScoped<IVerseChoreographyService, VerseChoreographyService>();
+		services.AddScoped<IVerseChoreographyFigureService, VerseChoreographyFigureService>();
+		services.AddScoped<IFullChoreographyService, FullChoreographyService>();
+		services.AddScoped<IFullChoreographyVerseChoreographyService, FullChoreographyVerseChoreographyService>();
+		services.AddScoped<IUserService, UserService>();
 
-			return services;
-		}
+		return services;
+	}
 
-		public static IServiceCollection AddApplicationDbContext(this IServiceCollection services, IConfiguration config)
-		{
-			var connectionString = config.GetConnectionString("DefaultConnection");
-			services.AddDbContext<ChoreographyBuilderDbContext>(options =>
-				options.UseSqlServer(connectionString));
+	public static IServiceCollection AddApplicationDbContext(this IServiceCollection services, IConfiguration config)
+	{
+		var connectionString = config.GetConnectionString("DefaultConnection");
+		services.AddDbContext<ChoreographyBuilderDbContext>(options =>
+			options.UseSqlServer(connectionString));
 
-			services.AddScoped<IRepository, Repository>();
+		services.AddScoped<IRepository, Repository>();
 
-			services.AddDatabaseDeveloperPageExceptionFilter();
+		services.AddDatabaseDeveloperPageExceptionFilter();
 
-			return services;
-		}
+		return services;
+	}
 
-		public static IServiceCollection AddApplicationIdentity(this IServiceCollection services, IConfiguration config)
-		{
-			services
-				.AddDefaultIdentity<IdentityUser>(options =>
-				{
-					options.User.RequireUniqueEmail = true;
-					options.SignIn.RequireConfirmedAccount = false;
-					options.Password.RequireNonAlphanumeric = false;
-					options.Password.RequireUppercase = false;
-					options.Password.RequireLowercase = false;
-					options.Password.RequireDigit = false;
-				})
-				.AddRoles<IdentityRole>()
-				.AddEntityFrameworkStores<ChoreographyBuilderDbContext>();
+	public static IServiceCollection AddApplicationIdentity(this IServiceCollection services, IConfiguration config)
+	{
+		services
+			.AddDefaultIdentity<IdentityUser>(options =>
+			{
+				options.User.RequireUniqueEmail = true;
+				options.SignIn.RequireConfirmedAccount = false;
+				options.Password.RequireNonAlphanumeric = false;
+				options.Password.RequireUppercase = false;
+				options.Password.RequireLowercase = false;
+				options.Password.RequireDigit = false;
+			})
+			.AddRoles<IdentityRole>()
+			.AddEntityFrameworkStores<ChoreographyBuilderDbContext>();
 
-			return services;
-		}
+		return services;
 	}
 }
