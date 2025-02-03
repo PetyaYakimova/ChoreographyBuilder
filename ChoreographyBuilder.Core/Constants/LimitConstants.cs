@@ -1,9 +1,8 @@
-﻿namespace ChoreographyBuilder.Core.Constants
-{
-	public static class LimitConstants
-	{
-		public const int DefaultNumberOfItemsPerPage = 10;
+﻿namespace ChoreographyBuilder.Core.Constants;
 
-		public const int MaxNumberOfSuggestedChoreographies = 5;
-	}
+public static class LimitConstants
+{
+	public const int DefaultNumberOfItemsPerPage = 10;
+
+	public const int MaxNumberOfSuggestedChoreographies = 5;
 }
