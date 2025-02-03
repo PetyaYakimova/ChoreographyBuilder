@@ -1,27 +1,26 @@
 ﻿using ChoreographyBuilder.Core.Models.FigureOption;
-using ChoreographyBuilder.Core.Models.VerseChoreography;
 using ChoreographyBuilder.Infrastructure.Data.Models.Enums;
 using static ChoreographyBuilder.Core.Constants.LimitConstants;
 
-namespace ChoreographyBuilder.Core.Contracts
-{
-	public interface IFigureOptionService
-	{
-		/// <summary>
-		/// Returns FigureOptionFormViewModel for the figure option with the selected id.
-		/// Throws an exception if there is no such figure option with this id.
-		/// </summary>
-		/// <param name="optionId">Id of the option</param>
-		/// <returns></returns>
-		Task<FigureOptionFormViewModel> GetFigureOptionByIdAsync(int optionId);
+namespace ChoreographyBuilder.Core.Contracts;
 
-		/// <summary>
-		/// Returns the figure option delete model of a figure option with the selected id. 
-		/// Throws an exception if there is no such figure option with this id.
-		/// </summary>
-		/// <param name="id">Id of the option</param>
-		/// <returns>FigureOptionDeleteModel</returns>
-		Task<FigureOptionDeleteViewModel> GetFigureOptionForDeleteAsync(int id);
+public interface IFigureOptionService
+{
+	/// <summary>
+	/// Returns FigureOptionFormViewModel for the figure option with the selected id.
+	/// Throws an exception if there is no such figure option with this id.
+	/// </summary>
+	/// <param name="optionId">Id of the option</param>
+	/// <returns></returns>
+	Task<FigureOptionFormViewModel> GetFigureOptionByIdAsync(int optionId);
+
+	/// <summary>
+	/// Returns the figure option delete model of a figure option with the selected id. 
+	/// Throws an exception if there is no such figure option with this id.
+	/// </summary>
+	/// <param name="id">Id of the option</param>
+	/// <returns>FigureOptionDeleteModel</returns>
+	Task<FigureOptionDeleteViewModel> GetFigureOptionForDeleteAsync(int id);
 
         /// <summary>
         /// Returns the beats count of a figure option with the selected id.
@@ -53,29 +52,29 @@ namespace ChoreographyBuilder.Core.Contracts
         /// <returns>FigureOptionQueryServiceModel with the options for the current page and the total number of options by this search criteria</returns>
         Task<FigureOptionQueryServiceModel> GetFigureOptionsAsync(int figureId, int? searchedStartPositionId = null, int? searchedEndPositionId = null, int? searchedBeatsCount = null, DynamicsType? searchedDynamicsType = null, int currentPage = 1, int itemsPerPage = DefaultNumberOfItemsPerPage);
 
-		/// <summary>
-		/// Returns true if the figure options is linked to a figure that is for this user. 
-		/// Returns false if the figure option doesn't exist at all, or if it is for another user.
-		/// </summary>
-		/// <param name="optionId">Id of the option</param>
-		/// <param name="userId">Id of the user</param>
-		/// <returns></returns>
-		Task<bool> FigureOptionExistForThisUserByIdAsync(int optionId, string userId);
+	/// <summary>
+	/// Returns true if the figure options is linked to a figure that is for this user. 
+	/// Returns false if the figure option doesn't exist at all, or if it is for another user.
+	/// </summary>
+	/// <param name="optionId">Id of the option</param>
+	/// <param name="userId">Id of the user</param>
+	/// <returns></returns>
+	Task<bool> FigureOptionExistForThisUserByIdAsync(int optionId, string userId);
 
-		/// <summary>
-		/// Returns true if there is at least one verse choreography that uses this figure option. 
-		/// Returns false if the figure option is not used for any verse choreography. 
-		/// Throws an exception if there is no such figure option with this id.
-		/// </summary>
-		/// <param name="optionId">Id of the option</param>
-		/// <returns></returns>
-		Task<bool> IsFigureOptionUsedInChoreographiesAsync(int optionId);
+	/// <summary>
+	/// Returns true if there is at least one verse choreography that uses this figure option. 
+	/// Returns false if the figure option is not used for any verse choreography. 
+	/// Throws an exception if there is no such figure option with this id.
+	/// </summary>
+	/// <param name="optionId">Id of the option</param>
+	/// <returns></returns>
+	Task<bool> IsFigureOptionUsedInChoreographiesAsync(int optionId);
 
         /// <summary>
         /// Returns a collection with all the figure options for the user that start with a certain start position and have less beats than the remaining beats in the verse choreography.
         /// </summary>
         /// <param name="userId">Id of the user</param>
-		/// <param name="remainingBeats">Number of beats reamaining in the verse choreography</param>
+	/// <param name="remainingBeats">Number of beats reamaining in the verse choreography</param>
         /// <param name="startPositionId">Id of the start position</param>
         /// <returns></returns>
         Task<IEnumerable<FigureOptionWithFigureViewModel>> AllUserFiguresStartingWithPositionAndLessThanBeatsAsync(string userId, int remainingBeats, int? startPositionId = null);
@@ -91,22 +90,21 @@ namespace ChoreographyBuilder.Core.Contracts
         /// <returns></returns>
         Task AddFigureOptionAsync(FigureOptionFormViewModel model);
 
-		/// <summary>
-		/// Edits the figure option with the given id with the updated data from the model.
-		/// Throws an exception if there is no such figure option with this id.
-		/// Throws an exception if the given in the model start position, end position are not valid.
-		/// Throws an exception if the given in the model beats count is not an even number.
-		/// </summary>
-		/// <param name="optionId">Id of the option</param>
-		/// <param name="model">FigureOptionFormViewModel model</param>
-		/// <returns></returns>
-		Task EditFigureOptionAsync(int optionId, FigureOptionFormViewModel model);
+	/// <summary>
+	/// Edits the figure option with the given id with the updated data from the model.
+	/// Throws an exception if there is no such figure option with this id.
+	/// Throws an exception if the given in the model start position, end position are not valid.
+	/// Throws an exception if the given in the model beats count is not an even number.
+	/// </summary>
+	/// <param name="optionId">Id of the option</param>
+	/// <param name="model">FigureOptionFormViewModel model</param>
+	/// <returns></returns>
+	Task EditFigureOptionAsync(int optionId, FigureOptionFormViewModel model);
 
-		/// <summary>
-		/// Deletes a figure option by its id.
-		/// </summary>
-		/// <param name="id">Id of the option</param>
-		/// <returns></returns>
-		Task DeleteFigureOptionAsync(int id);
-	}
+	/// <summary>
+	/// Deletes a figure option by its id.
+	/// </summary>
+	/// <param name="id">Id of the option</param>
+	/// <returns></returns>
+	Task DeleteFigureOptionAsync(int id);
 }
