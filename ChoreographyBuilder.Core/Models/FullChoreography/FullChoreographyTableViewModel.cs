@@ -1,18 +1,17 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ChoreographyBuilder.Core.Models.FullChoreography
+namespace ChoreographyBuilder.Core.Models.FullChoreography;
+
+/// <summary>
+/// View model for previewing full choreography in a table and when getting it for delete view. 
+/// No added validation attributes.
+/// </summary>
+public class FullChoreographyTableViewModel
 {
-	/// <summary>
-	/// View model for previewing full choreography in a table and when getting it for delete view. 
-	/// No added validation attributes.
-	/// </summary>
-	public class FullChoreographyTableViewModel
-	{
-		public int Id { get; set; }
+	public int Id { get; set; }
 
-		public string Name { get; set; } = string.Empty;
+	public string Name { get; set; } = string.Empty;
 
-		[Display(Name = "Number of verse choreographies:")]
-		public int NumberOfVerses { get; set; }
-	}
+	[Display(Name = "Number of verse choreographies:")]
+	public int NumberOfVerses { get; set; }
 }
