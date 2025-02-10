@@ -1,15 +1,14 @@
-﻿namespace ChoreographyBuilder.Core.Models.VerseChoreography
+﻿namespace ChoreographyBuilder.Core.Models.VerseChoreography;
+
+/// <summary>
+/// View model only for previewing saved verse choreography when trying to delete it. 
+/// No added validation attributes.
+/// </summary>
+public class VerseChoreographyDeleteViewModel
 {
-	/// <summary>
-	/// View model only for previewing saved verse choreography when trying to delete it. 
-	/// No added validation attributes.
-	/// </summary>
-	public class VerseChoreographyDeleteViewModel
-	{
-		public int Id { get; set; }
+	public int Id { get; set; }
 
-		public string Name { get; set; } = string.Empty;
+	public string Name { get; set; } = string.Empty;
 
-		public int NumberOfFigures { get; set; }
-	}
+	public int NumberOfFigures { get; set; }
 }
