@@ -2,27 +2,26 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace ChoreographyBuilder.Infrastructure.Data.SeedDb
+namespace ChoreographyBuilder.Infrastructure.Data.SeedDb;
+
+internal class FigureConfiguration : IEntityTypeConfiguration<Figure>
 {
-	internal class FigureConfiguration : IEntityTypeConfiguration<Figure>
+	private bool seedData;
+
+	public FigureConfiguration(bool seedData = true) : base()
 	{
-		private bool seedData;
+		this.seedData = seedData;
+	}
 
-		public FigureConfiguration(bool seedData = true) : base()
+	public void Configure(EntityTypeBuilder<Figure> builder)
+	{
+		if (seedData)
 		{
-			this.seedData = seedData;
-		}
+			var data = new SeedData();
 
-		public void Configure(EntityTypeBuilder<Figure> builder)
-		{
-			if (seedData)
-			{
-				var data = new SeedData();
-
-				builder.HasData(new Figure[] { data.ChangeOfPlace, data.AmericanSpin, data.SpinWithBlock, 
-					data.Tunnel, data.Cartwheel, data.SendIn, data.SwingOut, data.Helicopter, 
-					data.LeftSidePass, data.SendOut });
-			}
+			builder.HasData(new Figure[] { data.ChangeOfPlace, data.AmericanSpin, data.SpinWithBlock, 
+				data.Tunnel, data.Cartwheel, data.SendIn, data.SwingOut, data.Helicopter, 
+				data.LeftSidePass, data.SendOut });
 		}
 	}
 }
