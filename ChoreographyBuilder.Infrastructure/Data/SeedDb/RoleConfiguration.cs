@@ -2,25 +2,24 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace ChoreographyBuilder.Infrastructure.Data.SeedDb
+namespace ChoreographyBuilder.Infrastructure.Data.SeedDb;
+
+internal class RoleConfiguration : IEntityTypeConfiguration<IdentityRole>
 {
-	internal class RoleConfiguration : IEntityTypeConfiguration<IdentityRole>
+	private bool seedData;
+
+	public RoleConfiguration(bool seedData = true) : base()
 	{
-		private bool seedData;
+		this.seedData = seedData;
+	}
 
-		public RoleConfiguration(bool seedData = true) : base()
+	public void Configure(EntityTypeBuilder<IdentityRole> builder)
+	{
+		if (seedData)
 		{
-			this.seedData = seedData;
-		}
+			var data = new SeedData();
 
-		public void Configure(EntityTypeBuilder<IdentityRole> builder)
-		{
-			if (seedData)
-			{
-				var data = new SeedData();
-
-				builder.HasData(new IdentityRole[] { data.AdminRole, data.UserRole });
-			}
+			builder.HasData(new IdentityRole[] { data.AdminRole, data.UserRole });
 		}
 	}
 }
