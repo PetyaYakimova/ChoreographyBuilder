@@ -2,25 +2,24 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace ChoreographyBuilder.Infrastructure.Data.SeedDb
+namespace ChoreographyBuilder.Infrastructure.Data.SeedDb;
+
+internal class FullChoreographyConfiguration : IEntityTypeConfiguration<FullChoreography>
 {
-	internal class FullChoreographyConfiguration : IEntityTypeConfiguration<FullChoreography>
+	private bool seedData;
+
+	public FullChoreographyConfiguration(bool seedData = true) : base()
 	{
-		private bool seedData;
+		this.seedData = seedData;
+	}
 
-		public FullChoreographyConfiguration(bool seedData = true) : base()
+	public void Configure(EntityTypeBuilder<FullChoreography> builder)
+	{
+		if (seedData)
 		{
-			this.seedData = seedData;
-		}
+			var data = new SeedData();
 
-		public void Configure(EntityTypeBuilder<FullChoreography> builder)
-		{
-			if (seedData)
-			{
-				var data = new SeedData();
-
-				builder.HasData(new FullChoreography[] { data.FullChoreography });
-			}
+			builder.HasData(new FullChoreography[] { data.FullChoreography });
 		}
 	}
 }
