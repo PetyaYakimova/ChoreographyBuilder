@@ -2,25 +2,24 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace ChoreographyBuilder.Infrastructure.Data.SeedDb
+namespace ChoreographyBuilder.Infrastructure.Data.SeedDb;
+
+internal class UserConfiguration : IEntityTypeConfiguration<IdentityUser>
 {
-	internal class UserConfiguration : IEntityTypeConfiguration<IdentityUser>
+	private bool seedData;
+
+	public UserConfiguration(bool seedData = true) : base()
 	{
-		private bool seedData;
+		this.seedData = seedData;
+	}
 
-		public UserConfiguration(bool seedData = true) : base()
+	public void Configure(EntityTypeBuilder<IdentityUser> builder)
+	{
+		if (seedData)
 		{
-			this.seedData = seedData;
-		}
+			var data = new SeedData();
 
-		public void Configure(EntityTypeBuilder<IdentityUser> builder)
-		{
-			if (seedData)
-			{
-				var data = new SeedData();
-
-				builder.HasData(new IdentityUser[] { data.DemoUser, data.AdminUser });
-			}
+			builder.HasData(new IdentityUser[] { data.DemoUser, data.AdminUser });
 		}
 	}
 }
