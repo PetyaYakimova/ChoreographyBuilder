@@ -2,25 +2,24 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace ChoreographyBuilder.Infrastructure.Data.SeedDb
+namespace ChoreographyBuilder.Infrastructure.Data.SeedDb;
+
+internal class VerseTypeConfiguration : IEntityTypeConfiguration<VerseType>
 {
-	internal class VerseTypeConfiguration : IEntityTypeConfiguration<VerseType>
+	private bool seedData;
+
+	public VerseTypeConfiguration(bool seedData = true) : base()
 	{
-		private bool seedData;
+		this.seedData = seedData;
+	}
 
-		public VerseTypeConfiguration(bool seedData = true) : base()
+	public void Configure(EntityTypeBuilder<VerseType> builder)
+	{
+		if (seedData)
 		{
-			this.seedData = seedData;
-		}
+			var data = new SeedData();
 
-		public void Configure(EntityTypeBuilder<VerseType> builder)
-		{
-			if (seedData)
-			{
-				var data = new SeedData();
-
-				builder.HasData(new VerseType[] { data.SwingVerse, data.BluesVerse });
-			}
+			builder.HasData(new VerseType[] { data.SwingVerse, data.BluesVerse });
 		}
 	}
 }
