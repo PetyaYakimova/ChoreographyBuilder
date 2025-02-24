@@ -8,1292 +8,1291 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace ChoreographyBuilder.Infrastructure.Migrations
+namespace ChoreographyBuilder.Infrastructure.Migrations;
+
+[DbContext(typeof(ChoreographyBuilderDbContext))]
+partial class ApplicationDbContextModelSnapshot : ModelSnapshot
 {
-    [DbContext(typeof(ChoreographyBuilderDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    protected override void BuildModel(ModelBuilder modelBuilder)
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
-        {
 #pragma warning disable 612, 618
-            modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.28")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128);
-
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
-
-            modelBuilder.Entity("ChoreographyBuilder.Infrastructure.Data.Models.Figure", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasComment("Figure Identifier");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<bool>("CanBeShared")
-                        .HasColumnType("bit")
-                        .HasComment("Figure Can Be Shared With Other Users");
-
-                    b.Property<bool>("IsFavourite")
-                        .HasColumnType("bit")
-                        .HasComment("Figure Is Favourite");
-
-                    b.Property<bool>("IsHighlight")
-                        .HasColumnType("bit")
-                        .HasComment("Figure Is Highlight");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(70)
-                        .HasColumnType("nvarchar(70)")
-                        .HasComment("Figure Name");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)")
-                        .HasComment("User Identifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Figures");
-
-                    b.HasComment("Figures");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CanBeShared = false,
-                            IsFavourite = false,
-                            IsHighlight = false,
-                            Name = "Change of place",
-                            UserId = "dea12856-c198-4129-b3f3-b893d8395082"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            CanBeShared = false,
-                            IsFavourite = false,
-                            IsHighlight = false,
-                            Name = "American Spin",
-                            UserId = "dea12856-c198-4129-b3f3-b893d8395082"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            CanBeShared = false,
-                            IsFavourite = true,
-                            IsHighlight = false,
-                            Name = "Spin with block",
-                            UserId = "dea12856-c198-4129-b3f3-b893d8395082"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            CanBeShared = false,
-                            IsFavourite = true,
-                            IsHighlight = true,
-                            Name = "Tunnel",
-                            UserId = "dea12856-c198-4129-b3f3-b893d8395082"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            CanBeShared = false,
-                            IsFavourite = true,
-                            IsHighlight = true,
-                            Name = "Cartwheel",
-                            UserId = "dea12856-c198-4129-b3f3-b893d8395082"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            CanBeShared = false,
-                            IsFavourite = false,
-                            IsHighlight = false,
-                            Name = "Get into closed",
-                            UserId = "dea12856-c198-4129-b3f3-b893d8395082"
-                        },
-                        new
-                        {
-                            Id = 7,
-                            CanBeShared = false,
-                            IsFavourite = false,
-                            IsHighlight = false,
-                            Name = "Swing Out",
-                            UserId = "dea12856-c198-4129-b3f3-b893d8395082"
-                        },
-                        new
-                        {
-                            Id = 8,
-                            CanBeShared = false,
-                            IsFavourite = false,
-                            IsHighlight = true,
-                            Name = "Helicopter",
-                            UserId = "dea12856-c198-4129-b3f3-b893d8395082"
-                        },
-                        new
-                        {
-                            Id = 9,
-                            CanBeShared = false,
-                            IsFavourite = false,
-                            IsHighlight = false,
-                            Name = "Left Side Pass",
-                            UserId = "dea12856-c198-4129-b3f3-b893d8395082"
-                        },
-                        new
-                        {
-                            Id = 10,
-                            CanBeShared = false,
-                            IsFavourite = true,
-                            IsHighlight = false,
-                            Name = "Send out",
-                            UserId = "dea12856-c198-4129-b3f3-b893d8395082"
-                        });
-                });
-
-            modelBuilder.Entity("ChoreographyBuilder.Infrastructure.Data.Models.FigureOption", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasComment("Figure Options Identifier");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("BeatCounts")
-                        .HasColumnType("int")
-                        .HasComment("Figure Option Beat Counts");
-
-                    b.Property<int>("DynamicsType")
-                        .HasColumnType("int");
-
-                    b.Property<int>("EndPositionId")
-                        .HasColumnType("int")
-                        .HasComment("Figure Options End Position Identifier");
-
-                    b.Property<int>("FigureId")
-                        .HasColumnType("int")
-                        .HasComment("Figure Options Figure Identifier");
-
-                    b.Property<int>("StartPositionId")
-                        .HasColumnType("int")
-                        .HasComment("Figure Options Start Position Identifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EndPositionId");
-
-                    b.HasIndex("FigureId");
-
-                    b.HasIndex("StartPositionId");
-
-                    b.ToTable("FigureOptions");
-
-                    b.HasComment("Figure Options");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            BeatCounts = 6,
-                            DynamicsType = 1,
-                            EndPositionId = 1,
-                            FigureId = 1,
-                            StartPositionId = 2
-                        },
-                        new
-                        {
-                            Id = 2,
-                            BeatCounts = 4,
-                            DynamicsType = 2,
-                            EndPositionId = 1,
-                            FigureId = 1,
-                            StartPositionId = 2
-                        },
-                        new
-                        {
-                            Id = 3,
-                            BeatCounts = 6,
-                            DynamicsType = 1,
-                            EndPositionId = 1,
-                            FigureId = 2,
-                            StartPositionId = 1
-                        },
-                        new
-                        {
-                            Id = 4,
-                            BeatCounts = 6,
-                            DynamicsType = 1,
-                            EndPositionId = 2,
-                            FigureId = 2,
-                            StartPositionId = 2
-                        },
-                        new
-                        {
-                            Id = 5,
-                            BeatCounts = 4,
-                            DynamicsType = 2,
-                            EndPositionId = 2,
-                            FigureId = 2,
-                            StartPositionId = 2
-                        },
-                        new
-                        {
-                            Id = 6,
-                            BeatCounts = 4,
-                            DynamicsType = 2,
-                            EndPositionId = 1,
-                            FigureId = 2,
-                            StartPositionId = 1
-                        },
-                        new
-                        {
-                            Id = 7,
-                            BeatCounts = 2,
-                            DynamicsType = 2,
-                            EndPositionId = 1,
-                            FigureId = 2,
-                            StartPositionId = 1
-                        },
-                        new
-                        {
-                            Id = 8,
-                            BeatCounts = 2,
-                            DynamicsType = 2,
-                            EndPositionId = 2,
-                            FigureId = 2,
-                            StartPositionId = 2
-                        },
-                        new
-                        {
-                            Id = 9,
-                            BeatCounts = 6,
-                            DynamicsType = 1,
-                            EndPositionId = 3,
-                            FigureId = 2,
-                            StartPositionId = 1
-                        },
-                        new
-                        {
-                            Id = 10,
-                            BeatCounts = 6,
-                            DynamicsType = 1,
-                            EndPositionId = 4,
-                            FigureId = 2,
-                            StartPositionId = 2
-                        },
-                        new
-                        {
-                            Id = 11,
-                            BeatCounts = 4,
-                            DynamicsType = 2,
-                            EndPositionId = 3,
-                            FigureId = 2,
-                            StartPositionId = 1
-                        },
-                        new
-                        {
-                            Id = 12,
-                            BeatCounts = 4,
-                            DynamicsType = 2,
-                            EndPositionId = 4,
-                            FigureId = 2,
-                            StartPositionId = 2
-                        },
-                        new
-                        {
-                            Id = 13,
-                            BeatCounts = 6,
-                            DynamicsType = 1,
-                            EndPositionId = 2,
-                            FigureId = 3,
-                            StartPositionId = 2
-                        },
-                        new
-                        {
-                            Id = 14,
-                            BeatCounts = 6,
-                            DynamicsType = 1,
-                            EndPositionId = 1,
-                            FigureId = 3,
-                            StartPositionId = 1
-                        },
-                        new
-                        {
-                            Id = 15,
-                            BeatCounts = 4,
-                            DynamicsType = 2,
-                            EndPositionId = 2,
-                            FigureId = 3,
-                            StartPositionId = 2
-                        },
-                        new
-                        {
-                            Id = 16,
-                            BeatCounts = 4,
-                            DynamicsType = 2,
-                            EndPositionId = 1,
-                            FigureId = 3,
-                            StartPositionId = 1
-                        },
-                        new
-                        {
-                            Id = 17,
-                            BeatCounts = 16,
-                            DynamicsType = 1,
-                            EndPositionId = 2,
-                            FigureId = 4,
-                            StartPositionId = 1
-                        },
-                        new
-                        {
-                            Id = 18,
-                            BeatCounts = 16,
-                            DynamicsType = 1,
-                            EndPositionId = 1,
-                            FigureId = 4,
-                            StartPositionId = 2
-                        },
-                        new
-                        {
-                            Id = 19,
-                            BeatCounts = 16,
-                            DynamicsType = 2,
-                            EndPositionId = 2,
-                            FigureId = 5,
-                            StartPositionId = 3
-                        },
-                        new
-                        {
-                            Id = 20,
-                            BeatCounts = 6,
-                            DynamicsType = 1,
-                            EndPositionId = 3,
-                            FigureId = 6,
-                            StartPositionId = 2
-                        },
-                        new
-                        {
-                            Id = 21,
-                            BeatCounts = 4,
-                            DynamicsType = 2,
-                            EndPositionId = 3,
-                            FigureId = 6,
-                            StartPositionId = 2
-                        },
-                        new
-                        {
-                            Id = 22,
-                            BeatCounts = 8,
-                            DynamicsType = 0,
-                            EndPositionId = 1,
-                            FigureId = 7,
-                            StartPositionId = 1
-                        },
-                        new
-                        {
-                            Id = 23,
-                            BeatCounts = 8,
-                            DynamicsType = 0,
-                            EndPositionId = 2,
-                            FigureId = 7,
-                            StartPositionId = 2
-                        },
-                        new
-                        {
-                            Id = 24,
-                            BeatCounts = 6,
-                            DynamicsType = 2,
-                            EndPositionId = 1,
-                            FigureId = 7,
-                            StartPositionId = 1
-                        },
-                        new
-                        {
-                            Id = 25,
-                            BeatCounts = 6,
-                            DynamicsType = 2,
-                            EndPositionId = 2,
-                            FigureId = 7,
-                            StartPositionId = 2
-                        },
-                        new
-                        {
-                            Id = 26,
-                            BeatCounts = 20,
-                            DynamicsType = 1,
-                            EndPositionId = 3,
-                            FigureId = 8,
-                            StartPositionId = 1
-                        },
-                        new
-                        {
-                            Id = 27,
-                            BeatCounts = 6,
-                            DynamicsType = 1,
-                            EndPositionId = 2,
-                            FigureId = 9,
-                            StartPositionId = 1
-                        },
-                        new
-                        {
-                            Id = 28,
-                            BeatCounts = 6,
-                            DynamicsType = 1,
-                            EndPositionId = 2,
-                            FigureId = 10,
-                            StartPositionId = 3
-                        },
-                        new
-                        {
-                            Id = 29,
-                            BeatCounts = 4,
-                            DynamicsType = 2,
-                            EndPositionId = 2,
-                            FigureId = 10,
-                            StartPositionId = 3
-                        });
-                });
-
-            modelBuilder.Entity("ChoreographyBuilder.Infrastructure.Data.Models.FullChoreography", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasComment("Full Choreography Identifier");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(70)
-                        .HasColumnType("nvarchar(70)")
-                        .HasComment("Full Choreography Name");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)")
-                        .HasComment("User Identifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("FullChoreographies");
-
-                    b.HasComment("Full Choreographies");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Great Balls of Fire",
-                            UserId = "dea12856-c198-4129-b3f3-b893d8395082"
-                        });
-                });
-
-            modelBuilder.Entity("ChoreographyBuilder.Infrastructure.Data.Models.FullChoreographyVerseChoreography", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasComment("Full Choreography Verse Choreography Identifier");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("FullChoreographyId")
-                        .HasColumnType("int")
-                        .HasComment("Full Choreography Identifier");
-
-                    b.Property<int>("VerseChoreographyId")
-                        .HasColumnType("int")
-                        .HasComment("Verse Choreography Identifier");
-
-                    b.Property<int>("VerseChoreographyOrder")
-                        .HasColumnType("int")
-                        .HasComment("Verse Choreography Order in which it appears in this choreography");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FullChoreographyId");
-
-                    b.HasIndex("VerseChoreographyId");
-
-                    b.ToTable("FullChoreographiesVerseChoreographies");
-
-                    b.HasComment("Full Choreography Verse Choreographies");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            FullChoreographyId = 1,
-                            VerseChoreographyId = 1,
-                            VerseChoreographyOrder = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            FullChoreographyId = 1,
-                            VerseChoreographyId = 3,
-                            VerseChoreographyOrder = 2
-                        },
-                        new
-                        {
-                            Id = 3,
-                            FullChoreographyId = 1,
-                            VerseChoreographyId = 2,
-                            VerseChoreographyOrder = 3
-                        });
-                });
-
-            modelBuilder.Entity("ChoreographyBuilder.Infrastructure.Data.Models.Position", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasComment("Position Identifier");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit")
-                        .HasComment("Position Is Active");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(70)
-                        .HasColumnType("nvarchar(70)")
-                        .HasComment("Position Name");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Positions");
-
-                    b.HasComment("Positions");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            IsActive = true,
-                            Name = "Open position with left shoulder to the audience"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            IsActive = true,
-                            Name = "Open position with right shoulder to the audience"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            IsActive = true,
-                            Name = "Closed position with left shoulder to the audience"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            IsActive = true,
-                            Name = "Closed position with right shoulder to the audience"
-                        });
-                });
-
-            modelBuilder.Entity("ChoreographyBuilder.Infrastructure.Data.Models.VerseChoreography", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasComment("Verse Choreography Identifier");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(70)
-                        .HasColumnType("nvarchar(70)")
-                        .HasComment("Verse Choreography Name");
-
-                    b.Property<int>("Score")
-                        .HasColumnType("int")
-                        .HasComment("Verse Choreography Score at the time of saving it");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)")
-                        .HasComment("User Identifier");
-
-                    b.Property<int>("VerseTypeId")
-                        .HasColumnType("int")
-                        .HasComment("Verse Type Identifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.HasIndex("VerseTypeId");
-
-                    b.ToTable("VerseChoreographies");
-
-                    b.HasComment("Verse Choreographies");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Swing verse choreo for start",
-                            Score = 3,
-                            UserId = "dea12856-c198-4129-b3f3-b893d8395082",
-                            VerseTypeId = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Swing verse choreo for final",
-                            Score = 4,
-                            UserId = "dea12856-c198-4129-b3f3-b893d8395082",
-                            VerseTypeId = 1
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "Blues verse choreo in the middle",
-                            Score = 2,
-                            UserId = "dea12856-c198-4129-b3f3-b893d8395082",
-                            VerseTypeId = 2
-                        });
-                });
-
-            modelBuilder.Entity("ChoreographyBuilder.Infrastructure.Data.Models.VerseChoreographyFigure", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasComment("Verse Choreography Figure Identifier");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("FigureOptionId")
-                        .HasColumnType("int")
-                        .HasComment("Figure Option Identifier");
-
-                    b.Property<int>("FigureOrder")
-                        .HasColumnType("int")
-                        .HasComment("Figure Order in which it appears in this choreography");
-
-                    b.Property<int>("VerseChoreographyId")
-                        .HasColumnType("int")
-                        .HasComment("Verse Choreography Identifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FigureOptionId");
-
-                    b.HasIndex("VerseChoreographyId");
-
-                    b.ToTable("VerseChoreographiesFigures");
-
-                    b.HasComment("Verse Choreography Figures");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            FigureOptionId = 28,
-                            FigureOrder = 1,
-                            VerseChoreographyId = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            FigureOptionId = 1,
-                            FigureOrder = 2,
-                            VerseChoreographyId = 1
-                        },
-                        new
-                        {
-                            Id = 3,
-                            FigureOptionId = 6,
-                            FigureOrder = 3,
-                            VerseChoreographyId = 1
-                        },
-                        new
-                        {
-                            Id = 4,
-                            FigureOptionId = 17,
-                            FigureOrder = 4,
-                            VerseChoreographyId = 1
-                        },
-                        new
-                        {
-                            Id = 5,
-                            FigureOptionId = 1,
-                            FigureOrder = 1,
-                            VerseChoreographyId = 2
-                        },
-                        new
-                        {
-                            Id = 6,
-                            FigureOptionId = 3,
-                            FigureOrder = 2,
-                            VerseChoreographyId = 2
-                        },
-                        new
-                        {
-                            Id = 7,
-                            FigureOptionId = 26,
-                            FigureOrder = 3,
-                            VerseChoreographyId = 2
-                        },
-                        new
-                        {
-                            Id = 8,
-                            FigureOptionId = 1,
-                            FigureOrder = 1,
-                            VerseChoreographyId = 3
-                        },
-                        new
-                        {
-                            Id = 9,
-                            FigureOptionId = 14,
-                            FigureOrder = 2,
-                            VerseChoreographyId = 3
-                        },
-                        new
-                        {
-                            Id = 10,
-                            FigureOptionId = 27,
-                            FigureOrder = 3,
-                            VerseChoreographyId = 3
-                        },
-                        new
-                        {
-                            Id = 11,
-                            FigureOptionId = 23,
-                            FigureOrder = 4,
-                            VerseChoreographyId = 3
-                        },
-                        new
-                        {
-                            Id = 12,
-                            FigureOptionId = 20,
-                            FigureOrder = 5,
-                            VerseChoreographyId = 3
-                        },
-                        new
-                        {
-                            Id = 13,
-                            FigureOptionId = 19,
-                            FigureOrder = 6,
-                            VerseChoreographyId = 3
-                        });
-                });
-
-            modelBuilder.Entity("ChoreographyBuilder.Infrastructure.Data.Models.VerseType", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasComment("Verse Identifier");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("BeatCounts")
-                        .HasColumnType("int")
-                        .HasComment("Verse Beat Counts");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit")
-                        .HasComment("Verse Is Active");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)")
-                        .HasComment("Verse Name");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("VerseTypes");
-
-                    b.HasComment("Verse Types");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            BeatCounts = 32,
-                            IsActive = true,
-                            Name = "Swing Verse"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            BeatCounts = 48,
-                            IsActive = true,
-                            Name = "Blues Verse"
-                        });
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("NormalizedName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedName")
-                        .IsUnique()
-                        .HasDatabaseName("RoleNameIndex")
-                        .HasFilter("[NormalizedName] IS NOT NULL");
-
-                    b.ToTable("AspNetRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "40271de3-61e3-49a3-b580-087252ce0546",
-                            ConcurrencyStamp = "3751398f-ae47-44d9-aa67-27d534431de5",
-                            Name = "Administrator",
-                            NormalizedName = "ADMINISTRATOR"
-                        },
-                        new
-                        {
-                            Id = "2a18a096-97da-4ae4-9d46-88314532d82b",
-                            ConcurrencyStamp = "5bf331c9-fac7-473e-9c54-a1382db905b3",
-                            Name = "User",
-                            NormalizedName = "USER"
-                        });
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("ClaimType")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ClaimValue")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("RoleId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RoleId");
-
-                    b.ToTable("AspNetRoleClaims", (string)null);
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("UserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedEmail")
-                        .HasDatabaseName("EmailIndex");
-
-                    b.HasIndex("NormalizedUserName")
-                        .IsUnique()
-                        .HasDatabaseName("UserNameIndex")
-                        .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.ToTable("AspNetUsers", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "dea12856-c198-4129-b3f3-b893d8395082",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "aff040d4-8fb7-4f26-83a3-22aba4c84c38",
-                            Email = "demo@mail.com",
-                            EmailConfirmed = false,
-                            LockoutEnabled = false,
-                            NormalizedEmail = "DEMO@MAIL.COM",
-                            NormalizedUserName = "DEMO@MAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEAsXKkpWT0KrNy5XidvIBskQyUT+00grXeNB4ysd71AoLW2b5h9QuexNB0Zd/IsfBw==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "2f1bd226-bb1e-4f29-af0a-29c8052bac6a",
-                            TwoFactorEnabled = false,
-                            UserName = "demo@mail.com"
-                        },
-                        new
-                        {
-                            Id = "fd6820c7-db68-4695-8a9d-88559d48e0ec",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "8b078560-6e0b-4fea-a6a7-e866e36d2f66",
-                            Email = "admin@mail.com",
-                            EmailConfirmed = false,
-                            LockoutEnabled = false,
-                            NormalizedEmail = "ADMIN@MAIL.COM",
-                            NormalizedUserName = "ADMIN@MAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEA3jqEMwJBRwTrfCAm+03xiakDK/63q8RRP0TKFx3Y6Kcp65Faet3hnrutXCx7fqOg==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "07b6bef7-9c2f-467c-8da9-27eb33a9808d",
-                            TwoFactorEnabled = false,
-                            UserName = "admin@mail.com"
-                        });
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("ClaimType")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ClaimValue")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("AspNetUserClaims", (string)null);
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
-                {
-                    b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
-
-                    b.Property<string>("ProviderKey")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
-
-                    b.Property<string>("ProviderDisplayName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("LoginProvider", "ProviderKey");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("AspNetUserLogins", (string)null);
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
-                {
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("RoleId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("UserId", "RoleId");
-
-                    b.HasIndex("RoleId");
-
-                    b.ToTable("AspNetUserRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            UserId = "dea12856-c198-4129-b3f3-b893d8395082",
-                            RoleId = "2a18a096-97da-4ae4-9d46-88314532d82b"
-                        },
-                        new
-                        {
-                            UserId = "fd6820c7-db68-4695-8a9d-88559d48e0ec",
-                            RoleId = "40271de3-61e3-49a3-b580-087252ce0546"
-                        });
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
-                {
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
-
-                    b.Property<string>("Value")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("UserId", "LoginProvider", "Name");
-
-                    b.ToTable("AspNetUserTokens", (string)null);
-                });
-
-            modelBuilder.Entity("ChoreographyBuilder.Infrastructure.Data.Models.Figure", b =>
-                {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("ChoreographyBuilder.Infrastructure.Data.Models.FigureOption", b =>
-                {
-                    b.HasOne("ChoreographyBuilder.Infrastructure.Data.Models.Position", "EndPosition")
-                        .WithMany("FiguresWithEndPosition")
-                        .HasForeignKey("EndPositionId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("ChoreographyBuilder.Infrastructure.Data.Models.Figure", "Figure")
-                        .WithMany("FigureOptions")
-                        .HasForeignKey("FigureId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ChoreographyBuilder.Infrastructure.Data.Models.Position", "StartPosition")
-                        .WithMany("FiguresWithStartPosition")
-                        .HasForeignKey("StartPositionId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("EndPosition");
-
-                    b.Navigation("Figure");
-
-                    b.Navigation("StartPosition");
-                });
-
-            modelBuilder.Entity("ChoreographyBuilder.Infrastructure.Data.Models.FullChoreography", b =>
-                {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("ChoreographyBuilder.Infrastructure.Data.Models.FullChoreographyVerseChoreography", b =>
-                {
-                    b.HasOne("ChoreographyBuilder.Infrastructure.Data.Models.FullChoreography", "FullChoreography")
-                        .WithMany("VerseChoreographies")
-                        .HasForeignKey("FullChoreographyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ChoreographyBuilder.Infrastructure.Data.Models.VerseChoreography", "VerseChoreography")
-                        .WithMany("FullChoreographies")
-                        .HasForeignKey("VerseChoreographyId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("FullChoreography");
-
-                    b.Navigation("VerseChoreography");
-                });
-
-            modelBuilder.Entity("ChoreographyBuilder.Infrastructure.Data.Models.VerseChoreography", b =>
-                {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ChoreographyBuilder.Infrastructure.Data.Models.VerseType", "VerseType")
-                        .WithMany("VerseChoreographies")
-                        .HasForeignKey("VerseTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-
-                    b.Navigation("VerseType");
-                });
-
-            modelBuilder.Entity("ChoreographyBuilder.Infrastructure.Data.Models.VerseChoreographyFigure", b =>
-                {
-                    b.HasOne("ChoreographyBuilder.Infrastructure.Data.Models.FigureOption", "FigureOption")
-                        .WithMany("VerseChoreographyFigures")
-                        .HasForeignKey("FigureOptionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ChoreographyBuilder.Infrastructure.Data.Models.VerseChoreography", "VerseChoreography")
-                        .WithMany("Figures")
-                        .HasForeignKey("VerseChoreographyId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("FigureOption");
-
-                    b.Navigation("VerseChoreography");
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
-                {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
-                        .WithMany()
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
-                {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
-                {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
-                {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
-                        .WithMany()
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
-                {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("ChoreographyBuilder.Infrastructure.Data.Models.Figure", b =>
-                {
-                    b.Navigation("FigureOptions");
-                });
-
-            modelBuilder.Entity("ChoreographyBuilder.Infrastructure.Data.Models.FigureOption", b =>
-                {
-                    b.Navigation("VerseChoreographyFigures");
-                });
-
-            modelBuilder.Entity("ChoreographyBuilder.Infrastructure.Data.Models.FullChoreography", b =>
-                {
-                    b.Navigation("VerseChoreographies");
-                });
-
-            modelBuilder.Entity("ChoreographyBuilder.Infrastructure.Data.Models.Position", b =>
-                {
-                    b.Navigation("FiguresWithEndPosition");
-
-                    b.Navigation("FiguresWithStartPosition");
-                });
-
-            modelBuilder.Entity("ChoreographyBuilder.Infrastructure.Data.Models.VerseChoreography", b =>
-                {
-                    b.Navigation("Figures");
-
-                    b.Navigation("FullChoreographies");
-                });
-
-            modelBuilder.Entity("ChoreographyBuilder.Infrastructure.Data.Models.VerseType", b =>
-                {
-                    b.Navigation("VerseChoreographies");
-                });
+        modelBuilder
+            .HasAnnotation("ProductVersion", "6.0.28")
+            .HasAnnotation("Relational:MaxIdentifierLength", 128);
+
+        SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+
+        modelBuilder.Entity("ChoreographyBuilder.Infrastructure.Data.Models.Figure", b =>
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int")
+                    .HasComment("Figure Identifier");
+
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                b.Property<bool>("CanBeShared")
+                    .HasColumnType("bit")
+                    .HasComment("Figure Can Be Shared With Other Users");
+
+                b.Property<bool>("IsFavourite")
+                    .HasColumnType("bit")
+                    .HasComment("Figure Is Favourite");
+
+                b.Property<bool>("IsHighlight")
+                    .HasColumnType("bit")
+                    .HasComment("Figure Is Highlight");
+
+                b.Property<string>("Name")
+                    .IsRequired()
+                    .HasMaxLength(70)
+                    .HasColumnType("nvarchar(70)")
+                    .HasComment("Figure Name");
+
+                b.Property<string>("UserId")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(450)")
+                    .HasComment("User Identifier");
+
+                b.HasKey("Id");
+
+                b.HasIndex("UserId");
+
+                b.ToTable("Figures");
+
+                b.HasComment("Figures");
+
+                b.HasData(
+                    new
+                    {
+                        Id = 1,
+                        CanBeShared = false,
+                        IsFavourite = false,
+                        IsHighlight = false,
+                        Name = "Change of place",
+                        UserId = "dea12856-c198-4129-b3f3-b893d8395082"
+                    },
+                    new
+                    {
+                        Id = 2,
+                        CanBeShared = false,
+                        IsFavourite = false,
+                        IsHighlight = false,
+                        Name = "American Spin",
+                        UserId = "dea12856-c198-4129-b3f3-b893d8395082"
+                    },
+                    new
+                    {
+                        Id = 3,
+                        CanBeShared = false,
+                        IsFavourite = true,
+                        IsHighlight = false,
+                        Name = "Spin with block",
+                        UserId = "dea12856-c198-4129-b3f3-b893d8395082"
+                    },
+                    new
+                    {
+                        Id = 4,
+                        CanBeShared = false,
+                        IsFavourite = true,
+                        IsHighlight = true,
+                        Name = "Tunnel",
+                        UserId = "dea12856-c198-4129-b3f3-b893d8395082"
+                    },
+                    new
+                    {
+                        Id = 5,
+                        CanBeShared = false,
+                        IsFavourite = true,
+                        IsHighlight = true,
+                        Name = "Cartwheel",
+                        UserId = "dea12856-c198-4129-b3f3-b893d8395082"
+                    },
+                    new
+                    {
+                        Id = 6,
+                        CanBeShared = false,
+                        IsFavourite = false,
+                        IsHighlight = false,
+                        Name = "Get into closed",
+                        UserId = "dea12856-c198-4129-b3f3-b893d8395082"
+                    },
+                    new
+                    {
+                        Id = 7,
+                        CanBeShared = false,
+                        IsFavourite = false,
+                        IsHighlight = false,
+                        Name = "Swing Out",
+                        UserId = "dea12856-c198-4129-b3f3-b893d8395082"
+                    },
+                    new
+                    {
+                        Id = 8,
+                        CanBeShared = false,
+                        IsFavourite = false,
+                        IsHighlight = true,
+                        Name = "Helicopter",
+                        UserId = "dea12856-c198-4129-b3f3-b893d8395082"
+                    },
+                    new
+                    {
+                        Id = 9,
+                        CanBeShared = false,
+                        IsFavourite = false,
+                        IsHighlight = false,
+                        Name = "Left Side Pass",
+                        UserId = "dea12856-c198-4129-b3f3-b893d8395082"
+                    },
+                    new
+                    {
+                        Id = 10,
+                        CanBeShared = false,
+                        IsFavourite = true,
+                        IsHighlight = false,
+                        Name = "Send out",
+                        UserId = "dea12856-c198-4129-b3f3-b893d8395082"
+                    });
+            });
+
+        modelBuilder.Entity("ChoreographyBuilder.Infrastructure.Data.Models.FigureOption", b =>
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int")
+                    .HasComment("Figure Options Identifier");
+
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                b.Property<int>("BeatCounts")
+                    .HasColumnType("int")
+                    .HasComment("Figure Option Beat Counts");
+
+                b.Property<int>("DynamicsType")
+                    .HasColumnType("int");
+
+                b.Property<int>("EndPositionId")
+                    .HasColumnType("int")
+                    .HasComment("Figure Options End Position Identifier");
+
+                b.Property<int>("FigureId")
+                    .HasColumnType("int")
+                    .HasComment("Figure Options Figure Identifier");
+
+                b.Property<int>("StartPositionId")
+                    .HasColumnType("int")
+                    .HasComment("Figure Options Start Position Identifier");
+
+                b.HasKey("Id");
+
+                b.HasIndex("EndPositionId");
+
+                b.HasIndex("FigureId");
+
+                b.HasIndex("StartPositionId");
+
+                b.ToTable("FigureOptions");
+
+                b.HasComment("Figure Options");
+
+                b.HasData(
+                    new
+                    {
+                        Id = 1,
+                        BeatCounts = 6,
+                        DynamicsType = 1,
+                        EndPositionId = 1,
+                        FigureId = 1,
+                        StartPositionId = 2
+                    },
+                    new
+                    {
+                        Id = 2,
+                        BeatCounts = 4,
+                        DynamicsType = 2,
+                        EndPositionId = 1,
+                        FigureId = 1,
+                        StartPositionId = 2
+                    },
+                    new
+                    {
+                        Id = 3,
+                        BeatCounts = 6,
+                        DynamicsType = 1,
+                        EndPositionId = 1,
+                        FigureId = 2,
+                        StartPositionId = 1
+                    },
+                    new
+                    {
+                        Id = 4,
+                        BeatCounts = 6,
+                        DynamicsType = 1,
+                        EndPositionId = 2,
+                        FigureId = 2,
+                        StartPositionId = 2
+                    },
+                    new
+                    {
+                        Id = 5,
+                        BeatCounts = 4,
+                        DynamicsType = 2,
+                        EndPositionId = 2,
+                        FigureId = 2,
+                        StartPositionId = 2
+                    },
+                    new
+                    {
+                        Id = 6,
+                        BeatCounts = 4,
+                        DynamicsType = 2,
+                        EndPositionId = 1,
+                        FigureId = 2,
+                        StartPositionId = 1
+                    },
+                    new
+                    {
+                        Id = 7,
+                        BeatCounts = 2,
+                        DynamicsType = 2,
+                        EndPositionId = 1,
+                        FigureId = 2,
+                        StartPositionId = 1
+                    },
+                    new
+                    {
+                        Id = 8,
+                        BeatCounts = 2,
+                        DynamicsType = 2,
+                        EndPositionId = 2,
+                        FigureId = 2,
+                        StartPositionId = 2
+                    },
+                    new
+                    {
+                        Id = 9,
+                        BeatCounts = 6,
+                        DynamicsType = 1,
+                        EndPositionId = 3,
+                        FigureId = 2,
+                        StartPositionId = 1
+                    },
+                    new
+                    {
+                        Id = 10,
+                        BeatCounts = 6,
+                        DynamicsType = 1,
+                        EndPositionId = 4,
+                        FigureId = 2,
+                        StartPositionId = 2
+                    },
+                    new
+                    {
+                        Id = 11,
+                        BeatCounts = 4,
+                        DynamicsType = 2,
+                        EndPositionId = 3,
+                        FigureId = 2,
+                        StartPositionId = 1
+                    },
+                    new
+                    {
+                        Id = 12,
+                        BeatCounts = 4,
+                        DynamicsType = 2,
+                        EndPositionId = 4,
+                        FigureId = 2,
+                        StartPositionId = 2
+                    },
+                    new
+                    {
+                        Id = 13,
+                        BeatCounts = 6,
+                        DynamicsType = 1,
+                        EndPositionId = 2,
+                        FigureId = 3,
+                        StartPositionId = 2
+                    },
+                    new
+                    {
+                        Id = 14,
+                        BeatCounts = 6,
+                        DynamicsType = 1,
+                        EndPositionId = 1,
+                        FigureId = 3,
+                        StartPositionId = 1
+                    },
+                    new
+                    {
+                        Id = 15,
+                        BeatCounts = 4,
+                        DynamicsType = 2,
+                        EndPositionId = 2,
+                        FigureId = 3,
+                        StartPositionId = 2
+                    },
+                    new
+                    {
+                        Id = 16,
+                        BeatCounts = 4,
+                        DynamicsType = 2,
+                        EndPositionId = 1,
+                        FigureId = 3,
+                        StartPositionId = 1
+                    },
+                    new
+                    {
+                        Id = 17,
+                        BeatCounts = 16,
+                        DynamicsType = 1,
+                        EndPositionId = 2,
+                        FigureId = 4,
+                        StartPositionId = 1
+                    },
+                    new
+                    {
+                        Id = 18,
+                        BeatCounts = 16,
+                        DynamicsType = 1,
+                        EndPositionId = 1,
+                        FigureId = 4,
+                        StartPositionId = 2
+                    },
+                    new
+                    {
+                        Id = 19,
+                        BeatCounts = 16,
+                        DynamicsType = 2,
+                        EndPositionId = 2,
+                        FigureId = 5,
+                        StartPositionId = 3
+                    },
+                    new
+                    {
+                        Id = 20,
+                        BeatCounts = 6,
+                        DynamicsType = 1,
+                        EndPositionId = 3,
+                        FigureId = 6,
+                        StartPositionId = 2
+                    },
+                    new
+                    {
+                        Id = 21,
+                        BeatCounts = 4,
+                        DynamicsType = 2,
+                        EndPositionId = 3,
+                        FigureId = 6,
+                        StartPositionId = 2
+                    },
+                    new
+                    {
+                        Id = 22,
+                        BeatCounts = 8,
+                        DynamicsType = 0,
+                        EndPositionId = 1,
+                        FigureId = 7,
+                        StartPositionId = 1
+                    },
+                    new
+                    {
+                        Id = 23,
+                        BeatCounts = 8,
+                        DynamicsType = 0,
+                        EndPositionId = 2,
+                        FigureId = 7,
+                        StartPositionId = 2
+                    },
+                    new
+                    {
+                        Id = 24,
+                        BeatCounts = 6,
+                        DynamicsType = 2,
+                        EndPositionId = 1,
+                        FigureId = 7,
+                        StartPositionId = 1
+                    },
+                    new
+                    {
+                        Id = 25,
+                        BeatCounts = 6,
+                        DynamicsType = 2,
+                        EndPositionId = 2,
+                        FigureId = 7,
+                        StartPositionId = 2
+                    },
+                    new
+                    {
+                        Id = 26,
+                        BeatCounts = 20,
+                        DynamicsType = 1,
+                        EndPositionId = 3,
+                        FigureId = 8,
+                        StartPositionId = 1
+                    },
+                    new
+                    {
+                        Id = 27,
+                        BeatCounts = 6,
+                        DynamicsType = 1,
+                        EndPositionId = 2,
+                        FigureId = 9,
+                        StartPositionId = 1
+                    },
+                    new
+                    {
+                        Id = 28,
+                        BeatCounts = 6,
+                        DynamicsType = 1,
+                        EndPositionId = 2,
+                        FigureId = 10,
+                        StartPositionId = 3
+                    },
+                    new
+                    {
+                        Id = 29,
+                        BeatCounts = 4,
+                        DynamicsType = 2,
+                        EndPositionId = 2,
+                        FigureId = 10,
+                        StartPositionId = 3
+                    });
+            });
+
+        modelBuilder.Entity("ChoreographyBuilder.Infrastructure.Data.Models.FullChoreography", b =>
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int")
+                    .HasComment("Full Choreography Identifier");
+
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                b.Property<string>("Name")
+                    .IsRequired()
+                    .HasMaxLength(70)
+                    .HasColumnType("nvarchar(70)")
+                    .HasComment("Full Choreography Name");
+
+                b.Property<string>("UserId")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(450)")
+                    .HasComment("User Identifier");
+
+                b.HasKey("Id");
+
+                b.HasIndex("UserId");
+
+                b.ToTable("FullChoreographies");
+
+                b.HasComment("Full Choreographies");
+
+                b.HasData(
+                    new
+                    {
+                        Id = 1,
+                        Name = "Great Balls of Fire",
+                        UserId = "dea12856-c198-4129-b3f3-b893d8395082"
+                    });
+            });
+
+        modelBuilder.Entity("ChoreographyBuilder.Infrastructure.Data.Models.FullChoreographyVerseChoreography", b =>
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int")
+                    .HasComment("Full Choreography Verse Choreography Identifier");
+
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                b.Property<int>("FullChoreographyId")
+                    .HasColumnType("int")
+                    .HasComment("Full Choreography Identifier");
+
+                b.Property<int>("VerseChoreographyId")
+                    .HasColumnType("int")
+                    .HasComment("Verse Choreography Identifier");
+
+                b.Property<int>("VerseChoreographyOrder")
+                    .HasColumnType("int")
+                    .HasComment("Verse Choreography Order in which it appears in this choreography");
+
+                b.HasKey("Id");
+
+                b.HasIndex("FullChoreographyId");
+
+                b.HasIndex("VerseChoreographyId");
+
+                b.ToTable("FullChoreographiesVerseChoreographies");
+
+                b.HasComment("Full Choreography Verse Choreographies");
+
+                b.HasData(
+                    new
+                    {
+                        Id = 1,
+                        FullChoreographyId = 1,
+                        VerseChoreographyId = 1,
+                        VerseChoreographyOrder = 1
+                    },
+                    new
+                    {
+                        Id = 2,
+                        FullChoreographyId = 1,
+                        VerseChoreographyId = 3,
+                        VerseChoreographyOrder = 2
+                    },
+                    new
+                    {
+                        Id = 3,
+                        FullChoreographyId = 1,
+                        VerseChoreographyId = 2,
+                        VerseChoreographyOrder = 3
+                    });
+            });
+
+        modelBuilder.Entity("ChoreographyBuilder.Infrastructure.Data.Models.Position", b =>
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int")
+                    .HasComment("Position Identifier");
+
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                b.Property<bool>("IsActive")
+                    .HasColumnType("bit")
+                    .HasComment("Position Is Active");
+
+                b.Property<string>("Name")
+                    .IsRequired()
+                    .HasMaxLength(70)
+                    .HasColumnType("nvarchar(70)")
+                    .HasComment("Position Name");
+
+                b.HasKey("Id");
+
+                b.ToTable("Positions");
+
+                b.HasComment("Positions");
+
+                b.HasData(
+                    new
+                    {
+                        Id = 1,
+                        IsActive = true,
+                        Name = "Open position with left shoulder to the audience"
+                    },
+                    new
+                    {
+                        Id = 2,
+                        IsActive = true,
+                        Name = "Open position with right shoulder to the audience"
+                    },
+                    new
+                    {
+                        Id = 3,
+                        IsActive = true,
+                        Name = "Closed position with left shoulder to the audience"
+                    },
+                    new
+                    {
+                        Id = 4,
+                        IsActive = true,
+                        Name = "Closed position with right shoulder to the audience"
+                    });
+            });
+
+        modelBuilder.Entity("ChoreographyBuilder.Infrastructure.Data.Models.VerseChoreography", b =>
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int")
+                    .HasComment("Verse Choreography Identifier");
+
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                b.Property<string>("Name")
+                    .IsRequired()
+                    .HasMaxLength(70)
+                    .HasColumnType("nvarchar(70)")
+                    .HasComment("Verse Choreography Name");
+
+                b.Property<int>("Score")
+                    .HasColumnType("int")
+                    .HasComment("Verse Choreography Score at the time of saving it");
+
+                b.Property<string>("UserId")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(450)")
+                    .HasComment("User Identifier");
+
+                b.Property<int>("VerseTypeId")
+                    .HasColumnType("int")
+                    .HasComment("Verse Type Identifier");
+
+                b.HasKey("Id");
+
+                b.HasIndex("UserId");
+
+                b.HasIndex("VerseTypeId");
+
+                b.ToTable("VerseChoreographies");
+
+                b.HasComment("Verse Choreographies");
+
+                b.HasData(
+                    new
+                    {
+                        Id = 1,
+                        Name = "Swing verse choreo for start",
+                        Score = 3,
+                        UserId = "dea12856-c198-4129-b3f3-b893d8395082",
+                        VerseTypeId = 1
+                    },
+                    new
+                    {
+                        Id = 2,
+                        Name = "Swing verse choreo for final",
+                        Score = 4,
+                        UserId = "dea12856-c198-4129-b3f3-b893d8395082",
+                        VerseTypeId = 1
+                    },
+                    new
+                    {
+                        Id = 3,
+                        Name = "Blues verse choreo in the middle",
+                        Score = 2,
+                        UserId = "dea12856-c198-4129-b3f3-b893d8395082",
+                        VerseTypeId = 2
+                    });
+            });
+
+        modelBuilder.Entity("ChoreographyBuilder.Infrastructure.Data.Models.VerseChoreographyFigure", b =>
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int")
+                    .HasComment("Verse Choreography Figure Identifier");
+
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                b.Property<int>("FigureOptionId")
+                    .HasColumnType("int")
+                    .HasComment("Figure Option Identifier");
+
+                b.Property<int>("FigureOrder")
+                    .HasColumnType("int")
+                    .HasComment("Figure Order in which it appears in this choreography");
+
+                b.Property<int>("VerseChoreographyId")
+                    .HasColumnType("int")
+                    .HasComment("Verse Choreography Identifier");
+
+                b.HasKey("Id");
+
+                b.HasIndex("FigureOptionId");
+
+                b.HasIndex("VerseChoreographyId");
+
+                b.ToTable("VerseChoreographiesFigures");
+
+                b.HasComment("Verse Choreography Figures");
+
+                b.HasData(
+                    new
+                    {
+                        Id = 1,
+                        FigureOptionId = 28,
+                        FigureOrder = 1,
+                        VerseChoreographyId = 1
+                    },
+                    new
+                    {
+                        Id = 2,
+                        FigureOptionId = 1,
+                        FigureOrder = 2,
+                        VerseChoreographyId = 1
+                    },
+                    new
+                    {
+                        Id = 3,
+                        FigureOptionId = 6,
+                        FigureOrder = 3,
+                        VerseChoreographyId = 1
+                    },
+                    new
+                    {
+                        Id = 4,
+                        FigureOptionId = 17,
+                        FigureOrder = 4,
+                        VerseChoreographyId = 1
+                    },
+                    new
+                    {
+                        Id = 5,
+                        FigureOptionId = 1,
+                        FigureOrder = 1,
+                        VerseChoreographyId = 2
+                    },
+                    new
+                    {
+                        Id = 6,
+                        FigureOptionId = 3,
+                        FigureOrder = 2,
+                        VerseChoreographyId = 2
+                    },
+                    new
+                    {
+                        Id = 7,
+                        FigureOptionId = 26,
+                        FigureOrder = 3,
+                        VerseChoreographyId = 2
+                    },
+                    new
+                    {
+                        Id = 8,
+                        FigureOptionId = 1,
+                        FigureOrder = 1,
+                        VerseChoreographyId = 3
+                    },
+                    new
+                    {
+                        Id = 9,
+                        FigureOptionId = 14,
+                        FigureOrder = 2,
+                        VerseChoreographyId = 3
+                    },
+                    new
+                    {
+                        Id = 10,
+                        FigureOptionId = 27,
+                        FigureOrder = 3,
+                        VerseChoreographyId = 3
+                    },
+                    new
+                    {
+                        Id = 11,
+                        FigureOptionId = 23,
+                        FigureOrder = 4,
+                        VerseChoreographyId = 3
+                    },
+                    new
+                    {
+                        Id = 12,
+                        FigureOptionId = 20,
+                        FigureOrder = 5,
+                        VerseChoreographyId = 3
+                    },
+                    new
+                    {
+                        Id = 13,
+                        FigureOptionId = 19,
+                        FigureOrder = 6,
+                        VerseChoreographyId = 3
+                    });
+            });
+
+        modelBuilder.Entity("ChoreographyBuilder.Infrastructure.Data.Models.VerseType", b =>
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int")
+                    .HasComment("Verse Identifier");
+
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                b.Property<int>("BeatCounts")
+                    .HasColumnType("int")
+                    .HasComment("Verse Beat Counts");
+
+                b.Property<bool>("IsActive")
+                    .HasColumnType("bit")
+                    .HasComment("Verse Is Active");
+
+                b.Property<string>("Name")
+                    .IsRequired()
+                    .HasMaxLength(20)
+                    .HasColumnType("nvarchar(20)")
+                    .HasComment("Verse Name");
+
+                b.HasKey("Id");
+
+                b.ToTable("VerseTypes");
+
+                b.HasComment("Verse Types");
+
+                b.HasData(
+                    new
+                    {
+                        Id = 1,
+                        BeatCounts = 32,
+                        IsActive = true,
+                        Name = "Swing Verse"
+                    },
+                    new
+                    {
+                        Id = 2,
+                        BeatCounts = 48,
+                        IsActive = true,
+                        Name = "Blues Verse"
+                    });
+            });
+
+        modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
+            {
+                b.Property<string>("Id")
+                    .HasColumnType("nvarchar(450)");
+
+                b.Property<string>("ConcurrencyStamp")
+                    .IsConcurrencyToken()
+                    .HasColumnType("nvarchar(max)");
+
+                b.Property<string>("Name")
+                    .HasMaxLength(256)
+                    .HasColumnType("nvarchar(256)");
+
+                b.Property<string>("NormalizedName")
+                    .HasMaxLength(256)
+                    .HasColumnType("nvarchar(256)");
+
+                b.HasKey("Id");
+
+                b.HasIndex("NormalizedName")
+                    .IsUnique()
+                    .HasDatabaseName("RoleNameIndex")
+                    .HasFilter("[NormalizedName] IS NOT NULL");
+
+                b.ToTable("AspNetRoles", (string)null);
+
+                b.HasData(
+                    new
+                    {
+                        Id = "40271de3-61e3-49a3-b580-087252ce0546",
+                        ConcurrencyStamp = "3751398f-ae47-44d9-aa67-27d534431de5",
+                        Name = "Administrator",
+                        NormalizedName = "ADMINISTRATOR"
+                    },
+                    new
+                    {
+                        Id = "2a18a096-97da-4ae4-9d46-88314532d82b",
+                        ConcurrencyStamp = "5bf331c9-fac7-473e-9c54-a1382db905b3",
+                        Name = "User",
+                        NormalizedName = "USER"
+                    });
+            });
+
+        modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
+
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                b.Property<string>("ClaimType")
+                    .HasColumnType("nvarchar(max)");
+
+                b.Property<string>("ClaimValue")
+                    .HasColumnType("nvarchar(max)");
+
+                b.Property<string>("RoleId")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(450)");
+
+                b.HasKey("Id");
+
+                b.HasIndex("RoleId");
+
+                b.ToTable("AspNetRoleClaims", (string)null);
+            });
+
+        modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
+            {
+                b.Property<string>("Id")
+                    .HasColumnType("nvarchar(450)");
+
+                b.Property<int>("AccessFailedCount")
+                    .HasColumnType("int");
+
+                b.Property<string>("ConcurrencyStamp")
+                    .IsConcurrencyToken()
+                    .HasColumnType("nvarchar(max)");
+
+                b.Property<string>("Email")
+                    .HasMaxLength(256)
+                    .HasColumnType("nvarchar(256)");
+
+                b.Property<bool>("EmailConfirmed")
+                    .HasColumnType("bit");
+
+                b.Property<bool>("LockoutEnabled")
+                    .HasColumnType("bit");
+
+                b.Property<DateTimeOffset?>("LockoutEnd")
+                    .HasColumnType("datetimeoffset");
+
+                b.Property<string>("NormalizedEmail")
+                    .HasMaxLength(256)
+                    .HasColumnType("nvarchar(256)");
+
+                b.Property<string>("NormalizedUserName")
+                    .HasMaxLength(256)
+                    .HasColumnType("nvarchar(256)");
+
+                b.Property<string>("PasswordHash")
+                    .HasColumnType("nvarchar(max)");
+
+                b.Property<string>("PhoneNumber")
+                    .HasColumnType("nvarchar(max)");
+
+                b.Property<bool>("PhoneNumberConfirmed")
+                    .HasColumnType("bit");
+
+                b.Property<string>("SecurityStamp")
+                    .HasColumnType("nvarchar(max)");
+
+                b.Property<bool>("TwoFactorEnabled")
+                    .HasColumnType("bit");
+
+                b.Property<string>("UserName")
+                    .HasMaxLength(256)
+                    .HasColumnType("nvarchar(256)");
+
+                b.HasKey("Id");
+
+                b.HasIndex("NormalizedEmail")
+                    .HasDatabaseName("EmailIndex");
+
+                b.HasIndex("NormalizedUserName")
+                    .IsUnique()
+                    .HasDatabaseName("UserNameIndex")
+                    .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                b.ToTable("AspNetUsers", (string)null);
+
+                b.HasData(
+                    new
+                    {
+                        Id = "dea12856-c198-4129-b3f3-b893d8395082",
+                        AccessFailedCount = 0,
+                        ConcurrencyStamp = "aff040d4-8fb7-4f26-83a3-22aba4c84c38",
+                        Email = "demo@mail.com",
+                        EmailConfirmed = false,
+                        LockoutEnabled = false,
+                        NormalizedEmail = "DEMO@MAIL.COM",
+                        NormalizedUserName = "DEMO@MAIL.COM",
+                        PasswordHash = "AQAAAAEAACcQAAAAEAsXKkpWT0KrNy5XidvIBskQyUT+00grXeNB4ysd71AoLW2b5h9QuexNB0Zd/IsfBw==",
+                        PhoneNumberConfirmed = false,
+                        SecurityStamp = "2f1bd226-bb1e-4f29-af0a-29c8052bac6a",
+                        TwoFactorEnabled = false,
+                        UserName = "demo@mail.com"
+                    },
+                    new
+                    {
+                        Id = "fd6820c7-db68-4695-8a9d-88559d48e0ec",
+                        AccessFailedCount = 0,
+                        ConcurrencyStamp = "8b078560-6e0b-4fea-a6a7-e866e36d2f66",
+                        Email = "admin@mail.com",
+                        EmailConfirmed = false,
+                        LockoutEnabled = false,
+                        NormalizedEmail = "ADMIN@MAIL.COM",
+                        NormalizedUserName = "ADMIN@MAIL.COM",
+                        PasswordHash = "AQAAAAEAACcQAAAAEA3jqEMwJBRwTrfCAm+03xiakDK/63q8RRP0TKFx3Y6Kcp65Faet3hnrutXCx7fqOg==",
+                        PhoneNumberConfirmed = false,
+                        SecurityStamp = "07b6bef7-9c2f-467c-8da9-27eb33a9808d",
+                        TwoFactorEnabled = false,
+                        UserName = "admin@mail.com"
+                    });
+            });
+
+        modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
+
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                b.Property<string>("ClaimType")
+                    .HasColumnType("nvarchar(max)");
+
+                b.Property<string>("ClaimValue")
+                    .HasColumnType("nvarchar(max)");
+
+                b.Property<string>("UserId")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(450)");
+
+                b.HasKey("Id");
+
+                b.HasIndex("UserId");
+
+                b.ToTable("AspNetUserClaims", (string)null);
+            });
+
+        modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+            {
+                b.Property<string>("LoginProvider")
+                    .HasMaxLength(128)
+                    .HasColumnType("nvarchar(128)");
+
+                b.Property<string>("ProviderKey")
+                    .HasMaxLength(128)
+                    .HasColumnType("nvarchar(128)");
+
+                b.Property<string>("ProviderDisplayName")
+                    .HasColumnType("nvarchar(max)");
+
+                b.Property<string>("UserId")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(450)");
+
+                b.HasKey("LoginProvider", "ProviderKey");
+
+                b.HasIndex("UserId");
+
+                b.ToTable("AspNetUserLogins", (string)null);
+            });
+
+        modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+            {
+                b.Property<string>("UserId")
+                    .HasColumnType("nvarchar(450)");
+
+                b.Property<string>("RoleId")
+                    .HasColumnType("nvarchar(450)");
+
+                b.HasKey("UserId", "RoleId");
+
+                b.HasIndex("RoleId");
+
+                b.ToTable("AspNetUserRoles", (string)null);
+
+                b.HasData(
+                    new
+                    {
+                        UserId = "dea12856-c198-4129-b3f3-b893d8395082",
+                        RoleId = "2a18a096-97da-4ae4-9d46-88314532d82b"
+                    },
+                    new
+                    {
+                        UserId = "fd6820c7-db68-4695-8a9d-88559d48e0ec",
+                        RoleId = "40271de3-61e3-49a3-b580-087252ce0546"
+                    });
+            });
+
+        modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+            {
+                b.Property<string>("UserId")
+                    .HasColumnType("nvarchar(450)");
+
+                b.Property<string>("LoginProvider")
+                    .HasMaxLength(128)
+                    .HasColumnType("nvarchar(128)");
+
+                b.Property<string>("Name")
+                    .HasMaxLength(128)
+                    .HasColumnType("nvarchar(128)");
+
+                b.Property<string>("Value")
+                    .HasColumnType("nvarchar(max)");
+
+                b.HasKey("UserId", "LoginProvider", "Name");
+
+                b.ToTable("AspNetUserTokens", (string)null);
+            });
+
+        modelBuilder.Entity("ChoreographyBuilder.Infrastructure.Data.Models.Figure", b =>
+            {
+                b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
+                    .WithMany()
+                    .HasForeignKey("UserId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+
+                b.Navigation("User");
+            });
+
+        modelBuilder.Entity("ChoreographyBuilder.Infrastructure.Data.Models.FigureOption", b =>
+            {
+                b.HasOne("ChoreographyBuilder.Infrastructure.Data.Models.Position", "EndPosition")
+                    .WithMany("FiguresWithEndPosition")
+                    .HasForeignKey("EndPositionId")
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .IsRequired();
+
+                b.HasOne("ChoreographyBuilder.Infrastructure.Data.Models.Figure", "Figure")
+                    .WithMany("FigureOptions")
+                    .HasForeignKey("FigureId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+
+                b.HasOne("ChoreographyBuilder.Infrastructure.Data.Models.Position", "StartPosition")
+                    .WithMany("FiguresWithStartPosition")
+                    .HasForeignKey("StartPositionId")
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .IsRequired();
+
+                b.Navigation("EndPosition");
+
+                b.Navigation("Figure");
+
+                b.Navigation("StartPosition");
+            });
+
+        modelBuilder.Entity("ChoreographyBuilder.Infrastructure.Data.Models.FullChoreography", b =>
+            {
+                b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
+                    .WithMany()
+                    .HasForeignKey("UserId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+
+                b.Navigation("User");
+            });
+
+        modelBuilder.Entity("ChoreographyBuilder.Infrastructure.Data.Models.FullChoreographyVerseChoreography", b =>
+            {
+                b.HasOne("ChoreographyBuilder.Infrastructure.Data.Models.FullChoreography", "FullChoreography")
+                    .WithMany("VerseChoreographies")
+                    .HasForeignKey("FullChoreographyId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+
+                b.HasOne("ChoreographyBuilder.Infrastructure.Data.Models.VerseChoreography", "VerseChoreography")
+                    .WithMany("FullChoreographies")
+                    .HasForeignKey("VerseChoreographyId")
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .IsRequired();
+
+                b.Navigation("FullChoreography");
+
+                b.Navigation("VerseChoreography");
+            });
+
+        modelBuilder.Entity("ChoreographyBuilder.Infrastructure.Data.Models.VerseChoreography", b =>
+            {
+                b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
+                    .WithMany()
+                    .HasForeignKey("UserId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+
+                b.HasOne("ChoreographyBuilder.Infrastructure.Data.Models.VerseType", "VerseType")
+                    .WithMany("VerseChoreographies")
+                    .HasForeignKey("VerseTypeId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+
+                b.Navigation("User");
+
+                b.Navigation("VerseType");
+            });
+
+        modelBuilder.Entity("ChoreographyBuilder.Infrastructure.Data.Models.VerseChoreographyFigure", b =>
+            {
+                b.HasOne("ChoreographyBuilder.Infrastructure.Data.Models.FigureOption", "FigureOption")
+                    .WithMany("VerseChoreographyFigures")
+                    .HasForeignKey("FigureOptionId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+
+                b.HasOne("ChoreographyBuilder.Infrastructure.Data.Models.VerseChoreography", "VerseChoreography")
+                    .WithMany("Figures")
+                    .HasForeignKey("VerseChoreographyId")
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .IsRequired();
+
+                b.Navigation("FigureOption");
+
+                b.Navigation("VerseChoreography");
+            });
+
+        modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+            {
+                b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                    .WithMany()
+                    .HasForeignKey("RoleId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+            });
+
+        modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+            {
+                b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    .WithMany()
+                    .HasForeignKey("UserId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+            });
+
+        modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+            {
+                b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    .WithMany()
+                    .HasForeignKey("UserId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+            });
+
+        modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+            {
+                b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                    .WithMany()
+                    .HasForeignKey("RoleId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+
+                b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    .WithMany()
+                    .HasForeignKey("UserId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+            });
+
+        modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+            {
+                b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    .WithMany()
+                    .HasForeignKey("UserId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+            });
+
+        modelBuilder.Entity("ChoreographyBuilder.Infrastructure.Data.Models.Figure", b =>
+            {
+                b.Navigation("FigureOptions");
+            });
+
+        modelBuilder.Entity("ChoreographyBuilder.Infrastructure.Data.Models.FigureOption", b =>
+            {
+                b.Navigation("VerseChoreographyFigures");
+            });
+
+        modelBuilder.Entity("ChoreographyBuilder.Infrastructure.Data.Models.FullChoreography", b =>
+            {
+                b.Navigation("VerseChoreographies");
+            });
+
+        modelBuilder.Entity("ChoreographyBuilder.Infrastructure.Data.Models.Position", b =>
+            {
+                b.Navigation("FiguresWithEndPosition");
+
+                b.Navigation("FiguresWithStartPosition");
+            });
+
+        modelBuilder.Entity("ChoreographyBuilder.Infrastructure.Data.Models.VerseChoreography", b =>
+            {
+                b.Navigation("Figures");
+
+                b.Navigation("FullChoreographies");
+            });
+
+        modelBuilder.Entity("ChoreographyBuilder.Infrastructure.Data.Models.VerseType", b =>
+            {
+                b.Navigation("VerseChoreographies");
+            });
 #pragma warning restore 612, 618
-        }
     }
 }
