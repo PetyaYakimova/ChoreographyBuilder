@@ -6,327 +6,326 @@ using ChoreographyBuilder.Infrastructure.Data.Models.Enums;
 using Microsoft.Extensions.Logging;
 using Moq;
 
-namespace ChoreographyBuilder.Tests.UnitTests
+namespace ChoreographyBuilder.Tests.UnitTests;
+
+[TestFixture]
+public class FigureOptionServiceTests : UnitTestsBase
 {
-	[TestFixture]
-	public class FigureOptionServiceTests : UnitTestsBase
+	private IFigureOptionService figureOptionService;
+	private ILogger<FigureOptionService> logger;
+
+	[SetUp]
+	public void Setup()
 	{
-		private IFigureOptionService figureOptionService;
-		private ILogger<FigureOptionService> logger;
+		var mockLogger = new Mock<ILogger<FigureOptionService>>();
+		this.logger = mockLogger.Object;
 
-		[SetUp]
-		public void Setup()
+		this.figureOptionService = new FigureOptionService(this.logger, repository, mapper);
+	}
+
+
+	[Test]
+	public async Task GetFigureOptionById_ShouldReturnValidFigureOptionWithCorrectDataWhenIdExists()
+	{
+		var result = await figureOptionService.GetFigureOptionByIdAsync(FirstFigureFirstOption.Id);
+
+		Assert.Multiple(() =>
 		{
-			var mockLogger = new Mock<ILogger<FigureOptionService>>();
-			this.logger = mockLogger.Object;
+			Assert.That(result.BeatCounts, Is.EqualTo(FirstFigureFirstOption.BeatCounts));
+			Assert.That(result.DynamicsType, Is.EqualTo(FirstFigureFirstOption.DynamicsType));
+			Assert.That(result.StartPositionId, Is.EqualTo(FirstFigureFirstOption.StartPositionId));
+			Assert.That(result.EndPositionId, Is.EqualTo(FirstFigureFirstOption.EndPositionId));
+			Assert.That(result.FigureId, Is.EqualTo(FirstFigureFirstOption.FigureId));
+			Assert.That(result.FigureName, Is.EqualTo(FirstFigure.Name));
+		});
+	}
 
-			this.figureOptionService = new FigureOptionService(this.logger, repository, mapper);
-		}
+	[Test]
+	public void GetFigureOptionById_ShouldThrowExceptionWhenIdDoesntExists()
+	{
+		Assert.That(async () => await figureOptionService.GetFigureOptionByIdAsync(50),
+			Throws.Exception.TypeOf<EntityNotFoundException>());
+	}
 
+	[Test]
+	public async Task GetFigureOptionForDelete_ShouldReturnValidFigureOptionWithCorrectDataWhenIdExists()
+	{
+		var result = await figureOptionService.GetFigureOptionForDeleteAsync(FirstFigureFirstOption.Id);
 
-		[Test]
-		public async Task GetFigureOptionById_ShouldReturnValidFigureOptionWithCorrectDataWhenIdExists()
+		Assert.Multiple(() =>
 		{
-			var result = await figureOptionService.GetFigureOptionByIdAsync(FirstFigureFirstOption.Id);
+			Assert.That(result.Id, Is.EqualTo(FirstFigureFirstOption.Id));
+			Assert.That(result.FigureName, Is.EqualTo(FirstFigure.Name));
+		});
+	}
 
-			Assert.Multiple(() =>
-			{
-				Assert.That(result.BeatCounts, Is.EqualTo(FirstFigureFirstOption.BeatCounts));
-				Assert.That(result.DynamicsType, Is.EqualTo(FirstFigureFirstOption.DynamicsType));
-				Assert.That(result.StartPositionId, Is.EqualTo(FirstFigureFirstOption.StartPositionId));
-				Assert.That(result.EndPositionId, Is.EqualTo(FirstFigureFirstOption.EndPositionId));
-				Assert.That(result.FigureId, Is.EqualTo(FirstFigureFirstOption.FigureId));
-				Assert.That(result.FigureName, Is.EqualTo(FirstFigure.Name));
-			});
-		}
+	[Test]
+	public void GetFigureOptionForDelete_ShouldThrowExceptionWhenIdDoesntExists()
+	{
+		Assert.That(async () => await figureOptionService.GetFigureOptionForDeleteAsync(50),
+			Throws.Exception.TypeOf<EntityNotFoundException>());
+	}
 
-		[Test]
-		public void GetFigureOptionById_ShouldThrowExceptionWhenIdDoesntExists()
+	[Test]
+	public async Task GetFigureOptions_ShouldReturnAllFigureOptionsWhenThereAreNoSearchCriteria()
+	{
+		var expectedCount = this.data.FigureOptions.Count(f => f.FigureId == FirstFigure.Id);
+
+		var result = await figureOptionService.GetFigureOptionsAsync(FirstFigure.Id);
+
+		Assert.Multiple(() =>
 		{
-			Assert.That(async () => await figureOptionService.GetFigureOptionByIdAsync(50),
-				Throws.Exception.TypeOf<EntityNotFoundException>());
-		}
+			Assert.That(result.TotalCount, Is.EqualTo(expectedCount));
+			Assert.That(result.Entities.Count(), Is.EqualTo(expectedCount));
+		});
+	}
 
-		[Test]
-		public async Task GetFigureOptionForDelete_ShouldReturnValidFigureOptionWithCorrectDataWhenIdExists()
+	[Test]
+	public async Task GetFigureOptions_ShouldReturnOnlySomeFigureOptionsWhenThereIsSearchCriteria()
+	{
+		var result = await figureOptionService.GetFigureOptionsAsync(FirstFigure.Id, FirstPosition.Id, SecondPosition.Id, 6, DynamicsType.Regular);
+
+		Assert.Multiple(() =>
 		{
-			var result = await figureOptionService.GetFigureOptionForDeleteAsync(FirstFigureFirstOption.Id);
+			Assert.That(result.TotalCount, Is.EqualTo(1));
+			Assert.That(result.Entities.Count(), Is.EqualTo(1));
+		});
+	}
 
-			Assert.Multiple(() =>
-			{
-				Assert.That(result.Id, Is.EqualTo(FirstFigureFirstOption.Id));
-				Assert.That(result.FigureName, Is.EqualTo(FirstFigure.Name));
-			});
-		}
+	[Test]
+	public void GetFigureOptions_ShouldThrowExceptionWhenFigureIdDoesntExists()
+	{
+		Assert.That(async () => await figureOptionService.GetFigureOptionsAsync(50),
+			Throws.Exception.TypeOf<EntityNotFoundException>());
+	}
 
-		[Test]
-		public void GetFigureOptionForDelete_ShouldThrowExceptionWhenIdDoesntExists()
+
+	[Test]
+	public async Task FigureOptionExistsForThisUserById_ShouldReturnTrueForValidIdForThisUser()
+	{
+		var result = await figureOptionService.FigureOptionExistForThisUserByIdAsync(FirstFigureFirstOption.Id, FirstUser.Id);
+
+		Assert.IsTrue(result);
+	}
+
+	[Test]
+	public async Task FigureOptionExistsForThisUserById_ShouldReturnFalseForInvalidId()
+	{
+		var result = await figureOptionService.FigureOptionExistForThisUserByIdAsync(50, FirstUser.Id);
+
+		Assert.IsFalse(result);
+	}
+
+	[Test]
+	public async Task FigureOptionExistsForThisUserById_ShouldReturnFalseForValidIdForAnotherUserFigure()
+	{
+		var result = await figureOptionService.FigureOptionExistForThisUserByIdAsync(FirstFigureFirstOption.Id, SecondUser.Id);
+
+		Assert.IsFalse(result);
+	}
+
+	[Test]
+	public async Task IsFigureOptionUsedInChoreographies_ShouldReturnTrueWhenTheFigureOptionIsUsed()
+	{
+		var result = await figureOptionService.IsFigureOptionUsedInChoreographiesAsync(FirstFigureFirstOption.Id);
+
+		Assert.IsTrue(result);
+	}
+
+	[Test]
+	public async Task IsFigureOptionUsedInChoreographies_ShouldReturnFalseWhenTheFigureOptionIsNotUsed()
+	{
+		var result = await figureOptionService.IsFigureOptionUsedInChoreographiesAsync(SecondFigureSecondOption.Id);
+
+		Assert.IsFalse(result);
+	}
+
+	[Test]
+	public void IsFigureOptionUsedInChoreographies_ShouldThrowAnExceptionIfTheFigureOptionDoesntExist()
+	{
+		Assert.That(async () => await figureOptionService.IsFigureOptionUsedInChoreographiesAsync(50),
+			Throws.Exception.TypeOf<EntityNotFoundException>());
+	}
+
+	[Test]
+	public async Task AddFigureOption_ShouldAddTheFigureOptionForValidFigure()
+	{
+		var figureOptionsForTheFigureCountBefore = this.data.FigureOptions.Count(fo => fo.FigureId == FirstFigure.Id);
+
+		FigureOptionFormViewModel model = new FigureOptionFormViewModel()
 		{
-			Assert.That(async () => await figureOptionService.GetFigureOptionForDeleteAsync(50),
-				Throws.Exception.TypeOf<EntityNotFoundException>());
-		}
+			BeatCounts = 8,
+			DynamicsType = DynamicsType.Regular,
+			EndPositionId = FirstPosition.Id,
+			StartPositionId = FirstPosition.Id,
+			FigureId = FirstFigure.Id,
+			FigureName = FirstFigure.Name
+		};
 
-		[Test]
-		public async Task GetFigureOptions_ShouldReturnAllFigureOptionsWhenThereAreNoSearchCriteria()
+		await figureOptionService.AddFigureOptionAsync(model);
+
+		var figureOptionsForTheFigureCountAfter = this.data.FigureOptions.Count(fo => fo.FigureId == FirstFigure.Id);
+		Assert.That(figureOptionsForTheFigureCountAfter, Is.EqualTo(figureOptionsForTheFigureCountBefore + 1));
+	}
+
+	[Test]
+	public void AddFigureOption_ShouldThrowAnExceptionIfFigureIdIsNotValid()
+	{
+		FigureOptionFormViewModel model = new FigureOptionFormViewModel()
 		{
-			var expectedCount = this.data.FigureOptions.Count(f => f.FigureId == FirstFigure.Id);
+			BeatCounts = 8,
+			DynamicsType = DynamicsType.Regular,
+			EndPositionId = FirstPosition.Id,
+			StartPositionId = FirstPosition.Id,
+			FigureId = 10,
+			FigureName = FirstFigure.Name
+		};
 
-			var result = await figureOptionService.GetFigureOptionsAsync(FirstFigure.Id);
+		Assert.That(async () => await figureOptionService.AddFigureOptionAsync(model),
+			Throws.Exception.TypeOf<EntityNotFoundException>());
+	}
 
-			Assert.Multiple(() =>
-			{
-				Assert.That(result.TotalCount, Is.EqualTo(expectedCount));
-				Assert.That(result.Entities.Count(), Is.EqualTo(expectedCount));
-			});
-		}
-
-		[Test]
-		public async Task GetFigureOptions_ShouldReturnOnlySomeFigureOptionsWhenThereIsSearchCriteria()
+	[Test]
+	public void AddFigureOption_ShouldThrowAnExceptionIfStartPositionIdIsNotValid()
+	{
+		FigureOptionFormViewModel model = new FigureOptionFormViewModel()
 		{
-			var result = await figureOptionService.GetFigureOptionsAsync(FirstFigure.Id, FirstPosition.Id, SecondPosition.Id, 6, DynamicsType.Regular);
+			BeatCounts = 8,
+			DynamicsType = DynamicsType.Regular,
+			EndPositionId = FirstPosition.Id,
+			StartPositionId = 10,
+			FigureId = FirstFigure.Id,
+			FigureName = FirstFigure.Name
+		};
 
-			Assert.Multiple(() =>
-			{
-				Assert.That(result.TotalCount, Is.EqualTo(1));
-				Assert.That(result.Entities.Count(), Is.EqualTo(1));
-			});
-		}
+		Assert.That(async () => await figureOptionService.AddFigureOptionAsync(model),
+			Throws.Exception.TypeOf<EntityNotFoundException>());
+	}
 
-		[Test]
-		public void GetFigureOptions_ShouldThrowExceptionWhenFigureIdDoesntExists()
+	[Test]
+	public void AddFigureOption_ShouldThrowAnExceptionIfEndPositionIdIsNotValid()
+	{
+		FigureOptionFormViewModel model = new FigureOptionFormViewModel()
 		{
-			Assert.That(async () => await figureOptionService.GetFigureOptionsAsync(50),
-				Throws.Exception.TypeOf<EntityNotFoundException>());
-		}
+			BeatCounts = 8,
+			DynamicsType = DynamicsType.Regular,
+			EndPositionId = 10,
+			StartPositionId = FirstPosition.Id,
+			FigureId = FirstFigure.Id,
+			FigureName = FirstFigure.Name
+		};
 
+		Assert.That(async () => await figureOptionService.AddFigureOptionAsync(model),
+			Throws.Exception.TypeOf<EntityNotFoundException>());
+	}
 
-		[Test]
-		public async Task FigureOptionExistsForThisUserById_ShouldReturnTrueForValidIdForThisUser()
+	[Test]
+	public void AddFigureOption_ShouldThrowAnExceptionIfBeatsCountIsOddNumber()
+	{
+		FigureOptionFormViewModel model = new FigureOptionFormViewModel()
 		{
-			var result = await figureOptionService.FigureOptionExistForThisUserByIdAsync(FirstFigureFirstOption.Id, FirstUser.Id);
+			BeatCounts = 7,
+			DynamicsType = DynamicsType.Regular,
+			EndPositionId = FirstPosition.Id,
+			StartPositionId = FirstPosition.Id,
+			FigureId = FirstFigure.Id,
+			FigureName = FirstFigure.Name
+		};
 
-			Assert.IsTrue(result);
-		}
+		Assert.That(async () => await figureOptionService.AddFigureOptionAsync(model),
+			Throws.Exception.TypeOf<InvalidModelException>());
+	}
 
-		[Test]
-		public async Task FigureOptionExistsForThisUserById_ShouldReturnFalseForInvalidId()
+	[Test]
+	public async Task EditFigureOption_ShouldEditTheFigureOptionSuccessfullyForValidFigureOption()
+	{
+		var model = new FigureOptionFormViewModel()
 		{
-			var result = await figureOptionService.FigureOptionExistForThisUserByIdAsync(50, FirstUser.Id);
+			BeatCounts = 12,
+			StartPositionId = SecondPosition.Id,
+			EndPositionId = SecondPosition.Id,
+			DynamicsType = DynamicsType.Slow,
+			FigureId = FirstFigure.Id,
+			FigureName = FirstFigure.Name
+		};
 
-			Assert.IsFalse(result);
-		}
+		await figureOptionService.EditFigureOptionAsync(FirstFigureFirstOption.Id, model);
 
-		[Test]
-		public async Task FigureOptionExistsForThisUserById_ShouldReturnFalseForValidIdForAnotherUserFigure()
+		Assert.Multiple(() =>
 		{
-			var result = await figureOptionService.FigureOptionExistForThisUserByIdAsync(FirstFigureFirstOption.Id, SecondUser.Id);
+			Assert.That(FirstFigureFirstOption.BeatCounts, Is.EqualTo(model.BeatCounts));
+			Assert.That(FirstFigureFirstOption.StartPositionId, Is.EqualTo(model.StartPositionId));
+			Assert.That(FirstFigureFirstOption.EndPositionId, Is.EqualTo(model.EndPositionId));
+			Assert.That(FirstFigureFirstOption.DynamicsType, Is.EqualTo(model.DynamicsType));
+		});
+	}
 
-			Assert.IsFalse(result);
-		}
+	[Test]
+	public void EditFigureOption_ShouldThrowAnExceptionIfThFigureOptionDoesntExist()
+	{
+		Assert.That(async () => await figureOptionService.EditFigureOptionAsync(50, new FigureOptionFormViewModel()),
+			Throws.Exception.TypeOf<EntityNotFoundException>());
+	}
 
-		[Test]
-		public async Task IsFigureOptionUsedInChoreographies_ShouldReturnTrueWhenTheFigureOptionIsUsed()
+	[Test]
+	public void EditFigureOption_ShouldThrowAnExceptionIfStartPositionIdIsNotValid()
+	{
+		FigureOptionFormViewModel model = new FigureOptionFormViewModel()
 		{
-			var result = await figureOptionService.IsFigureOptionUsedInChoreographiesAsync(FirstFigureFirstOption.Id);
+			BeatCounts = 8,
+			DynamicsType = DynamicsType.Regular,
+			EndPositionId = FirstPosition.Id,
+			StartPositionId = 10,
+			FigureId = FirstFigure.Id,
+			FigureName = FirstFigure.Name
+		};
 
-			Assert.IsTrue(result);
-		}
+		Assert.That(async () => await figureOptionService.EditFigureOptionAsync(FirstFigureFirstOption.Id, model),
+			Throws.Exception.TypeOf<EntityNotFoundException>());
+	}
 
-		[Test]
-		public async Task IsFigureOptionUsedInChoreographies_ShouldReturnFalseWhenTheFigureOptionIsNotUsed()
+	[Test]
+	public void EditFigureOption_ShouldThrowAnExceptionIfEndPositionIdIsNotValid()
+	{
+		FigureOptionFormViewModel model = new FigureOptionFormViewModel()
 		{
-			var result = await figureOptionService.IsFigureOptionUsedInChoreographiesAsync(SecondFigureSecondOption.Id);
+			BeatCounts = 8,
+			DynamicsType = DynamicsType.Regular,
+			EndPositionId = 10,
+			StartPositionId = FirstPosition.Id,
+			FigureId = FirstFigure.Id,
+			FigureName = FirstFigure.Name
+		};
 
-			Assert.IsFalse(result);
-		}
+		Assert.That(async () => await figureOptionService.EditFigureOptionAsync(FirstFigureFirstOption.Id, model),
+			Throws.Exception.TypeOf<EntityNotFoundException>());
+	}
 
-		[Test]
-		public void IsFigureOptionUsedInChoreographies_ShouldThrowAnExceptionIfTheFigureOptionDoesntExist()
+	[Test]
+	public void EditFigureOption_ShouldThrowAnExceptionIfBeatsCountIsOddNumber()
+	{
+		FigureOptionFormViewModel model = new FigureOptionFormViewModel()
 		{
-			Assert.That(async () => await figureOptionService.IsFigureOptionUsedInChoreographiesAsync(50),
-				Throws.Exception.TypeOf<EntityNotFoundException>());
-		}
+			BeatCounts = 7,
+			DynamicsType = DynamicsType.Regular,
+			EndPositionId = FirstPosition.Id,
+			StartPositionId = FirstPosition.Id,
+			FigureId = FirstFigure.Id,
+			FigureName = FirstFigure.Name
+		};
 
-		[Test]
-		public async Task AddFigureOption_ShouldAddTheFigureOptionForValidFigure()
-		{
-			var figureOptionsForTheFigureCountBefore = this.data.FigureOptions.Count(fo => fo.FigureId == FirstFigure.Id);
+		Assert.That(async () => await figureOptionService.EditFigureOptionAsync(FirstFigureFirstOption.Id, model),
+			Throws.Exception.TypeOf<InvalidModelException>());
+	}
 
-			FigureOptionFormViewModel model = new FigureOptionFormViewModel()
-			{
-				BeatCounts = 8,
-				DynamicsType = DynamicsType.Regular,
-				EndPositionId = FirstPosition.Id,
-				StartPositionId = FirstPosition.Id,
-				FigureId = FirstFigure.Id,
-				FigureName = FirstFigure.Name
-			};
+	[Test]
+	public async Task DeleteFigureOption_ShouldDeleteTheFigureOptionSuccessfully()
+	{
+		var figureOptionsCountBefore = data.FigureOptions.Count(fo => fo.FigureId == FirstFigure.Id);
 
-			await figureOptionService.AddFigureOptionAsync(model);
+		await figureOptionService.DeleteFigureOptionAsync(FirstFigureSecondOption.Id);
 
-			var figureOptionsForTheFigureCountAfter = this.data.FigureOptions.Count(fo => fo.FigureId == FirstFigure.Id);
-			Assert.That(figureOptionsForTheFigureCountAfter, Is.EqualTo(figureOptionsForTheFigureCountBefore + 1));
-		}
-
-		[Test]
-		public void AddFigureOption_ShouldThrowAnExceptionIfFigureIdIsNotValid()
-		{
-			FigureOptionFormViewModel model = new FigureOptionFormViewModel()
-			{
-				BeatCounts = 8,
-				DynamicsType = DynamicsType.Regular,
-				EndPositionId = FirstPosition.Id,
-				StartPositionId = FirstPosition.Id,
-				FigureId = 10,
-				FigureName = FirstFigure.Name
-			};
-
-			Assert.That(async () => await figureOptionService.AddFigureOptionAsync(model),
-				Throws.Exception.TypeOf<EntityNotFoundException>());
-		}
-
-		[Test]
-		public void AddFigureOption_ShouldThrowAnExceptionIfStartPositionIdIsNotValid()
-		{
-			FigureOptionFormViewModel model = new FigureOptionFormViewModel()
-			{
-				BeatCounts = 8,
-				DynamicsType = DynamicsType.Regular,
-				EndPositionId = FirstPosition.Id,
-				StartPositionId = 10,
-				FigureId = FirstFigure.Id,
-				FigureName = FirstFigure.Name
-			};
-
-			Assert.That(async () => await figureOptionService.AddFigureOptionAsync(model),
-				Throws.Exception.TypeOf<EntityNotFoundException>());
-		}
-
-		[Test]
-		public void AddFigureOption_ShouldThrowAnExceptionIfEndPositionIdIsNotValid()
-		{
-			FigureOptionFormViewModel model = new FigureOptionFormViewModel()
-			{
-				BeatCounts = 8,
-				DynamicsType = DynamicsType.Regular,
-				EndPositionId = 10,
-				StartPositionId = FirstPosition.Id,
-				FigureId = FirstFigure.Id,
-				FigureName = FirstFigure.Name
-			};
-
-			Assert.That(async () => await figureOptionService.AddFigureOptionAsync(model),
-				Throws.Exception.TypeOf<EntityNotFoundException>());
-		}
-
-		[Test]
-		public void AddFigureOption_ShouldThrowAnExceptionIfBeatsCountIsOddNumber()
-		{
-			FigureOptionFormViewModel model = new FigureOptionFormViewModel()
-			{
-				BeatCounts = 7,
-				DynamicsType = DynamicsType.Regular,
-				EndPositionId = FirstPosition.Id,
-				StartPositionId = FirstPosition.Id,
-				FigureId = FirstFigure.Id,
-				FigureName = FirstFigure.Name
-			};
-
-			Assert.That(async () => await figureOptionService.AddFigureOptionAsync(model),
-				Throws.Exception.TypeOf<InvalidModelException>());
-		}
-
-		[Test]
-		public async Task EditFigureOption_ShouldEditTheFigureOptionSuccessfullyForValidFigureOption()
-		{
-			var model = new FigureOptionFormViewModel()
-			{
-				BeatCounts = 12,
-				StartPositionId = SecondPosition.Id,
-				EndPositionId = SecondPosition.Id,
-				DynamicsType = DynamicsType.Slow,
-				FigureId = FirstFigure.Id,
-				FigureName = FirstFigure.Name
-			};
-
-			await figureOptionService.EditFigureOptionAsync(FirstFigureFirstOption.Id, model);
-
-			Assert.Multiple(() =>
-			{
-				Assert.That(FirstFigureFirstOption.BeatCounts, Is.EqualTo(model.BeatCounts));
-				Assert.That(FirstFigureFirstOption.StartPositionId, Is.EqualTo(model.StartPositionId));
-				Assert.That(FirstFigureFirstOption.EndPositionId, Is.EqualTo(model.EndPositionId));
-				Assert.That(FirstFigureFirstOption.DynamicsType, Is.EqualTo(model.DynamicsType));
-			});
-		}
-
-		[Test]
-		public void EditFigureOption_ShouldThrowAnExceptionIfThFigureOptionDoesntExist()
-		{
-			Assert.That(async () => await figureOptionService.EditFigureOptionAsync(50, new FigureOptionFormViewModel()),
-				Throws.Exception.TypeOf<EntityNotFoundException>());
-		}
-
-		[Test]
-		public void EditFigureOption_ShouldThrowAnExceptionIfStartPositionIdIsNotValid()
-		{
-			FigureOptionFormViewModel model = new FigureOptionFormViewModel()
-			{
-				BeatCounts = 8,
-				DynamicsType = DynamicsType.Regular,
-				EndPositionId = FirstPosition.Id,
-				StartPositionId = 10,
-				FigureId = FirstFigure.Id,
-				FigureName = FirstFigure.Name
-			};
-
-			Assert.That(async () => await figureOptionService.EditFigureOptionAsync(FirstFigureFirstOption.Id, model),
-				Throws.Exception.TypeOf<EntityNotFoundException>());
-		}
-
-		[Test]
-		public void EditFigureOption_ShouldThrowAnExceptionIfEndPositionIdIsNotValid()
-		{
-			FigureOptionFormViewModel model = new FigureOptionFormViewModel()
-			{
-				BeatCounts = 8,
-				DynamicsType = DynamicsType.Regular,
-				EndPositionId = 10,
-				StartPositionId = FirstPosition.Id,
-				FigureId = FirstFigure.Id,
-				FigureName = FirstFigure.Name
-			};
-
-			Assert.That(async () => await figureOptionService.EditFigureOptionAsync(FirstFigureFirstOption.Id, model),
-				Throws.Exception.TypeOf<EntityNotFoundException>());
-		}
-
-		[Test]
-		public void EditFigureOption_ShouldThrowAnExceptionIfBeatsCountIsOddNumber()
-		{
-			FigureOptionFormViewModel model = new FigureOptionFormViewModel()
-			{
-				BeatCounts = 7,
-				DynamicsType = DynamicsType.Regular,
-				EndPositionId = FirstPosition.Id,
-				StartPositionId = FirstPosition.Id,
-				FigureId = FirstFigure.Id,
-				FigureName = FirstFigure.Name
-			};
-
-			Assert.That(async () => await figureOptionService.EditFigureOptionAsync(FirstFigureFirstOption.Id, model),
-				Throws.Exception.TypeOf<InvalidModelException>());
-		}
-
-		[Test]
-		public async Task DeleteFigureOption_ShouldDeleteTheFigureOptionSuccessfully()
-		{
-			var figureOptionsCountBefore = data.FigureOptions.Count(fo => fo.FigureId == FirstFigure.Id);
-
-			await figureOptionService.DeleteFigureOptionAsync(FirstFigureSecondOption.Id);
-
-			var figureOptionsCountAfter = data.FigureOptions.Count(fo => fo.FigureId == FirstFigure.Id);
-			Assert.That(figureOptionsCountAfter, Is.EqualTo(figureOptionsCountBefore - 1));
-		}
+		var figureOptionsCountAfter = data.FigureOptions.Count(fo => fo.FigureId == FirstFigure.Id);
+		Assert.That(figureOptionsCountAfter, Is.EqualTo(figureOptionsCountBefore - 1));
 	}
 }
