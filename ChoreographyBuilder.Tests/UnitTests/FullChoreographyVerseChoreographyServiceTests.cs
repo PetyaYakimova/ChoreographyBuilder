@@ -5,150 +5,149 @@ using ChoreographyBuilder.Core.Services;
 using Microsoft.Extensions.Logging;
 using Moq;
 
-namespace ChoreographyBuilder.Tests.UnitTests
+namespace ChoreographyBuilder.Tests.UnitTests;
+
+[TestFixture]
+public class FullChoreographyVerseChoreographyServiceTests : UnitTestsBase
 {
-	[TestFixture]
-	public class FullChoreographyVerseChoreographyServiceTests : UnitTestsBase
+	private IFullChoreographyVerseChoreographyService fullChoreographyVerseChoreographyService;
+	private ILogger<FullChoreographyVerseChoreographyService> logger;
+
+	[SetUp]
+	public void Setup()
 	{
-		private IFullChoreographyVerseChoreographyService fullChoreographyVerseChoreographyService;
-		private ILogger<FullChoreographyVerseChoreographyService> logger;
+		var mockLogger = new Mock<ILogger<FullChoreographyVerseChoreographyService>>();
+		this.logger = mockLogger.Object;
 
-		[SetUp]
-		public void Setup()
+		this.fullChoreographyVerseChoreographyService = new FullChoreographyVerseChoreographyService(this.logger, repository, mapper);
+	}
+
+	[Test]
+	public async Task GetVerseChoreographyForDelete_ShouldReturnValidVerseChoreographyWithCorrectDataWhenIdExists()
+	{
+		var result = await fullChoreographyVerseChoreographyService.GetVerseChoreographyForDeleteAsync(FirstFullChoreographySecondVerse.Id);
+
+		Assert.Multiple(() =>
 		{
-			var mockLogger = new Mock<ILogger<FullChoreographyVerseChoreographyService>>();
-			this.logger = mockLogger.Object;
+			Assert.That(result.Id, Is.EqualTo(FirstFullChoreographySecondVerse.Id));
+			Assert.That(result.FullChoreographyId, Is.EqualTo(FirstFullChoreography.Id));
+			Assert.That(result.FullChoreographyName, Is.EqualTo(FirstFullChoreography.Name));
+		});
+	}
 
-			this.fullChoreographyVerseChoreographyService = new FullChoreographyVerseChoreographyService(this.logger, repository, mapper);
-		}
+	[Test]
+	public void GetVerseChoreographyForDelete_ShouldThrowExceptionWhenIdDoesntExists()
+	{
+		Assert.That(async () => await fullChoreographyVerseChoreographyService.GetVerseChoreographyForDeleteAsync(10),
+			Throws.Exception.TypeOf<EntityNotFoundException>());
+	}
 
-		[Test]
-		public async Task GetVerseChoreographyForDelete_ShouldReturnValidVerseChoreographyWithCorrectDataWhenIdExists()
+	[Test]
+	public async Task VerseChoreographyInFullChoreographyExistsForThisUserById_ShouldReturnTrueForValidIdForThisUser()
+	{
+		var result = await fullChoreographyVerseChoreographyService.VerseChoreographyInFullChoreographyExistForThisUserByIdAsync(FirstFullChoreographySecondVerse.Id, FirstUser.Id);
+
+		Assert.IsTrue(result);
+	}
+
+	[Test]
+	public async Task VerseChoreographyInFullChoreographyExistsForThisUserById_ShouldReturnFalseForInvalidId()
+	{
+		var result = await fullChoreographyVerseChoreographyService.VerseChoreographyInFullChoreographyExistForThisUserByIdAsync(10, FirstUser.Id);
+
+		Assert.IsFalse(result);
+	}
+
+	[Test]
+	public async Task VerseChoreographyInFullChoreographyExistsForThisUserById_ShouldReturnFalseForValidIdForAnotherUserVerseChoreographyInFullChoreography()
+	{
+		var result = await fullChoreographyVerseChoreographyService.VerseChoreographyInFullChoreographyExistForThisUserByIdAsync(FirstFullChoreographyFirstVerse.Id, SecondUser.Id);
+
+		Assert.IsFalse(result);
+	}
+
+	[Test]
+	public async Task VerseChoreographyIsLastForFullChoreographyById_ShouldReturnTrueWhenTheVerseIsTheLastOne()
+	{
+		var result = await fullChoreographyVerseChoreographyService.VerseChoreographyIsLastForFullChoreographyByIdAsync(FirstFullChoreographySecondVerse.Id);
+
+		Assert.IsTrue(result);
+	}
+
+	[Test]
+	public async Task VerseChoreographyIsLastForFullChoreographyById_ShouldReturnFalseWhenTheVerseIsNotTheLastOne()
+	{
+		var result = await fullChoreographyVerseChoreographyService.VerseChoreographyIsLastForFullChoreographyByIdAsync(FirstFullChoreographyFirstVerse.Id);
+
+		Assert.IsFalse(result);
+	}
+
+	[Test]
+	public async Task VerseChoreographyIsLastForFullChoreographyById_ShouldReturnFalseWhenVerseIsNotValid()
+	{
+		var result = await fullChoreographyVerseChoreographyService.VerseChoreographyIsLastForFullChoreographyByIdAsync(10);
+
+		Assert.IsFalse(result);
+	}
+
+	[Test]
+	public async Task AddVerseChoreographyToFullChoreography_AddsSuccessfullyForValidFullChoreography()
+	{
+		var countVerseChoreographiesForThisFullChoreographyBefore = data.FullChoreographiesVerseChoreographies.Count(v => v.FullChoreographyId == FirstFullChoreography.Id);
+
+		var model = new FullChoreographyVerseChoreographyFormViewModel()
 		{
-			var result = await fullChoreographyVerseChoreographyService.GetVerseChoreographyForDeleteAsync(FirstFullChoreographySecondVerse.Id);
+			VerseChoreographyOrder = 3,
+			VerseChoreographyId = ThirdVerseChoreography.Id
+		};
 
-			Assert.Multiple(() =>
-			{
-				Assert.That(result.Id, Is.EqualTo(FirstFullChoreographySecondVerse.Id));
-				Assert.That(result.FullChoreographyId, Is.EqualTo(FirstFullChoreography.Id));
-				Assert.That(result.FullChoreographyName, Is.EqualTo(FirstFullChoreography.Name));
-			});
-		}
+		await fullChoreographyVerseChoreographyService.AddVerseChoreographyToFullChoreographyAsync(FirstFullChoreography.Id, model);
 
-		[Test]
-		public void GetVerseChoreographyForDelete_ShouldThrowExceptionWhenIdDoesntExists()
+		var countVerseChoreographiesForThisFullChoreographyAfter = data.FullChoreographiesVerseChoreographies.Count(v => v.FullChoreographyId == FirstFullChoreography.Id);
+		Assert.That(countVerseChoreographiesForThisFullChoreographyAfter, Is.EqualTo(countVerseChoreographiesForThisFullChoreographyBefore + 1));
+	}
+
+	[Test]
+	public void AddVerseChoreographyToFullChoreography_ShouldThrowExceptionWhenFullChoreographyIdDoesntExists()
+	{
+		Assert.That(async () => await fullChoreographyVerseChoreographyService.AddVerseChoreographyToFullChoreographyAsync(10, new FullChoreographyVerseChoreographyFormViewModel()),
+			Throws.Exception.TypeOf<EntityNotFoundException>());
+	}
+
+	[Test]
+	public void AddVerseChoreographyToFullChoreography_ShouldThrowExceptionWhenVerseChoreographyIdDoesntExists()
+	{
+		var model = new FullChoreographyVerseChoreographyFormViewModel()
 		{
-			Assert.That(async () => await fullChoreographyVerseChoreographyService.GetVerseChoreographyForDeleteAsync(10),
-				Throws.Exception.TypeOf<EntityNotFoundException>());
-		}
+			VerseChoreographyOrder = 3,
+			VerseChoreographyId = 10
+		};
 
-		[Test]
-		public async Task VerseChoreographyInFullChoreographyExistsForThisUserById_ShouldReturnTrueForValidIdForThisUser()
+		Assert.That(async () => await fullChoreographyVerseChoreographyService.AddVerseChoreographyToFullChoreographyAsync(FirstFullChoreography.Id, model),
+			Throws.Exception.TypeOf<EntityNotFoundException>());
+	}
+
+	[Test]
+	public void AddVerseChoreographyToFullChoreography_ShouldThrowExceptionWhenVerseChoreographyHasDifferentUserThanFullChoreography()
+	{
+		var model = new FullChoreographyVerseChoreographyFormViewModel()
 		{
-			var result = await fullChoreographyVerseChoreographyService.VerseChoreographyInFullChoreographyExistForThisUserByIdAsync(FirstFullChoreographySecondVerse.Id, FirstUser.Id);
+			VerseChoreographyOrder = 3,
+			VerseChoreographyId = FourthVerseChoreography.Id
+		};
 
-			Assert.IsTrue(result);
-		}
+		Assert.That(async () => await fullChoreographyVerseChoreographyService.AddVerseChoreographyToFullChoreographyAsync(FirstFullChoreography.Id, model),
+			Throws.Exception.TypeOf<InvalidModelException>());
+	}
 
-		[Test]
-		public async Task VerseChoreographyInFullChoreographyExistsForThisUserById_ShouldReturnFalseForInvalidId()
-		{
-			var result = await fullChoreographyVerseChoreographyService.VerseChoreographyInFullChoreographyExistForThisUserByIdAsync(10, FirstUser.Id);
+	[Test]
+	public async Task DeleteVerseChoreographyFromFullChoreography_ShouldDeleteSuccessfully()
+	{
+		var countVerseChoreographiesForThisFullChoreographyBefore = data.FullChoreographiesVerseChoreographies.Count(v => v.FullChoreographyId == FirstFullChoreography.Id);
 
-			Assert.IsFalse(result);
-		}
+		await fullChoreographyVerseChoreographyService.DeleteVerseChoreographyFromFullChoreographyAsync(FirstFullChoreographySecondVerse.Id);
 
-		[Test]
-		public async Task VerseChoreographyInFullChoreographyExistsForThisUserById_ShouldReturnFalseForValidIdForAnotherUserVerseChoreographyInFullChoreography()
-		{
-			var result = await fullChoreographyVerseChoreographyService.VerseChoreographyInFullChoreographyExistForThisUserByIdAsync(FirstFullChoreographyFirstVerse.Id, SecondUser.Id);
-
-			Assert.IsFalse(result);
-		}
-
-		[Test]
-		public async Task VerseChoreographyIsLastForFullChoreographyById_ShouldReturnTrueWhenTheVerseIsTheLastOne()
-		{
-			var result = await fullChoreographyVerseChoreographyService.VerseChoreographyIsLastForFullChoreographyByIdAsync(FirstFullChoreographySecondVerse.Id);
-
-			Assert.IsTrue(result);
-		}
-
-		[Test]
-		public async Task VerseChoreographyIsLastForFullChoreographyById_ShouldReturnFalseWhenTheVerseIsNotTheLastOne()
-		{
-			var result = await fullChoreographyVerseChoreographyService.VerseChoreographyIsLastForFullChoreographyByIdAsync(FirstFullChoreographyFirstVerse.Id);
-
-			Assert.IsFalse(result);
-		}
-
-		[Test]
-		public async Task VerseChoreographyIsLastForFullChoreographyById_ShouldReturnFalseWhenVerseIsNotValid()
-		{
-			var result = await fullChoreographyVerseChoreographyService.VerseChoreographyIsLastForFullChoreographyByIdAsync(10);
-
-			Assert.IsFalse(result);
-		}
-
-		[Test]
-		public async Task AddVerseChoreographyToFullChoreography_AddsSuccessfullyForValidFullChoreography()
-		{
-			var countVerseChoreographiesForThisFullChoreographyBefore = data.FullChoreographiesVerseChoreographies.Count(v => v.FullChoreographyId == FirstFullChoreography.Id);
-
-			var model = new FullChoreographyVerseChoreographyFormViewModel()
-			{
-				VerseChoreographyOrder = 3,
-				VerseChoreographyId = ThirdVerseChoreography.Id
-			};
-
-			await fullChoreographyVerseChoreographyService.AddVerseChoreographyToFullChoreographyAsync(FirstFullChoreography.Id, model);
-
-			var countVerseChoreographiesForThisFullChoreographyAfter = data.FullChoreographiesVerseChoreographies.Count(v => v.FullChoreographyId == FirstFullChoreography.Id);
-			Assert.That(countVerseChoreographiesForThisFullChoreographyAfter, Is.EqualTo(countVerseChoreographiesForThisFullChoreographyBefore + 1));
-		}
-
-		[Test]
-		public void AddVerseChoreographyToFullChoreography_ShouldThrowExceptionWhenFullChoreographyIdDoesntExists()
-		{
-			Assert.That(async () => await fullChoreographyVerseChoreographyService.AddVerseChoreographyToFullChoreographyAsync(10, new FullChoreographyVerseChoreographyFormViewModel()),
-				Throws.Exception.TypeOf<EntityNotFoundException>());
-		}
-
-		[Test]
-		public void AddVerseChoreographyToFullChoreography_ShouldThrowExceptionWhenVerseChoreographyIdDoesntExists()
-		{
-			var model = new FullChoreographyVerseChoreographyFormViewModel()
-			{
-				VerseChoreographyOrder = 3,
-				VerseChoreographyId = 10
-			};
-
-			Assert.That(async () => await fullChoreographyVerseChoreographyService.AddVerseChoreographyToFullChoreographyAsync(FirstFullChoreography.Id, model),
-				Throws.Exception.TypeOf<EntityNotFoundException>());
-		}
-
-		[Test]
-		public void AddVerseChoreographyToFullChoreography_ShouldThrowExceptionWhenVerseChoreographyHasDifferentUserThanFullChoreography()
-		{
-			var model = new FullChoreographyVerseChoreographyFormViewModel()
-			{
-				VerseChoreographyOrder = 3,
-				VerseChoreographyId = FourthVerseChoreography.Id
-			};
-
-			Assert.That(async () => await fullChoreographyVerseChoreographyService.AddVerseChoreographyToFullChoreographyAsync(FirstFullChoreography.Id, model),
-				Throws.Exception.TypeOf<InvalidModelException>());
-		}
-
-		[Test]
-		public async Task DeleteVerseChoreographyFromFullChoreography_ShouldDeleteSuccessfully()
-		{
-			var countVerseChoreographiesForThisFullChoreographyBefore = data.FullChoreographiesVerseChoreographies.Count(v => v.FullChoreographyId == FirstFullChoreography.Id);
-
-			await fullChoreographyVerseChoreographyService.DeleteVerseChoreographyFromFullChoreographyAsync(FirstFullChoreographySecondVerse.Id);
-
-			var countVerseChoreographiesForThisFullChoreographyAfter = data.FullChoreographiesVerseChoreographies.Count(v => v.FullChoreographyId == FirstFullChoreography.Id);
-			Assert.That(countVerseChoreographiesForThisFullChoreographyAfter, Is.EqualTo(countVerseChoreographiesForThisFullChoreographyBefore - 1));
-		}
+		var countVerseChoreographiesForThisFullChoreographyAfter = data.FullChoreographiesVerseChoreographies.Count(v => v.FullChoreographyId == FirstFullChoreography.Id);
+		Assert.That(countVerseChoreographiesForThisFullChoreographyAfter, Is.EqualTo(countVerseChoreographiesForThisFullChoreographyBefore - 1));
 	}
 }
