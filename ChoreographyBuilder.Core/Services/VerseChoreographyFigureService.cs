@@ -26,12 +26,9 @@ public class VerseChoreographyFigureService : IVerseChoreographyFigureService
     public async Task<VerseChoreographyFigureReplaceViewModel> GetVerseChoreographyFigureForReplaceAsync(int verseChoreographyFigureId)
     {
         var option = await repository.AllAsReadOnly<VerseChoreographyFigure>()
-            .Include(vcf => vcf.FigureOption)
-                .ThenInclude(fo => fo.Figure)
-            .Include(vcf => vcf.FigureOption)
-                .ThenInclude(fo => fo.StartPosition)
-            .Include(vcf => vcf.FigureOption)
-                .ThenInclude(fo => fo.EndPosition)
+            .Include(vcf => vcf.FigureOption.Figure)
+            .Include(vcf => vcf.FigureOption.StartPosition)
+            .Include(vcf => vcf.FigureOption.EndPosition)
             .FirstOrDefaultAsync(fo => fo.Id == verseChoreographyFigureId);
 
         if (option == null)
