@@ -30,23 +30,16 @@ public class FullChoreographyService : IFullChoreographyService
 	{
 		var choreography = await repository.AllAsReadOnly<FullChoreography>()
 			.Include(c => c.VerseChoreographies)
-				.ThenInclude(vc => vc.VerseChoreography)
-					.ThenInclude(vc => vc.VerseType)
+				.ThenInclude(vc => vc.VerseChoreography.VerseType)
 			.Include(c => c.VerseChoreographies)
-				.ThenInclude(vc => vc.VerseChoreography)
-					.ThenInclude(vc => vc.Figures)
-						.ThenInclude(f => f.FigureOption)
-							.ThenInclude(o => o.Figure)
+				.ThenInclude(vc => vc.VerseChoreography.Figures)
+					.ThenInclude(f => f.FigureOption.Figure)
 			.Include(c => c.VerseChoreographies)
-				.ThenInclude(vc => vc.VerseChoreography)
-					.ThenInclude(vc => vc.Figures)
-						.ThenInclude(f => f.FigureOption)
-							.ThenInclude(o => o.StartPosition)
+				.ThenInclude(vc => vc.VerseChoreography.Figures)
+					.ThenInclude(f => f.FigureOption.StartPosition)
 			.Include(c => c.VerseChoreographies)
-				.ThenInclude(vc => vc.VerseChoreography)
-					.ThenInclude(vc => vc.Figures)
-						.ThenInclude(f => f.FigureOption)
-							.ThenInclude(o => o.EndPosition)
+				.ThenInclude(vc => vc.VerseChoreography.Figures)
+					.ThenInclude(f => f.FigureOption.EndPosition)
 			.FirstOrDefaultAsync(c => c.Id == id);
 
 		if (choreography == null)
@@ -94,10 +87,8 @@ public class FullChoreographyService : IFullChoreographyService
 
 		FullChoreographyVerseChoreography? lastVerseChoreography = await repository.AllAsReadOnly<FullChoreographyVerseChoreography>()
 			.Where(fcvc => fcvc.FullChoreographyId == fullChoreographyId)
-			.Include(vs => vs.VerseChoreography)
-				.ThenInclude(vs => vs.Figures)
-					.ThenInclude(vs => vs.FigureOption)
-						.ThenInclude(fo => fo.EndPosition)
+			.Include(vs => vs.VerseChoreography.Figures)
+				.ThenInclude(vs => vs.FigureOption.EndPosition)
 			.OrderByDescending(fcvc => fcvc.VerseChoreographyOrder)
 			.FirstOrDefaultAsync();
 
