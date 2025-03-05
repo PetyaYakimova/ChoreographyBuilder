@@ -75,7 +75,7 @@ public class FigureOptionServiceTests : UnitTestsBase
     }
 
     [Test]
-    public void GetBeatsForFigureOptioe_ShouldThrowExceptionWhenIdDoesntExists()
+    public void GetBeatsForFigureOption_ShouldThrowExceptionWhenIdDoesntExists()
     {
         Assert.That(async () => await figureOptionService.GetBeatsForFigureOptionAsync(50),
             Throws.Exception.TypeOf<EntityNotFoundException>());
@@ -87,6 +87,13 @@ public class FigureOptionServiceTests : UnitTestsBase
         var result = await figureOptionService.GetStartPositionNameForFigureOptionAsync(FirstFigureFirstOption.Id);
 
         Assert.That(result, Is.EqualTo(FirstFigureFirstOption.StartPosition.Name));
+    }
+
+    [Test]
+    public void GetStartPositionNameForFigureOptio_ShouldThrowExceptionWhenIdDoesntExists()
+    {
+        Assert.That(async () => await figureOptionService.GetStartPositionNameForFigureOptionAsync(50),
+            Throws.Exception.TypeOf<EntityNotFoundException>());
     }
 
     [Test]
