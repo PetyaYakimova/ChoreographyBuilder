@@ -75,6 +75,13 @@ public class FigureOptionServiceTests : UnitTestsBase
     }
 
     [Test]
+    public void GetBeatsForFigureOptioe_ShouldThrowExceptionWhenIdDoesntExists()
+    {
+        Assert.That(async () => await figureOptionService.GetBeatsForFigureOptionAsync(50),
+            Throws.Exception.TypeOf<EntityNotFoundException>());
+    }
+
+    [Test]
     public async Task GetFigureOptions_ShouldReturnAllFigureOptionsWhenThereAreNoSearchCriteria()
     {
         var expectedCount = this.data.FigureOptions.Count(f => f.FigureId == FirstFigure.Id);
