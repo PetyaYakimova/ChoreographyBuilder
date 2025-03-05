@@ -82,6 +82,14 @@ public class FigureOptionServiceTests : UnitTestsBase
     }
 
     [Test]
+    public async Task GetStartPositionNameForFigureOption_ShouldReturnCorrrectPositionNameWhenIdExists()
+    {
+        var result = await figureOptionService.GetStartPositionNameForFigureOptionAsync(FirstFigureFirstOption.Id);
+
+        Assert.That(result, Is.EqualTo(FirstFigureFirstOption.StartPosition.Name));
+    }
+
+    [Test]
     public async Task GetFigureOptions_ShouldReturnAllFigureOptionsWhenThereAreNoSearchCriteria()
     {
         var expectedCount = this.data.FigureOptions.Count(f => f.FigureId == FirstFigure.Id);
