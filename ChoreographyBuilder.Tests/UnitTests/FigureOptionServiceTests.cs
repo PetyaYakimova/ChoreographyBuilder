@@ -177,7 +177,7 @@ public class FigureOptionServiceTests : UnitTestsBase
     }
 
     [Test]
-    public async Task AllUserFiguresStartingWithPositionAndLessThanBeatsAsyncs_ShouldReturnAllFiguresLessThanNumberOfBeatsWhenThereIsNoStartPositiona()
+    public async Task AllUserFiguresStartingWithPositionAndLessThanBeatsAsyncs_ShouldReturnAllFiguresLessThanNumberOfBeatsWhenThereIsNoStartPosition()
     {
         var result = await figureOptionService.AllUserFiguresStartingWithPositionAndLessThanBeatsAsync(FirstUser.Id, 6);
 
@@ -187,6 +187,20 @@ public class FigureOptionServiceTests : UnitTestsBase
             Assert.That(result.Any(f => f.Id == FirstFigureFirstOption.Id));
             Assert.That(result.Any(f => f.FigureName == FirstFigure.Name));
             Assert.That(result.Any(f => f.Id == SecondFigureFirstOption.Id), Is.EqualTo(false));
+        });
+    }
+
+    [Test]
+    public async Task AllUserFiguresStartingWithPositionAndLessThanBeatsAsyncs_ShouldReturnAllFiguresLessThanNumberOfBeatsAndStartingWirhPosition()
+    {
+        var result = await figureOptionService.AllUserFiguresStartingWithPositionAndLessThanBeatsAsync(FirstUser.Id, 6, SecondPosition.Id);
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(result.Count, Is.EqualTo(1));
+            Assert.That(result.Any(f => f.Id == FirstFigureSecondOption.Id));
+            Assert.That(result.Any(f => f.FigureName == FirstFigure.Name));
+            Assert.That(result.Any(f => f.Id == FirstFigureFirstOption.Id), Is.EqualTo(false));
         });
     }
 
