@@ -177,7 +177,7 @@ public class FigureOptionServiceTests : UnitTestsBase
     }
 
     [Test]
-    public async Task AllUserFiguresStartingWithPositionAndLessThanBeatsAsyncs_ShouldReturnAllFiguresLessThanNumberOfBeatsWhenThereIsNoStartPosition()
+    public async Task AllUserFiguresStartingWithPositionAndLessThanBeatsAsync_ShouldReturnAllFiguresLessThanNumberOfBeatsWhenThereIsNoStartPosition()
     {
         var result = await figureOptionService.AllUserFiguresStartingWithPositionAndLessThanBeatsAsync(FirstUser.Id, 6);
 
@@ -191,7 +191,7 @@ public class FigureOptionServiceTests : UnitTestsBase
     }
 
     [Test]
-    public async Task AllUserFiguresStartingWithPositionAndLessThanBeatsAsyncs_ShouldReturnAllFiguresLessThanNumberOfBeatsAndStartingWirhPosition()
+    public async Task AllUserFiguresStartingWithPositionAndLessThanBeatsAsync_ShouldReturnAllFiguresLessThanNumberOfBeatsAndStartingWirhPosition()
     {
         var result = await figureOptionService.AllUserFiguresStartingWithPositionAndLessThanBeatsAsync(FirstUser.Id, 6, SecondPosition.Id);
 
