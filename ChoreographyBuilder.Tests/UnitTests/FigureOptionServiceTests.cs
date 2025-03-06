@@ -129,7 +129,6 @@ public class FigureOptionServiceTests : UnitTestsBase
             Throws.Exception.TypeOf<EntityNotFoundException>());
     }
 
-
     [Test]
     public async Task FigureOptionExistsForThisUserById_ShouldReturnTrueForValidIdForThisUser()
     {
@@ -175,6 +174,20 @@ public class FigureOptionServiceTests : UnitTestsBase
     {
         Assert.That(async () => await figureOptionService.IsFigureOptionUsedInChoreographiesAsync(50),
             Throws.Exception.TypeOf<EntityNotFoundException>());
+    }
+
+    [Test]
+    public async Task AllUserFiguresStartingWithPositionAndLessThanBeatsAsyncs_ShouldReturnAllFiguresLessThanNumberOfBeatsWhenThereIsNoStartPositiona()
+    {
+        var result = await figureOptionService.AllUserFiguresStartingWithPositionAndLessThanBeatsAsync(FirstUser.Id, 6);
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(result.Count, Is.EqualTo(3));
+            Assert.That(result.Any(f => f.Id == FirstFigureFirstOption.Id));
+            Assert.That(result.Any(f => f.FigureName == FirstFigure.Name));
+            Assert.That(result.Any(f => f.Id == SecondFigureFirstOption.Id), Is.EqualTo(false));
+        });
     }
 
     [Test]
