@@ -90,6 +90,13 @@ public class FigureServiceTests : UnitTestsBase
     }
 
     [Test]
+    public void GetFigureForCopy_ShouldThrowExceptionWhenIdDoesntExist()
+    {
+        Assert.That(async () => await figureService.GetFigureForCopyAsync(10),
+            Throws.Exception.TypeOf<EntityNotFoundException>());
+    }
+
+    [Test]
     public async Task AllUserFigures_ShouldReturnAllUserFiguresWhenThereAreNoSearchCriteria()
     {
         var expectedCount = this.data.Figures.Count(f => f.UserId == FirstUser.Id);
