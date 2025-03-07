@@ -132,7 +132,6 @@ public class FigureServiceTests : UnitTestsBase
         Assert.That(result.Count(), Is.EqualTo(expectedCount));
     }
 
-
     [Test]
     public async Task FigureExistsForThisUserById_ShouldReturnTrueForValidIdForThisUser()
     {
