@@ -165,6 +165,14 @@ public class FigureServiceTests : UnitTestsBase
     }
 
     [Test]
+    public async Task FigureExistAndCanBeCopied_ShouldReturnFalseForValidIdThatCannotBeCopied()
+    {
+        var result = await figureService.FigureExistAndCanBeCopiedByIdAsync(SecondFigure.Id);
+
+        Assert.IsFalse(result);
+    }
+
+    [Test]
     public async Task IsFigureUsedInChoreographies_ShouldReturnTrueWhenTheFigureIsUsed()
     {
         var result = await figureService.IsFigureUsedInChoreographiesAsync(FirstFigure.Id);
