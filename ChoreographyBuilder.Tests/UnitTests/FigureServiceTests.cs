@@ -173,6 +173,14 @@ public class FigureServiceTests : UnitTestsBase
     }
 
     [Test]
+    public async Task FigureExistAndCanBeCopied_ShouldReturnFalseForInvalidId()
+    {
+        var result = await figureService.FigureExistAndCanBeCopiedByIdAsync(120);
+
+        Assert.IsFalse(result);
+    }
+
+    [Test]
     public async Task IsFigureUsedInChoreographies_ShouldReturnTrueWhenTheFigureIsUsed()
     {
         var result = await figureService.IsFigureUsedInChoreographiesAsync(FirstFigure.Id);
