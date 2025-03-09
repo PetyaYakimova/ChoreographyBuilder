@@ -272,6 +272,13 @@ public class FigureServiceTests : UnitTestsBase
     }
 
     [Test]
+    public void CopyFigure_ShouldThrowAnExceptionIfFigureIdIsNotValid()
+    {
+        Assert.That(async () => await figureService.CopyFigureForUserAsync(120, FirstUser.Id),
+            Throws.Exception.TypeOf<EntityNotFoundException>());
+    }
+
+    [Test]
     public async Task EditFigure_ShouldEditTheFigureSuccessfullyForValidFigure()
     {
         var model = new FigureFormViewModel()
