@@ -247,6 +247,24 @@ public class FigureServiceTests : UnitTestsBase
     }
 
     [Test]
+    public async Task CopyFigure_ShouldCopyTheFigureForTheSameUser()
+    {
+        var figureCountBefore = this.data.Figures.Count(f => f.UserId == FirstUser.Id);
+
+        var newFigureId = await figureService.CopyFigureForUserAsync(FirstFigure.Id, FirstUser.Id);
+
+        var figureCountAfter = this.data.Figures.Count(f => f.UserId == FirstUser.Id);
+        Assert.That(figureCountAfter, Is.EqualTo(figureCountBefore + 1));
+
+        FigureForCopyViewModel newFigure = await figureService.GetFigureForCopyAsync(newFigureId);
+        Assert.Multiple(() =>
+        {
+            Assert.That(newFigure.Name.StartsWith(FirstFigure.Name));
+            Assert.That(newFigure.FigureOptionsCount, Is.EqualTo(FirstFigure.FigureOptions.Count()));
+        });
+    }
+
+    [Test]
     public async Task EditFigure_ShouldEditTheFigureSuccessfullyForValidFigure()
     {
         var model = new FigureFormViewModel()
