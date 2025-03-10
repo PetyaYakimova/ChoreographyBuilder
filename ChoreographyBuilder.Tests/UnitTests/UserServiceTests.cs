@@ -35,19 +35,6 @@ public class UserServiceTests : UnitTestsBase
 	}
 
 	[Test]
-	public async Task GetUserStatistics_ShouldReturnTheCorrectData()
-	{
-		var result = await userService.GetUserStatisticsAsync(FirstUser.Id);
-
-		Assert.Multiple(() =>
-		{
-			Assert.That(result.MyTotalNumberOfFigures, Is.EqualTo(data.Figures.Count(f => f.UserId == FirstUser.Id)));
-			Assert.That(result.MyTotalNumberOfVerseChoreographies, Is.EqualTo(data.VerseChoreographies.Count(v => v.UserId == FirstUser.Id)));
-			Assert.That(result.MyTotalNumberOfFullChoreographies, Is.EqualTo(data.FullChoreographies.Count(f => f.UserId == FirstUser.Id)));
-		});
-	}
-
-	[Test]
 	public async Task GetAllUserStatistics_ShouldReturnTheCorrectDataForAllUsersWhenNoSearchCriteria()
 	{
 		var result = await userService.GetAllUserStatisticsAsync();
@@ -59,7 +46,20 @@ public class UserServiceTests : UnitTestsBase
 		});
 	}
 
-	[Test]
+    [Test]
+    public async Task GetUserStatistics_ShouldReturnTheCorrectData()
+    {
+        var result = await userService.GetUserStatisticsAsync(FirstUser.Id);
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(result.MyTotalNumberOfFigures, Is.EqualTo(data.Figures.Count(f => f.UserId == FirstUser.Id)));
+            Assert.That(result.MyTotalNumberOfVerseChoreographies, Is.EqualTo(data.VerseChoreographies.Count(v => v.UserId == FirstUser.Id)));
+            Assert.That(result.MyTotalNumberOfFullChoreographies, Is.EqualTo(data.FullChoreographies.Count(f => f.UserId == FirstUser.Id)));
+        });
+    }
+
+    [Test]
 	public async Task GetAllUserStatistics_ShouldReturnTheCorrectDataForSomeUsersWhenSearchCriteriaIsAdded()
 	{
 		var result = await userService.GetAllUserStatisticsAsync("First");
