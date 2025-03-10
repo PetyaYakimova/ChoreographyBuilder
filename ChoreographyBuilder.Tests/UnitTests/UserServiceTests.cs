@@ -47,6 +47,18 @@ public class UserServiceTests : UnitTestsBase
 	}
 
     [Test]
+    public async Task GetAllUserStatistics_ShouldReturnTheCorrectDataForSomeUsersWhenSearchCriteriaIsAdded()
+    {
+        var result = await userService.GetAllUserStatisticsAsync("First");
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(result.TotalCount, Is.EqualTo(1));
+            Assert.That(result.Entities.Count(), Is.EqualTo(1));
+        });
+    }
+
+    [Test]
     public async Task GetUserStatistics_ShouldReturnTheCorrectData()
     {
         var result = await userService.GetUserStatisticsAsync(FirstUser.Id);
@@ -58,16 +70,4 @@ public class UserServiceTests : UnitTestsBase
             Assert.That(result.MyTotalNumberOfFullChoreographies, Is.EqualTo(data.FullChoreographies.Count(f => f.UserId == FirstUser.Id)));
         });
     }
-
-    [Test]
-	public async Task GetAllUserStatistics_ShouldReturnTheCorrectDataForSomeUsersWhenSearchCriteriaIsAdded()
-	{
-		var result = await userService.GetAllUserStatisticsAsync("First");
-
-		Assert.Multiple(() =>
-		{
-			Assert.That(result.TotalCount, Is.EqualTo(1));
-			Assert.That(result.Entities.Count(), Is.EqualTo(1));
-		});
-	}
 }
