@@ -67,7 +67,21 @@ public class VerseChoreographyFigureServiceTests : UnitTestsBase
 			Throws.Exception.TypeOf<EntityNotFoundException>());
 	}
 
-	[Test]
+    [Test]
+    public async Task GetFigureForDelete_ShouldReturnValidFigureWithCorrectDataWhenIdExists()
+    {
+        var result = await verseChoreographyFigureService.GetFigureForDeleteAsync(FirstVerseChoreographyFirstFigure.Id);
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(result.Id, Is.EqualTo((FirstVerseChoreography.Id)));
+            Assert.That(result.FigureName, Is.EqualTo(FirstVerseChoreographyFirstFigure.FigureOption.Figure.Name));
+            Assert.That(result.VerseChoreographyName, Is.EqualTo(FirstVerseChoreographyFirstFigure.VerseChoreography.Name));
+            Assert.That(result.VerseChoreographyId, Is.EqualTo(FirstVerseChoreographyFirstFigure.VerseChoreographyId));
+        });
+    }
+
+    [Test]
 	public async Task GetVerseChoreographyIdForVerseChoreographyFigureById_ShouldReturnValidIdWhenIdExists()
 	{
 		var result = await verseChoreographyFigureService.GetVerseChoreographyIdForVerseChoreographyFigureByIdAsync(FirstVerseChoreographyFirstFigure.Id);
