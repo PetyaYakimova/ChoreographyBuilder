@@ -82,6 +82,13 @@ public class VerseChoreographyFigureServiceTests : UnitTestsBase
     }
 
     [Test]
+    public void GetFigureForDelete_ShouldThrowExceptionWhenIdDoesntExists()
+    {
+        Assert.That(async () => await verseChoreographyFigureService.GetFigureForDeleteAsync(100),
+            Throws.Exception.TypeOf<EntityNotFoundException>());
+    }
+
+    [Test]
 	public async Task GetVerseChoreographyIdForVerseChoreographyFigureById_ShouldReturnValidIdWhenIdExists()
 	{
 		var result = await verseChoreographyFigureService.GetVerseChoreographyIdForVerseChoreographyFigureByIdAsync(FirstVerseChoreographyFirstFigure.Id);
