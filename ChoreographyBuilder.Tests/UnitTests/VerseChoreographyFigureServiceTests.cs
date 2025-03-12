@@ -126,4 +126,12 @@ public class VerseChoreographyFigureServiceTests : UnitTestsBase
 
 		Assert.IsFalse(result);
 	}
+
+    [Test]
+    public async Task FigureIsLastForVerseChoreographyByIdAsync_ShouldReturnTrueForValidIdOfLastFigure()
+    {
+        var result = await verseChoreographyFigureService.FigureIsLastForVerseChoreographyByIdAsync(FirstVerseChoreographyThirdFigure.Id);
+
+        Assert.IsTrue(result);
+    }
 }
