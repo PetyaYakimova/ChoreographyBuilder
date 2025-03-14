@@ -193,4 +193,16 @@ public class VerseChoreographyFigureServiceTests : UnitTestsBase
         Assert.That(async () => await verseChoreographyFigureService.AddFigureToVerseChoreographyAsync(FourthVerseChoreography.Id, model),
             Throws.Exception.TypeOf<EntityNotFoundException>());
     }
+
+    [Test]
+    public void AddFigureToVerseChoreography_ShouldThrowExceptionWhenFigureOptionAndVerseChoreoAreForDifferentUsers()
+    {
+        VerseChoreographyFigureOptionFormViewModel model = new()
+        {
+            FigureOptionId = FirstFigureFirstOption.Id,
+            FigureOrder = 1
+        };
+        Assert.That(async () => await verseChoreographyFigureService.AddFigureToVerseChoreographyAsync(FourthVerseChoreography.Id, model),
+            Throws.Exception.TypeOf<InvalidModelException>());
+    }
 }
