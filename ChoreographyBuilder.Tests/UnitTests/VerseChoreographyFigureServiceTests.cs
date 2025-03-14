@@ -205,4 +205,16 @@ public class VerseChoreographyFigureServiceTests : UnitTestsBase
         Assert.That(async () => await verseChoreographyFigureService.AddFigureToVerseChoreographyAsync(FourthVerseChoreography.Id, model),
             Throws.Exception.TypeOf<InvalidModelException>());
     }
+    [Test]
+    public async Task DeleteFigureFromVerseChoreography_ShouldDeleteExistingFigure()
+    {
+        var figuresInVerseChoreoBefore = FirstVerseChoreography.Figures.Count();
+
+        await verseChoreographyFigureService.DeleteFigureFromVerseChoreographyAsync(FirstVerseChoreographyThirdFigure.Id);
+
+        var figuresInVerseChoreoAfter = FirstVerseChoreography.Figures.Count();
+
+        Assert.That(figuresInVerseChoreoAfter, Is.EqualTo(figuresInVerseChoreoBefore - 1));
+    }
+
 }
