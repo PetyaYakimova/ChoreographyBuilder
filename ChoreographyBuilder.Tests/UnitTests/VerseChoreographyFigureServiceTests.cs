@@ -169,4 +169,16 @@ public class VerseChoreographyFigureServiceTests : UnitTestsBase
 
         Assert.That(figuresInVerseChoreoAfter, Is.EqualTo(figuresInVerseChoreoBefore + 1));
     }
+
+    [Test]
+    public void AddFigureToVerseChoreography_ShouldThrowExceptionWhenVerseChoreoDoesntExists()
+    {
+        VerseChoreographyFigureOptionFormViewModel model = new()
+        {
+            FigureOptionId = FourthFigureFirstOption.Id,
+            FigureOrder = 1
+        };
+        Assert.That(async () => await verseChoreographyFigureService.AddFigureToVerseChoreographyAsync(10, model),
+            Throws.Exception.TypeOf<EntityNotFoundException>());
+    }
 }
