@@ -69,7 +69,21 @@ public class VerseChoreographyServiceTests : UnitTestsBase
 			Throws.Exception.TypeOf<EntityNotFoundException>());
 	}
 
-	[Test]
+    [Test]
+    public async Task GetLastFigureEndPosition_ShouldReturnValidPositionWhenChoreoHasFigures()
+    {
+        var result = await verseChoreographyService.GetLastFigureEndPositionAsync(FirstVerseChoreography.Id);
+
+		Assert.That(result, Is.Not.Null);
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(result.Id, Is.EqualTo((FirstPosition.Id)));
+            Assert.That(result.Name, Is.EqualTo(FirstPosition.Name));
+        });
+    }
+
+    [Test]
 	public async Task AllUserVerseChoreographies_ShouldReturnAllUserVerseChoreographiesWhenThereAreNoSearchCriteria()
 	{
 		var expectedCount = this.data.VerseChoreographies.Count(c => c.UserId == FirstUser.Id);
