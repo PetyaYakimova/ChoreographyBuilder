@@ -84,6 +84,14 @@ public class VerseChoreographyServiceTests : UnitTestsBase
     }
 
     [Test]
+    public async Task GetLastFigureEndPosition_ShouldReturnNullWhenChoreoHasNoFigures()
+    {
+        var result = await verseChoreographyService.GetLastFigureEndPositionAsync(FourthVerseChoreography.Id);
+
+        Assert.That(result, Is.Null);
+    }
+
+    [Test]
 	public async Task AllUserVerseChoreographies_ShouldReturnAllUserVerseChoreographiesWhenThereAreNoSearchCriteria()
 	{
 		var expectedCount = this.data.VerseChoreographies.Count(c => c.UserId == FirstUser.Id);
