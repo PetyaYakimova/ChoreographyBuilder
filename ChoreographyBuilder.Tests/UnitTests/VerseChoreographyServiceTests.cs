@@ -100,6 +100,13 @@ public class VerseChoreographyServiceTests : UnitTestsBase
     }
 
     [Test]
+    public void GetNumberOfFiguresForVerseChoreography_ShouldThrowExceptionWhenIdDoesntExists()
+    {
+        Assert.That(async () => await verseChoreographyService.GetNumberOfFiguresForVerseChoreographyAsync(10),
+            Throws.Exception.TypeOf<EntityNotFoundException>());
+    }
+
+    [Test]
 	public async Task AllUserVerseChoreographies_ShouldReturnAllUserVerseChoreographiesWhenThereAreNoSearchCriteria()
 	{
 		var expectedCount = this.data.VerseChoreographies.Count(c => c.UserId == FirstUser.Id);
