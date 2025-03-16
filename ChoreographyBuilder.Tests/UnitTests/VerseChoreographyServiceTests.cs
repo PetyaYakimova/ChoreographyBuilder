@@ -92,6 +92,14 @@ public class VerseChoreographyServiceTests : UnitTestsBase
     }
 
     [Test]
+    public async Task GetNumberOfFiguresForVerseChoreography_ShouldReturnValidNumberChoreoExists()
+    {
+        var result = await verseChoreographyService.GetNumberOfFiguresForVerseChoreographyAsync(FirstVerseChoreography.Id);
+
+        Assert.That(result, Is.EqualTo(FirstVerseChoreography.Figures.Count()));
+    }
+
+    [Test]
 	public async Task AllUserVerseChoreographies_ShouldReturnAllUserVerseChoreographiesWhenThereAreNoSearchCriteria()
 	{
 		var expectedCount = this.data.VerseChoreographies.Count(c => c.UserId == FirstUser.Id);
