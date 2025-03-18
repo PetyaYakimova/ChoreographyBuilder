@@ -130,6 +130,14 @@ public class VerseChoreographyServiceTests : UnitTestsBase
     }
 
     [Test]
+    public async Task GetStartPositionNameForVerseChoreography_ShouldReturnNullWhenChoreoExistsButHasNoFigures()
+    {
+        var result = await verseChoreographyService.GetStartPositionNameForVerseChoreographyAsync(FourthVerseChoreography.Id);
+
+        Assert.That(result, Is.EqualTo(null));
+    }
+
+    [Test]
     public async Task AllUserVerseChoreographies_ShouldReturnAllUserVerseChoreographiesWhenThereAreNoSearchCriteria()
     {
         var expectedCount = this.data.VerseChoreographies.Count(c => c.UserId == FirstUser.Id);
