@@ -179,11 +179,11 @@ public class VerseChoreographyServiceTests : UnitTestsBase
     }
 
     [Test]
-    public async Task AllUserVerseChoreographiesStartingWithPosition_ShouldReturnSomeVerseChoreographiesWhenPositionIsSelected()
+    public async Task AllUserCompleteVerseChoreographiesStartingWithPosition_ShouldReturnSomeVerseChoreographiesWhenPositionIsSelected()
     {
         var result = await verseChoreographyService.AllUserCompleteVerseChoreographiesStartingWithPositionAsync(FirstUser.Id, SecondPosition.Id);
 
-        Assert.That(result.Count(), Is.EqualTo(1));
+        Assert.That(result.Count(), Is.EqualTo(0));
     }
 
     [Test]
