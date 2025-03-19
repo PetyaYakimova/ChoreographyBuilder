@@ -171,13 +171,11 @@ public class VerseChoreographyServiceTests : UnitTestsBase
     }
 
     [Test]
-    public async Task AllUserVerseChoreographiesStartingWithPosition_ShouldReturnAllUserVerseChoreographiesWhenNoPositionIsSelected()
+    public async Task AllUserCompleteVerseChoreographiesStartingWithPosition_ShouldReturnAllCompleteUserVerseChoreographiesWhenNoPositionIsSelected()
     {
-        var expectedCount = this.data.VerseChoreographies.Count(c => c.UserId == FirstUser.Id);
-
         var result = await verseChoreographyService.AllUserCompleteVerseChoreographiesStartingWithPositionAsync(FirstUser.Id);
 
-        Assert.That(result.Count(), Is.EqualTo(expectedCount));
+        Assert.That(result.Count(), Is.EqualTo(1));
     }
 
     [Test]
