@@ -242,6 +242,14 @@ public class VerseChoreographyServiceTests : UnitTestsBase
     }
 
     [Test]
+    public async Task IsVerseChoreographyComplete_ShouldReturnFalseWhenTheVerseChoreographyIsNotComplete()
+    {
+        var result = await verseChoreographyService.IsVerseChoreographyCompleteAsync(SecondVerseChoreography.Id);
+
+        Assert.IsFalse(result);
+    }
+
+    [Test]
     public async Task SaveVerseChoreography_ShouldAddTheVerseChoreographyForValidUser()
     {
         var verseChoreographiesCountBefore = this.data.VerseChoreographies.Count(f => f.UserId == FirstUser.Id);
