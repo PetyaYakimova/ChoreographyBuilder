@@ -250,6 +250,13 @@ public class VerseChoreographyServiceTests : UnitTestsBase
     }
 
     [Test]
+    public void IsVerseChoreographyComplete_ShouldThrowAnExceptionIfTheVerseChoreographyDoesntExist()
+    {
+        Assert.That(async () => await verseChoreographyService.IsVerseChoreographyCompleteAsync(10),
+            Throws.Exception.TypeOf<EntityNotFoundException>());
+    }
+
+    [Test]
     public async Task SaveVerseChoreography_ShouldAddTheVerseChoreographyForValidUser()
     {
         var verseChoreographiesCountBefore = this.data.VerseChoreographies.Count(f => f.UserId == FirstUser.Id);
