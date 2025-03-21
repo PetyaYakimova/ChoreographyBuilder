@@ -273,7 +273,7 @@ public class VerseChoreographyServiceTests : UnitTestsBase
     }
 
     [Test]
-    public void IsVerseChoreographyForFigureComplete_ShouldThrowAnExceptionIfTheVerseChoreographyDoesntExist()
+    public void IsVerseChoreographyForFigureComplete_ShouldThrowAnExceptionIfTheVerseChoreographyFigureDoesntExist()
     {
         Assert.That(async () => await verseChoreographyService.IsVerseChoreographyForFigureCompleteAsync(100),
             Throws.Exception.TypeOf<EntityNotFoundException>());
