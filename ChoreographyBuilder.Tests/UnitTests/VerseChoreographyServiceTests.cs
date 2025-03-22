@@ -280,6 +280,23 @@ public class VerseChoreographyServiceTests : UnitTestsBase
     }
 
     [Test]
+    public async Task AddVerseChoreography_ShouldAddTheVerseChoreographyForValidUser()
+    {
+        var verseChoreographiesCountBefore = this.data.VerseChoreographies.Count(f => f.UserId == FirstUser.Id);
+
+        VerseChoreographyFormViewModel model = new VerseChoreographyFormViewModel()
+        {
+            Name = "Test verse choreography",
+            VerseTypeId = FirstVerseType.Id
+        };
+
+        await verseChoreographyService.AddVerseChoreographyAsync(model, FirstUser.Id);
+
+        var verseChoreographiesCountAfter = this.data.Figures.Count(f => f.UserId == FirstUser.Id);
+        Assert.That(verseChoreographiesCountAfter, Is.EqualTo(verseChoreographiesCountBefore + 1));
+    }
+
+    [Test]
     public async Task SaveVerseChoreography_ShouldAddTheVerseChoreographyForValidUser()
     {
         var verseChoreographiesCountBefore = this.data.VerseChoreographies.Count(f => f.UserId == FirstUser.Id);
