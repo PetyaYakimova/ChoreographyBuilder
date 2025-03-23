@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChoreographyBuilder.Core", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChoreographyBuilder.Infrastructure", "ChoreographyBuilder.Infrastructure\ChoreographyBuilder.Infrastructure.csproj", "{439EE6DE-7D79-425C-9F85-A343B7846351}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChoreographyBuilder.Tests", "ChoreographyBuilder.Tests\ChoreographyBuilder.Tests.csproj", "{A30D59DC-7D64-4A41-AD86-80BD04911159}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChoreographyBuilder.Tests", "ChoreographyBuilder.Tests\ChoreographyBuilder.Tests.csproj", "{A30D59DC-7D64-4A41-AD86-80BD04911159}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChoreographyBuilder.UITests", "ChoreographyBuilder.UITests\ChoreographyBuilder.UITests.csproj", "{52B82BE4-758A-4A8C-8B80-48DC3E2C77F2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{A30D59DC-7D64-4A41-AD86-80BD04911159}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A30D59DC-7D64-4A41-AD86-80BD04911159}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A30D59DC-7D64-4A41-AD86-80BD04911159}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52B82BE4-758A-4A8C-8B80-48DC3E2C77F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52B82BE4-758A-4A8C-8B80-48DC3E2C77F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52B82BE4-758A-4A8C-8B80-48DC3E2C77F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52B82BE4-758A-4A8C-8B80-48DC3E2C77F2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
