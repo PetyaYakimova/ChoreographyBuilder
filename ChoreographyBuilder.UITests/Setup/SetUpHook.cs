@@ -1,4 +1,5 @@
 ﻿using BoDi;
+using ChoreographyBuilder.UITests.Repositories;
 using Microsoft.Extensions.Configuration;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
@@ -14,6 +15,7 @@ public class SetUpHook
     private readonly IConfigurationRoot configuration;
     private WebDriverWait wait;
     private readonly AppSettings settings;
+    private SeedDataRepository seedDataRepository;
 
     public SetUpHook(IObjectContainer objectContainer)
     {
@@ -34,11 +36,16 @@ public class SetUpHook
         this.wait = new WebDriverWait(driver, new TimeSpan(0, 0, 10));
         objectContainer.RegisterInstanceAs(driver);
         objectContainer.RegisterInstanceAs(wait);
+
+        this.seedDataRepository = new SeedDataRepository(this.settings);
+        seedDataRepository.SeedInitialUsersData();
     }
 
     [AfterScenario]
     public void TearDown(IObjectContainer objectContainer)
     {
+        seedDataRepository.DeleteSeededData();
+
         IWebDriver driver = objectContainer.Resolve<IWebDriver>();
         driver.Quit();
     }
