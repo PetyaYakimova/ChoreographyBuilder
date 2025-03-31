@@ -24,6 +24,13 @@ public class SetUpHook
         objectContainer.RegisterInstanceAs(this.settings);
     }
 
+    [BeforeTestRun]
+    public void BeforeTestRun()
+    {
+        this.seedDataRepository = new SeedDataRepository(this.settings);
+        seedDataRepository.SeedInitialUsersData();
+    }
+
     [BeforeScenario]
     public void Setup(IObjectContainer objectContainer, ScenarioContext scenarioContext)
     {
@@ -36,18 +43,19 @@ public class SetUpHook
         this.wait = new WebDriverWait(driver, new TimeSpan(0, 0, 10));
         objectContainer.RegisterInstanceAs(driver);
         objectContainer.RegisterInstanceAs(wait);
-
-        this.seedDataRepository = new SeedDataRepository(this.settings);
-        seedDataRepository.SeedInitialUsersData();
     }
 
     [AfterScenario]
     public void TearDown(IObjectContainer objectContainer)
     {
-        seedDataRepository.DeleteSeededData();
-
         IWebDriver driver = objectContainer.Resolve<IWebDriver>();
         driver.Quit();
+    }
+
+    [AfterTestRun]
+    public void AfterTestRun()
+    {
+        seedDataRepository.DeleteSeededData();
     }
 
     private static IConfigurationRoot BuildConfiguration()
