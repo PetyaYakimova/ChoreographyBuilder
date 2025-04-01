@@ -162,4 +162,33 @@ public class SeedDataRepository : BaseRepository
             RoleId = adminRoleId
         });
     }
+
+    private void SeedPositions()
+    {
+        FirstPosition = new Position()
+        {
+            Name = "AutoTest position 1",
+            IsActive = true
+        };
+
+        SecondPosition = new Position()
+        {
+            Name = "AutoTest position 2",
+            IsActive = true
+        };
+
+        ThirdPosition = new Position()
+        {
+            Name = "AutoTest position 3",
+            IsActive = true
+        };
+
+        InactivePosition = new Position()
+        {
+            Name = "AutoTest inactive position",
+            IsActive = false
+        };
+
+        context.Positions.AddRange(new List<Position>() { FirstPosition, SecondPosition, ThirdPosition, InactivePosition });
+    }
 }
