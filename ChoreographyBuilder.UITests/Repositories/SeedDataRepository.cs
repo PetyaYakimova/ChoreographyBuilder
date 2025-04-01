@@ -100,6 +100,7 @@ public class SeedDataRepository : BaseRepository
 
     public void DeleteSeededData()
     {
+        context.RemoveRange(new List<IdentityUser>() { FirstUser, SecondUser, AdminUser });
 
     }
 
