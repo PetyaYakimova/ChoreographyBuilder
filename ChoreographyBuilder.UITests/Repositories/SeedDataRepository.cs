@@ -1,4 +1,5 @@
 ﻿using ChoreographyBuilder.Infrastructure.Data.Models;
+using ChoreographyBuilder.UITests.Helpers;
 using ChoreographyBuilder.UITests.Setup;
 using Microsoft.AspNetCore.Identity;
 
@@ -167,25 +168,25 @@ public class SeedDataRepository : BaseRepository
     {
         FirstPosition = new Position()
         {
-            Name = "AutoTest position 1",
+            Name = TestConstants.AutomationTestPrefix + " position 1",
             IsActive = true
         };
 
         SecondPosition = new Position()
         {
-            Name = "AutoTest position 2",
+            Name = TestConstants.AutomationTestPrefix + " position 2",
             IsActive = true
         };
 
         ThirdPosition = new Position()
         {
-            Name = "AutoTest position 3",
+            Name = TestConstants.AutomationTestPrefix + " position 3",
             IsActive = true
         };
 
         InactivePosition = new Position()
         {
-            Name = "AutoTest inactive position",
+            Name = TestConstants.AutomationTestPrefix + " inactive position",
             IsActive = false
         };
 
