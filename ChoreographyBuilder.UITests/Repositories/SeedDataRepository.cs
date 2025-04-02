@@ -101,8 +101,11 @@ public class SeedDataRepository : BaseRepository
 
     public void DeleteSeededData()
     {
-        context.RemoveRange(new List<IdentityUser>() { FirstUser, SecondUser, AdminUser });
+        List<Position> positions = context.Positions.Where(p => p.Name.StartsWith(TestConstants.AutomationTestPrefix)).ToList();
 
+        context.RemoveRange(positions);
+
+        context.RemoveRange(new List<IdentityUser>() { FirstUser, SecondUser, AdminUser });
     }
 
     private void SeedUsers()
