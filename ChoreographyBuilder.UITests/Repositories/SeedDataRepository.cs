@@ -195,4 +195,30 @@ public class SeedDataRepository : BaseRepository
 
         context.Positions.AddRange(new List<Position>() { FirstPosition, SecondPosition, ThirdPosition, InactivePosition });
     }
+
+    private void SeedVerseTypes()
+    {
+        FirstVerseType = new VerseType()
+        {
+            Name = TestConstants.AutomationTestPrefix + " verse 1",
+            BeatCounts = 32,
+            IsActive = true
+        };
+
+        SecondVerseType = new VerseType()
+        {
+            Name = TestConstants.AutomationTestPrefix + " verse 2",
+            BeatCounts = 48,
+            IsActive = true
+        };
+
+        InactiveVerseType = new VerseType()
+        {
+            Name = TestConstants.AutomationTestPrefix + " inactive verse",
+            BeatCounts = 24,
+            IsActive = false
+        };
+
+        context.VerseTypes.AddRange(new List<VerseType> { FirstVerseType, SecondVerseType, InactiveVerseType });
+    }
 }
