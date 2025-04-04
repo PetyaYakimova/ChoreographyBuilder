@@ -223,4 +223,54 @@ public class SeedDataRepository : BaseRepository
 
         context.VerseTypes.AddRange(new List<VerseType> { FirstVerseType, SecondVerseType, InactiveVerseType });
     }
+
+    private void SeedFigures()
+    {
+        FirstFigure = new Figure()
+        {
+            Name = "First figure",
+            IsHighlight = false,
+            IsFavourite = false,
+            UserId = FirstUser.Id,
+            CanBeShared = true
+        };
+
+        SecondFigure = new Figure()
+        {
+            Name = "Second figure",
+            IsHighlight = false,
+            IsFavourite = false,
+            UserId = FirstUser.Id,
+            CanBeShared = false
+        };
+
+        ThirdFigure = new Figure()
+        {
+            Name = "Third figure",
+            IsHighlight = false,
+            IsFavourite = true,
+            UserId = FirstUser.Id,
+            CanBeShared = false
+        };
+
+        FourthFigure = new Figure()
+        {
+            Name = "Fourth figure",
+            IsHighlight = true,
+            IsFavourite = true,
+            UserId = SecondUser.Id,
+            CanBeShared = false
+        };
+
+        HighlightFigure = new Figure()
+        {
+            Name = "Highlight figure",
+            IsHighlight = true,
+            IsFavourite = true,
+            UserId = FirstUser.Id,
+            CanBeShared = false
+        };
+
+        context.Figures.AddRange(new List<Figure>() { FirstFigure, SecondFigure, ThirdFigure, FourthFigure, HighlightFigure });
+    }
 }
