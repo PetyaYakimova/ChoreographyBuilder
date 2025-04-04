@@ -101,8 +101,13 @@ public class SeedDataRepository : BaseRepository
 
     public void DeleteSeededData()
     {
+        List<string> userIds = new List<string> { FirstUser.Id, SecondUser.Id };
+
         List<Position> positions = context.Positions.Where(p => p.Name.StartsWith(TestConstants.AutomationTestPrefix)).ToList();
         List<VerseType> verseTypes = context.VerseTypes.Where(v => v.Name.StartsWith(TestConstants.AutomationTestPrefix)).ToList();
+        List<Figure> figures = context.Figures.Where(f => userIds.Contains(f.UserId)).ToList();
+
+        context.RemoveRange(figures);
 
         context.RemoveRange(positions);
         context.RemoveRange(verseTypes);
