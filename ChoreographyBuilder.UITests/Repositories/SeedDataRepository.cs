@@ -1,4 +1,5 @@
 ﻿using ChoreographyBuilder.Infrastructure.Data.Models;
+using ChoreographyBuilder.Infrastructure.Data.Models.Enums;
 using ChoreographyBuilder.UITests.Helpers;
 using ChoreographyBuilder.UITests.Setup;
 using Microsoft.AspNetCore.Identity;
@@ -279,5 +280,73 @@ public class SeedDataRepository : BaseRepository
         };
 
         context.Figures.AddRange(new List<Figure>() { FirstFigure, SecondFigure, ThirdFigure, FourthFigure, HighlightFigure });
+    }
+
+    public void SeedFigureOptions()
+    {
+        FirstFigureFirstOption = new FigureOption()
+        {
+            FigureId = FirstFigure.Id,
+            StartPositionId = FirstPosition.Id,
+            EndPositionId = FirstPosition.Id,
+            BeatCounts = 6,
+            DynamicsType = DynamicsType.Regular
+        };
+
+        FirstFigureSecondOption = new FigureOption()
+        {
+            FigureId = FirstFigure.Id,
+            StartPositionId = SecondPosition.Id,
+            EndPositionId = SecondPosition.Id,
+            BeatCounts = 6,
+            DynamicsType = DynamicsType.Regular
+        };
+
+        SecondFigureFirstOption = new FigureOption()
+        {
+            FigureId = SecondFigure.Id,
+            StartPositionId = SecondPosition.Id,
+            EndPositionId = FirstPosition.Id,
+            BeatCounts = 6,
+            DynamicsType = DynamicsType.Regular
+        };
+
+        SecondFigureSecondOption = new FigureOption()
+        {
+            FigureId = SecondFigure.Id,
+            StartPositionId = FirstPosition.Id,
+            EndPositionId = SecondPosition.Id,
+            BeatCounts = 6,
+            DynamicsType = DynamicsType.Regular
+        };
+
+        SecondFigureThirdOption = new FigureOption()
+        {
+            FigureId = SecondFigure.Id,
+            StartPositionId = FirstPosition.Id,
+            EndPositionId = SecondPosition.Id,
+            BeatCounts = 4,
+            DynamicsType = DynamicsType.Fast
+        };
+
+        HighlightFigureFirstOption = new FigureOption()
+        {
+            FigureId = HighlightFigure.Id,
+            StartPositionId = SecondFigure.Id,
+            EndPositionId = SecondPosition.Id,
+            BeatCounts = 16,
+            DynamicsType = DynamicsType.Slow
+        };
+
+        FourthFigureFirstOption = new FigureOption()
+        {
+            FigureId = FourthFigure.Id,
+            StartPositionId = FirstPosition.Id,
+            EndPositionId = SecondPosition.Id,
+            BeatCounts = 8,
+            DynamicsType = DynamicsType.Slow
+        };
+
+        context.FigureOptions.AddRange(new List<FigureOption>() { FirstFigureFirstOption, FirstFigureSecondOption, SecondFigureFirstOption, SecondFigureSecondOption, SecondFigureThirdOption, HighlightFigureFirstOption, FourthFigureFirstOption });
     }
 }
