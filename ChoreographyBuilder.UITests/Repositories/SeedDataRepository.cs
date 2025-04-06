@@ -349,4 +349,41 @@ public class SeedDataRepository : BaseRepository
 
         context.FigureOptions.AddRange(new List<FigureOption>() { FirstFigureFirstOption, FirstFigureSecondOption, SecondFigureFirstOption, SecondFigureSecondOption, SecondFigureThirdOption, HighlightFigureFirstOption, FourthFigureFirstOption });
     }
+
+    public void SeedVerseChoreographies()
+    {
+        FirstVerseChoreography = new VerseChoreography()
+        {
+            Name = "Choreo for start",
+            VerseTypeId = FirstVerseType.Id,
+            Score = 3,
+            UserId = FirstUser.Id
+        };
+
+        SecondVerseChoreography = new VerseChoreography()
+        {
+            Name = "Choreo for middle",
+            VerseTypeId = SecondVerseType.Id,
+            Score = 4,
+            UserId = FirstUser.Id
+        };
+
+        ThirdVerseChoreography = new VerseChoreography()
+        {
+            Name = "Choreo for end",
+            VerseTypeId = FirstVerseType.Id,
+            Score = 2,
+            UserId = FirstUser.Id
+        };
+
+        FourthVerseChoreography = new VerseChoreography()
+        {
+            Name = "Other user choreo",
+            VerseTypeId = FirstVerseType.Id,
+            Score = 2,
+            UserId = SecondUser.Id
+        };
+
+        context.VerseChoreographies.AddRange(new List<VerseChoreography>() { FirstVerseChoreography, SecondVerseChoreography, ThirdVerseChoreography, FourthVerseChoreography });
+    }
 }
