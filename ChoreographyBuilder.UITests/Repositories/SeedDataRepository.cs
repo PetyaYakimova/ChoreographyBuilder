@@ -108,6 +108,9 @@ public class SeedDataRepository : BaseRepository
         List<VerseType> verseTypes = context.VerseTypes.Where(v => v.Name.StartsWith(TestConstants.AutomationTestPrefix)).ToList();
         List<Figure> figures = context.Figures.Where(f => userIds.Contains(f.UserId)).ToList();
         List<FigureOption> figureOptions = context.FigureOptions.Where(f => figures.Select(fig => fig.Id).Contains(f.FigureId)).ToList();
+        List<VerseChoreography> verseChoreographies = context.VerseChoreographies.Where(v => userIds.Contains(v.UserId)).ToList();
+
+        context.RemoveRange(verseChoreographies);
 
         context.RemoveRange(figureOptions);
         context.RemoveRange(figures);
