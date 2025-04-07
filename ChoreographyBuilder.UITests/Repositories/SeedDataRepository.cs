@@ -391,4 +391,9 @@ public class SeedDataRepository : BaseRepository
 
         context.VerseChoreographies.AddRange(new List<VerseChoreography>() { FirstVerseChoreography, SecondVerseChoreography, ThirdVerseChoreography, FourthVerseChoreography });
     }
+
+    public void SeedVerseChoreographyFigures()
+    {
+        
+    }
 }
