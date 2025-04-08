@@ -439,5 +439,14 @@ public class SeedDataRepository : BaseRepository
             VerseChoreographyId = SecondVerseChoreography.Id,
             FigureOptionId = HighlightFigure.Id,
         };
+
+        ThirdVerseChoreographyFirstFigure = new VerseChoreographyFigure()
+        {
+            FigureOrder = 1,
+            VerseChoreographyId = ThirdVerseChoreography.Id,
+            FigureOptionId = FirstFigureFirstOption.Id,
+        };
+
+        context.AddRange(new List<VerseChoreographyFigure>() { FirstVerseChoreographyFirstFigure, FirstVerseChoreographySecondFigure, FirstVerseChoreographyThirdFigure, FirstVerseChoreographyFourthFigure, SecondVerseChoreographyFirstFigure, SecondVerseChoreographySecondFigure, ThirdVerseChoreographyFirstFigure });
     }
 }
