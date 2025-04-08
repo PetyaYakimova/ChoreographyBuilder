@@ -363,7 +363,7 @@ public class SeedDataRepository : BaseRepository
     {
         FirstVerseChoreography = new VerseChoreography()
         {
-            Name = "Choreo for start",
+            Name = "Complete verse choreo 1",
             VerseTypeId = FirstVerseType.Id,
             Score = 3,
             UserId = FirstUser.Id
@@ -371,7 +371,7 @@ public class SeedDataRepository : BaseRepository
 
         SecondVerseChoreography = new VerseChoreography()
         {
-            Name = "Choreo for middle",
+            Name = "Complete verse choreo 2",
             VerseTypeId = SecondVerseType.Id,
             Score = 4,
             UserId = FirstUser.Id
@@ -379,7 +379,7 @@ public class SeedDataRepository : BaseRepository
 
         ThirdVerseChoreography = new VerseChoreography()
         {
-            Name = "Choreo for end",
+            Name = "Incomplete verse choreo",
             VerseTypeId = FirstVerseType.Id,
             Score = 2,
             UserId = FirstUser.Id
