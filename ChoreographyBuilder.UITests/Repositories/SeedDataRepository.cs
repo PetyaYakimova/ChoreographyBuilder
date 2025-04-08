@@ -69,6 +69,8 @@ public class SeedDataRepository : BaseRepository
 
     public VerseChoreographyFigure FirstVerseChoreographyThirdFigure { get; private set; } = null!;
 
+    public VerseChoreographyFigure FirstVerseChoreographyFourthFigure { get; private set; } = null!;
+
     public VerseChoreographyFigure SecondVerseChoreographyFirstFigure { get; private set; } = null!;
 
     public VerseChoreographyFigure ThirdVerseChoreographyFirstFigure { get; private set; } = null!;
@@ -394,6 +396,34 @@ public class SeedDataRepository : BaseRepository
 
     public void SeedVerseChoreographyFigures()
     {
-        
+        FirstVerseChoreographyFirstFigure = new VerseChoreographyFigure()
+        {
+            FigureOrder = 1,
+            VerseChoreographyId = FirstVerseChoreography.Id,
+            FigureOptionId = FirstFigureSecondOption.Id,
+        };
+
+        FirstVerseChoreographySecondFigure = new VerseChoreographyFigure()
+        {
+            FigureOrder = 2,
+            VerseChoreographyId = FirstVerseChoreography.Id,
+            FigureOptionId = SecondFigureFirstOption.Id,
+        };
+
+        FirstVerseChoreographyThirdFigure = new VerseChoreographyFigure()
+        {
+            FigureOrder = 3,
+            VerseChoreographyId = FirstVerseChoreography.Id,
+            FigureOptionId = SecondFigureThirdOption.Id,
+        };
+
+        FirstVerseChoreographyFourthFigure = new VerseChoreographyFigure()
+        {
+            FigureOrder = 4,
+            VerseChoreographyId = FirstVerseChoreography.Id,
+            FigureOptionId = HighlightFigureFirstOption.Id,
+        };
+
+
     }
 }
