@@ -114,6 +114,9 @@ public class SeedDataRepository : BaseRepository
         List<FigureOption> figureOptions = context.FigureOptions.Where(f => figures.Select(fig => fig.Id).Contains(f.FigureId)).ToList();
         List<VerseChoreography> verseChoreographies = context.VerseChoreographies.Where(v => userIds.Contains(v.UserId)).ToList();
         List<VerseChoreographyFigure> verseChoreographyFigures = context.VerseChoreographiesFigures.Where(v => verseChoreographies.Select(vc => vc.Id).Contains(v.VerseChoreographyId)).ToList();
+        List<FullChoreography> fullChoreographies = context.FullChoreographies.Where(f => userIds.Contains(f.UserId)).ToList();
+
+        context.RemoveRange(fullChoreographies);
 
         context.RemoveRange(verseChoreographyFigures);
         context.RemoveRange(verseChoreographies);
