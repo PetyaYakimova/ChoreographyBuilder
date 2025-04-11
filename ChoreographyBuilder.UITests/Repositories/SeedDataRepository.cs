@@ -469,4 +469,23 @@ public class SeedDataRepository : BaseRepository
 
         context.FullChoreographies.AddRange(new List<FullChoreography>() { FirstFullChoreography, SecondFullChoreography });
     }
+
+    public void SeedFullChoreographyVerseChoreographies()
+    {
+        FirstFullChoreographyFirstVerse = new FullChoreographyVerseChoreography()
+        {
+            FullChoreographyId = FirstFullChoreography.Id,
+            VerseChoreographyId = FirstVerseChoreography.Id,
+            VerseChoreographyOrder = 1,
+        };
+
+        FirstFullChoreographySecondVerse = new FullChoreographyVerseChoreography()
+        {
+            FullChoreographyId = FirstFullChoreography.Id,
+            VerseChoreographyId = SecondVerseChoreography.Id,
+            VerseChoreographyOrder = 2
+        };
+
+        context.FullChoreographiesVerseChoreographies.AddRange(new List<FullChoreographyVerseChoreography>() { FirstFullChoreographyFirstVerse, FirstFullChoreographySecondVerse });
+    }
 }
