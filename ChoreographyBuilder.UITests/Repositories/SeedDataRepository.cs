@@ -130,6 +130,8 @@ public class SeedDataRepository : BaseRepository
         context.RemoveRange(verseTypes);
 
         context.RemoveRange(new List<IdentityUser>() { FirstUser, SecondUser, AdminUser });
+
+        context.SaveChanges();
     }
 
     private void SeedUsers()
