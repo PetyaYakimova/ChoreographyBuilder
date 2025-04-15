@@ -15,19 +15,19 @@ public class SetUpHook
     private readonly IConfigurationRoot configuration;
     private WebDriverWait wait;
     private readonly AppSettings settings;
-    private SeedDataRepository seedDataRepository;
+    private static SeedDataRepository seedDataRepository;
 
     public SetUpHook(IObjectContainer objectContainer)
     {
         configuration = BuildConfiguration();
         settings = configuration.Get<AppSettings>();
         objectContainer.RegisterInstanceAs(this.settings);
+        seedDataRepository = new SeedDataRepository(settings);
     }
 
     [BeforeTestRun]
-    public void BeforeTestRun()
+    public static void BeforeTestRun()
     {
-        this.seedDataRepository = new SeedDataRepository(this.settings);
         seedDataRepository.SeedInitialUsersData();
     }
 
@@ -53,7 +53,7 @@ public class SetUpHook
     }
 
     [AfterTestRun]
-    public void AfterTestRun()
+    public static void AfterTestRun()
     {
         seedDataRepository.DeleteSeededData();
     }
