@@ -15,14 +15,14 @@ public class SetUpHook
     private readonly IConfigurationRoot configuration;
     private WebDriverWait wait;
     private readonly AppSettings settings;
-    private static SeedDataRepository seedDataRepository;
+    private SeedDataRepository seedDataRepository;
 
     public SetUpHook(IObjectContainer objectContainer)
     {
         configuration = BuildConfiguration();
         settings = configuration.Get<AppSettings>();
         objectContainer.RegisterInstanceAs(this.settings);
-        seedDataRepository = new SeedDataRepository(settings);
+        objectContainer.RegisterInstanceAs(new SeedDataRepository(settings));
     }
 
     [BeforeTestRun]
