@@ -10,5 +10,12 @@ public class RegisterPage : BasePage
     {
     }
 
+    private IWebElement EmailField => driver.FindElement(EmailFieldBy);
+    private By EmailFieldBy => By.Id("email");
 
+    private IWebElement PasswordField => driver.FindElement(PasswordFieldBy);
+    private By PasswordFieldBy => By.Id("password");
+
+    private IWebElement ConfirmPasswordField => driver.FindElement(ConfirmPasswordFieldBy);
+    private By ConfirmPasswordFieldBy => By.Id("confirmPassword");
 }
