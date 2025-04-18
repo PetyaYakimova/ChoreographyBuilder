@@ -140,13 +140,14 @@ public class SeedDataRepository : BaseRepository
         string userRoleId = context.Roles.FirstOrDefault(r => r.Name == "User").Id;
         string adminRoleId = context.Roles.FirstOrDefault(r => r.Name == "Administrator").Id;
 
+        string firstUserEmail = "first.user" + TestConstants.AutomationMailEnding;
         FirstUser = new IdentityUser()
         {
             Id = Guid.NewGuid().ToString(),
-            Email = "first.user@mail.com",
-            NormalizedEmail = "FIRST.USER@MAIL.COM",
-            UserName = "first.user@mail.com",
-            NormalizedUserName = "FIRST.USER@MAIL.COM"
+            Email = firstUserEmail,
+            NormalizedEmail = firstUserEmail.ToUpper(),
+            UserName = firstUserEmail,
+            NormalizedUserName = firstUserEmail.ToUpper()
         };
         FirstUser.PasswordHash = hasher.HashPassword(FirstUser, "firstUser123");
 
@@ -158,13 +159,14 @@ public class SeedDataRepository : BaseRepository
             RoleId = userRoleId
         });
 
+        string secondUserEmail = "second.user" + TestConstants.AutomationMailEnding;
         SecondUser = new IdentityUser()
         {
             Id = Guid.NewGuid().ToString(),
-            Email = "second.user@mail.com",
-            NormalizedEmail = "SECOND.USER@MAIL.COM",
-            UserName = "second.user@mail.com",
-            NormalizedUserName = "SECOND.USER@MAIL.COM"
+            Email = secondUserEmail,
+            NormalizedEmail = secondUserEmail.ToUpper(),
+            UserName = secondUserEmail,
+            NormalizedUserName = secondUserEmail.ToUpper()
         };
         SecondUser.PasswordHash = hasher.HashPassword(SecondUser, "secondUser123456");
         context.Users.Add(SecondUser);
@@ -175,13 +177,14 @@ public class SeedDataRepository : BaseRepository
             RoleId = userRoleId
         });
 
+        string adminUserEmail = "admin.user" + TestConstants.AutomationMailEnding;
         AdminUser = new IdentityUser()
         {
             Id = Guid.NewGuid().ToString(),
-            Email = "admin.user@mail.com",
-            NormalizedEmail = "ADMIN.USER@MAIL.COM",
-            UserName = "admin.user@mail.com",
-            NormalizedUserName = "ADMIN.USER@MAIL.COM",
+            Email = adminUserEmail,
+            NormalizedEmail = adminUserEmail.ToUpper(),
+            UserName = adminUserEmail,
+            NormalizedUserName = adminUserEmail.ToUpper(),
         };
         AdminUser.PasswordHash = hasher.HashPassword(AdminUser, "Admin987");
         context.Users.Add(AdminUser);
