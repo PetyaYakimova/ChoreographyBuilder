@@ -104,9 +104,10 @@ public class SeedDataRepository : BaseRepository
         context.SaveChanges();
     }
 
-    public void DeleteSeededData()
+    public void DeleteAutomationData()
     {
-        List<string> userIds = new List<string> { FirstUser.Id, SecondUser.Id };
+        List<IdentityUser> users = context.Users.Where(u => u.Email.EndsWith(TestConstants.AutomationMailEnding)).ToList();
+        List<string> userIds = users.Select(u => u.Id).ToList();
 
         List<Position> positions = context.Positions.Where(p => p.Name.StartsWith(TestConstants.AutomationTestPrefix)).ToList();
         List<VerseType> verseTypes = context.VerseTypes.Where(v => v.Name.StartsWith(TestConstants.AutomationTestPrefix)).ToList();
@@ -129,7 +130,7 @@ public class SeedDataRepository : BaseRepository
         context.RemoveRange(positions);
         context.RemoveRange(verseTypes);
 
-        context.RemoveRange(new List<IdentityUser>() { FirstUser, SecondUser, AdminUser });
+        context.RemoveRange(users);
 
         context.SaveChanges();
     }

@@ -28,7 +28,7 @@ public class SetUpHook
     [BeforeTestRun]
     public static void BeforeTestRun()
     {
-        seedDataRepository.SeedInitialUsersData();
+        Variables.needToSeedData = true;
     }
 
     [BeforeScenario]
@@ -43,6 +43,13 @@ public class SetUpHook
         this.wait = new WebDriverWait(driver, new TimeSpan(0, 0, 10));
         objectContainer.RegisterInstanceAs(driver);
         objectContainer.RegisterInstanceAs(wait);
+
+        if (Variables.needToSeedData)
+        {
+            seedDataRepository.DeleteAutomationData();
+            seedDataRepository.SeedInitialUsersData();
+            Variables.needToSeedData = false;
+        }
     }
 
     [AfterScenario]
@@ -50,12 +57,6 @@ public class SetUpHook
     {
         IWebDriver driver = objectContainer.Resolve<IWebDriver>();
         driver.Quit();
-    }
-
-    [AfterTestRun]
-    public static void AfterTestRun()
-    {
-        seedDataRepository.DeleteSeededData();
     }
 
     private static IConfigurationRoot BuildConfiguration()
