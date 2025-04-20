@@ -18,4 +18,7 @@ public class RegisterPage : BasePage
 
     private IWebElement ConfirmPasswordField => driver.FindElement(ConfirmPasswordFieldBy);
     private By ConfirmPasswordFieldBy => By.Id("confirmPassword");
+
+    private IWebElement RegisterButton => driver.FindElement(RegisterButtonBy);
+    private By RegisterButtonBy => By.Id("registerSubmit");
 }
