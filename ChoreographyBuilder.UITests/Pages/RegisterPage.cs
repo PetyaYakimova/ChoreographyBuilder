@@ -21,4 +21,32 @@ public class RegisterPage : BasePage
 
     private IWebElement RegisterButton => driver.FindElement(RegisterButtonBy);
     private By RegisterButtonBy => By.Id("registerSubmit");
+
+    public void FillEmailField(string email)
+    {
+        EmailField.Clear();
+        EmailField.SendKeys(email);
+    }
+
+    public void FillPasswordField(string password)
+    {
+        PasswordField.Clear();
+        PasswordField.SendKeys(password);
+    }
+
+    public void FillConfirmPasswordField(string confirmPassword)
+    {
+        ConfirmPasswordField.Clear();
+        ConfirmPasswordField.SendKeys(confirmPassword);
+    }
+
+    public void ClickRegisterButton()
+        => RegisterButton.Click();
+
+    public void FillRegisterForm(string email, string password, string confirmPassword)
+    {
+        FillEmailField(email);
+        FillPasswordField(password);
+        FillConfirmPasswordField(confirmPassword);
+    }
 }
