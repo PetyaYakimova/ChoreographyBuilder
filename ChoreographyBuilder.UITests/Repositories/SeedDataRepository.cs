@@ -93,12 +93,21 @@ public class SeedDataRepository : BaseRepository
         SeedVerseTypes();
 
         SeedFigures();
+
+        context.SaveChanges();
+
         SeedFigureOptions();
 
         SeedVerseChoreographies();
+
+        context.SaveChanges();
+
         SeedVerseChoreographyFigures();
 
         SeedFullChoreographies();
+
+        context.SaveChanges();
+
         SeedFullChoreographyVerseChoreographies();
 
         context.SaveChanges();
@@ -244,7 +253,7 @@ public class SeedDataRepository : BaseRepository
 
         InactiveVerseType = new VerseType()
         {
-            Name = TestConstants.AutomationTestPrefix + " inactive verse",
+            Name = TestConstants.AutomationTestPrefix + " inactive",
             BeatCounts = 24,
             IsActive = false
         };
@@ -352,7 +361,7 @@ public class SeedDataRepository : BaseRepository
         HighlightFigureFirstOption = new FigureOption()
         {
             FigureId = HighlightFigure.Id,
-            StartPositionId = SecondFigure.Id,
+            StartPositionId = SecondPosition.Id,
             EndPositionId = SecondPosition.Id,
             BeatCounts = 16,
             DynamicsType = DynamicsType.Slow
@@ -441,14 +450,14 @@ public class SeedDataRepository : BaseRepository
         {
             FigureOrder = 1,
             VerseChoreographyId = SecondVerseChoreography.Id,
-            FigureOptionId = HighlightFigure.Id,
+            FigureOptionId = HighlightFigureFirstOption.Id,
         };
 
         SecondVerseChoreographySecondFigure = new VerseChoreographyFigure()
         {
             FigureOrder = 2,
             VerseChoreographyId = SecondVerseChoreography.Id,
-            FigureOptionId = HighlightFigure.Id,
+            FigureOptionId = HighlightFigureFirstOption.Id,
         };
 
         ThirdVerseChoreographyFirstFigure = new VerseChoreographyFigure()
