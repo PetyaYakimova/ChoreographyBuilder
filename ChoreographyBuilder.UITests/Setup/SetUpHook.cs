@@ -22,7 +22,6 @@ public class SetUpHook
         configuration = BuildConfiguration();
         settings = configuration.Get<AppSettings>();
         objectContainer.RegisterInstanceAs(this.settings);
-        objectContainer.RegisterInstanceAs(new SeedDataRepository(settings));
     }
 
     [BeforeTestRun]
@@ -40,12 +39,13 @@ public class SetUpHook
         driver.Manage().Window.Maximize();
         driver.Manage().Cookies.DeleteAllCookies();
 
-        this.wait = new WebDriverWait(driver, new TimeSpan(0, 0, 10));
+        wait = new WebDriverWait(driver, new TimeSpan(0, 0, 10));
         objectContainer.RegisterInstanceAs(driver);
         objectContainer.RegisterInstanceAs(wait);
 
         if (Variables.needToSeedData)
         {
+            seedDataRepository = new SeedDataRepository(settings);
             seedDataRepository.DeleteAutomationData();
             seedDataRepository.SeedInitialUsersData();
             Variables.needToSeedData = false;
