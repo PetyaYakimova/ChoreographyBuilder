@@ -15,6 +15,13 @@ public class NavigationStepDefinitions : BaseStepDefinitions
     [StepDefinition($"I open the (.*) page")]
     public void OpenPage(string pageName)
     {
-       basePage.OpenPage(pageName);
+        basePage.OpenPage(pageName);
+    }
+
+    [Then(@"assert that I am on (.*) page")]
+    public void AssertThatIAmOnPage(string pageName)
+    {
+        string actualPage = basePage.GetCurrentPage();
+        Assert.That(actualPage, Is.EqualTo(pageName));
     }
 }
