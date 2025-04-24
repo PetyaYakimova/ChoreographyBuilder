@@ -21,19 +21,16 @@ public class BasePage
     }
 
     public void OpenHomePage()
-    {
-        driver.Navigate().GoToUrl(settings.DomainSettings.Domain);
-    }
+        => driver.Navigate().GoToUrl(settings.DomainSettings.Domain);
 
     public void OpenPage(string pageName)
-    {
-        driver.Navigate().GoToUrl(settings.DomainSettings.Domain + pageName);
-    }
+        => driver.Navigate().GoToUrl(settings.DomainSettings.Domain + pageName);
 
     public string GetCurrentURL()
-    {
-        return driver.Url;
-    }
+        => driver.Url;
+
+    public string GetCurrentPage()
+        => GetCurrentURL().Replace(settings.DomainSettings.Domain, string.Empty);
 
     public bool DoesElementExistAndIsDisplayed(By locator)
     {
