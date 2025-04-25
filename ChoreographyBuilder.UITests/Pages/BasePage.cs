@@ -20,6 +20,9 @@ public class BasePage
         this.wait = wait;
     }
 
+    private IWebElement HeaderGreetingText => driver.FindElement(HeaderGreetingTextBy);
+    private By HeaderGreetingTextBy => By.Id("greeting");
+
     public void OpenHomePage()
         => driver.Navigate().GoToUrl(settings.DomainSettings.Domain);
 
@@ -31,6 +34,9 @@ public class BasePage
 
     public string GetCurrentPage()
         => GetCurrentURL().Replace(settings.DomainSettings.Domain, string.Empty);
+
+    public string GetGreetingFromHeader()
+        => HeaderGreetingText.Text;
 
     public bool DoesElementExistAndIsDisplayed(By locator)
     {
