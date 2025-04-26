@@ -23,4 +23,11 @@ public class RegistrationStepDefinition : BaseStepDefinitions
     {
         registerPage.ClickRegisterButton();
     }
+
+    [Then(@"assert that I see email (.*) in the header")]
+    public void AssertThatISeeEmailInTheHeader(string email)
+    {
+        string actualText = registerPage.GetGreetingFromHeader();
+        Assert.That(actualText.Contains(email), Is.True);
+    }
 }
