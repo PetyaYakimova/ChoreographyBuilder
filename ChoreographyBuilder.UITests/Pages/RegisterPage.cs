@@ -1,4 +1,5 @@
-﻿using ChoreographyBuilder.UITests.Setup;
+﻿using ChoreographyBuilder.UITests.Repositories;
+using ChoreographyBuilder.UITests.Setup;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 
@@ -6,8 +7,11 @@ namespace ChoreographyBuilder.UITests.Pages;
 
 public class RegisterPage : BasePage
 {
-    public RegisterPage(AppSettings settings, IWebDriver driver, WebDriverWait wait) : base(settings, driver, wait)
+    private UserRepository userRepository;
+
+    public RegisterPage(AppSettings settings, IWebDriver driver, WebDriverWait wait, UserRepository userRepository) : base(settings, driver, wait)
     {
+        this.userRepository = userRepository;
     }
 
     private IWebElement EmailField => driver.FindElement(EmailFieldBy);
@@ -49,4 +53,7 @@ public class RegisterPage : BasePage
         FillPasswordField(password);
         FillConfirmPasswordField(confirmPassword);
     }
+
+    public bool IsUserSaved(string email)
+        => userRepository.IsUserSaved(email);
 }
