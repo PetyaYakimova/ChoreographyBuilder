@@ -30,4 +30,10 @@ public class RegistrationStepDefinition : BaseStepDefinitions
         string actualText = registerPage.GetGreetingFromHeader();
         Assert.That(actualText.Contains(email), Is.True);
     }
+
+    [Then(@"I have asserted that a new user with email (.*) is saved")]
+    public void IHaveAssertedThatANewUserWithEmailIsSaved(string email)
+    {
+        Assert.That(registerPage.IsUserSaved(email), Is.True);
+    }
 }
