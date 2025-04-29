@@ -8,3 +8,4 @@ Scenario: Register a user with valid data
 	When I click the Register button
 	Then assert that I see email register_user@auto.test in the header
 	And assert that I am on Home/Stats page
+	And I have asserted that a new user with email register_user@auto.test is saved
