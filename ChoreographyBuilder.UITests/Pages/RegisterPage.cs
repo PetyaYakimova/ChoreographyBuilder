@@ -17,6 +17,9 @@ public class RegisterPage : BasePage
     private IWebElement EmailField => driver.FindElement(EmailFieldBy);
     private By EmailFieldBy => By.Id("email");
 
+    private IWebElement EmailFieldError => driver.FindElement(EmailFieldErrorBy);
+    private By EmailFieldErrorBy => By.Id("email-error");
+
     private IWebElement PasswordField => driver.FindElement(PasswordFieldBy);
     private By PasswordFieldBy => By.Id("password");
 
@@ -31,6 +34,9 @@ public class RegisterPage : BasePage
         EmailField.Clear();
         EmailField.SendKeys(email);
     }
+
+    public string GetEmailFieldErrorText()
+        => EmailFieldError.Text;
 
     public void FillPasswordField(string password)
     {
