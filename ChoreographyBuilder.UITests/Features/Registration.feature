@@ -13,6 +13,7 @@ Scenario: Register a user with valid data
 @negative
 Scenario: try to register a user with invalid data
 	Given I open the Identity/Account/Register page
-	And I fill the registration form with email invalid_mail@mail, password SomePass123, confirm password OtherPass654
+	And I fill the registration form with email invalid_mail, password SomePass123, confirm password OtherPass654
 	When I click the Register button
-	Then assert that I see validation error message for the email field with text The Email field is not a vlid e-mail address.
+	Then assert that I see validation error message for the email field with text The Email field is not a valid e-mail address.
+	Then assert that I see validation error message for the confirm password field with text The password and confirmation password do not match.

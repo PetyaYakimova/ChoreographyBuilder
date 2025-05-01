@@ -26,6 +26,9 @@ public class RegisterPage : BasePage
     private IWebElement ConfirmPasswordField => driver.FindElement(ConfirmPasswordFieldBy);
     private By ConfirmPasswordFieldBy => By.Id("confirmPassword");
 
+    private IWebElement ConfirmPasswordFieldError => driver.FindElement(ConfirmPasswordFieldErrorBy);
+    private By ConfirmPasswordFieldErrorBy => By.Id("confirmPassword-error");
+
     private IWebElement RegisterButton => driver.FindElement(RegisterButtonBy);
     private By RegisterButtonBy => By.Id("registerSubmit");
 
@@ -49,6 +52,9 @@ public class RegisterPage : BasePage
         ConfirmPasswordField.Clear();
         ConfirmPasswordField.SendKeys(confirmPassword);
     }
+
+    public string GetConfirmPasswordFieldErrorText()
+        => ConfirmPasswordFieldError.Text;
 
     public void ClickRegisterButton()
         => RegisterButton.Click();
