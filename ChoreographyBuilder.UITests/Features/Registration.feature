@@ -17,3 +17,10 @@ Scenario: Try to register a user with invalid data
 	When I click the Register button
 	Then assert that I see validation error message for the email field with text The Email field is not a valid e-mail address.
 	Then assert that I see validation error message for the confirm password field with text The password and confirmation password do not match.
+
+@negative
+Scenario: Try to register a user with missing data
+	Given I open the Identity/Account/Register page
+	When I click the Register button
+	Then assert that I see validation error message for the email field with text The Email field is required.
+	Then assert that I see validation error message for the password field with text The Password field is required.
