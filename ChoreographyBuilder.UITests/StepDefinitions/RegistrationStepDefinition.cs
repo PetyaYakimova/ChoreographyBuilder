@@ -44,6 +44,13 @@ public class RegistrationStepDefinition : BaseStepDefinitions
         Assert.That(actualText, Is.EqualTo(expectedText));
     }
 
+    [Then(@"assert that I see validation error message for the password field with text (.*)")]
+    public void AssertThatISeeValidationMessageForPasswordFieldWithText(string expectedText)
+    {
+        string actualText = registerPage.GetPasswordFieldErrorText();
+        Assert.That(actualText, Is.EqualTo(expectedText));
+    }
+
     [Then(@"assert that I see validation error message for the confirm password field with text (.*)")]
     public void AssertThatISeeValidationMessageForConfirmPasswordFieldWithText(string expectedText)
     {
