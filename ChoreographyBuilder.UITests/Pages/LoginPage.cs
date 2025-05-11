@@ -22,7 +22,9 @@ public class LoginPage : BasePage
     public void LoginAsUser(string user)
     {
         OpenPage("Identity/Account/Login");
-
+        FillEmailField(email);
+        FillPasswordField(password);
+        ClickLoginButton();
     }
 
     public void FillEmailField(string email)
