@@ -2,5 +2,4 @@
 
 public static class Variables
 {
-    public static bool needToSeedData;
 }
