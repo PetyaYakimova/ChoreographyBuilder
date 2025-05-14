@@ -6,9 +6,9 @@ using Microsoft.AspNetCore.Identity;
 
 namespace ChoreographyBuilder.UITests.Repositories;
 
-public class SeedDataRepository : BaseRepository
+public class ManageDataRepository : BaseRepository
 {
-    public SeedDataRepository(AppSettings settings) : base(settings)
+    public ManageDataRepository(AppSettings settings) : base(settings)
     {
     }
     public IdentityUser FirstUser { get; private set; } = null!;
