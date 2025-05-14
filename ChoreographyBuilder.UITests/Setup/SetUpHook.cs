@@ -12,22 +12,38 @@ namespace ChoreographyBuilder.UITests.Setup;
 [Binding]
 public class SetUpHook
 {
-    private readonly IConfigurationRoot configuration;
+    private static IConfigurationRoot configuration;
+    private static AppSettings settings;
     private WebDriverWait wait;
-    private readonly AppSettings settings;
-    private SeedDataRepository seedDataRepository;
 
     public SetUpHook(IObjectContainer objectContainer)
     {
-        configuration = BuildConfiguration();
-        settings = configuration.Get<AppSettings>();
-        objectContainer.RegisterInstanceAs(this.settings);
+        if (configuration == null)
+        {
+            configuration = BuildConfiguration();
+            settings = configuration.Get<AppSettings>();
+        }
+        objectContainer.RegisterInstanceAs(settings);
     }
 
     [BeforeTestRun]
     public static void BeforeTestRun()
     {
-        Variables.needToSeedData = true;
+        if (configuration == null)
+        {
+            configuration = BuildConfiguration();
+            settings = configuration.Get<AppSettings>();
+        }
+
+        try
+        {
+            ManageDataRepository manageDataRepository = new ManageDataRepository(settings);
+            manageDataRepository.SeedInitialUsersData();
+        }
+        catch (Exception)
+        {
+            Assert.Fail("The manage data repository couldn't be created");
+        }
     }
 
     [BeforeScenario]
@@ -42,14 +58,6 @@ public class SetUpHook
         wait = new WebDriverWait(driver, new TimeSpan(0, 0, 10));
         objectContainer.RegisterInstanceAs(driver);
         objectContainer.RegisterInstanceAs(wait);
-
-        if (Variables.needToSeedData)
-        {
-            seedDataRepository = new SeedDataRepository(settings);
-            seedDataRepository.DeleteAutomationData();
-            seedDataRepository.SeedInitialUsersData();
-            Variables.needToSeedData = false;
-        }
     }
 
     [AfterScenario]
@@ -57,6 +65,16 @@ public class SetUpHook
     {
         IWebDriver driver = objectContainer.Resolve<IWebDriver>();
         driver.Quit();
+    }
+
+    [AfterTestRun]
+    public static void AfterTestRun()
+    {
+        if (settings != null)
+        {
+            ManageDataRepository manageDataRepository = new ManageDataRepository(settings);
+            manageDataRepository.DeleteAutomationData();
+        }
     }
 
     private static IConfigurationRoot BuildConfiguration()
