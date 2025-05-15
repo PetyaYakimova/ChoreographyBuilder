@@ -1,15 +1,40 @@
-﻿using ChoreographyBuilder.UITests.Models;
+﻿using ChoreographyBuilder.UITests.Helpers;
+using ChoreographyBuilder.UITests.Models;
 
 namespace ChoreographyBuilder.UITests.Setup;
 
-public static class Credentials
+public class Credentials
 {
-    //TODO: Check how its done in F2F
-    public static UserModel FirstUser()
+    public UserModel FirstUser()
     {
-        return new UserModel();
+        UserModel userModel = new UserModel()
         {
+            Email = "first.user" + TestConstants.AutomationMailEnding,
+            Password = "firstUser123!",
+        };
 
-        }
+        return userModel;
+    }
+
+    public UserModel SecondUser()
+    {
+        UserModel userModel = new UserModel()
+        {
+            Email = "second.user" + TestConstants.AutomationMailEnding,
+            Password = "secondUser123456",
+        };
+
+        return userModel;
+    }
+
+    public UserModel AdminUser()
+    {
+        UserModel userModel = new UserModel()
+        {
+            Email = "admin.user" + TestConstants.AutomationMailEnding,
+            Password = "Admin987",
+        };
+
+        return userModel;
     }
 }
