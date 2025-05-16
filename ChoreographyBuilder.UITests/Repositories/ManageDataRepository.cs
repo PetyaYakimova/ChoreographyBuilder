@@ -8,8 +8,10 @@ namespace ChoreographyBuilder.UITests.Repositories;
 
 public class ManageDataRepository : BaseRepository
 {
-    public ManageDataRepository(AppSettings settings) : base(settings)
+    private Credentials credentials;
+    public ManageDataRepository(AppSettings settings, Credentials credentials) : base(settings)
     {
+        this.credentials = credentials;
     }
     public IdentityUser FirstUser { get; private set; } = null!;
 
@@ -150,7 +152,7 @@ public class ManageDataRepository : BaseRepository
         string userRoleId = context.Roles.FirstOrDefault(r => r.Name == "User").Id;
         string adminRoleId = context.Roles.FirstOrDefault(r => r.Name == "Administrator").Id;
 
-        string firstUserEmail = "first.user" + TestConstants.AutomationMailEnding;
+        string firstUserEmail = credentials.FirstUser().Email;
         FirstUser = new IdentityUser()
         {
             Id = Guid.NewGuid().ToString(),
@@ -159,7 +161,7 @@ public class ManageDataRepository : BaseRepository
             UserName = firstUserEmail,
             NormalizedUserName = firstUserEmail.ToUpper()
         };
-        FirstUser.PasswordHash = hasher.HashPassword(FirstUser, "firstUser123");
+        FirstUser.PasswordHash = hasher.HashPassword(FirstUser, credentials.FirstUser().Password);
 
         context.Users.Add(FirstUser);
 
@@ -169,7 +171,7 @@ public class ManageDataRepository : BaseRepository
             RoleId = userRoleId
         });
 
-        string secondUserEmail = "second.user" + TestConstants.AutomationMailEnding;
+        string secondUserEmail = credentials.SecondUser().Email;
         SecondUser = new IdentityUser()
         {
             Id = Guid.NewGuid().ToString(),
@@ -178,7 +180,7 @@ public class ManageDataRepository : BaseRepository
             UserName = secondUserEmail,
             NormalizedUserName = secondUserEmail.ToUpper()
         };
-        SecondUser.PasswordHash = hasher.HashPassword(SecondUser, "secondUser123456");
+        SecondUser.PasswordHash = hasher.HashPassword(SecondUser, credentials.SecondUser().Password);
         context.Users.Add(SecondUser);
 
         context.UserRoles.Add(new IdentityUserRole<string>()
@@ -187,7 +189,7 @@ public class ManageDataRepository : BaseRepository
             RoleId = userRoleId
         });
 
-        string adminUserEmail = "admin.user" + TestConstants.AutomationMailEnding;
+        string adminUserEmail = credentials.AdminUser().Email;
         AdminUser = new IdentityUser()
         {
             Id = Guid.NewGuid().ToString(),
@@ -196,7 +198,7 @@ public class ManageDataRepository : BaseRepository
             UserName = adminUserEmail,
             NormalizedUserName = adminUserEmail.ToUpper(),
         };
-        AdminUser.PasswordHash = hasher.HashPassword(AdminUser, "Admin987");
+        AdminUser.PasswordHash = hasher.HashPassword(AdminUser, credentials.AdminUser().Password);
         context.Users.Add(AdminUser);
 
         context.UserRoles.Add(new IdentityUserRole<string>()
