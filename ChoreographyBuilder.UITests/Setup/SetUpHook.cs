@@ -37,7 +37,7 @@ public class SetUpHook
 
         try
         {
-            ManageDataRepository manageDataRepository = new ManageDataRepository(settings);
+            ManageDataRepository manageDataRepository = new ManageDataRepository(settings, new Credentials());
             manageDataRepository.SeedInitialUsersData();
         }
         catch (Exception)
@@ -72,7 +72,7 @@ public class SetUpHook
     {
         if (settings != null)
         {
-            ManageDataRepository manageDataRepository = new ManageDataRepository(settings);
+            ManageDataRepository manageDataRepository = new ManageDataRepository(settings, new Credentials());
             manageDataRepository.DeleteAutomationData();
         }
     }
