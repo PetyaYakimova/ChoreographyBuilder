@@ -1,4 +1,5 @@
-﻿using ChoreographyBuilder.UITests.Setup;
+﻿using ChoreographyBuilder.UITests.Models;
+using ChoreographyBuilder.UITests.Setup;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 
@@ -6,8 +7,11 @@ namespace ChoreographyBuilder.UITests.Pages;
 
 public class LoginPage : BasePage
 {
-    public LoginPage(AppSettings settings, IWebDriver driver, WebDriverWait wait) : base(settings, driver, wait)
+    private Credentials credentials;
+
+    public LoginPage(AppSettings settings, IWebDriver driver, WebDriverWait wait, Credentials credentials) : base(settings, driver, wait)
     {
+        this.credentials = credentials;
     }
 
     private IWebElement EmailField => driver.FindElement(EmailFieldBy);
@@ -19,11 +23,11 @@ public class LoginPage : BasePage
     private IWebElement LoginButton => driver.FindElement(LoginButtonBy);
     private By LoginButtonBy => By.Id("login-submit");
 
-    public void LoginAsUser(string user)
+    public void LogInAsUser(string user)
     {
         OpenPage("Identity/Account/Login");
-        FillEmailField(email);
-        FillPasswordField(password);
+        FillEmailField(Variables.currentUser.Email);
+        FillPasswordField(Variables.currentUser.Password);
         ClickLoginButton();
     }
 
@@ -41,4 +45,20 @@ public class LoginPage : BasePage
 
     public void ClickLoginButton()
         => LoginButton.Click();
+
+    private void GetUserCredentialsByUsername(string username)
+    {
+        switch (username)
+        {
+            case "AdminUser":
+                Variables.currentUser =  credentials.AdminUser();
+                break;
+            case "FirstUser":
+                Variables.currentUser = credentials.FirstUser();
+                break;
+            case "SecondUser":
+                Variables.currentUser = credentials.SecondUser();
+                break;
+        }
+    }
 }
