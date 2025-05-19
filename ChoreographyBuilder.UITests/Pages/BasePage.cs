@@ -6,47 +6,53 @@ namespace ChoreographyBuilder.UITests.Pages;
 
 public class BasePage
 {
-    protected readonly AppSettings settings;
-    protected readonly IWebDriver driver;
-    protected readonly WebDriverWait wait;
+	protected readonly AppSettings settings;
+	protected readonly IWebDriver driver;
+	protected readonly WebDriverWait wait;
 
-    protected BasePage(
-        AppSettings settings,
-        IWebDriver driver,
-        WebDriverWait wait)
-    {
-        this.settings = settings;
-        this.driver = driver;
-        this.wait = wait;
-    }
+	protected BasePage(
+		AppSettings settings,
+		IWebDriver driver,
+		WebDriverWait wait)
+	{
+		this.settings = settings;
+		this.driver = driver;
+		this.wait = wait;
+	}
 
-    private IWebElement HeaderGreetingText => driver.FindElement(HeaderGreetingTextBy);
-    private By HeaderGreetingTextBy => By.Id("greeting");
+	private IWebElement HeaderGreetingText => driver.FindElement(HeaderGreetingTextBy);
+	private By HeaderGreetingTextBy => By.Id("greeting");
 
-    public void OpenHomePage()
-        => driver.Navigate().GoToUrl(settings.DomainSettings.Domain);
+	private IWebElement HederMenuItem => driver.FindElement(HederMenuItemBy);
+	private By HederMenuItemBy => By.ClassName("nav-menu-item");
 
-    public void OpenPage(string pageName)
-        => driver.Navigate().GoToUrl(settings.DomainSettings.Domain + pageName);
+	public void OpenHomePage()
+		=> driver.Navigate().GoToUrl(settings.DomainSettings.Domain);
 
-    public string GetCurrentURL()
-        => driver.Url;
+	public void OpenPage(string pageName)
+		=> driver.Navigate().GoToUrl(settings.DomainSettings.Domain + pageName);
 
-    public string GetCurrentPage()
-        => GetCurrentURL().Replace(settings.DomainSettings.Domain, string.Empty);
+	public string GetCurrentURL()
+		=> driver.Url;
 
-    public string GetGreetingFromHeader()
-        => HeaderGreetingText.Text;
+	public string GetCurrentPage()
+		=> GetCurrentURL().Replace(settings.DomainSettings.Domain, string.Empty);
 
-    public bool DoesElementExistAndIsDisplayed(By locator)
-    {
-        try
-        {
-            return driver.FindElement(locator).Displayed;
-        }
-        catch (NoSuchElementException)
-        {
-            return false;
-        }
-    }
+	public string GetGreetingFromHeader()
+		=> HeaderGreetingText.Text;
+
+	public List<string> GetHeaderMenus()
+		=> driver.FindElements(HederMenuItemBy).Select(e => e.Text).ToList();
+
+	public bool DoesElementExistAndIsDisplayed(By locator)
+	{
+		try
+		{
+			return driver.FindElement(locator).Displayed;
+		}
+		catch (NoSuchElementException)
+		{
+			return false;
+		}
+	}
 }
