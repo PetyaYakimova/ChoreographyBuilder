@@ -4,31 +4,31 @@
 		if (this.User.IsUser())
 		{
 			<li class="nav-item">
-				<a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Stats">Stats</a>
+				<a class="nav-link nav-menu-item text-white" asp-area="" asp-controller="Home" asp-action="Stats">Stats</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link text-white" asp-area="" asp-controller="Figure" asp-action="Mine">My Figures</a>
+				<a class="nav-link nav-menu-item text-white" asp-area="" asp-controller="Figure" asp-action="Mine">My Figures</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link text-white" asp-area="" asp-controller="VerseChoreography" asp-action="Mine">My Saved Verse Choreographies</a>
+				<a class="nav-link nav-menu-item text-white" asp-area="" asp-controller="VerseChoreography" asp-action="Mine">My Saved Verse Choreographies</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link text-white" asp-area="" asp-controller="FullChoreography" asp-action="Mine">My Saved Full Choreographies</a>
+				<a class="nav-link nav-menu-item text-white" asp-area="" asp-controller="FullChoreography" asp-action="Mine">My Saved Full Choreographies</a>
 			</li>
 		}
 		else if (this.User.IsAdmin())
 		{
 			<li class="nav-item">
-				<a class="nav-link text-white" asp-area="Admin" asp-controller="Home" asp-action="Stats">Stats</a>
+				<a class="nav-link nav-menu-item text-white" asp-area="Admin" asp-controller="Home" asp-action="Stats">Stats</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link text-white" asp-area="Admin" asp-controller="User" asp-action="All">Users</a>
+				<a class="nav-link nav-menu-item text-white" asp-area="Admin" asp-controller="User" asp-action="All">Users</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link text-white" asp-area="Admin" asp-controller="Position" asp-action="All">Positions</a>
+				<a class="nav-link nav-menu-item text-white" asp-area="Admin" asp-controller="Position" asp-action="All">Positions</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link text-white" asp-area="Admin" asp-controller="VerseType" asp-action="All">Verse Types</a>
+				<a class="nav-link nav-menu-item text-white" asp-area="Admin" asp-controller="VerseType" asp-action="All">Verse Types</a>
 			</li>
 		}
 	}
