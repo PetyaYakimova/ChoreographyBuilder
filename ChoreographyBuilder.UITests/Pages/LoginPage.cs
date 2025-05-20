@@ -25,7 +25,9 @@ public class LoginPage : BasePage
 
     public void LogInAsUser(string user)
     {
-        OpenPage("Identity/Account/Login");
+        GetUserCredentialsByUsername(user);
+
+		OpenPage("Identity/Account/Login");
         FillEmailField(Variables.currentUser.Email);
         FillPasswordField(Variables.currentUser.Password);
         ClickLoginButton();
