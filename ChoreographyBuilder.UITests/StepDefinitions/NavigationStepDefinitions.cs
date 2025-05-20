@@ -24,4 +24,14 @@ public class NavigationStepDefinitions : BaseStepDefinitions
         string actualPage = basePage.GetCurrentPage();
         Assert.That(actualPage, Is.EqualTo(pageName));
     }
+
+    [Then(@"assert that the menus I see in the header are (.*)")]
+    public void AssertThatTheMenusISeeInTheHeaderAre(string menus)
+    {
+        List<string> expectedMenus = menus.Split(',').Select(m => m.Trim()).ToList();
+
+        List<string> actualMenus = basePage.GetHeaderMenus();
+
+        CollectionAssert.AreEqual(expectedMenus, actualMenus);
+    }
 }
