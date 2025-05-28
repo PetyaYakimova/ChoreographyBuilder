@@ -18,6 +18,12 @@ public class NavigationStepDefinitions : BaseStepDefinitions
         basePage.OpenPage(pageName);
     }
 
+    [StepDefinition(@"I click on (.*) in the header navigation")]
+    public void IClickOnMenuInHeaderNavigation(string menuName)
+    {
+        basePage.ClickOnMenu(menuName);
+    }
+
     [Then(@"assert that I am on (.*) page")]
     public void AssertThatIAmOnPage(string pageName)
     {
