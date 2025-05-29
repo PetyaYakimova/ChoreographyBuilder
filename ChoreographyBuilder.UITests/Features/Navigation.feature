@@ -14,7 +14,8 @@ Scenario: Admin user can navigate through the menus
 	Then assert that I am on Admin/Position/All page
 	When I click on Verse Types in the header navigation
 	Then assert that I am on Admin/VerseType/All page
-	# Add step to click on the logo and assert that we are on the home page
+	When I click on the site logo
+	Then assert that I am on Admin/Home/Stats page
 
 @positive
 Scenario: User can navigate through the menus
