@@ -26,6 +26,9 @@ public class BasePage
     private IWebElement HederMenuItem => driver.FindElement(HederMenuItemBy);
     private By HederMenuItemBy => By.ClassName("nav-menu-item");
 
+    private IWebElement HederLogo => driver.FindElement(HederLogoBy);
+    private By HederLogoBy => By.ClassName("navbar-brand");
+
     public void OpenHomePage()
         => driver.Navigate().GoToUrl(settings.DomainSettings.Domain);
 
@@ -46,6 +49,9 @@ public class BasePage
 
     public void ClickOnMenu(string menuName)
         => driver.FindElement(By.XPath($"//header//a[contains(text(), '{menuName}')]")).Click();
+
+    public void ClickOnSiteLogo()
+        => HederLogo.Click();
 
     public bool DoesElementExistAndIsDisplayed(By locator)
     {
