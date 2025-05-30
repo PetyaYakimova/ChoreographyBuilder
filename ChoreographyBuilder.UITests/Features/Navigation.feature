@@ -30,4 +30,5 @@ Scenario: User can navigate through the menus
 	Then assert that I am on VerseChoreography/Mine page
 	When I click on My Saved Full Choreographies in the header navigation
 	Then assert that I am on FullChoreography/Mine page
-	# Add step to click on the logo and assert that we are on the home page
+	When I click on the site logo
+	Then assert that I am on Home/Stats page
