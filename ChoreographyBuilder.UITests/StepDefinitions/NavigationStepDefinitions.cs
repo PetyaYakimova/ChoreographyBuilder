@@ -24,6 +24,12 @@ public class NavigationStepDefinitions : BaseStepDefinitions
         basePage.ClickOnMenu(menuName);
     }
 
+    [StepDefinition(@"I click on the site logo")]
+    public void IClickOnTheSiteLogo()
+    {
+        basePage.ClickOnSiteLogo();
+    }
+
     [Then(@"assert that I am on (.*) page")]
     public void AssertThatIAmOnPage(string pageName)
     {
