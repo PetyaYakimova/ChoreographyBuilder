@@ -29,6 +29,9 @@ public class BasePage
     private IWebElement HederLogo => driver.FindElement(HederLogoBy);
     private By HederLogoBy => By.ClassName("navbar-brand");
 
+    private IWebElement AddButton => driver.FindElement(AddButtonBy);
+    private By AddButtonBy => By.Id("add-action");
+
     public void OpenHomePage()
         => driver.Navigate().GoToUrl(settings.DomainSettings.Domain);
 
@@ -52,6 +55,9 @@ public class BasePage
 
     public void ClickOnSiteLogo()
         => HederLogo.Click();
+
+    public void ClickAddButton()
+        => AddButton.Click();
 
     public bool DoesElementExistAndIsDisplayed(By locator)
     {
