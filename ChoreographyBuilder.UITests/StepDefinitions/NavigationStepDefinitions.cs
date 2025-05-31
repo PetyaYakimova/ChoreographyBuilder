@@ -30,6 +30,12 @@ public class NavigationStepDefinitions : BaseStepDefinitions
         basePage.ClickOnSiteLogo();
     }
 
+    [StepDefinition(@"I click the add button")]
+    public void IClickTheAddButton()
+    {
+        basePage.ClickAddButton();
+    }
+
     [Then(@"assert that I am on (.*) page")]
     public void AssertThatIAmOnPage(string pageName)
     {
