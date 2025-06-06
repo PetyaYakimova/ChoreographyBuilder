@@ -78,7 +78,7 @@
 
 @if (!Model.HasEnoughFigures)
 {
-    <a asp-action="AddFigure" asp-route-id="@Model.Id" class="btn btn-warning mb-4 w-100 p-3 fw-bold">Add Figure</a>
+    <a asp-action="AddFigure" id="add-action" asp-route-id="@Model.Id" class="btn btn-warning mb-4 w-100 p-3 fw-bold">Add Figure</a>
 }
 
 @if (!Model.UsedInFullChoreographies)
