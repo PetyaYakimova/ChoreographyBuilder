@@ -32,6 +32,9 @@ public class BasePage
     private IWebElement AddButton => driver.FindElement(AddButtonBy);
     private By AddButtonBy => By.Id("add-action");
 
+    private IWebElement SaveButton => driver.FindElement(SaveButtonBy);
+    private By SaveButtonBy => By.Id("save-action");
+
     public void OpenHomePage()
         => driver.Navigate().GoToUrl(settings.DomainSettings.Domain);
 
@@ -58,6 +61,9 @@ public class BasePage
 
     public void ClickAddButton()
         => AddButton.Click();
+
+    public void ClickSaveButton()
+        => SaveButton.Click();
 
     public bool DoesElementExistAndIsDisplayed(By locator)
     {
