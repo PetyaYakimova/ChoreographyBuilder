@@ -36,6 +36,12 @@ public class NavigationStepDefinitions : BaseStepDefinitions
         basePage.ClickAddButton();
     }
 
+    [StepDefinition(@"I click the save button")]
+    public void IClickTheSaveButton()
+    {
+        basePage.ClickSaveButton();
+    }
+
     [Then(@"assert that I am on (.*) page")]
     public void AssertThatIAmOnPage(string pageName)
     {
