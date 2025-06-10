@@ -16,7 +16,7 @@ public class BaseRepository
         context = new ChoreographyBuilderDbContext(optionsBuilder.Options);
     }
 
-    public void CreateContext()
+    public void UpdateContext()
     {
         context = new ChoreographyBuilderDbContext(optionsBuilder.Options);
     }
