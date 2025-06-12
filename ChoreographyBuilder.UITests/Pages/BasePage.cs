@@ -29,6 +29,9 @@ public class BasePage
     private IWebElement HederLogo => driver.FindElement(HederLogoBy);
     private By HederLogoBy => By.ClassName("navbar-brand");
 
+    private IWebElement Table_SearchInputField => driver.FindElement(Table_SearchInputFieldBy);
+    private By Table_SearchInputFieldBy => By.Id("SearchTerm");
+
     private IWebElement AddButton => driver.FindElement(AddButtonBy);
     private By AddButtonBy => By.Id("add-action");
 
@@ -76,4 +79,15 @@ public class BasePage
             return false;
         }
     }
+
+    // Tables
+    #region
+    public void SearchInTableBySearchTerm(string searchTerm)
+    {
+        Table_SearchInputField.Clear();
+        Table_SearchInputField.SendKeys(searchTerm);
+        Table_SearchInputField.SendKeys(Keys.Enter);
+        Thread.Sleep(1000); // Wait for the table to update after search
+    }
+    #endregion
 }
