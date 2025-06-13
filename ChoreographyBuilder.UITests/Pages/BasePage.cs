@@ -32,6 +32,9 @@ public class BasePage
     private IWebElement Table_SearchInputField => driver.FindElement(Table_SearchInputFieldBy);
     private By Table_SearchInputFieldBy => By.Id("SearchTerm");
 
+    private IWebElement Table_Row => driver.FindElement(Table_RowBy);
+    private By Table_RowBy => By.XPath("//tbody//tr");
+
     private IWebElement AddButton => driver.FindElement(AddButtonBy);
     private By AddButtonBy => By.Id("add-action");
 
@@ -89,5 +92,8 @@ public class BasePage
         Table_SearchInputField.SendKeys(Keys.Enter);
         Thread.Sleep(1000); // Wait for the table to update after search
     }
+
+    public int GetNumberOfRowsInTable()
+        => driver.FindElements(Table_RowBy).Count;
     #endregion
 }
