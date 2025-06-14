@@ -17,4 +17,12 @@ public class TableStepDefinitions : BaseStepDefinitions
     {
         basePage.SearchInTableBySearchTerm(searchTerm);
     }
+
+    [Then(@"assert that the table has at least (.*) rows")]
+    public void AssertThatTheTableHasAtLeastRows(int expectedRowCount)
+    {
+        int actualRowCount = basePage.GetNumberOfRowsInTable();
+        Assert.That(actualRowCount, Is.GreaterThanOrEqualTo(expectedRowCount),
+            $"Expected at least {expectedRowCount} rows, but found {actualRowCount}.");
+    }
 }
