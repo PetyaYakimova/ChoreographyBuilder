@@ -1,4 +1,5 @@
 ﻿using ChoreographyBuilder.Infrastructure.Data.Models;
+using ChoreographyBuilder.UITests.Models;
 using ChoreographyBuilder.UITests.Repositories;
 using ChoreographyBuilder.UITests.Setup;
 using OpenQA.Selenium;
@@ -26,4 +27,17 @@ public class PositionPage : BasePage
 
     public Position? GetPositionFromDbByName(string name)
         => positionRepository.GetPositionByName(name);
+
+    public List<PositionFromTableModel> GetPositionsFromTable()
+    {
+        IEnumerable<List<string>> tableData = GetTableRowsData();
+        List<PositionFromTableModel> positions = tableData.Select(row =>
+            new PositionFromTableModel()
+            {
+                Name = row[0],
+            })
+            .ToList();
+
+        return positions;
+    }
 }
