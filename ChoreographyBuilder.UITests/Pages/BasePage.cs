@@ -95,5 +95,17 @@ public class BasePage
 
     public int GetNumberOfRowsInTable()
         => driver.FindElements(Table_RowBy).Count;
+
+    public IEnumerable<List<string>> GetTableRowsData()
+    {
+        var rowsData = driver.FindElement(By.TagName("tbody"))
+            .FindElements(By.TagName("tr"))
+            .Select(e => e.FindElements(By.TagName("td"))
+                .Where(el => el.Text != null)
+                .Select(el => el.Text)
+                .ToList());
+
+        return rowsData;
+    }
     #endregion
 }
