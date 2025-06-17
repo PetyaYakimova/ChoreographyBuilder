@@ -1,4 +1,5 @@
 ﻿using ChoreographyBuilder.Infrastructure.Data.Models;
+using ChoreographyBuilder.UITests.Models;
 using ChoreographyBuilder.UITests.Pages;
 using TechTalk.SpecFlow;
 
@@ -28,5 +29,12 @@ public class PositionStepDefinitions : BaseStepDefinitions
         Assert.NotNull(position, $"Position with name '{name}' does not exist in the database.");
 
         Assert.That(position.IsActive, Is.EqualTo(isActive));
+    }
+
+    [Then(@"assert that the first position in the table has name (.*)")]
+    public void AssertFirstPositionInTableHasName(string name)
+    {
+        PositionFromTableModel? position = positionPage.GetPositionsFromTable()[0];
+        Assert.That(position.Name, Is.EqualTo(name));
     }
 }
