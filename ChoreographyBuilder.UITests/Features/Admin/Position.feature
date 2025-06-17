@@ -12,4 +12,4 @@ Scenario: Create a position
 	And I have asserted that a position with name AutoTest123 that is active exists
 	When I search in the table by AutoTest123
 	Then assert that the table has at least 1 rows
-	# Add steps to check the data for the first row in the table
+	And assert that the first position in the table has name AutoTest123
