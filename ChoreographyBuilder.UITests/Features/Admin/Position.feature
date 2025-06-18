@@ -25,3 +25,5 @@ Scenario: Deactivate a position
 	Then assert that I am on Admin/Position/All page
 	And assert that I see toaster message with text The status of the position has been successfully changed.
 	And I have asserted that a position with name AutoTest active position that is not active exists
+
+	# add tests for activate, edit and delete positions, add a negative test for trying to edit a position with invalid name
