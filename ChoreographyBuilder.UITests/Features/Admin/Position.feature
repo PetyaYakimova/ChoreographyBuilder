@@ -13,3 +13,15 @@ Scenario: Create a position
 	When I search in the table by AutoTest123
 	Then assert that the table has at least 1 rows
 	And assert that the first position in the table has name AutoTest123
+
+	# Add negative test for trying to save a position with invalid data
+
+@positive
+Scenario: Deactivate a position
+	Given I log in as AdminUser
+	And I open the Admin/Position/All page
+	And I search in the table by AutoTest active position
+	When I click the deactivate button for the first record in the table
+	Then assert that I am on Admin/Position/All page
+	And assert that I see toaster message with text The status of the position has been successfully changed.
+	And I have asserted that a position with name AutoTest active position that is not active exists
