@@ -20,26 +20,36 @@ public class BasePage
         this.wait = wait;
     }
 
-    private IWebElement HeaderGreetingText => driver.FindElement(HeaderGreetingTextBy);
-    private By HeaderGreetingTextBy => By.Id("greeting");
+    protected IWebElement HeaderGreetingText => driver.FindElement(HeaderGreetingTextBy);
+    protected By HeaderGreetingTextBy => By.Id("greeting");
 
-    private IWebElement HederMenuItem => driver.FindElement(HederMenuItemBy);
-    private By HederMenuItemBy => By.ClassName("nav-menu-item");
+    protected IWebElement HederMenuItem => driver.FindElement(HederMenuItemBy);
+    protected By HederMenuItemBy => By.ClassName("nav-menu-item");
 
-    private IWebElement HederLogo => driver.FindElement(HederLogoBy);
-    private By HederLogoBy => By.ClassName("navbar-brand");
+    protected IWebElement HederLogo => driver.FindElement(HederLogoBy);
+    protected By HederLogoBy => By.ClassName("navbar-brand");
 
-    private IWebElement Table_SearchInputField => driver.FindElement(Table_SearchInputFieldBy);
-    private By Table_SearchInputFieldBy => By.Id("SearchTerm");
+    protected IWebElement Table_SearchInputField => driver.FindElement(Table_SearchInputFieldBy);
+    protected By Table_SearchInputFieldBy => By.Id("SearchTerm");
 
-    private IWebElement Table_Row => driver.FindElement(Table_RowBy);
-    private By Table_RowBy => By.XPath("//tbody//tr");
+    protected IWebElement Table_Row => driver.FindElement(Table_RowBy);
+    protected By Table_RowBy => By.XPath("//tbody//tr");
 
-    private IWebElement AddButton => driver.FindElement(AddButtonBy);
-    private By AddButtonBy => By.Id("add-action");
+    protected IWebElement Table_DeactivateButton => driver.FindElement(Table_DeactivateButtonBy);
+    protected By Table_DeactivateButtonBy => By.XPath("//input[@value='Deactivate']");
 
-    private IWebElement SaveButton => driver.FindElement(SaveButtonBy);
-    private By SaveButtonBy => By.Id("save-action");
+    protected IWebElement Table_ActivateButton => driver.FindElement(Table_ActivateButtonBy);
+    protected By Table_ActivateButtonBy => By.XPath("//input[@value='Activate']");
+
+    protected IWebElement AddButton => driver.FindElement(AddButtonBy);
+    protected By AddButtonBy => By.Id("add-action");
+
+    protected IWebElement SaveButton => driver.FindElement(SaveButtonBy);
+    protected By SaveButtonBy => By.Id("save-action");
+
+    protected IWebElement ToasterMessage => driver.FindElement(ToasterMessageBy);
+    //protected By ToasterMessageBy => By.XPath("//*[@id='toast-container']//div[@class='toast-message']");
+    protected By ToasterMessageBy => By.ClassName("toast-message");
 
     public void OpenHomePage()
         => driver.Navigate().GoToUrl(settings.DomainSettings.Domain);
@@ -83,6 +93,9 @@ public class BasePage
         }
     }
 
+    public string GetToasterMessage()
+        => ToasterMessage.Text;
+
     // Tables
     #region
     public void SearchInTableBySearchTerm(string searchTerm)
@@ -107,5 +120,11 @@ public class BasePage
 
         return rowsData;
     }
+
+    public void ClickDeactivateButtonForFirstRecordInTable()
+        => Table_DeactivateButton.Click();
+
+    public void ClickActivateButtonForFirstRecordInTable()
+        => Table_ActivateButton.Click();
     #endregion
 }
