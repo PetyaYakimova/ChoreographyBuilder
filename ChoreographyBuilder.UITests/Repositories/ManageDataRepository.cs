@@ -224,7 +224,7 @@ public class ManageDataRepository : BaseRepository
 
         ThirdPosition = new Position()
         {
-            Name = TestConstants.AutomationTestPrefix + " position 3",
+            Name = TestConstants.AutomationTestPrefix + " active position",
             IsActive = true
         };
 
