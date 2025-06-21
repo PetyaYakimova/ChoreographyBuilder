@@ -1,11 +1,13 @@
 ﻿Feature: Position
 An admin user can create, edit, activate and deactivate and delete a position.
 
-@positive
-Scenario: Create a position
+Background:
 	Given I log in as AdminUser
 	And I open the Admin/Position/All page
-	And I click the add button
+
+@positive
+Scenario: Create a position
+	Given I click the add button
 	When I fill the name field for position with AutoTest123
 	And I click the save button
 	Then assert that I am on Admin/Position/All page
@@ -16,9 +18,7 @@ Scenario: Create a position
 
 @negative
 Scenario: Create a position with invalid data
-	Given I log in as AdminUser
-	And I open the Admin/Position/All page
-	And I click the add button
+	Given I click the add button
 	When I fill the name field for position with AutoTest12345678901234567890123456789012345678901234567890123456789012345678901234567890
 	And I click the save button
 	Then assert that I am on Admin/Position/Create page
@@ -26,9 +26,7 @@ Scenario: Create a position with invalid data
 
 @positive
 Scenario: Deactivate a position
-	Given I log in as AdminUser
-	And I open the Admin/Position/All page
-	And I search in the table by AutoTest active position
+	Given I search in the table by AutoTest active position
 	When I click the deactivate button for the first record in the table
 	Then assert that I am on Admin/Position/All page
 	And assert that I see toaster message with text The status of the position has been successfully changed.
