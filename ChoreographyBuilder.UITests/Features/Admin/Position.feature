@@ -14,7 +14,15 @@ Scenario: Create a position
 	Then assert that the table has at least 1 rows
 	And assert that the first position in the table has name AutoTest123
 
-	# Add negative test for trying to save a position with invalid data
+@negative
+Scenario: Create a position with invalid data
+	Given I log in as AdminUser
+	And I open the Admin/Position/All page
+	And I click the add button
+	When I fill the name field for position with AutoTest12345678901234567890123456789012345678901234567890123456789012345678901234567890
+	And I click the save button
+	Then assert that I am on Admin/Position/Create page
+	And assert that I do see validation error message for name field
 
 @positive
 Scenario: Deactivate a position
