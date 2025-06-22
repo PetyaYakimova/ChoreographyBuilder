@@ -24,6 +24,9 @@ public class PositionPage : BasePage
         AddPage_NameField.Clear();
         AddPage_NameField.SendKeys(name);
     }
+    public void ClearNameField()
+        => AddPage_NameField.Clear();
+
 
     public Position? GetPositionFromDbByName(string name)
         => positionRepository.GetPositionByName(name);
