@@ -58,12 +58,4 @@ public class NavigationStepDefinitions : BaseStepDefinitions
 
         CollectionAssert.AreEqual(expectedMenus, actualMenus);
     }
-
-    [Then(@"assert that I see toaster message with text (.*)")]
-    public void AssertThatISeeToasterMessageWithText(string expectedMessage)
-    {
-        string actualMessage = basePage.GetToasterMessage();
-        Assert.That(actualMessage, Is.EqualTo(expectedMessage),
-            $"Expected toaster message '{expectedMessage}', but found '{actualMessage}'.");
-    }
 }
