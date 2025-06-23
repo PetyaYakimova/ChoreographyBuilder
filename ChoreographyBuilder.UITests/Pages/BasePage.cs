@@ -127,4 +127,13 @@ public class BasePage
     public void ClickActivateButtonForFirstRecordInTable()
         => Table_ActivateButton.Click();
     #endregion
+
+    //Forms
+    #region
+    public string GetValidationErrorMessage(string fieldName)
+    {
+        var errorElement = driver.FindElement(By.Id($"{fieldName}-error"));
+        return errorElement.Text;
+    }
+    #endregion
 }
