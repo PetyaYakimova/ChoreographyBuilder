@@ -20,6 +20,12 @@ public class PositionStepDefinitions : BaseStepDefinitions
         positionPage.FillNameField(name);
     }
 
+    [StepDefinition(@"I clear the name field for position")]
+    public void IClearTheNameFieldForPosition()
+    {
+        positionPage.ClearNameField();
+    }
+
     [Then(@"I have asserted that a position with name (.*) that (.*) active exists")]
     public void AssertPositionWithNameExists(string name, string active)
     {
