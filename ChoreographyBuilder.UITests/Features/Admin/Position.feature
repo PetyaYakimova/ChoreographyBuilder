@@ -19,10 +19,18 @@ Scenario: Create a position
 @negative
 Scenario: Create a position with invalid data
 	Given I click the add button
-	When I fill the name field for position with AutoTest12345678901234567890123456789012345678901234567890123456789012345678901234567890
+	When I fill the name field for position with A
 	And I click the save button
-	Then assert that I am on Admin/Position/Create page
-	And assert that I do see validation error message for name field
+	Then assert that I am on Admin/Position/Add page
+	And assert that I see validation error message for Name field with text The Name field must be between 2 and 70 characters long.
+	When I clear the name field for position
+	And I click the save button
+	Then assert that I am on Admin/Position/Add page
+	And assert that I see validation error message for Name field with text The Name field is required.
+	When I fill the name field for position with AutoTest12AutoTest12AutoTest12AutoTest12AutoTest12AutoTest12AutoTest123
+	And I click the save button
+	Then assert that I am on Admin/Position/All page
+	And I have asserted that a position with name AutoTest12AutoTest12AutoTest12AutoTest12AutoTest12AutoTest12AutoTest12 that is active exists
 
 @positive
 Scenario: Deactivate a position
