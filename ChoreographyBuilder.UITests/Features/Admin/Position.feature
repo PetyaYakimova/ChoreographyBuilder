@@ -6,7 +6,7 @@ Background:
 	And I open the Admin/Position/All page
 
 @positive
-Scenario: Create a position
+Scenario: Create position
 	Given I click the add button
 	When I fill the name field for position with AutoTest123
 	And I click the save button
@@ -17,7 +17,7 @@ Scenario: Create a position
 	And assert that the first position in the table has name AutoTest123
 
 @negative
-Scenario: Create a position with invalid data
+Scenario: Create position with invalid data
 	Given I click the add button
 	When I fill the name field for position with A
 	And I click the save button
@@ -33,7 +33,7 @@ Scenario: Create a position with invalid data
 	And I have asserted that a position with name AutoTest12AutoTest12AutoTest12AutoTest12AutoTest12AutoTest12AutoTest12 that is active exists
 
 @positive
-Scenario: Deactivate a position
+Scenario: Deactivate position
 	Given I search in the table by AutoTest active position
 	When I click the deactivate button for the first record in the table
 	Then assert that I am on Admin/Position/All page
@@ -41,7 +41,7 @@ Scenario: Deactivate a position
 	And I have asserted that a position with name AutoTest active position that is not active exists
 
 @positive
-Scenario: Activate a position
+Scenario: Activate position
 	Given I search in the table by AutoTest inactive position
 	When I click the activate button for the first record in the table
 	Then assert that I am on Admin/Position/All page
