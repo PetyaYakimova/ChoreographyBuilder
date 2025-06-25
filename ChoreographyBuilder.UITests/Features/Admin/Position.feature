@@ -40,4 +40,12 @@ Scenario: Deactivate a position
 	And assert that I see toaster message with text The status of the position has been successfully changed.
 	And I have asserted that a position with name AutoTest active position that is not active exists
 
-	# add tests for activate, edit and delete positions, add a negative test for trying to edit a position with invalid name
+@positive
+Scenario: Activate a position
+	Given I search in the table by AutoTest inactive position
+	When I click the activate button for the first record in the table
+	Then assert that I am on Admin/Position/All page
+	And assert that I see toaster message with text The status of the position has been successfully changed.
+	And I have asserted that a position with name AutoTest inactive position that is active exists
+
+	# add tests for edit and delete positions, add a negative test for trying to edit a position with invalid name
