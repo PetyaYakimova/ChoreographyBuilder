@@ -1,5 +1,6 @@
 ﻿using ChoreographyBuilder.UITests.Setup;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Support.Extensions;
 using OpenQA.Selenium.Support.UI;
 
 namespace ChoreographyBuilder.UITests.Pages;
@@ -35,12 +36,6 @@ public class BasePage
     protected IWebElement Table_Row => driver.FindElement(Table_RowBy);
     protected By Table_RowBy => By.XPath("//tbody//tr");
 
-    protected IWebElement Table_DeactivateButton => driver.FindElement(Table_DeactivateButtonBy);
-    protected By Table_DeactivateButtonBy => By.XPath("//input[@value='Deactivate']");
-
-    protected IWebElement Table_ActivateButton => driver.FindElement(Table_ActivateButtonBy);
-    protected By Table_ActivateButtonBy => By.XPath("//input[@value='Activate']");
-
     protected IWebElement AddButton => driver.FindElement(AddButtonBy);
     protected By AddButtonBy => By.Id("add-action");
 
@@ -60,8 +55,8 @@ public class BasePage
     public string GetCurrentURL()
         => driver.Url;
 
-    public string GetCurrentPage()
-        => GetCurrentURL().Replace(settings.DomainSettings.Domain, string.Empty);
+    public string GetCurrentPageWithoutParameters()
+        => GetCurrentURL().Replace(settings.DomainSettings.Domain, string.Empty).Split("?")[0];
 
     public string GetGreetingFromHeader()
         => HeaderGreetingText.Text;
@@ -76,7 +71,10 @@ public class BasePage
         => HederLogo.Click();
 
     public void ClickAddButton()
-        => AddButton.Click();
+    {
+        driver.ExecuteJavaScript("arguments[0].scrollIntoView(true);", AddButton);
+        driver.ExecuteJavaScript("arguments[0].click();", AddButton);
+    }
 
     public void ClickSaveButton()
         => SaveButton.Click();
@@ -121,11 +119,8 @@ public class BasePage
         return rowsData;
     }
 
-    public void ClickDeactivateButtonForFirstRecordInTable()
-        => Table_DeactivateButton.Click();
-
-    public void ClickActivateButtonForFirstRecordInTable()
-        => Table_ActivateButton.Click();
+    public void ClickButtonForFirstRecordInTable(string buttonName)
+        => driver.FindElement(By.XPath($"//input[@value='{buttonName}']")).Click();
     #endregion
 
     //Forms
