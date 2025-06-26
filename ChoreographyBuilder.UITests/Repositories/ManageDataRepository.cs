@@ -23,10 +23,6 @@ public class ManageDataRepository : BaseRepository
 
     public Position SecondPosition { get; private set; } = null!;
 
-    public Position ThirdPosition { get; private set; } = null!;
-
-    public Position InactivePosition { get; private set; } = null!;
-
     public VerseType FirstVerseType { get; private set; } = null!;
 
     public VerseType SecondVerseType { get; private set; } = null!;
@@ -222,19 +218,31 @@ public class ManageDataRepository : BaseRepository
             IsActive = true
         };
 
-        ThirdPosition = new Position()
+        Position activePosition = new Position()
         {
             Name = TestConstants.AutomationTestPrefix + " active position",
             IsActive = true
         };
 
-        InactivePosition = new Position()
+        Position inactivePosition = new Position()
         {
             Name = TestConstants.AutomationTestPrefix + " inactive position",
             IsActive = false
         };
 
-        context.Positions.AddRange(new List<Position>() { FirstPosition, SecondPosition, ThirdPosition, InactivePosition });
+        Position positionForEdit = new Position()
+        {
+            Name = TestConstants.AutomationTestPrefix + " position for edit",
+            IsActive = true
+        };
+
+        Position positionForDelete = new Position()
+        {
+            Name = TestConstants.AutomationTestPrefix + " position for delete",
+            IsActive = true
+        };
+
+        context.Positions.AddRange(new List<Position>() { FirstPosition, SecondPosition, activePosition, inactivePosition, positionForEdit, positionForDelete });
     }
 
     private void SeedVerseTypes()
