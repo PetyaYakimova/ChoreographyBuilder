@@ -45,7 +45,7 @@ public class NavigationStepDefinitions : BaseStepDefinitions
     [Then(@"assert that I am on (.*) page")]
     public void AssertThatIAmOnPage(string pageName)
     {
-        string actualPage = basePage.GetCurrentPage();
+        string actualPage = basePage.GetCurrentPageWithoutParameters();
         Assert.That(actualPage, Is.EqualTo(pageName));
     }
 
