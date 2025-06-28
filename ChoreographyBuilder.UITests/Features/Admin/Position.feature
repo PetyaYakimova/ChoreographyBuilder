@@ -11,6 +11,7 @@ Scenario: Create position
 	When I fill the name field for position with AutoTest123
 	And I click the save button
 	Then assert that I am on Admin/Position/All page
+	And assert that I see toaster message with text The position has been added successfully.
 	And I have asserted that a position with name AutoTest123 that is active exists
 	When I search in the table by AutoTest123
 	Then assert that the table has at least 1 rows
@@ -35,7 +36,7 @@ Scenario: Create position with invalid data
 @positive
 Scenario: Deactivate position
 	Given I search in the table by AutoTest active position
-	When I click the deactivate button for the first record in the table
+	When I click the Deactivate button for the first record in the table
 	Then assert that I am on Admin/Position/All page
 	And assert that I see toaster message with text The status of the position has been successfully changed.
 	And I have asserted that a position with name AutoTest active position that is not active exists
@@ -43,9 +44,19 @@ Scenario: Deactivate position
 @positive
 Scenario: Activate position
 	Given I search in the table by AutoTest inactive position
-	When I click the activate button for the first record in the table
+	When I click the Activate button for the first record in the table
 	Then assert that I am on Admin/Position/All page
 	And assert that I see toaster message with text The status of the position has been successfully changed.
 	And I have asserted that a position with name AutoTest inactive position that is active exists
 
-	# add tests for edit and delete positions, add a negative test for trying to edit a position with invalid name
+@positive
+Scenario: Edit position
+	Given I search in the table by AutoTest position for edit
+	When I click the Edit button for the first record in the table
+	And I fill the name field for position with AutoTest position edited
+	And I click the save button
+	Then assert that I see toaster message with text The position has been updated successfully.
+	And assert that I am on Admin/Position/All page
+	And I have asserted that a position with name AutoTest position edited that is active exists
+
+	# add tests for delete positions, add a negative test for trying to edit a position with invalid name
