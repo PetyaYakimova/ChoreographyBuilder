@@ -59,4 +59,12 @@ Scenario: Edit position
 	And assert that I am on Admin/Position/All page
 	And I have asserted that a position with name AutoTest position edited that is active exists
 
+@positive
+Scenario: Edit position with invalid data
+	Given I search in the table by edit
+	When I click the Edit button for the first record in the table
+	And I clear the name field for position
+	And I click the save button
+	Then assert that I see validation error message for Name field with text The Name field is required.
+
 	# add tests for delete positions, add a negative test for trying to edit a position with invalid name
