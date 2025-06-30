@@ -39,9 +39,6 @@ public class BasePage
     protected IWebElement AddButton => driver.FindElement(AddButtonBy);
     protected By AddButtonBy => By.Id("add-action");
 
-    protected IWebElement SaveButton => driver.FindElement(SaveButtonBy);
-    protected By SaveButtonBy => By.Id("save-action");
-
     protected IWebElement ToasterMessage => driver.FindElement(ToasterMessageBy);
     //protected By ToasterMessageBy => By.XPath("//*[@id='toast-container']//div[@class='toast-message']");
     protected By ToasterMessageBy => By.ClassName("toast-message");
@@ -76,9 +73,6 @@ public class BasePage
         driver.ExecuteJavaScript("arguments[0].click();", AddButton);
     }
 
-    public void ClickSaveButton()
-        => SaveButton.Click();
-
     public bool DoesElementExistAndIsDisplayed(By locator)
     {
         try
@@ -93,6 +87,12 @@ public class BasePage
 
     public string GetToasterMessage()
         => ToasterMessage.Text;
+
+    public void ClickButtonWithValue(string buttonName)
+    {
+        driver.FindElement(By.XPath($"//input[@value='{buttonName}']")).Click();
+        Thread.Sleep(200);
+    }
 
     // Tables
     #region
@@ -118,9 +118,6 @@ public class BasePage
 
         return rowsData;
     }
-
-    public void ClickButtonForFirstRecordInTable(string buttonName)
-        => driver.FindElement(By.XPath($"//input[@value='{buttonName}']")).Click();
     #endregion
 
     //Forms
