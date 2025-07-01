@@ -18,10 +18,10 @@ public class TableStepDefinitions : BaseStepDefinitions
         basePage.SearchInTableBySearchTerm(searchTerm);
     }
 
-    [StepDefinition(@"I click the (.*) button for the first record in the table")]
-    public void IClickThButtonForTheFirstRecordInTheTable(string buttonName)
+    [StepDefinition(@"I click the (.*) button")]
+    public void IClickTheButton(string buttonName)
     {
-        basePage.ClickButtonForFirstRecordInTable(buttonName);
+        basePage.ClickButtonWithValue(buttonName);
     }
 
     [Then(@"assert that the table has at least (.*) rows")]
