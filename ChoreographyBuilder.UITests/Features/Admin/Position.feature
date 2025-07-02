@@ -72,8 +72,5 @@ Scenario: Delete position
 	Given I search in the table by AutoTest position for delete
 	When I click the Delete button
 	And I click the Delete button
-	And I fill the name field for position with AutoTest position edited
-	And I click the Save button
-	Then assert that I see toaster message with text The position has been updated successfully.
+	Then assert that I see toaster message with text The position has been deleted.
 	And assert that I am on Admin/Position/All page
-	And I have asserted that a position with name AutoTest position edited that is active exists
