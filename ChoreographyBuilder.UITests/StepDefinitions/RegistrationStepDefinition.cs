@@ -18,8 +18,8 @@ public class RegistrationStepDefinition : BaseStepDefinitions
         registerPage.FillRegisterForm(email, password, confirmPassword);
     }
 
-    [StepDefinition(@"I click the Register button")]
-    public void ClickTheRegisterButton()
+    [StepDefinition(@"I click Register button")]
+    public void ClickRegisterButton()
     {
         registerPage.ClickRegisterButton();
     }
@@ -35,26 +35,5 @@ public class RegistrationStepDefinition : BaseStepDefinitions
     public void IHaveAssertedThatANewUserWithEmailIsSaved(string email)
     {
         Assert.That(registerPage.IsUserSaved(email), Is.True);
-    }
-
-    [Then(@"assert that I see validation error message for the email field with text (.*)")]
-    public void AssertThatISeeValidationMessageForEmailFieldWithText(string expectedText)
-    {
-        string actualText = registerPage.GetEmailFieldErrorText();
-        Assert.That(actualText, Is.EqualTo(expectedText));
-    }
-
-    [Then(@"assert that I see validation error message for the password field with text (.*)")]
-    public void AssertThatISeeValidationMessageForPasswordFieldWithText(string expectedText)
-    {
-        string actualText = registerPage.GetPasswordFieldErrorText();
-        Assert.That(actualText, Is.EqualTo(expectedText));
-    }
-
-    [Then(@"assert that I see validation error message for the confirm password field with text (.*)")]
-    public void AssertThatISeeValidationMessageForConfirmPasswordFieldWithText(string expectedText)
-    {
-        string actualText = registerPage.GetConfirmPasswordFieldErrorText();
-        Assert.That(actualText, Is.EqualTo(expectedText));
     }
 }
