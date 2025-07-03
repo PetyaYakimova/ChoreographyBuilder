@@ -8,7 +8,7 @@ Background:
 @positive
 Scenario: Create position
 	Given I click add button
-	When I fill the name field for position with AutoTest123
+	When I fill the position form with name AutoTest123
 	And I click the Save button
 	Then assert that I am on Admin/Position/All page
 	And assert that I see toaster message with text The position has been added successfully.
@@ -20,15 +20,15 @@ Scenario: Create position
 @negative
 Scenario: Create position with invalid data
 	Given I click add button
-	When I fill the name field for position with A
+	When I fill the position form with name A
 	And I click the Save button
 	Then assert that I am on Admin/Position/Add page
 	And assert that I see validation error message for Name field with text The Name field must be between 2 and 70 characters long.
-	When I clear the name field for position
+	When I clear the Name field
 	And I click the Save button
 	Then assert that I am on Admin/Position/Add page
 	And assert that I see validation error message for Name field with text The Name field is required.
-	When I fill the name field for position with AutoTest12AutoTest12AutoTest12AutoTest12AutoTest12AutoTest12AutoTest123
+	When I fill the position form with name AutoTest12AutoTest12AutoTest12AutoTest12AutoTest12AutoTest12AutoTest123
 	And I click the Save button
 	Then assert that I am on Admin/Position/All page
 	And I have asserted that a position with name AutoTest12AutoTest12AutoTest12AutoTest12AutoTest12AutoTest12AutoTest12 that is active exists
@@ -53,7 +53,7 @@ Scenario: Activate position
 Scenario: Edit position
 	Given I search in the table by AutoTest position for edit
 	When I click the Edit button
-	And I fill the name field for position with AutoTest position edited
+	And I fill the position form with name AutoTest position edited
 	And I click the Save button
 	Then assert that I see toaster message with text The position has been updated successfully.
 	And assert that I am on Admin/Position/All page
@@ -63,7 +63,7 @@ Scenario: Edit position
 Scenario: Edit position with invalid data
 	Given I search in the table by edit
 	When I click the Edit button
-	And I clear the name field for position
+	And I clear the Name field
 	And I click the Save button
 	Then assert that I see validation error message for Name field with text The Name field is required.
 
