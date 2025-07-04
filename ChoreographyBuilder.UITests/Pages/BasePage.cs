@@ -40,7 +40,6 @@ public class BasePage
     protected By AddButtonBy => By.Id("add-action");
 
     protected IWebElement ToasterMessage => driver.FindElement(ToasterMessageBy);
-    //protected By ToasterMessageBy => By.XPath("//*[@id='toast-container']//div[@class='toast-message']");
     protected By ToasterMessageBy => By.ClassName("toast-message");
 
     public void OpenHomePage()
@@ -117,15 +116,6 @@ public class BasePage
                 .ToList());
 
         return rowsData;
-    }
-    #endregion
-
-    //Forms
-    #region
-    public string GetValidationErrorMessage(string fieldName)
-    {
-        var errorElement = driver.FindElement(By.Id($"{fieldName}-error"));
-        return errorElement.Text;
     }
     #endregion
 }
