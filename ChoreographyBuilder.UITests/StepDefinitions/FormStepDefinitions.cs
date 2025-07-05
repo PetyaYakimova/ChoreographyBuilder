@@ -5,17 +5,36 @@ namespace ChoreographyBuilder.UITests.StepDefinitions;
 
 public class FormStepDefinitions : BaseStepDefinitions
 {
-    private readonly BasePage basePage;
+    private readonly FormPage formPage;
 
-    public FormStepDefinitions(BasePage basePage) : base()
+    public FormStepDefinitions(FormPage formPage) : base()
     {
-        this.basePage = basePage;
+        this.formPage = formPage;
+    }
+
+    [StepDefinition(@"I fill the position form with name (.*)")]
+    public void IFillThePositionFormWithData(string name)
+    {
+        formPage.FillField("Name", name);
+    }
+
+    [StepDefinition(@"I fill the verse type form with name (.*), beat counts (.*)")]
+    public void IFillTheVerseTypeFormWithData(string name, string beatsCount)
+    {
+        formPage.FillField("Name", name);
+        formPage.FillField("BeatCounts", beatsCount);
+    }
+
+    [StepDefinition(@"I clear the (.*) field")]
+    public void IClearField(string fieldName)
+    {
+        formPage.ClearField(fieldName);
     }
 
     [Then(@"assert that I see validation error message for (.*) field with text (.*)")]
     public void AssertThatISeeValidationErrorMessageForFieldWithText(string fieldName, string expectedMessage)
     {
-        string actualMessage = basePage.GetValidationErrorMessage(fieldName);
+        string actualMessage = formPage.GetValidationErrorMessage(fieldName);
         Assert.That(actualMessage, Is.EqualTo(expectedMessage),
             $"Expected validation error message for field '{fieldName}' to be '{expectedMessage}', but found '{actualMessage}'.");
     }
@@ -23,7 +42,7 @@ public class FormStepDefinitions : BaseStepDefinitions
     [Then(@"assert that I see toaster message with text (.*)")]
     public void AssertThatISeeToasterMessageWithText(string expectedMessage)
     {
-        string actualMessage = basePage.GetToasterMessage();
+        string actualMessage = formPage.GetToasterMessage();
         Assert.That(actualMessage, Is.EqualTo(expectedMessage),
             $"Expected toaster message '{expectedMessage}', but found '{actualMessage}'.");
     }
