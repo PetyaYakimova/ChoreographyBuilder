@@ -14,18 +14,6 @@ public class PositionStepDefinitions : BaseStepDefinitions
         this.positionPage = positionPage;
     }
 
-    [StepDefinition(@"I fill the name field for position with (.*)")]
-    public void IFillTheNameFieldForPositionWith(string name)
-    {
-        positionPage.FillNameField(name);
-    }
-
-    [StepDefinition(@"I clear the name field for position")]
-    public void IClearTheNameFieldForPosition()
-    {
-        positionPage.ClearNameField();
-    }
-
     [Then(@"I have asserted that a position with name (.*) that (.*) active exists")]
     public void AssertPositionWithNameExists(string name, string active)
     {
