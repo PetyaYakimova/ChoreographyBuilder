@@ -16,18 +16,6 @@ public class PositionPage : BasePage
         this.positionRepository = positionRepository;
     }
 
-    private IWebElement AddPage_NameField => driver.FindElement(AddPage_NameFieldBy);
-    private By AddPage_NameFieldBy => By.Id("Name");
-
-    public void FillNameField(string name)
-    {
-        AddPage_NameField.Clear();
-        AddPage_NameField.SendKeys(name);
-    }
-    public void ClearNameField()
-        => AddPage_NameField.Clear();
-
-
     public Position? GetPositionFromDbByName(string name)
         => positionRepository.GetPositionByName(name);
 
