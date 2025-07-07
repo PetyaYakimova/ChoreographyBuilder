@@ -19,16 +19,17 @@ public class VerseTypePage : BasePage
     public VerseType? GetVerseTypeFromDbByName(string name)
         => verseTypeRepository.GetVerseTypeByName(name);
 
-    public List<PositionFromTableModel> GetPositionsFromTable()
+    public List<VerseTypeFromTableModel> GetVerseTypesFromTable()
     {
         IEnumerable<List<string>> tableData = GetTableRowsData();
-        List<PositionFromTableModel> positions = tableData.Select(row =>
-            new PositionFromTableModel()
+        List<VerseTypeFromTableModel> verseTypes = tableData.Select(row =>
+            new VerseTypeFromTableModel()
             {
                 Name = row[0],
+                BeatCounts = row[1],
             })
             .ToList();
 
-        return positions;
+        return verseTypes;
     }
 }
