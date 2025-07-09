@@ -10,12 +10,12 @@ Scenario: Create verse type
 	Given I click add button
 	When I fill the verse type form with name AutoTest123, beat counts 40
 	And I click the Save button
-	#Then assert that I am on Admin/Position/All page
-	#And assert that I see toaster message with text The position has been added successfully.
-	#And I have asserted that a position with name AutoTest123 that is active exists
+	Then assert that I am on Admin/VerseType/All page
+	And assert that I see toaster message with text The verse type has been added successfully.
+	And I have asserted that a verse type with name AutoTest123, beats count 40, that is active exists
 	#When I search in the table by AutoTest123
-	#Then assert that the table has at least 1 rows
-	#And assert that the first position in the table has name AutoTest123
+	Then assert that the table has at least 1 rows
+	And assert that the first verse type in the table has name AutoTest123 and beats count 40
 
 #@negative
 #Scenario: Create position with invalid data
