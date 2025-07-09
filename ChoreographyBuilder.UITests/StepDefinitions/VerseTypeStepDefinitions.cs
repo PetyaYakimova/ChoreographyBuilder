@@ -24,15 +24,20 @@ public class VerseTypeStepDefinitions : BaseStepDefinitions
 
         Assert.Multiple(() =>
         {
-            Assert.That(verseType.BeatCounts, Is.EqualTo(beatsCount), $"Expected verse type beat counts '{beatsCount}', but found '{verseType.BeatCounts}'.");
+            Assert.That(verseType.BeatCounts, Is.EqualTo(beatsCount));
             Assert.That(verseType.IsActive, Is.EqualTo(isActive));
         });
     }
 
-    [Then(@"assert that the first position in the table has name (.*)")]
-    public void AssertFirstPositionInTableHasName(string name)
+    [Then(@"assert that the first verse type in the table has name (.*) and beats count (.*)")]
+    public void AssertFirstVerseTypeInTableHasNameAndBeatsCount(string name, string beatsCount)
     {
-        PositionFromTableModel? position = positionPage.GetPositionsFromTable()[0];
-        Assert.That(position.Name, Is.EqualTo(name));
+        VerseTypeFromTableModel? verseType = verseTypePage.GetVerseTypesFromTable()[0];
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(verseType.Name, Is.EqualTo(name));
+            Assert.That(verseType.BeatCounts, Is.EqualTo(beatsCount));
+        });
     }
 }
