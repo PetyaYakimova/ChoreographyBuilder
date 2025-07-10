@@ -40,9 +40,9 @@ public class SetUpHook
             ManageDataRepository manageDataRepository = new ManageDataRepository(settings, new Credentials());
             manageDataRepository.SeedInitialUsersData();
         }
-        catch (Exception)
+        catch (Exception e)
         {
-            Assert.Fail("The manage data repository couldn't be created");
+            Assert.Fail($"The manage data repository couldn't be created: {e.InnerException}");
         }
     }
 
