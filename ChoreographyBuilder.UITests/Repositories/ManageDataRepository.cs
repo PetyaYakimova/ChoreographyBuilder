@@ -27,8 +27,6 @@ public class ManageDataRepository : BaseRepository
 
     public VerseType SecondVerseType { get; private set; } = null!;
 
-    public VerseType InactiveVerseType { get; private set; } = null!;
-
     public Figure FirstFigure { get; private set; } = null!;
 
     public Figure SecondFigure { get; private set; } = null!;
@@ -261,14 +259,35 @@ public class ManageDataRepository : BaseRepository
             IsActive = true
         };
 
-        InactiveVerseType = new VerseType()
+        VerseType activeVerse = new VerseType()
+        {
+            Name = TestConstants.AutomationTestPrefix + " active",
+            BeatCounts = 44,
+            IsActive = true
+        };
+
+        VerseType inactiveVerse = new VerseType()
         {
             Name = TestConstants.AutomationTestPrefix + " inactive",
-            BeatCounts = 24,
+            BeatCounts = 16,
             IsActive = false
         };
 
-        context.VerseTypes.AddRange(new List<VerseType> { FirstVerseType, SecondVerseType, InactiveVerseType });
+        VerseType verseTypeForEdit = new VerseType()
+        {
+            Name = TestConstants.AutomationTestPrefix + " for edit",
+            BeatCounts = 24,
+            IsActive = true
+        };
+
+        VerseType verseTypeForDelete = new VerseType()
+        {
+            Name = TestConstants.AutomationTestPrefix + " for delete",
+            BeatCounts = 18,
+            IsActive = true
+        };
+
+        context.VerseTypes.AddRange(new List<VerseType> { FirstVerseType, SecondVerseType, activeVerse, inactiveVerse, verseTypeForEdit, verseTypeForDelete });
     }
 
     private void SeedFigures()
