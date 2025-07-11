@@ -13,7 +13,7 @@ Scenario: Create position
 	Then assert that I am on Admin/Position/All page
 	And assert that I see toaster message with text The position has been added successfully.
 	And I have asserted that a position with name AutoTest123 that is active exists
-	When I search in the table by AutoTest123
+	When I search in the table by AutoTest123 search term
 	Then assert that the table has at least 1 rows
 	And assert that the first position in the table has name AutoTest123
 
@@ -35,7 +35,7 @@ Scenario: Create position with invalid data
 
 @positive
 Scenario: Deactivate position
-	Given I search in the table by AutoTest active position
+	Given I search in the table by AutoTest active position search term
 	When I click the Deactivate button
 	Then assert that I am on Admin/Position/All page
 	And assert that I see toaster message with text The status of the position has been successfully changed.
@@ -43,7 +43,7 @@ Scenario: Deactivate position
 
 @positive
 Scenario: Activate position
-	Given I search in the table by AutoTest inactive position
+	Given I search in the table by AutoTest inactive position search term
 	When I click the Activate button
 	Then assert that I am on Admin/Position/All page
 	And assert that I see toaster message with text The status of the position has been successfully changed.
@@ -51,7 +51,7 @@ Scenario: Activate position
 
 @positive
 Scenario: Edit position
-	Given I search in the table by AutoTest position for edit
+	Given I search in the table by AutoTest position for edit search term
 	When I click the Edit button
 	And I fill the position form with name AutoTest position edited
 	And I click the Save button
@@ -61,7 +61,7 @@ Scenario: Edit position
 
 @positive
 Scenario: Edit position with invalid data
-	Given I search in the table by edit
+	Given I search in the table by edit search term
 	When I click the Edit button
 	And I clear the Name field
 	And I click the Save button
@@ -69,7 +69,7 @@ Scenario: Edit position with invalid data
 
 @positive
 Scenario: Delete position
-	Given I search in the table by AutoTest position for delete
+	Given I search in the table by AutoTest position for delete search term
 	When I click the Delete button
 	And I click the Delete button
 	Then assert that I see toaster message with text The position has been deleted.
