@@ -12,7 +12,7 @@ public class TableStepDefinitions : BaseStepDefinitions
         this.basePage = basePage;
     }
 
-    [StepDefinition($"I search in the table by (.*)")]
+    [StepDefinition($"I search in the table by (.*) search term")]
     public void SearchInTableBySearchTerm(string searchTerm)
     {
         basePage.SearchInTableBySearchTerm(searchTerm);
