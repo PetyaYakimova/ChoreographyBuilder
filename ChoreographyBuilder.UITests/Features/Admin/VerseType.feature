@@ -20,17 +20,34 @@ Scenario: Create verse type
 @negative
 Scenario: Create verse type with invalid data
 	Given I click add button
-	When I fill the Name field with A
+	When I fill the Name field with AB
 	And I click the Save button
 	Then assert that I am on Admin/VerseType/Add page
-	And assert that I see validation error message for Name field with text The Name field must be between 2 and 20 characters long.
+	And assert that I see validation error message for Name field with text The Name field must be between 3 and 20 characters long.
 	When I clear the Name field
 	And I click the Save button
 	Then assert that I am on Admin/VerseType/Add page
 	And assert that I see validation error message for Name field with text The Name field is required.
-	When I fill the name field for position with AutoTest12AutoTest12AutoTest12AutoTest12AutoTest12AutoTest12AutoTest123
+	When I fill the BeatCounts field with 1
 	And I click the Save button
-	Then assert that I am on Admin/Position/All page
+	Then assert that I am on Admin/VerseType/Add page
+	And assert that I see validation error message for BeatCounts field with text The number must be between 2 and 120.
+	When I clear the BeatCounts field
+	And I click the Save button
+	Then assert that I am on Admin/VerseType/Add page
+	And assert that I see validation error message for BeatCounts field with text The Beats Count field is required.
+	When I fill the BeatCounts field with 15
+	And I click the Save button
+	Then assert that I am on Admin/VerseType/Add page
+	And assert that I see validation error message for BeatCounts field with text The number must be even.
+	When I fill the BeatCounts field with 122
+	And I click the Save button
+	Then assert that I am on Admin/VerseType/Add page
+	And assert that I see validation error message for BeatCounts field with text The number must be between 2 and 120.
+	When I fill the BeatCounts field with 120
+	When I fill the Name field with AutoTest12AutoTest123
+	And I click the Save button
+	Then assert that I am on Admin/VerseType/All page
 	And I have asserted that a position with name AutoTest12AutoTest12AutoTest12AutoTest12AutoTest12AutoTest12AutoTest12 that is active exists
 #
 #@positive
