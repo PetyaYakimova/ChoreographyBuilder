@@ -28,7 +28,8 @@ Scenario: Create verse type with invalid data
 	And I click the Save button
 	Then assert that I am on Admin/VerseType/Add page
 	And assert that I see validation error message for Name field with text The Name field is required.
-	When I fill the BeatCounts field with 1
+	When I fill the Name field with AutoTest12AutoTest123
+	And I fill the BeatCounts field with 1
 	And I click the Save button
 	Then assert that I am on Admin/VerseType/Add page
 	And assert that I see validation error message for BeatCounts field with text The number must be between 2 and 120.
@@ -36,20 +37,20 @@ Scenario: Create verse type with invalid data
 	And I click the Save button
 	Then assert that I am on Admin/VerseType/Add page
 	And assert that I see validation error message for BeatCounts field with text The Beats Count field is required.
-	When I fill the BeatCounts field with 15
-	And I click the Save button
-	Then assert that I am on Admin/VerseType/Add page
-	And assert that I see validation error message for BeatCounts field with text The number must be even.
 	When I fill the BeatCounts field with 122
 	And I click the Save button
 	Then assert that I am on Admin/VerseType/Add page
 	And assert that I see validation error message for BeatCounts field with text The number must be between 2 and 120.
+	When I fill the BeatCounts field with 15
+	And I click the Save button
+	Then assert that I am on Admin/VerseType/Add page
+	And assert that I see validation error message for BeatCounts field with text The number must be even.
 	When I fill the BeatCounts field with 120
-	When I fill the Name field with AutoTest12AutoTest123
 	And I click the Save button
 	Then assert that I am on Admin/VerseType/All page
-	And I have asserted that a position with name AutoTest12AutoTest12AutoTest12AutoTest12AutoTest12AutoTest12AutoTest12 that is active exists
-#
+	And assert that I see toaster message with text The verse type has been added successfully.
+	And I have asserted that a verse type with name AutoTest12AutoTest12, beats count 120, that is active exists
+
 #@positive
 #Scenario: Deactivate position
 #	Given I search in the table by AutoTest active position
