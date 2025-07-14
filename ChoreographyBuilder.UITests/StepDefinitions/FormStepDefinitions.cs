@@ -31,6 +31,12 @@ public class FormStepDefinitions : BaseStepDefinitions
         formPage.ClearField(fieldName);
     }
 
+    [StepDefinition(@"I fill the (.*) field with (.*)")]
+    public void IFillFieldWithValue(string fieldName, string value)
+    {
+        formPage.FillField(fieldName, value);
+    }
+
     [Then(@"assert that I see validation error message for (.*) field with text (.*)")]
     public void AssertThatISeeValidationErrorMessageForFieldWithText(string fieldName, string expectedMessage)
     {
