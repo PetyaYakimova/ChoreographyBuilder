@@ -51,13 +51,13 @@ Scenario: Create verse type with invalid data
 	And assert that I see toaster message with text The verse type has been added successfully.
 	And I have asserted that a verse type with name AutoTest12AutoTest12, beats count 120, that is active exists
 
-#@positive
-#Scenario: Deactivate position
-#	Given I search in the table by AutoTest active position
-#	When I click the Deactivate button
-#	Then assert that I am on Admin/Position/All page
-#	And assert that I see toaster message with text The status of the position has been successfully changed.
-#	And I have asserted that a position with name AutoTest active position that is not active exists
+@positive
+Scenario: Deactivate verse type
+	Given I search in the table by AutoTest active search term
+	When I click the Deactivate button
+	Then assert that I am on Admin/VerseType/All page
+	And assert that I see toaster message with text The status of the verse type has been successfully changed.
+	And I have asserted that a verse type with name AutoTest active, beats count 44, that is not active exists
 #
 #@positive
 #Scenario: Activate position
