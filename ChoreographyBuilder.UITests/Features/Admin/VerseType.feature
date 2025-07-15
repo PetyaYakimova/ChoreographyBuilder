@@ -58,14 +58,14 @@ Scenario: Deactivate verse type
 	Then assert that I am on Admin/VerseType/All page
 	And assert that I see toaster message with text The status of the verse type has been successfully changed.
 	And I have asserted that a verse type with name AutoTest active, beats count 44, that is not active exists
-#
-#@positive
-#Scenario: Activate position
-#	Given I search in the table by AutoTest inactive position
-#	When I click the Activate button
-#	Then assert that I am on Admin/Position/All page
-#	And assert that I see toaster message with text The status of the position has been successfully changed.
-#	And I have asserted that a position with name AutoTest inactive position that is active exists
+
+@positive
+Scenario: Activate verse type
+	Given I search in the table by AutoTest inactive search term
+	When I click the Activate button
+	Then assert that I am on Admin/VerseType/All page
+	And assert that I see toaster message with text The status of the verse type has been successfully changed.
+	And I have asserted that a verse type with name AutoTest inactive, beats count 16, that is active exists
 #
 #@positive
 #Scenario: Edit position
