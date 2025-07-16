@@ -66,16 +66,16 @@ Scenario: Activate verse type
 	Then assert that I am on Admin/VerseType/All page
 	And assert that I see toaster message with text The status of the verse type has been successfully changed.
 	And I have asserted that a verse type with name AutoTest inactive, beats count 16, that is active exists
-#
-#@positive
-#Scenario: Edit position
-#	Given I search in the table by AutoTest position for edit
-#	When I click the Edit button
-#	And I fill the name field for position with AutoTest position edited
-#	And I click the Save button
-#	Then assert that I see toaster message with text The position has been updated successfully.
-#	And assert that I am on Admin/Position/All page
-#	And I have asserted that a position with name AutoTest position edited that is active exists
+
+@positive
+Scenario: Edit verse type
+	Given I search in the table by AutoTest for edit search term
+	When I click the Edit button
+	And I fill the verse type form with name AutoTest edited, beat counts 46
+	And I click the Save button
+	Then assert that I see toaster message with text The verse type has been updated successfully.
+	And assert that I am on Admin/VerseType/All page
+	And I have asserted that a verse type with name AutoTest edited, beats count 46, that is active exists
 #
 #@positive
 #Scenario: Edit position with invalid data
