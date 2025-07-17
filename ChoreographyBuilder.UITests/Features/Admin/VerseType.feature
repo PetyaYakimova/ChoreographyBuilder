@@ -76,14 +76,19 @@ Scenario: Edit verse type
 	Then assert that I see toaster message with text The verse type has been updated successfully.
 	And assert that I am on Admin/VerseType/All page
 	And I have asserted that a verse type with name AutoTest edited, beats count 46, that is active exists
-#
-#@positive
-#Scenario: Edit position with invalid data
-#	Given I search in the table by edit
-#	When I click the Edit button
-#	And I clear the name field for position
-#	And I click the Save button
-#	Then assert that I see validation error message for Name field with text The Name field is required.
+
+@positive
+Scenario: Edit verse type with invalid data
+	Given I search in the table by edit search term
+	When I click the Edit button
+	And I clear the Name field
+	And I click the Save button
+	Then assert that I see validation error message for Name field with text The Name field is required.
+	When I fill the Name field with AutoTest edited
+	And I clear the BeatCounts field
+	And I click the Save button
+	Then assert that I am on Admin/VerseType/Add page
+	And assert that I see validation error message for BeatCounts field with text The Beats Count field is required.
 #
 #@positive
 #Scenario: Delete position
