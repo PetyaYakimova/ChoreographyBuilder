@@ -87,8 +87,10 @@ Scenario: Edit verse type with invalid data
 	When I fill the Name field with AutoTest edited
 	And I clear the BeatCounts field
 	And I click the Save button
-	Then assert that I am on Admin/VerseType/Add page
-	And assert that I see validation error message for BeatCounts field with text The Beats Count field is required.
+	Then assert that I see validation error message for BeatCounts field with text The Beats Count field is required.
+	When I fill the BeatCounts field with 45
+	And I click the Save button
+	Then assert that I see validation error message for BeatCounts field with text The number must be even.
 #
 #@positive
 #Scenario: Delete position
