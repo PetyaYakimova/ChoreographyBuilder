@@ -91,13 +91,13 @@ Scenario: Edit verse type with invalid data
 	When I fill the BeatCounts field with 45
 	And I click the Save button
 	Then assert that I see validation error message for BeatCounts field with text The number must be even.
-#
-#@positive
-#Scenario: Delete position
-#	Given I search in the table by AutoTest position for delete
-#	When I click the Delete button
-#	And I click the Delete button
-#	Then assert that I see toaster message with text The position has been deleted.
-#	And assert that I am on Admin/Position/All page
+
+@positive
+Scenario: Delete verse type
+	Given I search in the table by AutoTest for delete search term
+	When I click the Delete button
+	And I click the Delete button
+	Then assert that I see toaster message with text The verse type has been deleted.
+	And assert that I am on Admin/VerseType/All page
 
 # Add test for search verse type by beats count
