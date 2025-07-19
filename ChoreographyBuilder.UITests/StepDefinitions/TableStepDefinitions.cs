@@ -31,4 +31,14 @@ public class TableStepDefinitions : BaseStepDefinitions
         Assert.That(actualRowCount, Is.GreaterThanOrEqualTo(expectedRowCount),
             $"Expected at least {expectedRowCount} rows, but found {actualRowCount}.");
     }
+
+    [Then(@"assert that row with (.*) is (.*) in the table")]
+    public void AssertThatRowIsVisibleInTheTable(string value, string isVisible)
+    {
+        bool expectedVisibility = GetBooleanFromString(isVisible);
+        bool actualVisibility = basePage.IsRowWithValueVisible(value);
+        
+        Assert.That(actualVisibility, Is.EqualTo(expectedVisibility),
+            $"Expected row with value '{value}' to be {(expectedVisibility ? "visible" : "not visible")}, but it was {(actualVisibility ? "visible" : "not visible")}.");
+    }
 }
