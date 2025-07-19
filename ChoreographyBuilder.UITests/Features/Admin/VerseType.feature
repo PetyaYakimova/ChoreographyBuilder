@@ -6,6 +6,16 @@ Background:
 	And I open the Admin/VerseType/All page
 
 @positive
+Scenario: View verse type table and search in it
+	Then assert that the table has at least 2 rows
+	And assert that the table has columns with names Name, Beats Count, Active, Actions
+	And assert that the first row in the table has values for Name, Beats Count, Active and Actions columns
+	When I search in the table by AutoTest verse 1 search term
+	Then assert that the table has at least 1 rows
+	And assert that the first verse type in the table has name AutoTest verse 1 and beats count 32
+	When I clear the SearchTerm field
+
+@positive
 Scenario: Create verse type
 	Given I click add button
 	When I fill the verse type form with name AutoTest123, beat counts 40
@@ -99,5 +109,3 @@ Scenario: Delete verse type
 	And I click the Delete button
 	Then assert that I see toaster message with text The verse type has been deleted.
 	And assert that I am on Admin/VerseType/All page
-
-# Add test for search verse type by beats count
