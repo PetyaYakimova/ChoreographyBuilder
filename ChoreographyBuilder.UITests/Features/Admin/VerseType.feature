@@ -9,7 +9,8 @@ Background:
 Scenario: View verse type table and search in it
 	Then assert that the table has at least 2 rows
 	And assert that the table has columns with names Name, Beats Count, Active, Actions
-	And assert that the first row in the table has values for Name, Beats Count, Active and Actions columns
+	And assert that row with Autotest verse 1 is visible in the table
+	And assert that row with AutoTest verse 2 is visible in the table
 	When I search in the table by AutoTest verse 1 search term
 	Then assert that the table has at least 1 rows
 	And assert that the first verse type in the table has name AutoTest verse 1 and beats count 32
