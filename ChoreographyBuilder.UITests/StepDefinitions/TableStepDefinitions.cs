@@ -12,10 +12,16 @@ public class TableStepDefinitions : BaseStepDefinitions
         this.basePage = basePage;
     }
 
-    [StepDefinition($"I search in the table by (.*) search term")]
-    public void SearchInTableBySearchTerm(string searchTerm)
+    [StepDefinition($"I search in the table by (.*) search term in the (.*) search field")]
+    public void SearchInTableBySearchTerm(string searchTerm, string fieldName)
     {
-        basePage.SearchInTableBySearchTerm(searchTerm);
+        basePage.SearchInSearchFieldInTableBySearchTerm(fieldName, searchTerm);
+    }
+
+    [StepDefinition(@"I clear search field (.*)")]
+    public void ClearSearchField(string fieldName)
+    {
+        basePage.ClearSearchField(fieldName);
     }
 
     [StepDefinition(@"I click the (.*) button")]
