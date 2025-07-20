@@ -95,12 +95,21 @@ public class BasePage
 
     // Tables
     #region
-    public void SearchInTableBySearchTerm(string searchTerm)
+    public void SearchInSearchFieldInTableBySearchTerm(string fieldName, string searchTerm)
     {
-        Table_SearchInputField.Clear();
-        Table_SearchInputField.SendKeys(searchTerm);
-        Table_SearchInputField.SendKeys(Keys.Enter);
+        var searchField = driver.FindElement(By.Id(fieldName));
+        searchField.Clear();
+        searchField.SendKeys(searchTerm);
+        searchField.SendKeys(Keys.Enter);
         Thread.Sleep(1000); // Wait for the table to update after search
+    }
+
+    public void ClearSearchField(string fieldName)
+    {
+        var searchField = driver.FindElement(By.Id(fieldName));
+        searchField.Clear();
+        searchField.SendKeys(Keys.Enter);
+        Thread.Sleep(1000); // Wait for the table to update after clearing search
     }
 
     public int GetNumberOfRowsInTable()
@@ -117,5 +126,19 @@ public class BasePage
 
         return rowsData;
     }
+
+    public List<string> GetTableColumnNames()
+    {
+        var headerRow = driver.FindElement(By.TagName("thead"))
+            .FindElement(By.TagName("tr"));
+
+        return headerRow.FindElements(By.TagName("th"))
+            .Where(el => !string.IsNullOrEmpty(el.Text))
+            .Select(el => el.Text)
+            .ToList();
+    }
+
+    public bool IsRowWithValueVisible(string value)
+        => GetTableRowsData().Any(row => row.Any(cell => cell.Contains(value)));
     #endregion
 }
