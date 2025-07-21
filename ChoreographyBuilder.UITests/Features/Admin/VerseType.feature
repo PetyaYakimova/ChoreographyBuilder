@@ -8,17 +8,18 @@ Background:
 @positive
 Scenario: View verse type table and search in it
 	Then assert that the table has at least 2 rows
-	And assert that the table has columns with names Name, Beats Count, Active, Actions
+	And assert that the table has columns with names Name, Beats Count
 	And assert that row with AutoTest verse 1 is visible in the table
 	And assert that row with AutoTest verse 2 is visible in the table
-	When I search in the table by AutoTest verse 1 search term
+	When I search in the table by AutoTest verse 1 search term in the SearchTerm search field
 	Then assert that the table has at least 1 rows
 	And assert that the first verse type in the table has name AutoTest verse 1 and beats count 32
 	And assert that row with AutoTest verse 1 is visible in the table
 	And assert that row with AutoTest verse 2 is not visible in the table
-	When I clear the SearchTerm field
+	When I clear search field SearchTerm
 	Then assert that row with AutoTest verse 1 is visible in the table
 	And assert that row with AutoTest verse 2 is visible in the table
+	#add steps to search by beats count
 
 @positive
 Scenario: Create verse type
@@ -28,7 +29,7 @@ Scenario: Create verse type
 	Then assert that I am on Admin/VerseType/All page
 	And assert that I see toaster message with text The verse type has been added successfully.
 	And I have asserted that a verse type with name AutoTest123, beats count 40, that is active exists
-	When I search in the table by AutoTest123 search term
+	When I search in the table by AutoTest123 search term in the SearchTerm search field
 	Then assert that the table has at least 1 rows
 	And assert that the first verse type in the table has name AutoTest123 and beats count 40
 
@@ -68,7 +69,7 @@ Scenario: Create verse type with invalid data
 
 @positive
 Scenario: Deactivate verse type
-	Given I search in the table by AutoTest active search term
+	Given I search in the table by AutoTest active search term in the SearchTerm search field
 	When I click the Deactivate button
 	Then assert that I am on Admin/VerseType/All page
 	And assert that I see toaster message with text The status of the verse type has been successfully changed.
@@ -76,7 +77,7 @@ Scenario: Deactivate verse type
 
 @positive
 Scenario: Activate verse type
-	Given I search in the table by AutoTest inactive search term
+	Given I search in the table by AutoTest inactive search term in the SearchTerm search field
 	When I click the Activate button
 	Then assert that I am on Admin/VerseType/All page
 	And assert that I see toaster message with text The status of the verse type has been successfully changed.
@@ -84,7 +85,7 @@ Scenario: Activate verse type
 
 @positive
 Scenario: Edit verse type
-	Given I search in the table by AutoTest for edit search term
+	Given I search in the table by AutoTest for edit search term in the SearchTerm search field
 	When I click the Edit button
 	And I fill the verse type form with name AutoTest edited, beat counts 46
 	And I click the Save button
@@ -94,7 +95,7 @@ Scenario: Edit verse type
 
 @positive
 Scenario: Edit verse type with invalid data
-	Given I search in the table by edit search term
+	Given I search in the table by edit search term in the SearchTerm search field
 	When I click the Edit button
 	And I clear the Name field
 	And I click the Save button
@@ -109,7 +110,7 @@ Scenario: Edit verse type with invalid data
 
 @positive
 Scenario: Delete verse type
-	Given I search in the table by AutoTest for delete search term
+	Given I search in the table by AutoTest for delete search term in the SearchTerm search field
 	When I click the Delete button
 	And I click the Delete button
 	Then assert that I see toaster message with text The verse type has been deleted.
