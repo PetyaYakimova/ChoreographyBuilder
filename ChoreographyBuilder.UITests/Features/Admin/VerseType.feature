@@ -19,7 +19,11 @@ Scenario: View verse type table and search in it
 	When I clear search field SearchTerm
 	Then assert that row with AutoTest verse 1 is visible in the table
 	And assert that row with AutoTest verse 2 is visible in the table
-	When I search in the table by 48 search term in the BeatsCount search field
+	When I search in the table by 48 search term in the SearchBeats search field
+	Then assert that the table has at least 1 rows
+	And assert that the first verse type in the table has name AutoTest verse 2 and beats count 48
+	And assert that row with AutoTest verse 1 is not visible in the table
+	And assert that row with AutoTest verse 2 is visible in the table
 	#add steps to search by beats count
 
 @positive
