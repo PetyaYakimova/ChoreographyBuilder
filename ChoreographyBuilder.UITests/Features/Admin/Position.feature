@@ -1,5 +1,5 @@
 ﻿Feature: Position
-An admin user can create, edit, activate and deactivate and delete a position.
+An admin user can view, create, edit, activate, deactivate, delete and search positions.
 
 Background:
 	Given I log in as AdminUser
