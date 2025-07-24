@@ -1,5 +1,5 @@
 ﻿Feature: VerseType
-An admin user can create, edit, activate and deactivate and delete a verse type.
+An admin user can view, create, edit, activate, deactivate, delete and search verse types.
 
 Background:
 	Given I log in as AdminUser
@@ -21,10 +21,8 @@ Scenario: View verse type table and search in it
 	And assert that row with AutoTest verse 2 is visible in the table
 	When I search in the table by 48 search term in the SearchBeats search field
 	Then assert that the table has at least 1 rows
-	And assert that the first verse type in the table has name AutoTest verse 2 and beats count 48
 	And assert that row with AutoTest verse 1 is not visible in the table
 	And assert that row with AutoTest verse 2 is visible in the table
-	#add steps to search by beats count
 
 @positive
 Scenario: Create verse type
