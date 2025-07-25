@@ -7,6 +7,5 @@ Background:
 
 @positive
 Scenario: View users table and search in it
-	Given [context]
-	When [action]
-	Then [outcome]
+	Then assert that the table has at least 3 rows
+	And assert that the table has columns with names Name, Beats Count
