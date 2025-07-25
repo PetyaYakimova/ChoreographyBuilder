@@ -8,4 +8,4 @@ Background:
 @positive
 Scenario: View users table and search in it
 	Then assert that the table has at least 3 rows
-	And assert that the table has columns with names Name, Beats Count
+	And assert that the table has columns with names Email, Figures, Verse Choreographies, Full Choreographies
