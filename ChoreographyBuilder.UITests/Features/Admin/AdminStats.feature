@@ -9,8 +9,10 @@ Background:
 Scenario: Check stats on the stats page
 	Then assert that I see at least 5 for the All Positions label
 	And assert that I see at least 4 for the Active Positions label
-	Then assert that I see at least 5 for the All Verse Types label
+	And assert that I see at least 5 for the All Verse Types label
 	And assert that I see at least 4 for the Active Verse Types label
+	And assert that I see at least 5 for the All Figures label
+	And assert that I see at least 2 for the Users With Figures label
 
 @positive
 Scenario: Navigate from the stats page 
