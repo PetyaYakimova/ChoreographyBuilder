@@ -13,7 +13,8 @@ Scenario: Check stats on the stats page
 	And assert that I see at least 4 for the Active Verse Types label
 	And assert that I see at least 5 for the All Figures label
 	And assert that I see at least 2 for the Users With Figures label
-	And assert that I see at least 4 for the All verse Choreographies label
+	And assert that I see at least 4 for the All Verse Choreographies label
+	And assert that I see at least 2 for the Users With Verse Choreographies label
 
 @positive
 Scenario: Navigate from the stats page 
