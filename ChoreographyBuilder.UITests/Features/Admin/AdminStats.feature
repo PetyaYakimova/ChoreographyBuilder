@@ -16,6 +16,7 @@ Scenario: Check stats on the stats page
 	And assert that I see at least 4 for the All Verse Choreographies label
 	And assert that I see at least 2 for the Users With Verse Choreographies label
 	And assert that I see at least 2 for the All Full Choreographies label
+	And assert that I see at least 2 for the Users With Full Choreographies label
 
 @positive
 Scenario: Navigate from the stats page 
