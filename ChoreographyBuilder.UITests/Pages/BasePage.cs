@@ -52,7 +52,11 @@ public class BasePage
         => driver.Url;
 
     public string GetCurrentPageWithoutParameters()
-        => GetCurrentURL().Replace(settings.DomainSettings.Domain, string.Empty).Split("?")[0];
+    {
+        wait.Until(webDriver => ((IJavaScriptExecutor)webDriver)
+            .ExecuteScript("return document.readyState").ToString().Equals("complete"));
+        return GetCurrentURL().Replace(settings.DomainSettings.Domain, string.Empty).Split("?")[0];
+    }
 
     public string GetGreetingFromHeader()
         => HeaderGreetingText.Text;
