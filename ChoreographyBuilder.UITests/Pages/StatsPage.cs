@@ -10,6 +10,18 @@ public class StatsPage : BasePage
     {
     }
 
+    private IWebElement SeeAllPositionsLink => driver.FindElement(SeeAllPositionsLinkBy);
+    private By SeeAllPositionsLinkBy => By.Id("See all positions");
+
+    private IWebElement SeeAllVerseTypesLink => driver.FindElement(SeeAllVerseTypesLinkBy);
+    private By SeeAllVerseTypesLinkBy => By.Id("See all verse types");
+
     public string GetValueForLabel(string label)
         => driver.FindElement(By.XPath($"//label[starts-with(text(), '{label}')]/../p")).Text;
+
+    public void ClickSeeAllPositionsLink()
+        => SeeAllPositionsLink.Click();
+
+    public void ClickSeeAllVerseTypesLink()
+        => SeeAllVerseTypesLink.Click();
 }
