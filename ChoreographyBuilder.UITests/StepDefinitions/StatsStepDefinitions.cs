@@ -12,7 +12,19 @@ public class StatsStepDefinitions : BaseStepDefinitions
         this.statsPage = statsPage;
     }
 
-    [StepDefinition(@"assert that I see at least (.*) for the (.*) label")]
+    [StepDefinition(@"I click the See all positions link")]
+    public void ClickSeeAllPositionsLink()
+    {
+        statsPage.ClickSeeAllPositionsLink();
+    }
+
+    [StepDefinition(@"I click the See all verse types link")]
+    public void ClickSeeAllVersetypensLink()
+    {
+        statsPage.ClickSeeAllVerseTypesLink();
+    }
+
+    [Then(@"assert that I see at least (.*) for the (.*) label")]
     public void AssertThatISeeAtLeastValueForLabel(int expectedMinValue, string label)
     {
         int actualValue = int.Parse(statsPage.GetValueForLabel(label));
