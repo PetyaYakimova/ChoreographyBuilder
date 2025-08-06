@@ -20,6 +20,8 @@ Scenario: Check stats on the stats page
 
 @positive
 Scenario: Navigate from the stats page 
-	Given [context]
-	When [action]
-	Then [outcome]
+	When I click the See all positions link
+	Then assert that I am on Admin/Position/All page
+	When I open the Admin/Home/Stats page
+	And I click the See all verse types link
+	Then assert that I am on Admin/VerseType/All page
