@@ -37,6 +37,7 @@
 
   <ItemGroup>
     <Folder Include="Features\Admin\" />
+    <Folder Include="Features\User\" />
   </ItemGroup>
 
   <ItemGroup>
