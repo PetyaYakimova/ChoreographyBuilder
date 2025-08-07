@@ -1,6 +1,10 @@
 ﻿Feature: UserStats
 User can see stats for their own data and navigate from the page
 
+Background:
+	Given I log in as FirstUser
+	And I open the Home/Stats page
+
 @positive
 Scenario: Check stats on the stats page
 	Then assert that I see at least 5 for the All Positions label
