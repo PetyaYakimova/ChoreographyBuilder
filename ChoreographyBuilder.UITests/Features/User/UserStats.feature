@@ -7,16 +7,9 @@ Background:
 
 @positive
 Scenario: Check stats on the stats page
-	Then assert that I see at least 5 for the All Positions label
-	And assert that I see at least 4 for the Active Positions label
-	And assert that I see at least 5 for the All Verse Types label
-	And assert that I see at least 4 for the Active Verse Types label
-	And assert that I see at least 5 for the All Figures label
-	And assert that I see at least 2 for the Users With Figures label
-	And assert that I see at least 4 for the All Verse Choreographies label
-	And assert that I see at least 2 for the Users With Verse Choreographies label
-	And assert that I see at least 2 for the All Full Choreographies label
-	And assert that I see at least 2 for the Users With Full Choreographies label
+	Then assert that I see at least 4 for the My Figures label
+	And assert that I see at least 3 for the My Verse Choreographies label
+	And assert that I see at least 1 for the My Full Choreographies label
 
 @positive
 Scenario: Navigate from the stats page 
