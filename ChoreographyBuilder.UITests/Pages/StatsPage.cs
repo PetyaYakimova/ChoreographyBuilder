@@ -16,6 +16,9 @@ public class StatsPage : BasePage
     private IWebElement SeeAllVerseTypesLink => driver.FindElement(SeeAllVerseTypesLinkBy);
     private By SeeAllVerseTypesLinkBy => By.Id("See all verse types");
 
+    private IWebElement SeeMyFiguresLink => driver.FindElement(SeeMyFiguresLinkBy);
+    private By SeeMyFiguresLinkBy => By.Id("See my figures");
+
     public string GetValueForLabel(string label)
         => driver.FindElement(By.XPath($"//label[starts-with(text(), '{label}')]/../p")).Text;
 
@@ -24,4 +27,7 @@ public class StatsPage : BasePage
 
     public void ClickSeeAllVerseTypesLink()
         => SeeAllVerseTypesLink.Click();
+
+    public void ClickSeeMyFiguresLink()
+        => SeeMyFiguresLink.Click();
 }
