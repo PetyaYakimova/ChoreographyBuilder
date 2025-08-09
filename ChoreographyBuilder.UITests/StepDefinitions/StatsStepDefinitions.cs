@@ -19,9 +19,15 @@ public class StatsStepDefinitions : BaseStepDefinitions
     }
 
     [StepDefinition(@"I click the See all verse types link")]
-    public void ClickSeeAllVersetypensLink()
+    public void ClickSeeAllVerseTypesLink()
     {
         statsPage.ClickSeeAllVerseTypesLink();
+    }
+
+    [StepDefinition(@"I click the See my figures link")]
+    public void ClickSeeMyFiguresLink()
+    {
+        statsPage.ClickSeeMyFiguresLink();
     }
 
     [Then(@"assert that I see at least (.*) for the (.*) label")]
