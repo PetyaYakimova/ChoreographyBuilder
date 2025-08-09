@@ -13,8 +13,8 @@ Scenario: Check stats on the stats page
 
 @positive
 Scenario: Navigate from the stats page 
-	When I click the See all positions link
-	Then assert that I am on Admin/Position/All page
-	When I open the Admin/Home/Stats page
+	When I click the See my figures link
+	Then assert that I am on Figure/Mine page
+	When I open the Home/Stats page
 	And I click the See all verse types link
 	Then assert that I am on Admin/VerseType/All page
