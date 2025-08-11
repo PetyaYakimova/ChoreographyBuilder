@@ -19,6 +19,12 @@ public class StatsPage : BasePage
     private IWebElement SeeMyFiguresLink => driver.FindElement(SeeMyFiguresLinkBy);
     private By SeeMyFiguresLinkBy => By.Id("See my figures");
 
+    private IWebElement SeeMyVerseChoreographiesLink => driver.FindElement(SeeMyVerseChoreographiesLinkBy);
+    private By SeeMyVerseChoreographiesLinkBy => By.Id("See my verse choreographies");
+
+    private IWebElement SeeMyFullChoreographiesLink => driver.FindElement(SeeMyFullChoreographiesLinkBy);
+    private By SeeMyFullChoreographiesLinkBy => By.Id("See my full choreographies");
+
     public string GetValueForLabel(string label)
         => driver.FindElement(By.XPath($"//label[starts-with(text(), '{label}')]/../p")).Text;
 
@@ -30,4 +36,10 @@ public class StatsPage : BasePage
 
     public void ClickSeeMyFiguresLink()
         => SeeMyFiguresLink.Click();
+
+    public void ClickSeeMyVerseChoreographiesLink()
+        => SeeMyVerseChoreographiesLink.Click();
+
+    public void ClickSeeMyFullChoreographiesLink()
+        => SeeMyFullChoreographiesLink.Click();
 }
