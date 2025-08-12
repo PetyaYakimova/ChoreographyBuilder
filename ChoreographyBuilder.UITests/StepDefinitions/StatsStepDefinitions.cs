@@ -30,6 +30,18 @@ public class StatsStepDefinitions : BaseStepDefinitions
         statsPage.ClickSeeMyFiguresLink();
     }
 
+    [StepDefinition(@"I click the See my verse choreographies link")]
+    public void ClickSeeMyVerseChoreogprahiesLink()
+    {
+        statsPage.ClickSeeMyVerseChoreographiesLink();
+    }
+
+    [StepDefinition(@"I click the See my full choreographies link")]
+    public void ClickSeeMyFullChoreographiesLink()
+    {
+        statsPage.ClickSeeMyFullChoreographiesLink();
+    }
+
     [Then(@"assert that I see at least (.*) for the (.*) label")]
     public void AssertThatISeeAtLeastValueForLabel(int expectedMinValue, string label)
     {
