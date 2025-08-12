@@ -16,5 +16,8 @@ Scenario: Navigate from the stats page
 	When I click the See my figures link
 	Then assert that I am on Figure/Mine page
 	When I open the Home/Stats page
-	And I click the See all verse types link
-	Then assert that I am on Admin/VerseType/All page
+	And I click the See my verse choreographies link
+	Then assert that I am on VerseChoreography/Mine page
+	When I open the Home/Stats page
+	And I click the See my full choreographies link
+	Then assert that I am on FullChoreography/Mine page
