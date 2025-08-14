@@ -5,8 +5,6 @@ Background:
 	Given I log in as FirstUser
 	And I open the Figure/Mine page
 
-@tag1
-Scenario: [scenario name]
-	Given [context]
-	When [action]
-	Then [outcome]
+@positive
+Scenario: View figure table and search in it
+	Then assert that the table has at least 2 rows
