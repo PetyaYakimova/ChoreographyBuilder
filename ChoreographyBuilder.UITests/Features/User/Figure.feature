@@ -9,3 +9,6 @@ Background:
 Scenario: View figure table and search in it
 	Then assert that the table has at least 2 rows
 	And assert that the table has columns with names Name, Number of options, Highlight, Favourite, Shared
+	And assert that row with First figure is visible in the table
+	And assert that row with Second figure is visible in the table
+	And assert that row with Fourth figure is not visible in the table
