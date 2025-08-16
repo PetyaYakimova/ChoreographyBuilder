@@ -12,3 +12,8 @@ Scenario: View figure table and search in it
 	And assert that row with First figure is visible in the table
 	And assert that row with Second figure is visible in the table
 	And assert that row with Fourth figure is not visible in the table
+	When I search in the table by First figure search term in the SearchTerm search field
+	Then assert that the table has at least 1 rows
+	And assert that row with First figure is visible in the table
+	And assert that row with Second figure is not visible in the table
+	And assert that row with Fourth figure is not visible in the table
