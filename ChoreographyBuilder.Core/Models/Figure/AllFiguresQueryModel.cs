@@ -17,7 +17,7 @@ public class AllFiguresQueryModel : AllEntitiesQueryBaseModel <FigureTableViewMo
 	[Display(Name = "Option end position")]
 	public int? EndPosition { get; init; }
 
-	[Display(Name = "Opion beats count")]
+	[Display(Name = "Option beats count")]
 	public int? BeatsCount { get; init; }
 
 	[Display(Name = "Option dynamics type")]
