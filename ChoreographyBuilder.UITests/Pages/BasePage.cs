@@ -116,6 +116,16 @@ public class BasePage
         Thread.Sleep(1000); // Wait for the table to update after clearing search
     }
 
+    public void SelectOptionInDropdownForSearch(string option, string dropdownName)
+    {
+        var dropdownField = driver.FindElement(By.Id(dropdownName));
+        dropdownField.Click();
+
+        driver.FindElement(By.XPath($"//option[contains(text(), '{option}')]")).Click();
+
+        Thread.Sleep(1000); // Wait for the table to update after search
+    }
+
     public int GetNumberOfRowsInTable()
         => driver.FindElements(Table_RowBy).Count;
 
