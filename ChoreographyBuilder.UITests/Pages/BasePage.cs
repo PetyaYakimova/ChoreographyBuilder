@@ -30,8 +30,8 @@ public class BasePage
     protected IWebElement HederLogo => driver.FindElement(HederLogoBy);
     protected By HederLogoBy => By.ClassName("navbar-brand");
 
-    protected IWebElement Table_SearchInputField => driver.FindElement(Table_SearchInputFieldBy);
-    protected By Table_SearchInputFieldBy => By.Id("SearchTerm");
+    protected IWebElement Table_SearchButton => driver.FindElement(Table_SearchButtonBy);
+    protected By Table_SearchButtonBy => By.XPath("//input[@value='Search']");
 
     protected IWebElement Table_Row => driver.FindElement(Table_RowBy);
     protected By Table_RowBy => By.XPath("//tbody//tr");
