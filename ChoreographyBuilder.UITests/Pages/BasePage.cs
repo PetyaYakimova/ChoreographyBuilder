@@ -122,7 +122,7 @@ public class BasePage
         dropdownField.Click();
 
         driver.FindElement(By.XPath($"//option[contains(text(), '{option}')]")).Click();
-
+        Table_SearchButton.Click(); // Click the search button to apply the filter
         Thread.Sleep(1000); // Wait for the table to update after search
     }
 
