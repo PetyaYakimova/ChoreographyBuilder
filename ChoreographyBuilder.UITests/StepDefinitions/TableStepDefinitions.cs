@@ -24,6 +24,12 @@ public class TableStepDefinitions : BaseStepDefinitions
         basePage.ClearSearchField(fieldName);
     }
 
+    [StepDefinition(@"I search in the table by (.*) dropdown option in (.*) dropdown")]
+    public void ISearchInTableByDropdownOption(string option, string dropdownName)
+    {
+        basePage.SelectOptionInDropdownForSearch(dropdownName, option);
+    }
+
     [StepDefinition(@"I click the (.*) button")]
     public void IClickTheButton(string buttonName)
     {
