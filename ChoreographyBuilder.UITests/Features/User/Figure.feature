@@ -19,4 +19,5 @@ Scenario: View figure table and search in it
 	When I clear search field SearchTerm
 	Then assert that row with First figure is visible in the table
 	And assert that row with Second figure is visible in the table
+	When I search in the table by AutoTest position 1 dropdown option in StartPosition dropdown
 	# add searching by the dropdowns for start and end position and then by beats count and the dropdown for dynamics type
