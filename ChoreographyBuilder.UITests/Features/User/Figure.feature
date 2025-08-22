@@ -27,5 +27,7 @@ Scenario: View figure table and search in it
 	And assert that row with Second figure is visible in the table
 	And assert that row with Highlight figure is not visible in the table
 	When I search in the table by All dropdown option in StartPosition dropdown
-
+	Then assert that row with First figure is visible in the table
+	And assert that row with Second figure is visible in the table
+	And assert that row with Highlight figure is visible in the table
 	# add searching by the dropdowns for start and end position and then by beats count and the dropdown for dynamics type
