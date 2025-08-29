@@ -48,4 +48,4 @@ Scenario: View figure table and search in it
 	And assert that row with Highlight figure is visible in the table
 	When I search in the table by Fast dropdown option in DynamicsType dropdown
 	Then assert that row with Second figure is visible in the table
-	# add searching by the dropdowns for start and end position and then by beats count and the dropdown for dynamics type
+	And assert that row with First figure is not visible in the table
