@@ -27,7 +27,7 @@ public class TableStepDefinitions : BaseStepDefinitions
     [StepDefinition(@"I search in the table by (.*) dropdown option in (.*) dropdown")]
     public void ISearchInTableByDropdownOption(string option, string dropdownName)
     {
-        basePage.SelectOptionInDropdownForSearch(dropdownName, option);
+        basePage.SelectOptionInDropdownForSearch(option, dropdownName);
     }
 
     [StepDefinition(@"I click the (.*) button")]
