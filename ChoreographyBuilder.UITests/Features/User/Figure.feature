@@ -49,3 +49,4 @@ Scenario: View figure table and search in it
 	When I search in the table by Fast dropdown option in DynamicsType dropdown
 	Then assert that row with Second figure is visible in the table
 	And assert that row with First figure is not visible in the table
+	And assert that row with Highlight figure is not visible in the table
