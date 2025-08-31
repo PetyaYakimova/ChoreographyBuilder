@@ -50,3 +50,7 @@ Scenario: View figure table and search in it
 	Then assert that row with Second figure is visible in the table
 	And assert that row with First figure is not visible in the table
 	And assert that row with Highlight figure is not visible in the table
+
+@positive
+Scenario: Create figure
+	Given I click add button
