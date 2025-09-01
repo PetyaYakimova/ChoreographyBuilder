@@ -16,8 +16,18 @@ public class FormPage : BasePage
         field.Clear();
         field.SendKeys(value);
     }
+
     public void ClearField(string fieldName)
         => driver.FindElement(By.Id(fieldName)).Clear();
+
+    public void ClickCheckbox(string checkboxName)
+    {
+        IWebElement checkbox = driver.FindElement(By.Id(checkboxName));
+        if (!checkbox.Selected)
+        {
+            checkbox.Click();
+        }
+    }
 
     public string GetValidationErrorMessage(string fieldName)
     {
