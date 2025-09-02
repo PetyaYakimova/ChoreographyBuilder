@@ -25,6 +25,30 @@ public class FormStepDefinitions : BaseStepDefinitions
         formPage.FillField("BeatCounts", beatsCount);
     }
 
+    [StepDefinition(@"I fill the figure form with name (.*), that (.*) highlight, that (.*) favourite, that (.*) shared with other users")]
+    public void IFillTheFigureFormWithData(string name, string isHighlight, string isFavourite, string isShared)
+    {
+        bool isHighlightBool = GetBooleanFromString(isHighlight);
+        bool isFavouriteBool = GetBooleanFromString(isFavourite);
+        bool isSharedBool = GetBooleanFromString(isShared);
+
+        formPage.FillField("Name", name);
+        if (isHighlightBool)
+        {
+            formPage.ClickCheckbox("IsHighlight");
+        }
+
+        if (isFavouriteBool)
+        {
+            formPage.ClickCheckbox("IsFavourite");
+        }
+
+        if (isSharedBool)
+        {
+            formPage.ClickCheckbox("CanBeShared");
+        }
+    }
+
     [StepDefinition(@"I clear the (.*) field")]
     public void IClearField(string fieldName)
     {
