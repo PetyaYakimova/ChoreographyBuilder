@@ -54,3 +54,4 @@ Scenario: View figure table and search in it
 @positive
 Scenario: Create figure
 	Given I click add button
+	When I fill the figure form with name AutoTest999, that is highlight, that is not favourite, that is not shared with other users
