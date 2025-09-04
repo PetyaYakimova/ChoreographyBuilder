@@ -56,3 +56,4 @@ Scenario: Create figure
 	Given I click add button
 	When I fill the figure form with name AutoTest999, that is highlight, that is not favourite, that is not shared with other users
 	And I click the Save button
+	Then assert that I am on Figure/Mine/Options page
