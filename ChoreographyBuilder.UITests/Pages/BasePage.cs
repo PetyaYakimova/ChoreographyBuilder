@@ -76,6 +76,18 @@ public class BasePage
         driver.ExecuteJavaScript("arguments[0].click();", AddButton);
     }
 
+    public bool IsElementWithTextVisible(string text)
+    {
+        try
+        {
+            return driver.FindElement(By.XPath($"//*[contains(text(), '{text}')]")).Displayed;
+        }
+        catch (NoSuchElementException)
+        {
+            return false;
+        }
+    }
+
     public bool DoesElementExistAndIsDisplayed(By locator)
     {
         try
