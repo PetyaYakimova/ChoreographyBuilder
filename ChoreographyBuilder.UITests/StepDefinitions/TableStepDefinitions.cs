@@ -61,4 +61,11 @@ public class TableStepDefinitions : BaseStepDefinitions
         var actualColumnNames = basePage.GetTableColumnNames();
         CollectionAssert.AreEqual(expectedColumnNames, actualColumnNames);
     }
+
+    [Then(@"assert that I see element with text (.*)")]
+    public void AssertThatISeeElementWithText(string text)
+    {
+        bool isVisible = basePage.IsElementWithTextVisible(text);
+        Assert.IsTrue(isVisible, $"Expected to see element with text '{text}', but it was not found.");
+    }
 }
