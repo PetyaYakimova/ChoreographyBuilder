@@ -63,3 +63,4 @@ Scenario: Create figure
 Scenario: Create figure with invalid data
 	Given I click add button
 	When I fill the Name field with AB
+	And I click the Save button
