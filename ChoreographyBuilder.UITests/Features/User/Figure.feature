@@ -67,3 +67,4 @@ Scenario: Create figure with invalid data
 	Then assert that I am on Admin/VerseType/Add page
 	And assert that I see validation error message for Name field with text The Name field must be between 3 and 20 characters long.
 	When I clear the Name field
+	And I click the Save button
