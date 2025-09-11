@@ -64,7 +64,8 @@ Scenario: Create figure with invalid data
 	Given I click add button
 	When I fill the Name field with AB
 	And I click the Save button
-	Then assert that I am on Admin/VerseType/Add page
+	Then assert that I am on Figure/Add page
 	And assert that I see validation error message for Name field with text The Name field must be between 3 and 20 characters long.
 	When I clear the Name field
 	And I click the Save button
+	Then assert that I am on Figure/Add page
