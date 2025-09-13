@@ -71,3 +71,4 @@ Scenario: Create figure with invalid data
 	Then assert that I am on Figure/Add page
 	And assert that I see validation error message for Name field with text The Name field is required.
 	When I fill the Name field with AutoTest12AutoTest123
+	Then assert that I see toaster message with text The figure has been added successfully.
