@@ -58,7 +58,7 @@ Scenario: Create figure
 	And I click the Save button
 	Then assert that I see toaster message with text The figure has been added successfully.
 	And assert that I see element with text No options found by these search criteria! A figure cannot be used in a choreography if it doesn't have options. Please add options.
-	And I have asserted that a figure with name AutoTest99,that is highlight, that is not favourite, that is not shared, that is active exists
+	And I have asserted that a figure with name AutoTest99, that is highlight, that is not favourite, that is not shared, that is active exists
 
 @negative
 Scenario: Create figure with invalid data
