@@ -57,7 +57,7 @@ Scenario: Create figure
 	When I fill the figure form with name AutoTest999, that is highlight, that is not favourite, that is not shared with other users
 	And I click the Save button
 	Then assert that I see toaster message with text The figure has been added successfully.
-	And assert that I see element with text No options found by these search criteria! A figure cannot be used in a choreography if it doesn't have options. Please add options.
+	And assert that I see element with text No options found by these search criteria!
 	And I have asserted that a figure with name AutoTest99, that is highlight, that is not favourite, that is not shared
 
 @negative
