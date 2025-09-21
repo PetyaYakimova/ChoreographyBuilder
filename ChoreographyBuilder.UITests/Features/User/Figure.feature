@@ -58,7 +58,7 @@ Scenario: Create figure
 	And I click the Save button
 	Then assert that I see toaster message with text The figure has been added successfully.
 	And assert that I see element with text No options found by these search criteria!
-	And I have asserted that a figure with name AutoTest99, that is highlight, that is favourite, that is not shared
+	And I have asserted that a figure with name AutoTest999, that is highlight, that is favourite, that is not shared
 
 @negative
 Scenario: Create figure with invalid data
