@@ -98,6 +98,7 @@ public class SetUpHook
                 ChromeOptions options = new ChromeOptions();
                 //options.AddArgument("--headless");
                 options.AddArgument("--enable-automation");
+                options.AddArgument("--ignore-certificate-errors");
                 options.PageLoadStrategy = PageLoadStrategy.Normal;
                 IWebDriver driver = new ChromeDriver(".", options);
 
@@ -107,6 +108,8 @@ public class SetUpHook
                 FirefoxOptions firefoxOptions = new FirefoxOptions();
                 //firefoxOptions.AddArgument("--headless");
                 firefoxOptions.AddArgument("--enable-automation");
+                firefoxOptions.AcceptInsecureCertificates = true;
+                firefoxOptions.AddArgument("--no-sandbox");
                 firefoxOptions.PageLoadStrategy = PageLoadStrategy.Normal;
                 IWebDriver firefoxDriver = new FirefoxDriver(".", firefoxOptions);
 
