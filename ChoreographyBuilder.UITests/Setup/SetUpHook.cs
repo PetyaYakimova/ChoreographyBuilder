@@ -3,6 +3,7 @@ using ChoreographyBuilder.UITests.Repositories;
 using Microsoft.Extensions.Configuration;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Edge;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Support.UI;
 using TechTalk.SpecFlow;
@@ -114,6 +115,16 @@ public class SetUpHook
                 IWebDriver firefoxDriver = new FirefoxDriver(".", firefoxOptions);
 
                 return firefoxDriver;
+
+            case "edge":
+                EdgeOptions edgeOptions = new EdgeOptions();
+                //edgeOptions.AddArgument("--headless");
+                edgeOptions.AddArgument("--enable-automation");
+                edgeOptions.AddArgument("--ignore-certificate-errors");
+                edgeOptions.PageLoadStrategy = PageLoadStrategy.Normal;
+                IWebDriver edgeDriver = new EdgeDriver(".", edgeOptions);
+
+                return edgeDriver;
 
             default:
                 throw new ArgumentException($"Browser {browserName} is not supported.");
