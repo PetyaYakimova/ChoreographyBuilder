@@ -75,3 +75,7 @@ Scenario: Create figure with invalid data
 	And I click the Save button
 	Then assert that I see toaster message with text The figure has been added successfully.
 	And I have asserted that a figure with name AutoTest12AutoTest12AutoTest12AutoTest12AutoTest12AutoTest12AutoTest12, that is not highlight, that is not favourite, that is not shared
+
+@positive
+Scenario: Edit figure
+	Given I search in the table by AutoTest for edit search term in the SearchTerm search field
