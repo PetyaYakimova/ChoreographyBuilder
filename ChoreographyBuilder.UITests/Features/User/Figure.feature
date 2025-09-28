@@ -79,3 +79,4 @@ Scenario: Create figure with invalid data
 @positive
 Scenario: Edit figure
 	Given I search in the table by AutoTest for edit search term in the SearchTerm search field
+	When I click the Edit button
