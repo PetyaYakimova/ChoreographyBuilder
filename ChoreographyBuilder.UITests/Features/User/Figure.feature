@@ -80,3 +80,4 @@ Scenario: Create figure with invalid data
 Scenario: Edit figure
 	Given I search in the table by AutoTest for edit search term in the SearchTerm search field
 	When I click the Edit button
+	And I fill the figure form with name AutoTest88 Edited, that is not highlight, that is not favourite, that is shared with other users
