@@ -80,8 +80,8 @@ Scenario: Create figure with invalid data
 Scenario: Edit figure
 	Given I search in the table by AutoTest for edit search term in the SearchTerm search field
 	When I click the Edit button
-	And I fill the figure form with name AutoTest88 Edited, that is not highlight, that is not favourite, that is shared with other users
+	And I fill the figure form with name AutoTest88 edited, that is not highlight, that is not favourite, that is shared with other users
 	And I click the Save button
 	Then assert that I see toaster message with text The figure has been updated successfully.
 	And assert that I am on Figure/Mine page
-	And I have asserted that a figure with name AutoTest88 Edited, that is not highlight, that is not favourite, that is shared
+	And I have asserted that a figure with name AutoTest88 edited, that is not highlight, that is not favourite, that is shared
