@@ -83,3 +83,4 @@ Scenario: Edit figure
 	And I fill the figure form with name AutoTest88 Edited, that is not highlight, that is not favourite, that is shared with other users
 	And I click the Save button
 	Then assert that I see toaster message with text The figure has been updated successfully.
+	And assert that I am on Figure/Mine page
