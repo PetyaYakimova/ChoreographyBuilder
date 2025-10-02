@@ -85,3 +85,6 @@ Scenario: Edit figure
 	Then assert that I see toaster message with text The figure has been updated successfully.
 	And assert that I am on Figure/Mine page
 	And I have asserted that a figure with name AutoTest88 edited, that is not highlight, that is not favourite, that is shared
+
+@negative
+Scenario: Edit figure with invalid data
