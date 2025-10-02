@@ -96,7 +96,7 @@ Scenario: Edit verse type
 	And assert that I am on Admin/VerseType/All page
 	And I have asserted that a verse type with name AutoTest edited, beats count 46, that is active exists
 
-@positive
+@negative
 Scenario: Edit verse type with invalid data
 	Given I search in the table by edit search term in the SearchTerm search field
 	When I click the Edit button
