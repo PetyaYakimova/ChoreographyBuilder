@@ -89,3 +89,4 @@ Scenario: Edit figure
 @negative
 Scenario: Edit figure with invalid data
 	Given I search in the table by edit search term in the SearchTerm search field
+	When I click the Edit button
