@@ -92,3 +92,4 @@ Scenario: Edit figure with invalid data
 	When I click the Edit button
 	And I clear the Name field
 	And I click the Save button
+	Then assert that I see validation error message for Name field with text The Name field is required.
