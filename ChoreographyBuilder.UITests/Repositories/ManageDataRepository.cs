@@ -346,7 +346,16 @@ public class ManageDataRepository : BaseRepository
             CanBeShared = false
         };
 
-        context.Figures.AddRange(new List<Figure>() { FirstFigure, SecondFigure, ThirdFigure, FourthFigure, HighlightFigure, figureForEdit });
+        Figure figureForDelete = new Figure()
+        {
+            Name = "AutoTest for delete",
+            IsHighlight = false,
+            IsFavourite = false,
+            UserId = FirstUser.Id,
+            CanBeShared = false
+        };
+
+        context.Figures.AddRange(new List<Figure>() { FirstFigure, SecondFigure, ThirdFigure, FourthFigure, HighlightFigure, figureForEdit, figureForDelete });
     }
 
     public void SeedFigureOptions()
