@@ -96,3 +96,4 @@ Scenario: Edit figure with invalid data
 
 @positive
 Scenario: Delete figure
+	Given I search in the table by AutoTest for delete search term in the SearchTerm search field
