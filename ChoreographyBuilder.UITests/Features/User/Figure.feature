@@ -98,3 +98,4 @@ Scenario: Edit figure with invalid data
 Scenario: Delete figure
 	Given I search in the table by AutoTest for delete search term in the SearchTerm search field
 	When I click the Delete button
+	And I click the Delete button
