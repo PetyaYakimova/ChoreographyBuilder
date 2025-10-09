@@ -99,3 +99,4 @@ Scenario: Delete figure
 	Given I search in the table by AutoTest for delete search term in the SearchTerm search field
 	When I click the Delete button
 	And I click the Delete button
+	Then assert that I see toaster message with text The figure has been deleted.
