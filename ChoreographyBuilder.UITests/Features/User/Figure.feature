@@ -101,3 +101,6 @@ Scenario: Delete figure
 	And I click the Delete button
 	Then assert that I see toaster message with text The figure has been deleted.
 	And assert that I am on Figure/Mine page
+
+@positive
+Scenario: View figure options table and search in it
