@@ -104,3 +104,4 @@ Scenario: Delete figure
 
 @positive
 Scenario: View figure options table and search in it
+	Given I search in the table by Second figure search term in the SearchTerm search field
