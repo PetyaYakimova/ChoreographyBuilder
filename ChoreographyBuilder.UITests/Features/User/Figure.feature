@@ -109,3 +109,4 @@ Scenario: View figure options table and search in it
 	Then assert that the table has at least 3 rows
 	And assert that the table has columns with names Start position, End position, Beats count, Dynamics type
 	And assert that row with Regular is visible in the table
+	And assert that row with Fast is visible in the table
