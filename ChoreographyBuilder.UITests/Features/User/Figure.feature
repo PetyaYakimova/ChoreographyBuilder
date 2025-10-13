@@ -107,4 +107,4 @@ Scenario: View figure options table and search in it
 	Given I search in the table by Second figure search term in the SearchTerm search field
 	When I click the Options button
 	Then assert that the table has at least 3 rows
-	And assert that the table has columns with names Name, Beats Count, Dynamics Type
+	And assert that the table has columns with names Start position, End position, Beats count, Dynamics type
