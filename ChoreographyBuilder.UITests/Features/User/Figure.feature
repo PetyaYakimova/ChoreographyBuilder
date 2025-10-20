@@ -116,3 +116,4 @@ Scenario: View figure options table and search in it
 	And assert that row with Fast is visible in the table
 	When I search in the table by All dropdown option in DynamicsType dropdown
 	Then assert that row with Regular is visible in the table
+	And assert that row with Fast is visible in the table
