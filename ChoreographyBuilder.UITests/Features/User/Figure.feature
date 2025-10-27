@@ -127,3 +127,4 @@ Scenario: View figure options table and search in it
 	Then assert that row with Regular is visible in the table
 	And assert that row with Fast is not visible in the table
 	When I search in the table by All dropdown option in EndPosition dropdown
+	Then assert that row with Regular is visible in the table
