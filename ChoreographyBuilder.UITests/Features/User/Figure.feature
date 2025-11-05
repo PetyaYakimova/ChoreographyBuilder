@@ -138,3 +138,4 @@ Scenario: View figure options table and search in it
 
 @positive
 Scenario: Add figure option
+	Given I search in the table by Third figure search term in the SearchTerm search field
