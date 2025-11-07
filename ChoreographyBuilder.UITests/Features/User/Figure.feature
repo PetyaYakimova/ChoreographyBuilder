@@ -140,3 +140,4 @@ Scenario: View figure options table and search in it
 Scenario: Add figure option
 	Given I search in the table by Third figure search term in the SearchTerm search field
 	And I click the Options button
+	And I click add button
