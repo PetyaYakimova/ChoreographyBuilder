@@ -104,9 +104,22 @@ else
 								</svg>
 							}
 						</td>
-						<td><a asp-action="Options" asp-route-id="@figure.Id" class="link-success custominputlink">Options</a></td>
-						<td><a asp-action="Edit" asp-route-id="@figure.Id" class="link-warning custominputlink">Edit</a></td>
-						<td><a asp-action="Copy" asp-route-id="@figure.Id" class="link-info custominputlink">Copy</a></td>
+
+						<td>
+							<form method="get">
+								<input type="submit" asp-action="Options" asp-route-id="@figure.Id" value="Options" class="link-success custominputlink" />
+							</form>
+						</td>
+						<td>
+							<form method="get">
+								<input type="submit" asp-action="Edit" asp-route-id="@figure.Id" value="Edit" class="link-warning custominputlink" />
+							</form>
+						</td>
+						<td>
+							<form method="get">
+								<input type="submit" asp-action="Copy" asp-route-id="@figure.Id" value="Copy" class="link-info custominputlink" />
+							</form>
+						</td>
 						<td>
 							@if (!figure.FigureUsedInChoreographies)
 							{
