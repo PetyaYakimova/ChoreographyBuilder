@@ -111,12 +111,6 @@ Scenario: View figure options table and search in it
 	And assert that row with Regular is visible in the table
 	And assert that row with Fast is visible in the table
 	And assert that row with Slow is not visible in the table
-	When I search in the table by Fast dropdown option in DynamicsType dropdown
-	Then assert that row with Regular is not visible in the table
-	And assert that row with Fast is visible in the table
-	When I search in the table by All dropdown option in DynamicsType dropdown
-	Then assert that row with Regular is visible in the table
-	And assert that row with Fast is visible in the table
 	When I search in the table by AutoTest position 2 dropdown option in StartPosition dropdown
 	Then assert that row with Regular is visible in the table
 	And assert that row with Fast is not visible in the table
@@ -133,6 +127,12 @@ Scenario: View figure options table and search in it
 	Then assert that row with Regular is not visible in the table
 	And assert that row with Fast is visible in the table
 	When I clear search field BeatsCount
+	Then assert that row with Regular is visible in the table
+	And assert that row with Fast is visible in the table
+	When I search in the table by Fast dropdown option in DynamicsType dropdown
+	Then assert that row with Regular is not visible in the table
+	And assert that row with Fast is visible in the table
+	When I search in the table by All dropdown option in DynamicsType dropdown
 	Then assert that row with Regular is visible in the table
 	And assert that row with Fast is visible in the table
 
