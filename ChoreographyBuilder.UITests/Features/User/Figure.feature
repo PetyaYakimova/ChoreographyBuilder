@@ -137,7 +137,7 @@ Scenario: View figure options table and search in it
 	And assert that row with Fast is visible in the table
 
 @positive
-Scenario: Add figure option
+Scenario: Create figure option
 	Given I search in the table by Third figure search term in the SearchTerm search field
 	And I click the Options button
 	And I click add button
