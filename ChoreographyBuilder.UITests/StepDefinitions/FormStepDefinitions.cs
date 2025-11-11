@@ -49,6 +49,13 @@ public class FormStepDefinitions : BaseStepDefinitions
         }
     }
 
+    [StepDefinition(@"I fill the figure option form with start position (.*), end position (.*), beats count (.*), dynamics type (.*)")]
+    public void IFillTheFigureOptionFormWithData(string startPosition, string endPosition, string beatsCount, string dynamicsType)
+    {
+        //TODO: add the filling of the dropdowns
+        formPage.FillField("BeatCounts", beatsCount);
+    }
+
     [StepDefinition(@"I clear the (.*) field")]
     public void IClearField(string fieldName)
     {
