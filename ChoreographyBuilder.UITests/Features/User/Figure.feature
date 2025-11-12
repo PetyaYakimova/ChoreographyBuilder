@@ -141,3 +141,4 @@ Scenario: Create figure option
 	Given I search in the table by Third figure search term in the SearchTerm search field
 	And I click the Options button
 	And I click add button
+	When I fill the figure option form with start position AutoTest position 1, end position AutoTest position 2, beats count 10, dynamics type Slow
