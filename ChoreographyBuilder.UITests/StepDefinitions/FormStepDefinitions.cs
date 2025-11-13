@@ -53,6 +53,7 @@ public class FormStepDefinitions : BaseStepDefinitions
     public void IFillTheFigureOptionFormWithData(string startPosition, string endPosition, string beatsCount, string dynamicsType)
     {
         formPage.SelectOptionInDropdown(startPosition, "StartPosition");
+        formPage.SelectOptionInDropdown(endPosition, "EndPosition");
         formPage.FillField("BeatCounts", beatsCount);
     }
 
