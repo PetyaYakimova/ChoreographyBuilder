@@ -29,6 +29,14 @@ public class FormPage : BasePage
         }
     }
 
+    public void SelectOptionInDropdown(string option, string dropdownName)
+    {
+        var dropdownField = driver.FindElement(By.Id(dropdownName));
+        dropdownField.Click();
+
+        driver.FindElement(By.XPath($"//*[@id='{dropdownName}']//option[contains(text(), '{option}')]")).Click();
+    }
+
     public string GetValidationErrorMessage(string fieldName)
     {
         var errorElement = driver.FindElement(By.Id($"{fieldName}-error"));
