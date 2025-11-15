@@ -55,6 +55,7 @@ public class FormStepDefinitions : BaseStepDefinitions
         formPage.SelectOptionInDropdown(startPosition, "StartPosition");
         formPage.SelectOptionInDropdown(endPosition, "EndPosition");
         formPage.FillField("BeatCounts", beatsCount);
+        formPage.SelectOptionInDropdown(dynamicsType, "DynamicsType");
     }
 
     [StepDefinition(@"I clear the (.*) field")]
