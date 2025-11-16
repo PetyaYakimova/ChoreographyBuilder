@@ -143,3 +143,4 @@ Scenario: Create figure option
 	And I click add button
 	When I fill the figure option form with start position AutoTest position 1, end position AutoTest position 2, beats count 10, dynamics type Slow
 	And I click the Save button
+	Then assert that I see toaster message with text The figure option has been added successfully.
