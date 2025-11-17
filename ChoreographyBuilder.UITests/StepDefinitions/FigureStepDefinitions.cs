@@ -13,7 +13,7 @@ public class FigureStepDefinitions : BaseStepDefinitions
         this.figurePage = figurePage;
     }
 
-    [Then(@"I have asserted that a figure with name (.*), that (.*) highlight, that (.*) favourite, that (.*) shared")]
+    [Then(@"I have asserted that a figure with name (.*), that (.*) highlight, that (.*) favourite, that (.*) shared exists")]
     public void AssertFigureWithDataExists(string name, string highlight, string favourite, string shared)
     {
         bool isHighlight = GetBooleanFromString(highlight);
