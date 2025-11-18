@@ -58,7 +58,7 @@ Scenario: Create figure
 	And I click the Save button
 	Then assert that I see toaster message with text The figure has been added successfully.
 	And assert that I see element with text No options found by these search criteria!
-	And I have asserted that a figure with name AutoTest999, that is highlight, that is favourite, that is not shared
+	And I have asserted that a figure with name AutoTest999, that is highlight, that is favourite, that is not shared exists
 
 @negative
 Scenario: Create figure with invalid data
@@ -74,7 +74,7 @@ Scenario: Create figure with invalid data
 	When I fill the Name field with AutoTest12AutoTest12AutoTest12AutoTest12AutoTest12AutoTest12AutoTest123
 	And I click the Save button
 	Then assert that I see toaster message with text The figure has been added successfully.
-	And I have asserted that a figure with name AutoTest12AutoTest12AutoTest12AutoTest12AutoTest12AutoTest12AutoTest12, that is not highlight, that is not favourite, that is not shared
+	And I have asserted that a figure with name AutoTest12AutoTest12AutoTest12AutoTest12AutoTest12AutoTest12AutoTest12, that is not highlight, that is not favourite, that is not shared exists
 
 @positive
 Scenario: Edit figure
@@ -84,7 +84,7 @@ Scenario: Edit figure
 	And I click the Save button
 	Then assert that I see toaster message with text The figure has been updated successfully.
 	And assert that I am on Figure/Mine page
-	And I have asserted that a figure with name AutoTest88 edited, that is not highlight, that is not favourite, that is shared
+	And I have asserted that a figure with name AutoTest88 edited, that is not highlight, that is not favourite, that is shared exists
 
 @negative
 Scenario: Edit figure with invalid data
