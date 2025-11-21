@@ -34,15 +34,15 @@ public class FigureStepDefinitions : BaseStepDefinitions
     [Then(@"I have asserted that a figure option for figure with name (.*), that has (.*) beats counts, that has start position (.*), that has end position (.*) and has dynamics type (.*) exists")]
     public void AssertFigureOptionWithDataExists(string figureName, int beatsCount, string startPosition, string endPosition, string dynamicsType)
     {
-        FigureOption? figure = figurePage.GetFigureFromDbByName(name);
+        FigureOption? figureOption = figurePage.GetFigureOptionFromDbByFigureNameAndBeatsCount(figureName, beatsCount);
 
-        Assert.NotNull(figure, $"Figure with name '{name}' does not exist in the database.");
+        Assert.NotNull(figureOption, $"Figure option for figure with name '{figureName}' and beats count {beatsCount} does not exist in the database.");
 
         Assert.Multiple(() =>
         {
-            Assert.That(figure.IsHighlight, Is.EqualTo(isHighlight));
-            Assert.That(figure.IsFavourite, Is.EqualTo(isFavourite));
-            Assert.That(figure.CanBeShared, Is.EqualTo(isShared));
+            Assert.That(figureOption.StartPosition.Name, Is.EqualTo(startPosition));
+            Assert.That(figureOption.EndPosition.Name, Is.EqualTo(endPosition));
+            Assert.That(figureOption.DynamicsType.ToString(), Is.EqualTo(dynamicsType));
         });
     }
 
