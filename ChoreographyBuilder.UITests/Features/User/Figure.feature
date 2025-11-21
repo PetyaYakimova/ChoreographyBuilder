@@ -144,3 +144,4 @@ Scenario: Create figure option
 	When I fill the figure option form with start position AutoTest position 1, end position AutoTest position 2, beats count 10, dynamics type Slow
 	And I click the Save button
 	Then assert that I see toaster message with text The figure option has been added successfully.
+	And I have asserted that a figure option for figure with name Third figure, that has 10 beats counts, that has start position AutoTest position 1, that has end position AutoTest position 2 and has dynamics type Slow exists
