@@ -148,3 +148,4 @@ Scenario: Create figure option
 
 @negative
 Scenario: Create figure option with invalid data
+	Given I search in the table by Third figure search term in the SearchTerm search field
