@@ -151,3 +151,5 @@ Scenario: Create figure option with invalid data
 	Given I search in the table by Third figure search term in the SearchTerm search field
 	And I click the Options button
 	And I click add button
+	When I fill the BeatCounts field with 7
+	#And I click the Save button
