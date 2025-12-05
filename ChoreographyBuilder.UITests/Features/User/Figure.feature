@@ -159,3 +159,5 @@ Scenario: Create figure option with invalid data
 	Then assert that I see validation error message for BeatCounts field with text The beats count field should be at least 2.
 	When I fill the BeatCounts field with 62
 	And I click the Save button
+	Then assert that I see validation error message for BeatCounts field with text The beats count field should be no more than 50.
+	
