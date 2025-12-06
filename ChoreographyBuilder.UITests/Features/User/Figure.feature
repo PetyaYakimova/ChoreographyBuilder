@@ -152,7 +152,8 @@ Scenario: Create figure option with invalid data
 	And I click the Options button
 	And I click add button
 	When I click the Save button
-	
+	Then assert that I see validation error message for StartPosition field with text The start position field is mandatory.
+
 	When I fill the BeatCounts field with 7
 	And I click the Save button
 	Then assert that I see validation error message for BeatCounts field with text The beats count field must be even.
