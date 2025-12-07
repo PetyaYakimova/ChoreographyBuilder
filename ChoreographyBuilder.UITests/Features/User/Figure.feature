@@ -154,6 +154,7 @@ Scenario: Create figure option with invalid data
 	When I click the Save button
 	Then assert that I see validation error message for StartPosition field with text The start position field is mandatory.
 	And assert that I see validation error message for EndPosition field with text The end position field is mandatory.
+	And assert that I see validation error message for DynamicsType field with text The dynamics type field is mandatory.
 	
 	When I fill the BeatCounts field with 7
 	And I click the Save button
