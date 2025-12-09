@@ -52,8 +52,8 @@ public class FormStepDefinitions : BaseStepDefinitions
     [StepDefinition(@"I fill the figure option form with start position (.*), end position (.*), beats count (.*), dynamics type (.*)")]
     public void IFillTheFigureOptionFormWithData(string startPosition, string endPosition, string beatsCount, string dynamicsType)
     {
-        formPage.SelectOptionInDropdown(startPosition, "StartPosition");
-        formPage.SelectOptionInDropdown(endPosition, "EndPosition");
+        formPage.SelectOptionInDropdown(startPosition, "StartPositionId");
+        formPage.SelectOptionInDropdown(endPosition, "EndPositionId");
         formPage.FillField("BeatCounts", beatsCount);
         formPage.SelectOptionInDropdown(dynamicsType, "DynamicsType");
     }
