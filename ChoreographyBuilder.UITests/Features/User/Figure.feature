@@ -147,14 +147,15 @@ Scenario: Create figure option
 	And I have asserted that a figure option for figure with name Third figure, that has 10 beats counts, that has start position AutoTest position 1, that has end position AutoTest position 2 and has dynamics type Slow exists
 
 @negative
+# Beat count is between 2 and 120 and must be even
 Scenario: Create figure option with invalid data
 	Given I search in the table by Third figure search term in the SearchTerm search field
 	And I click the Options button
 	And I click add button
 	When I click the Save button
-	Then assert that I see validation error message for StartPosition field with text The start position field is mandatory.
-	And assert that I see validation error message for EndPosition field with text The end position field is mandatory.
-	And assert that I see validation error message for DynamicsType field with text The dynamics type field is mandatory.
+	Then assert that I see validation error message for StartPositionId field with text The Start Position field is mandatory.
+	And assert that I see validation error message for EndPositionId field with text The End Position field is mandatory.
+	And assert that I see validation error message for BeatCounts field with text The Beats Count field is mandatory.
 	When I fill the BeatCounts field with 7
 	And I click the Save button
 	Then assert that I see validation error message for BeatCounts field with text The beats count field must be even.
