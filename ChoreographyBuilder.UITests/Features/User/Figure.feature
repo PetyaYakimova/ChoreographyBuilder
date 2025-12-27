@@ -147,7 +147,6 @@ Scenario: Create figure option
 	And I have asserted that a figure option for figure with name Third figure, that has 10 beats counts, that has start position AutoTest position 1, that has end position AutoTest position 2 and has dynamics type Slow exists
 
 @negative
-# Beat count is between 2 and 120 and must be even
 Scenario: Create figure option with invalid data
 	Given I search in the table by Third figure search term in the SearchTerm search field
 	And I click the Options button
